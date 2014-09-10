@@ -1,0 +1,38 @@
+{
+  "name": "ledge2",
+  "version": "1.0.0",
+  "description": "ledge. round 2.",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:tnguyen14/ledge2.git"
+  },
+  "keywords": [
+    "ledge"
+  ],
+  "author": "Tri Nguyen <tri@tridnguyen.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tnguyen14/ledge2/issues"
+  },
+  "homepage": "https://github.com/tnguyen14/ledge2",
+  "devDependencies": {
+    "browserify": "^5.11.1",
+    "gulp": "^3.8.8",
+    "gulp-autoprefixer": "^1.0.0",
+    "gulp-jshint": "^1.8.4",
+    "gulp-sass": "^0.7.3",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^0.4.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^1.0.2",
+    "xtend": "^4.0.0"
+  },
+  "dependencies": {
+    "restify": "^2.8.2",
+    "serve-static": "^1.6.1"
+  }
+}
