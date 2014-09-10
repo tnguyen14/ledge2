@@ -1,0 +1,8 @@
+{
+  "name": "ledge",
+  "private": true,
+  "dependencies": {
+    "bootstrap-sass-official": "~3.1.0"
+  },
+  "devDependencies": {}
+}
