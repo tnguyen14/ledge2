@@ -12,28 +12,28 @@ var source = require('vinyl-source-stream');
 var xtend = require('xtend');
 
 gulp.task('scss', function () {
-	gulp.src('app/scss/**/*.scss')
+	gulp.src('./app/scss/**/*.scss')
 		.pipe(sass())
 		.pipe(autoprefixer())
 		.pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('html', function () {
-	gulp.src('app/**/*.html')
+	gulp.src('./app/**/*.html')
 		.pipe(gulp.dest('./dist'));
 });
 
 gulp.task('jshint', function () {
-	return gulp.src('app/scripts/**/*.js')
+	return gulp.src('./app/scripts/**/*.js')
 		.pipe(jshint())
 		.pipe(jshint.reporter(require('jshint-stylish')));
 });
 
 gulp.task('templates', function () {
-	gulp.src('app/templates/**/*.hbs')
+	gulp.src('./app/templates/**/*.hbs')
 		.pipe(ghandlebars())
 		.pipe(defineModule('node'))
-		.pipe(gulp.dest('.tmp/templates'))
+		.pipe(gulp.dest('./.tmp/templates'))
 });
 
 var watching = false;
@@ -57,7 +57,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 	bundler.plugin(remapify, [{
 		src: './**/*.js',
 		expose: 'templates',
-		cwd: '.tmp/templates'
+		cwd: './.tmp/templates'
 	}]);
 
 	bundler.on('update', function (ids) {
@@ -72,7 +72,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 				gutil.log(gutil.colors.red('Browserify ' + e));
 			})
 			.pipe(source('main.js'))
-			.pipe(gulp.dest('dist/scripts'));
+			.pipe(gulp.dest('./dist/scripts'));
 	}
 	return rebundle();
 });
@@ -80,7 +80,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 gulp.task('build', ['html', 'scss', 'scripts']);
 
 gulp.task('watch', ['enable-watch-mode', 'scripts', 'scss'], function () {
-	gulp.watch('app/scss/**/*.scss', ['scss']);
-	gulp.watch('app/**/*.html', ['html']);
-	gulp.watch('app/templates/**/*.hbs', ['scripts']);
+	gulp.watch('./app/scss/**/*.scss', ['scss']);
+	gulp.watch('./app/**/*.html', ['html']);
+	gulp.watch('./app/templates/**/*.hbs', ['scripts']);
 })
