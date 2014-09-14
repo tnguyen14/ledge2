@@ -41,13 +41,18 @@ gulp.task('templates', function () {
 
 var watching = false;
 gulp.task('enable-watch-mode', function () {
-	watching = true
+	watching = true;
+});
+
+var dev = false;
+gulp.task('enable-dev-mode', function () {
+	dev = true;
 });
 
 gulp.task('scripts', ['jshint', 'templates'], function () {
 	var opts = {
 		entries: ['./app/scripts/main.js'],
-		debug: ($.util.env.type === 'development')
+		debug: dev
 	}
 	if (watching) {
 		opts = xtend(opts, watchify.args);
@@ -67,7 +72,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 
 	var aliasify = require('aliasify').configure({
 		aliases: {
-			'config': './config.json'
+			'config': './config' + (dev ? '.dev' : '') + '.json'
 		},
 		configDir: __dirname
 	})
@@ -92,7 +97,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 
 gulp.task('build', ['html', 'fonts', 'scss', 'scripts']);
 
-gulp.task('watch', ['enable-watch-mode', 'build'], function () {
+gulp.task('watch', ['enable-watch-mode', 'enable-dev-mode', 'build'], function () {
 	gulp.watch('./app/scss/**/*.scss', ['scss']);
 	gulp.watch('./app/**/*.html', ['html']);
 	gulp.watch('./app/templates/**/*.hbs', ['scripts']);
