@@ -4,7 +4,7 @@ var AppView = require('./views/app');
 
 var App = {
 	launch: function () {
-		console.log('ready');
+		var view = new AppView().render();
 	}
 };
 
