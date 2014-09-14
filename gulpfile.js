@@ -1,20 +1,16 @@
 var gulp = require('gulp');
-var autoprefixer = require('gulp-autoprefixer');
-var jshint = require('gulp-jshint');
-var sass = require('gulp-sass');
-var gutil = require('gulp-util');
-var ghandlebars = require('gulp-handlebars');
-var defineModule = require('gulp-define-module');
 var browserify = require('browserify');
 var remapify = require('remapify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var xtend = require('xtend');
 
+var $ = require('gulp-load-plugins')();
+
 gulp.task('scss', function () {
 	return gulp.src('./app/scss/**/*.scss')
-		.pipe(sass())
-		.pipe(autoprefixer())
+		.pipe($.sass())
+		.pipe($.autoprefixer())
 		.pipe(gulp.dest('./dist/css'));
 });
 
@@ -25,14 +21,14 @@ gulp.task('html', function () {
 
 gulp.task('jshint', function () {
 	return gulp.src('./app/scripts/**/*.js')
-		.pipe(jshint())
-		.pipe(jshint.reporter(require('jshint-stylish')));
+		.pipe($.jshint())
+		.pipe($.jshint.reporter(require('jshint-stylish')));
 });
 
 gulp.task('templates', function () {
 	return gulp.src('./app/templates/**/*.hbs')
-		.pipe(ghandlebars())
-		.pipe(defineModule('node'))
+		.pipe($.handlebars())
+		.pipe($.defineModule('node'))
 		.pipe(gulp.dest('./.tmp/templates'))
 });
 
