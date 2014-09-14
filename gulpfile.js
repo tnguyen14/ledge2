@@ -79,7 +79,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 
 gulp.task('build', ['html', 'scss', 'scripts']);
 
-gulp.task('watch', ['enable-watch-mode', 'scripts'], function () {
+gulp.task('watch', ['enable-watch-mode', 'scripts', 'scss'], function () {
 	gulp.watch('app/scss/**/*.scss', ['scss']);
 	gulp.watch('app/**/*.html', ['html']);
 	gulp.watch('app/templates/**/*.hbs', ['scripts']);
