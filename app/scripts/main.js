@@ -1,5 +1,11 @@
 'use strict';
 
-var stuff = 'hello world';
+var AppView = require('./views/app');
 
-console.log(stuff);
+var App = {
+	launch: function () {
+		console.log('ready');
+	}
+};
+
+App.launch();
