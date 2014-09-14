@@ -2,9 +2,11 @@
 
 var Model = require('ampersand-model');
 var Transactions = require('../collections/transactions');
+var config = require('config');
 
 var Account = Model.extend({
 	idAttribute: '_id',
+	urlRoot: config.SERVER_URL + '/accounts',
 	props: {
 		name: ['string', true, ''],
 		starting_balance: ['number', true, 0],

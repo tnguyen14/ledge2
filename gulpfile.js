@@ -40,7 +40,9 @@ gulp.task('templates', function () {
 });
 
 var watching = false;
-gulp.task('enable-watch-mode', function () { watching = true });
+gulp.task('enable-watch-mode', function () {
+	watching = true
+});
 
 gulp.task('scripts', ['jshint', 'templates'], function () {
 	var opts = {
@@ -62,6 +64,14 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 		expose: 'templates',
 		cwd: './.tmp/templates'
 	}]);
+
+	var aliasify = require('aliasify').configure({
+		aliases: {
+			'config': './config.json'
+		},
+		configDir: __dirname
+	})
+	bundler.transform(aliasify);
 
 	bundler.on('update', function (ids) {
 		$.util.log('File(s) changed: ' + $.util.colors.cyan(ids));
