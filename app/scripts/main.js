@@ -1,7 +1,7 @@
 'use strict';
 
 var AppView = require('./views/app');
-var WeekView = require('./views/week');
+var TransactionsView = require('./views/transactions');
 var Account = require('./models/account');
 
 var App = {
@@ -12,8 +12,10 @@ var App = {
 
 		window.account = account;
 		var view = new AppView().render();
-		var week = new WeekView().render();
-		$('.transactions').append(week.el);
+		var transactions = new TransactionsView({
+			el: document.querySelector('.transactions'),
+			collection: account.transactions
+		}).render();
 	}
 };
 
