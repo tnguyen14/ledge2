@@ -5,10 +5,9 @@ var Transactions = require('../collections/transactions');
 var config = require('config');
 
 var Account = Model.extend({
-	idAttribute: '_id',
+	idAttribute: 'name',
 	urlRoot: config.SERVER_URL + '/accounts',
 	props: {
-		name: ['string', true, ''],
 		starting_balance: ['number', true, 0],
 		type: ['string', true, 'BUDGET'],
 		period_length: ['number', true, 7]
