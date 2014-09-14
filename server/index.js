@@ -10,6 +10,6 @@ var server = restify.createServer({
 
 server.use(restify.gzipResponse());
 server.get(/.*/, serveStatic('dist/'));
-server.listen(process.env.PORT || 4000, function () {
+server.listen(process.env.PORT || 4001, function () {
 	console.log('%s listening at %s', server.name, server.url);
 });
