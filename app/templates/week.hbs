@@ -1,0 +1,17 @@
+<div class="weekly">
+	<h2>Week 1</h2>
+	<table class="table table-striped">
+		<thead>
+		</thead>
+		<tbody>
+			{{#each transactions}}
+				<tr>
+					<td class="merchant">{{merchant}}</td>
+					<td class="amount">{{amount}}</td>
+					<td class="category">{{category}}</td>
+					<td class="day"><span class="badge">{{day}}</span></td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
