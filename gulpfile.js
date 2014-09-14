@@ -41,7 +41,7 @@ gulp.task('enable-watch-mode', function () { watching = true });
 
 gulp.task('scripts', ['jshint', 'templates'], function () {
 	var opts = {
-		entries: './app/scripts/main.js',
+		entries: ['./app/scripts/main.js'],
 		debug: (gutil.env.type === 'development')
 	}
 	if (watching) {
