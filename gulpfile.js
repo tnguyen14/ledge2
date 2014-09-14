@@ -12,14 +12,14 @@ var source = require('vinyl-source-stream');
 var xtend = require('xtend');
 
 gulp.task('scss', function () {
-	gulp.src('./app/scss/**/*.scss')
+	return gulp.src('./app/scss/**/*.scss')
 		.pipe(sass())
 		.pipe(autoprefixer())
 		.pipe(gulp.dest('./dist/css'));
 });
 
 gulp.task('html', function () {
-	gulp.src('./app/**/*.html')
+	return gulp.src('./app/**/*.html')
 		.pipe(gulp.dest('./dist'));
 });
 
@@ -30,7 +30,7 @@ gulp.task('jshint', function () {
 });
 
 gulp.task('templates', function () {
-	gulp.src('./app/templates/**/*.hbs')
+	return gulp.src('./app/templates/**/*.hbs')
 		.pipe(ghandlebars())
 		.pipe(defineModule('node'))
 		.pipe(gulp.dest('./.tmp/templates'))
