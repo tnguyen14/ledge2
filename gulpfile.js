@@ -81,6 +81,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 	bundler.on('update', function (ids) {
 		$.util.log('File(s) changed: ' + $.util.colors.cyan(ids));
 		$.util.log('Rebunlding...');
+		rebundle();
 	});
 
 	function rebundle() {
