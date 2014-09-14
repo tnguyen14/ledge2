@@ -23,7 +23,7 @@ gulp.task('fonts', function () {
 	return gulp.src(require('main-bower-files')().concat('app/fonts/**/*'))
 		.pipe($.filter('**/*.{eot,svg,ttf,woff}'))
 		.pipe($.flatten())
-		.pipe(fulp.dest('dist/fonts'));
+		.pipe(gulp.dest('dist/fonts'));
 });
 
 gulp.task('jshint', function () {
@@ -45,7 +45,7 @@ gulp.task('enable-watch-mode', function () { watching = true });
 gulp.task('scripts', ['jshint', 'templates'], function () {
 	var opts = {
 		entries: ['./app/scripts/main.js'],
-		debug: (gutil.env.type === 'development')
+		debug: ($.util.env.type === 'development')
 	}
 	if (watching) {
 		opts = xtend(opts, watchify.args);
@@ -64,15 +64,15 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 	}]);
 
 	bundler.on('update', function (ids) {
-		gutil.log('File(s) changed: ' + gutil.colors.cyan(ids));
-		gutil.log('Rebunlding...');
+		$.util.log('File(s) changed: ' + $.util.colors.cyan(ids));
+		$.util.log('Rebunlding...');
 	});
 
 	function rebundle() {
 		return bundler
 			.bundle()
 			.on('error', function (e) {
-				gutil.log(gutil.colors.red('Browserify ' + e));
+				$.util.log($.util.colors.red('Browserify ' + e));
 			})
 			.pipe(source('main.js'))
 			.pipe(gulp.dest('./dist/scripts'));
@@ -82,7 +82,7 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 
 gulp.task('build', ['html', 'fonts', 'scss', 'scripts']);
 
-gulp.task('watch', ['enable-watch-mode', 'scripts', 'scss'], function () {
+gulp.task('watch', ['enable-watch-mode', 'build'], function () {
 	gulp.watch('./app/scss/**/*.scss', ['scss']);
 	gulp.watch('./app/**/*.html', ['html']);
 	gulp.watch('./app/templates/**/*.hbs', ['scripts']);
