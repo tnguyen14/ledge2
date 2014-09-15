@@ -7,7 +7,8 @@ var Account = require('./models/account');
 var App = {
 	launch: function () {
 		var account = new Account({
-			id: 'daily'
+			name: 'daily'
+		});
 		});
 
 		window.account = account;

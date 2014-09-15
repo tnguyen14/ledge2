@@ -6,8 +6,9 @@ var config = require('config');
 
 var Account = Model.extend({
 	idAttribute: 'name',
-	urlRoot: config.SERVER_URL + '/accounts',
+	urlRoot: config.server_url + '/accounts',
 	props: {
+		name: ['string', true, ''],
 		starting_balance: ['number', true, 0],
 		type: ['string', true, 'BUDGET'],
 		period_length: ['number', true, 7]
