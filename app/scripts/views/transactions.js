@@ -9,7 +9,9 @@ var Transactions = View.extend({
 	render: function () {
 		this.renderWithTemplate();
 
-		this.renderSubview(new WeekView());
+		this.renderSubview(new WeekView({
+			collection: this.collection
+		}));
 		return this;
 	}
 });

@@ -4,11 +4,12 @@ var AppView = require('./views/app');
 var TransactionsView = require('./views/transactions');
 var Account = require('./models/account');
 
+require('./util/handlebars');
+
 var App = {
 	launch: function () {
 		var account = new Account({
 			name: 'daily'
-		});
 		});
 
 		window.account = account;
@@ -16,7 +17,13 @@ var App = {
 		var transactions = new TransactionsView({
 			el: document.querySelector('.transactions'),
 			collection: account.transactions
-		}).render();
+		});
+
+		account.fetch({
+			success: function (model, response, options) {
+				transactions.render();
+			}
+		});
 	}
 };
 
