@@ -4,12 +4,12 @@
 		<thead>
 		</thead>
 		<tbody>
-			{{#each transactions}}
+			{{#each this.models}}
 				<tr>
 					<td class="merchant">{{merchant}}</td>
 					<td class="amount">{{amount}}</td>
 					<td class="category">{{category}}</td>
-					<td class="day"><span class="badge">{{day}}</span></td>
+					<td class="day"><span class="badge">{{date 'dddd' day}}</span></td>
 				</tr>
 			{{/each}}
 		</tbody>
