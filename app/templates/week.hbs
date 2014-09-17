@@ -1,13 +1,19 @@
 <div class="weekly">
-	<h2>Week 1</h2>
+	<h3>Week 1</h3>
 	<table class="table table-striped">
 		<thead>
+			<th>Merchant</th>
+			<th>Amount</th>
+			<th>Description</th>
+			<th>Category</th>
+			<th>Day</th>
 		</thead>
 		<tbody>
 			{{#each this.models}}
 				<tr>
 					<td class="merchant">{{merchant}}</td>
 					<td class="amount">{{amount}}</td>
+					<td class="description">{{description}}</td>
 					<td class="category">{{category}}</td>
 					<td class="day"><span class="badge">{{date 'dddd' day}}</span></td>
 				</tr>
