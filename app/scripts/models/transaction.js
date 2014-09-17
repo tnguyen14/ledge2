@@ -7,7 +7,9 @@ var Transaction = Model.extend({
 	props: {
 		amount: ['number', true, 0],
 		merchant: ['string', true, ''],
-		date: 'date',
+		date: {
+			type: 'string'
+		},
 		description: ['string', false, ''],
 		category: ['string', false, 'Default'],
 		status: ['string', true, 'POSTED']
