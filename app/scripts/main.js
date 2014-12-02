@@ -1,6 +1,7 @@
 'use strict';
 
 var AppView = require('./views/app');
+var NewTransactionView = require('./views/newTransaction');
 var TransactionsView = require('./views/transactions');
 var Account = require('./models/account');
 
@@ -16,6 +17,11 @@ var App = {
 		var appView = new AppView({
 			model: account
 		}).render();
+
+		var newTransactionView = new NewTransactionView({
+			model: account,
+			el: document.querySelector('.new-transaction')
+		});
 
 		var transactions = new TransactionsView({
 			el: document.querySelector('.transactions'),

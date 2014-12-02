@@ -3,8 +3,25 @@
 var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
+var TPromise = require('promise');
 
 var NewTransaction = FormView.extend({
+	submitCallback: function (data) {
+		return TPromise.resolve($.ajax({
+			url: this.model.url() + '/transactions',
+			type: 'POST',
+			data: data
+		})).then(function (result) {
+			// clear the input fields
+			this._fieldViewsArray.forEach(function (view) {
+				// check on clear, but use setValue to skip validation
+				if (view.clear && typeof view.clear === 'function') {
+					view.shouldValidate = false;
+					view.setValue('', true);
+				}
+			})
+		}.bind(this))
+	},
 	fields: function () {
 		return [
 			new InputView({
