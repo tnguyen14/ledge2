@@ -1,10 +1,10 @@
 'use strict';
 
-var View = require('ampersand-form-view');
+var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 
-var NewTransaction = View.extend({
+var NewTransaction = FormView.extend({
 	fields: function () {
 		return [
 			new InputView({
