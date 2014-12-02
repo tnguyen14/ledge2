@@ -13,7 +13,10 @@ var App = {
 		});
 
 		window.account = account;
-		var view = new AppView().render();
+		var appView = new AppView({
+			model: account
+		}).render();
+
 		var transactions = new TransactionsView({
 			el: document.querySelector('.transactions'),
 			collection: account.transactions
