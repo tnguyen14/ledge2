@@ -5,6 +5,21 @@ var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 var TPromise = require('promise');
 
+var InputAmountView = InputView.extend({
+	template: [
+		'<label>',
+			'<span data-hook="label"></span>',
+			'<input class="form-input" min="0" step="any">',
+			'<div data-hook="message-container" class="message message-below message-error">',
+				'<p data-hook="message-text"></p>',
+			'</div>',
+		'</label>'
+	].join(''),
+	props: {
+		type: ['string', true, 'number']
+	}
+});
+
 var NewTransaction = FormView.extend({
 	submitCallback: function (data) {
 		return TPromise.resolve($.ajax({
@@ -30,9 +45,8 @@ var NewTransaction = FormView.extend({
 				label: 'Date',
 				parent: this
 			}),
-			new InputView({
+			new InputAmountView({
 				name: 'amount',
-				type: 'number',
 				label: 'Amount',
 				parent: this
 			}),
