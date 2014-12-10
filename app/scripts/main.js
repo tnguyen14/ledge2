@@ -3,13 +3,13 @@
 var AppView = require('./views/app');
 var NewTransactionView = require('./views/newTransaction');
 var TransactionsView = require('./views/transactions');
-var Account = require('./models/account');
+var AccountModel = require('./models/account');
 
 require('./util/handlebars');
 
 var App = {
 	launch: function () {
-		var account = new Account({
+		var account = new AccountModel({
 			name: 'daily'
 		});
 
@@ -25,7 +25,7 @@ var App = {
 
 		var transactions = new TransactionsView({
 			el: document.querySelector('.transactions'),
-			collection: account.transactions
+			model: account
 		});
 
 		account.fetch({

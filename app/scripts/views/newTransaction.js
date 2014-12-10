@@ -34,8 +34,8 @@ var NewTransaction = FormView.extend({
 					view.shouldValidate = false;
 					view.setValue('', true);
 				}
-			})
-		}.bind(this))
+			});
+		}.bind(this));
 	},
 	fields: function () {
 		return [
