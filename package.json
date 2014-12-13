@@ -40,6 +40,8 @@
     "xtend": "^4.0.0"
   },
   "dependencies": {
+    "amp-is-array": "^1.0.0",
+    "amp-is-object": "^1.0.0",
     "ampersand-form-view": "^2.1.0",
     "ampersand-input-view": "^3.1.0",
     "ampersand-model": "^4.0.2",
