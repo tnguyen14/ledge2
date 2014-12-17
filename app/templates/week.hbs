@@ -1,5 +1,5 @@
 <div class="weekly">
-	<h3>Week 1</h3>
+	<h3>{{date 'MMM D' weekStart}} - {{date 'MMM D' weekEnd}}</h3>
 	<table class="table table-striped">
 		<thead>
 			<th>Merchant</th>
@@ -9,7 +9,7 @@
 			<th>Day</th>
 		</thead>
 		<tbody>
-			{{#each this.models}}
+			{{#each collection.models}}
 				<tr>
 					<td class="merchant">{{merchant}}</td>
 					<td class="amount">{{amount}}</td>
