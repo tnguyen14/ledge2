@@ -12,7 +12,7 @@ var Transactions = Collection.extend({
 		if (options.week) {
 			this.week = options.week;
 			// if week is set, default offset to 0
-			this.offset = options.offset | 0;
+			this.offset = options.offset || 0;
 		}
 	},
 	parse: function (res, options) {
