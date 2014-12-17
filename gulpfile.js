@@ -7,6 +7,8 @@ var xtend = require('xtend');
 
 var $ = require('gulp-load-plugins')();
 
+gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
+
 gulp.task('scss', function () {
 	return gulp.src('./app/scss/**/*.scss')
 		.pipe($.plumber({
@@ -111,4 +113,8 @@ gulp.task('watch', ['enable-watch-mode', 'enable-dev-mode', 'build'], function (
 	gulp.watch('./app/scss/**/*.scss', ['scss']);
 	gulp.watch('./app/**/*.html', ['html']);
 	gulp.watch('./app/templates/**/*.hbs', ['scripts']);
-})
+});
+
+gulp.task('default', ['clean'], function () {
+	gulp.start('watch');
+});
