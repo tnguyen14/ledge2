@@ -9,6 +9,15 @@ var $ = require('gulp-load-plugins')();
 
 gulp.task('scss', function () {
 	return gulp.src('./app/scss/**/*.scss')
+		.pipe($.plumber({
+			errorHandler: function (err) {
+				$.util.log($.util.colors.red('Styles error:\n' + err.message));
+				// emit end so the stream can resume https://github.com/dlmanning/gulp-sass/issues/101
+				if (this.emit) {
+					this.emit('end');
+				}
+			}
+		}))
 		.pipe($.sass())
 		.pipe($.autoprefixer())
 		.pipe(gulp.dest('./dist/css'));
