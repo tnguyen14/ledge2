@@ -5,20 +5,63 @@ var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 var TPromise = require('promise');
 
+// Bootstrap inputs
+var InputViewBS = InputView.extend({
+	template: [
+		'<div class="form-group">',
+			'<label class="control-label col-sm-2" data-hook="label"></label>',
+			'<div class="col-sm-10">',
+				'<input class="form-control">',
+				'<div data-hook="message-container" class="message message-below message-error">',
+					'<p data-hook="message-text"></p>',
+				'</div>',
+			'</div>',
+		'</div>'
+	].join('')
+});
+
 var InputAmountView = InputView.extend({
 	template: [
-		'<label>',
-			'<span data-hook="label"></span>',
-			'<input class="form-input" min="0" step="any">',
-			'<div data-hook="message-container" class="message message-below message-error">',
-				'<p data-hook="message-text"></p>',
+		'<div class="form-group">',
+			'<label class="control-label col-sm-2" data-hook="label"></label>',
+			'<div class="col-sm-10">',
+				'<input class="form-control" min="0" step="any">',
+				'<div data-hook="message-container" class="message message-below message-error">',
+					'<p data-hook="message-text"></p>',
+				'</div>',
 			'</div>',
-		'</label>'
+		'</div>'
 	].join(''),
 	props: {
 		type: ['string', true, 'number']
 	}
 });
+
+var TextAreaViewBS = InputView.extend({
+	template: [
+		'<div class="form-group">',
+			'<label class="control-label col-sm-2" data-hook="label"></label>',
+			'<div class="col-sm-10">',
+				'<textarea class="form-control"></textarea>',
+				'<div data-hook="message-container" class="message message-below message-error">',
+					'<p data-hook="message-text"></p>',
+				'</div>',
+			'</div>',
+		'</div>'
+	].join('')
+})
+
+var selectTemplate = [
+		'<div class="form-group">',
+			'<label class="control-label col-sm-2" data-hook="label"></label>',
+			'<div class="col-sm-10">',
+				'<select class="form-control"></select>',
+				'<div data-hook="message-container" class="message message-below message-error">',
+					'<p data-hook="message-text"></p>',
+				'</div>',
+			'</div>',
+		'</div>'
+	].join('');
 
 var NewTransaction = FormView.extend({
 	submitCallback: function (data) {
@@ -39,13 +82,13 @@ var NewTransaction = FormView.extend({
 	},
 	fields: function () {
 		return [
-			new InputView({
+			new InputViewBS({
 				name: 'date',
 				type: 'date',
 				label: 'Date',
 				parent: this
 			}),
-			new InputView({
+			new InputViewBS({
 				name: 'time',
 				type: 'time',
 				label: 'Time',
@@ -57,18 +100,18 @@ var NewTransaction = FormView.extend({
 				label: 'Amount',
 				parent: this
 			}),
-			new InputView({
+			new InputViewBS({
 				name: 'merchant',
 				label: 'Merchant',
 				parent: this
 			}),
-			new InputView({
+			new TextAreaViewBS({
 				name: 'description',
-				type: 'textarea',
 				label: 'Description',
 				parent: this
 			}),
 			new SelectView({
+				template: selectTemplate,
 				name: 'category',
 				label: 'Category',
 				options: [['default', 'Default'], ['dineout', 'Dine Out']],
@@ -76,6 +119,7 @@ var NewTransaction = FormView.extend({
 				parent: this,
 			}),
 			new SelectView({
+				template: selectTemplate,
 				name: 'status',
 				label: 'Status',
 				options: ['POSTED', 'SCHEDULED', 'PENDING'],
