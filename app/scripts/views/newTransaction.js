@@ -49,7 +49,7 @@ var TextAreaViewBS = InputView.extend({
 			'</div>',
 		'</div>'
 	].join('')
-})
+});
 
 var selectTemplate = [
 		'<div class="form-group">',
