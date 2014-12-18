@@ -9,8 +9,8 @@ var TPromise = require('promise');
 var InputViewBS = InputView.extend({
 	template: [
 		'<div class="form-group">',
-			'<label class="control-label col-sm-2" data-hook="label"></label>',
-			'<div class="col-sm-10">',
+			'<label class="control-label" data-hook="label"></label>',
+			'<div class="input-container">',
 				'<input class="form-control">',
 				'<div data-hook="message-container" class="message message-below message-error">',
 					'<p data-hook="message-text"></p>',
@@ -23,8 +23,8 @@ var InputViewBS = InputView.extend({
 var InputAmountView = InputView.extend({
 	template: [
 		'<div class="form-group">',
-			'<label class="control-label col-sm-2" data-hook="label"></label>',
-			'<div class="col-sm-10">',
+			'<label class="control-label" data-hook="label"></label>',
+			'<div class="input-container">',
 				'<input class="form-control" min="0" step="any">',
 				'<div data-hook="message-container" class="message message-below message-error">',
 					'<p data-hook="message-text"></p>',
@@ -40,8 +40,8 @@ var InputAmountView = InputView.extend({
 var TextAreaViewBS = InputView.extend({
 	template: [
 		'<div class="form-group">',
-			'<label class="control-label col-sm-2" data-hook="label"></label>',
-			'<div class="col-sm-10">',
+			'<label class="control-label" data-hook="label"></label>',
+			'<div class="input-container">',
 				'<textarea class="form-control"></textarea>',
 				'<div data-hook="message-container" class="message message-below message-error">',
 					'<p data-hook="message-text"></p>',
@@ -53,8 +53,8 @@ var TextAreaViewBS = InputView.extend({
 
 var selectTemplate = [
 		'<div class="form-group">',
-			'<label class="control-label col-sm-2" data-hook="label"></label>',
-			'<div class="col-sm-10">',
+			'<label class="control-label" data-hook="label"></label>',
+			'<div class="input-container">',
 				'<select class="form-control"></select>',
 				'<div data-hook="message-container" class="message message-below message-error">',
 					'<p data-hook="message-text"></p>',

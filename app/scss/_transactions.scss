@@ -1,4 +1,20 @@
 .new-transaction {
 	margin: 0 auto;
 	width: 70%;
+	.form-group {
+		@include clearfix();
+		margin-right: 1em;
+	}
+	label {
+		float: left;
+		margin-right: 1em;
+		text-align: right;
+		width: 5em;
+	}
+	.input-container {
+		float: left;
+	}
+	button[type="submit"] {
+		margin-left: 6em;
+	}
 }
