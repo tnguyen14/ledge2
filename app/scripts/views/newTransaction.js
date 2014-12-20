@@ -121,7 +121,22 @@ var NewTransaction = FormView.extend({
 					['gas', 'Gas'],
 					['groceries', 'Groceries'],
 					['household', 'Household'],
-					['transportation', 'Transportation']
+					['transportation', 'Transportation'],
+					['misc', 'Miscellaneous']
+				],
+				value: 'default',
+				parent: this,
+			}),
+			new SelectView({
+				template: selectTemplate,
+				name: 'source',
+				label: 'Source',
+				options: [
+					['amex-1003', 'Amex'],
+					['visa-0162', 'Amazon'],
+					['dcu-checking', 'DCU Checking'],
+					['cash', 'Cash'],
+					['other', 'Other']
 				],
 				value: 'default',
 				parent: this,
