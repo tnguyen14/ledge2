@@ -11,11 +11,11 @@
 		<tbody>
 			{{#each collection.models}}
 				<tr>
+					<td class="day"><span class="badge">{{date 'dddd' date}}</span></td>
 					<td class="merchant">{{merchant}}</td>
 					<td class="amount">{{amount}}</td>
 					<td class="description">{{description}}</td>
 					<td class="category">{{category}}</td>
-					<td class="day"><span class="badge">{{date 'dddd' date}}</span></td>
 				</tr>
 			{{/each}}
 		</tbody>
