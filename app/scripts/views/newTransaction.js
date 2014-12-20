@@ -115,7 +115,14 @@ var NewTransaction = FormView.extend({
 				template: selectTemplate,
 				name: 'category',
 				label: 'Category',
-				options: [['default', 'Default'], ['dineout', 'Dine Out']],
+				options: [
+					['default', 'Default'],
+					['dineout', 'Dine Out'],
+					['gas', 'Gas'],
+					['groceries', 'Groceries'],
+					['household', 'Household'],
+					['transportation', 'Transportation']
+				],
 				value: 'default',
 				parent: this,
 			}),
