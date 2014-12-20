@@ -108,6 +108,7 @@ var NewTransaction = FormView.extend({
 			new TextAreaViewBS({
 				name: 'description',
 				label: 'Description',
+				required: false,
 				parent: this
 			}),
 			new SelectView({
