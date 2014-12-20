@@ -2,11 +2,12 @@
 	<h3>{{date 'MMM D' weekStart}} - {{date 'MMM D' weekEnd}}</h3>
 	<table class="table table-striped">
 		<thead>
+			<th>Day</th>
 			<th>Merchant</th>
 			<th>Amount</th>
 			<th>Description</th>
+			<th>Source</th>
 			<th>Category</th>
-			<th>Day</th>
 		</thead>
 		<tbody>
 			{{#each collection.models}}
@@ -15,6 +16,7 @@
 					<td class="merchant">{{merchant}}</td>
 					<td class="amount">{{amount}}</td>
 					<td class="description">{{description}}</td>
+					<td class="source">{{source}}</td>
 					<td class="category">{{category}}</td>
 				</tr>
 			{{/each}}
