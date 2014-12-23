@@ -22,10 +22,21 @@ var Week = View.extend({
 			}
 		}
 	},
+	events: {
+		'click .action .edit': 'editTransaction'
+	},
 	template: template,
 	render: function () {
 		this.renderWithTemplate(this);
 		return this;
+	},
+	editTransaction: function (e) {
+		var id = $(e.target).closest('tr').data('transactionId');
+		var transaction = this.collection.find({'_id': id});
+
+		if (!transaction) {return;}
+
+		this.parent.trigger('edit', transaction);
 	}
 });
 

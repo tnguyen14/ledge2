@@ -28,6 +28,10 @@ var App = {
 			model: account
 		});
 
+		transactions.on('edit', function (transaction) {
+			newTransactionView.editTransaction(transaction);
+		});
+
 		account.fetch({
 			success: function (model, response, options) {
 				transactions.render();

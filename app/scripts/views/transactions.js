@@ -23,7 +23,6 @@ var Transactions = View.extend({
 	template: template,
 	render: function () {
 		this.renderWithTemplate();
-
 		var currentWeek = new SubCollection(this.model.transactions, {
 			filter: function (model) {
 				return dateFilter(model.date);
@@ -42,16 +41,19 @@ var Transactions = View.extend({
 			}
 		});
 
+		// render the weekly views before registering subview, because of this https://github.com/AmpersandJS/ampersand-view/issues/90
 		this.currentWeekView = new WeekView({
 			offset: 0,
 			collection: currentWeek
-		});
+		}).render();
 		this.prevWeekView = new WeekView({
 			offset: -1,
 			collection: prevWeek
-		});
-		this.renderSubview(this.currentWeekView);
-		this.renderSubview(this.prevWeekView);
+		}).render();
+		this.el.appendChild(this.currentWeekView.el);
+		this.el.appendChild(this.prevWeekView.el);
+		this.registerSubview(this.currentWeekView);
+		this.registerSubview(this.prevWeekView);
 		return this;
 	}
 });

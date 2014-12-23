@@ -4,6 +4,7 @@ var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 var TPromise = require('promise');
+var moment = require('moment-timezone');
 
 // Bootstrap inputs
 var InputViewBS = InputView.extend({
@@ -65,9 +66,15 @@ var selectTemplate = [
 
 var NewTransaction = FormView.extend({
 	submitCallback: function (data) {
+		var url = this.model.url() + '/transactions',
+			type = 'POST';
+		if (data._id) {
+			url += '/' + data._id;
+			type = 'PATCH';
+		}
 		return TPromise.resolve($.ajax({
-			url: this.model.url() + '/transactions',
-			type: 'POST',
+			url: url,
+			type: type,
 			data: data
 		})).then(function (result) {
 			// clear the input fields
@@ -79,6 +86,15 @@ var NewTransaction = FormView.extend({
 				}
 			});
 		}.bind(this));
+	},
+	editTransaction: function (transaction) {
+		// update date and time fields
+		var date = moment(transaction.date);
+		transaction.date = date.format('YYYY-MM-DD');
+		transaction.time = date.format('HH:mm');
+		for (var field in this._fieldViews) {
+			this._fieldViews[field].setValue(transaction[field]);
+		}
 	},
 	fields: function () {
 		return [
@@ -147,6 +163,11 @@ var NewTransaction = FormView.extend({
 				label: 'Status',
 				options: ['POSTED', 'SCHEDULED', 'PENDING'],
 				value: 'POSTED',
+				parent: this
+			}),
+			new InputViewBS({
+				name: '_id',
+				type: 'hidden',
 				parent: this
 			})
 		];

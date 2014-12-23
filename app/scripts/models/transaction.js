@@ -5,6 +5,7 @@ var Model = require('ampersand-model');
 var Transaction = Model.extend({
 	idAttribute: '_id',
 	props: {
+		_id: ['string', true],
 		amount: ['number', true, 0],
 		merchant: ['string', true, ''],
 		date: {
