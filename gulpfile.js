@@ -112,7 +112,7 @@ gulp.task('build', ['html', 'fonts', 'scss', 'scripts']);
 gulp.task('watch', ['enable-watch-mode', 'enable-dev-mode', 'build'], function () {
 	gulp.watch('./app/scss/**/*.scss', ['scss']);
 	gulp.watch('./app/**/*.html', ['html']);
-	gulp.watch('./app/templates/**/*.hbs', ['scripts']);
+	gulp.watch('./app/templates/**/*.hbs', ['templates']);
 });
 
 gulp.task('default', ['clean'], function () {
