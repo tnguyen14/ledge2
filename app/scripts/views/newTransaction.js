@@ -87,6 +87,8 @@ var NewTransaction = FormView.extend({
 					view.setValue('', true);
 				}
 			});
+			// reset submit button
+			this.el.querySelector('[type="submit"]').innerHTML = 'Add';
 		}.bind(this));
 	},
 	editTransaction: function (transaction) {
@@ -97,6 +99,7 @@ var NewTransaction = FormView.extend({
 		for (var field in this._fieldViews) {
 			this._fieldViews[field].setValue(transaction[field]);
 		}
+		this.el.querySelector('[type="submit"]').innerHTML = 'Update';
 	},
 	fields: function () {
 		return [
