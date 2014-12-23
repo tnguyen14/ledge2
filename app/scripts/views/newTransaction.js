@@ -100,6 +100,7 @@ var NewTransaction = FormView.extend({
 			this._fieldViews[field].setValue(transaction[field]);
 		}
 		this.el.querySelector('[type="submit"]').innerHTML = 'Update';
+		$('html, body').animate({scrollTop: $(this.el).scrollTop()});
 	},
 	fields: function () {
 		return [
