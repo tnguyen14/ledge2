@@ -134,6 +134,7 @@ var NewTransaction = FormView.extend({
 				options: [
 					['default', 'Default'],
 					['dineout', 'Dine Out'],
+					['entertainment', 'Entertainment'],
 					['gas', 'Gas'],
 					['groceries', 'Groceries'],
 					['household', 'Household'],
