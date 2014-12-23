@@ -13,7 +13,10 @@ var Transaction = Model.extend({
 		},
 		description: ['string', false, ''],
 		category: ['string', false, 'Default'],
-		status: ['string', true, 'POSTED']
+		status: ['string', true, 'POSTED'],
+		source: {
+			type: 'string'
+		}
 	}
 });
 
