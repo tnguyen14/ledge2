@@ -71,6 +71,8 @@ var NewTransaction = FormView.extend({
 		if (data._id) {
 			url += '/' + data._id;
 			type = 'PATCH';
+			// delete id from data
+			delete data._id;
 		}
 		return TPromise.resolve($.ajax({
 			url: url,
