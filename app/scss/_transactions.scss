@@ -3,7 +3,6 @@
 	width: 70%;
 	.form-group {
 		@include clearfix();
-		margin-right: 1em;
 	}
 	label {
 		float: left;
