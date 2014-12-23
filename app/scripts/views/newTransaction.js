@@ -138,7 +138,7 @@ var NewTransaction = FormView.extend({
 					['cash', 'Cash'],
 					['other', 'Other']
 				],
-				value: 'default',
+				value: 'amex-1003',
 				parent: this,
 			}),
 			new SelectView({
