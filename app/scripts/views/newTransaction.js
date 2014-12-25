@@ -175,6 +175,7 @@ var NewTransaction = FormView.extend({
 			new InputViewBS({
 				name: '_id',
 				type: 'hidden',
+				required: false,
 				parent: this
 			})
 		];
