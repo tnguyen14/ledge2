@@ -21,6 +21,9 @@
 	.action {
 		.edit {
 			cursor: pointer;
+			&:hover {
+				color: $light-blue;
+			}
 		}
 	}
 }
