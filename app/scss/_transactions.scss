@@ -25,3 +25,27 @@
 		}
 	}
 }
+
+.badge {
+	.Mon & {
+		background-color: $purple;
+	}
+	.Tue & {
+		background-color: $deep-purple;
+	}
+	.Wed & {
+		background-color: $indigo;
+	}
+	.Thu & {
+		background-color: $cyan;
+	}
+	.Fri & {
+		background-color: $teal;
+	}
+	.Sat & {
+		background-color: $green;
+	}
+	.Sun & {
+		background-color: $light-green;
+	}
+}
