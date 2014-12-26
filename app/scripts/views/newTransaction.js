@@ -5,6 +5,8 @@ var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 var TPromise = require('promise');
 var moment = require('moment-timezone');
+var map = require('amp-map');
+var config = require('config');
 
 // Bootstrap inputs
 var InputViewBS = InputView.extend({
@@ -137,16 +139,9 @@ var NewTransaction = FormView.extend({
 				template: selectTemplate,
 				name: 'category',
 				label: 'Category',
-				options: [
-					['default', 'Default'],
-					['dineout', 'Dine Out'],
-					['entertainment', 'Entertainment'],
-					['gas', 'Gas'],
-					['groceries', 'Groceries'],
-					['household', 'Household'],
-					['transportation', 'Transportation'],
-					['misc', 'Miscellaneous']
-				],
+				options: map(config.categories, function (cat) {
+					return [cat.slug, cat.value];
+				}),
 				value: 'default',
 				parent: this,
 			}),

@@ -1,3 +1,28 @@
 {
-	"server_url": "http://ledge-server.herokuapp.com"
+	"server_url": "http://ledge-server.herokuapp.com",
+	"categories": [{
+		"slug": "default",
+		"value": "Default"
+	}, {
+		"slug": "dineout",
+		"value": "Dine Out"
+	}, {
+		"slug": "entertainment",
+		"value": "Entertainment"
+	}, {
+		"slug": "gas",
+		"value": "Gas"
+	}, {
+		"slug": "groceries",
+		"value": "Groceries"
+	}, {
+		"slug": "household",
+		"value": "Household"
+	}, {
+		"slug": "transportation",
+		"value": "Transportation"
+	}, {
+		"slug": "misc",
+		"value": "Miscellaneous"
+	}]
 }
