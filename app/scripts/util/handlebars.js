@@ -29,3 +29,12 @@ Handlebars.registerHelper('getCategory', function (cat) {
 Handlebars.registerHelper('getSource', function (source) {
 	return retrieveFromArray(config.sources, source);
 });
+
+// simple money formatter
+Handlebars.registerHelper('money', function (amount) {
+	if (!amount) {
+		return Handlebars.SafeString('$0.00');
+	} else {
+		return '$' + amount.toFixed(2);
+	}
+})
