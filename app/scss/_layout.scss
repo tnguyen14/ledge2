@@ -3,10 +3,20 @@
 	margin: 0 auto;
 	width: 90%;
 }
+
+.new-transaction {
+	margin: 0 auto;
+	width: 100%;
+	@media (min-width: 30.625em) {
+		width: 70%;
+	}
+}
+
 .transactions {
 	float: left;
 	width: 65%;
 }
+
 .summary {
 	float: left;
 	width: 35%;
