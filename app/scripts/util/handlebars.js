@@ -20,7 +20,7 @@ var retrieveFromArray = function (array, value) {
 	if (results.length > 0) {
 		return results[0].value;
 	}
-}
+};
 
 Handlebars.registerHelper('getCategory', function (cat) {
 	return retrieveFromArray(config.categories, cat);

@@ -150,7 +150,7 @@ var NewTransaction = FormView.extend({
 				name: 'source',
 				label: 'Source',
 				options: map(config.sources, function (source) {
-					return [source.slug, source.value]
+					return [source.slug, source.value];
 				}),
 				value: config.sources[0].slug,
 				parent: this,
