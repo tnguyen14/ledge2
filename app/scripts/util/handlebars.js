@@ -37,4 +37,4 @@ Handlebars.registerHelper('money', function (amount) {
 	} else {
 		return '$' + amount.toFixed(2);
 	}
-})
+});
