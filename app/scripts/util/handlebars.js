@@ -13,11 +13,19 @@ Handlebars.registerHelper('date', function (format, date) {
 	return moment(date).format(format);
 });
 
-Handlebars.registerHelper('getCategory', function (cat) {
-	var results = filter(config.categories, function (c) {
-		return c.slug === cat;
+var retrieveFromArray = function (array, value) {
+	var results = filter(array, function (element) {
+		return element.slug === value;
 	});
 	if (results.length > 0) {
 		return results[0].value;
 	}
+}
+
+Handlebars.registerHelper('getCategory', function (cat) {
+	return retrieveFromArray(config.categories, cat);
+});
+
+Handlebars.registerHelper('getSource', function (source) {
+	return retrieveFromArray(config.sources, source);
 });

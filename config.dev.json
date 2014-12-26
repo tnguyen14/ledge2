@@ -24,5 +24,21 @@
 	}, {
 		"slug": "misc",
 		"value": "Miscellaneous"
+	}],
+	"sources": [{
+		"slug": "amex-1003",
+		"value": "Amex"
+	}, {
+		"slug": "visa-0162",
+		"value": "Amazon"
+	}, {
+		"slug": "dcu-checking",
+		"value": "DCU Checking"
+	}, {
+		"slug": "cash",
+		"value": "Cash"
+	}, {
+		"slug": "other",
+		"value": "Other"
 	}]
 }

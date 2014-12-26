@@ -142,21 +142,17 @@ var NewTransaction = FormView.extend({
 				options: map(config.categories, function (cat) {
 					return [cat.slug, cat.value];
 				}),
-				value: 'default',
+				value: config.categories[0].slug,
 				parent: this,
 			}),
 			new SelectView({
 				template: selectTemplate,
 				name: 'source',
 				label: 'Source',
-				options: [
-					['amex-1003', 'Amex'],
-					['visa-0162', 'Amazon'],
-					['dcu-checking', 'DCU Checking'],
-					['cash', 'Cash'],
-					['other', 'Other']
-				],
-				value: 'amex-1003',
+				options: map(config.sources, function (source) {
+					return [source.slug, source.value]
+				}),
+				value: config.sources[0].slug,
 				parent: this,
 			}),
 			new SelectView({
