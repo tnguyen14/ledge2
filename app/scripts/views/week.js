@@ -1,6 +1,7 @@
 'use strict';
 
 var View = require('ampersand-view');
+var SubCollection = require('ampersand-subcollection');
 var template = require('templates/week');
 var moment = require('moment-timezone');
 
@@ -23,6 +24,21 @@ var Week = View.extend({
 				return moment().day(7 + this.offset * 7).endOf('isoWeek');
 			}
 		}
+	},
+	initialize: function (options) {
+		if (!options.transactions) {
+			return;
+		}
+		this.transactions = options.transactions;
+		var self = this;
+		this.collection = new SubCollection(this.transactions, {
+			filter: function (model) {
+				return model.date >= self.weekStart.toISOString() && model.date <= self.weekEnd.toISOString();
+			},
+			comparator: function (model) {
+				return model.date;
+			}
+		});
 	},
 	events: {
 		'click .action .edit': 'editTransaction',
