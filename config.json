@@ -22,6 +22,9 @@
 		"slug": "transportation",
 		"value": "Transportation"
 	}, {
+		"slug": "shopping",
+		"value": "Shopping"
+	}, {
 		"slug": "misc",
 		"value": "Miscellaneous"
 	}],
