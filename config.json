@@ -30,7 +30,7 @@
 		"value": "Amex"
 	}, {
 		"slug": "visa-0162",
-		"value": "Amazon"
+		"value": "Visa-Amazon"
 	}, {
 		"slug": "dcu-checking",
 		"value": "DCU Checking"
@@ -40,5 +40,8 @@
 	}, {
 		"slug": "other",
 		"value": "Other"
+	}, {
+		"slug": "visa-1153",
+		"value": "T-Mobile Prepaid"
 	}]
 }
