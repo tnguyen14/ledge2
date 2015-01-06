@@ -69,7 +69,7 @@ var Week = View.extend({
 					$('.remove-transaction-modal').modal('hide');
 				}
 			});
-		})
+		});
 	}
 });
 
