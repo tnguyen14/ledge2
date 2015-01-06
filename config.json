@@ -38,6 +38,9 @@
 		"slug": "dcu-checking",
 		"value": "DCU Checking"
 	}, {
+		"slug": "simple-checking",
+		"value": "Simple Checking"
+	}, {
 		"slug": "cash",
 		"value": "Cash"
 	}, {
