@@ -19,11 +19,14 @@
 
 .weekly {
 	.action {
-		.edit {
+		.edit, .remove {
 			cursor: pointer;
 			&:hover {
 				color: $light-blue;
 			}
+		}
+		.remove {
+			margin-left: 1em;
 		}
 	}
 }

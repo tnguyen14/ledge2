@@ -4,6 +4,8 @@ var View = require('ampersand-view');
 var template = require('templates/week');
 var moment = require('moment-timezone');
 
+require('../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
+
 var Week = View.extend({
 	props: {
 		offset: ['number', true, 0]
@@ -23,7 +25,8 @@ var Week = View.extend({
 		}
 	},
 	events: {
-		'click .action .edit': 'editTransaction'
+		'click .action .edit': 'editTransaction',
+		'click .action .remove': 'removePrompt'
 	},
 	template: template,
 	render: function () {
@@ -37,6 +40,20 @@ var Week = View.extend({
 		if (!transaction) {return;}
 
 		this.parent.trigger('edit', transaction);
+	},
+	removePrompt: function (e) {
+		var self = this;
+		var id = $(e.target).closest('tr').data('transactionId');
+		var transaction = this.collection.find({'_id': id});
+		$('.remove-transaction-modal').modal();
+		$('.confirm-delete').on('click', function () {
+			if (!transaction) {return;}
+			transaction.destroy({
+				success: function () {
+					$('.remove-transaction-modal').modal('hide');
+				}
+			});
+		})
 	}
 });
 
