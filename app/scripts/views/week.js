@@ -28,7 +28,7 @@ var Week = View.extend({
 			fn: function () {
 				return this.collection.models.reduce(function (subTotal, model) {
 					return subTotal + model.amount;
-				}, 0)
+				}, 0);
 			}
 		}
 	},
