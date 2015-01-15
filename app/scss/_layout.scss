@@ -12,12 +12,14 @@
 	}
 }
 
-.transactions {
-	float: left;
-	width: 65%;
-}
-
-.summary {
-	float: left;
-	width: 35%;
+.weekly {
+	@include clearfix();
+	.weekly-transactions {
+		float: left;
+		width: 65%;
+	}
+	.summary {
+		float: left;
+		width: 35%;
+	}
 }

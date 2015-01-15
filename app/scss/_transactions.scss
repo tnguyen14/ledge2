@@ -29,6 +29,16 @@
 			margin-left: 1em;
 		}
 	}
+	.summary {
+		padding-top: 2.5em;
+		padding-left: 2em;
+	}
+	.subtotal {
+		font-size: 1.2em;
+		.value {
+			font-weight: bold;
+		}
+	}
 }
 
 .badge {

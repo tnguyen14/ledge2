@@ -1,6 +1,6 @@
 <div class="weekly">
 	<h3>{{date 'MMM D' weekStart}} - {{date 'MMM D' weekEnd}}</h3>
-	<table class="table table-striped">
+	<table class="table table-striped weekly-transactions">
 		<thead>
 			<th>Day</th>
 			<th>Merchant</th>
@@ -11,17 +11,20 @@
 			<th></th>
 		</thead>
 		<tbody>
-			{{#each collection.models}}
-				<tr data-transaction-id="{{_id}}">
-					<td class="day {{date 'ddd' date}}" data-date="{{date 'YYYY-MM-DD' date}}" data-time="{{date 'HH:mm A'}}"><span class="badge">{{date 'dddd' date}}</span></td>
-					<td class="merchant">{{merchant}}</td>
-					<td class="amount">{{money amount}}</td>
-					<td class="description">{{description}}</td>
-					<td class="source">{{getSource source}}</td>
-					<td class="category">{{getCategory category}}</td>
-					<td class="action"><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-remove"></i></td>
-				</tr>
-			{{/each}}
+		{{#each collection.models}}
+			<tr data-transaction-id="{{_id}}">
+				<td class="day {{date 'ddd' date}}" data-date="{{date 'YYYY-MM-DD' date}}" data-time="{{date 'HH:mm A'}}"><span class="badge">{{date 'dddd' date}}</span></td>
+				<td class="merchant">{{merchant}}</td>
+				<td class="amount">{{money amount}}</td>
+				<td class="description">{{description}}</td>
+				<td class="source">{{getSource source}}</td>
+				<td class="category">{{getCategory category}}</td>
+				<td class="action"><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-remove"></i></td>
+			</tr>
+		{{/each}}
 		</tbody>
 	</table>
+	<div class="summary">
+		<div class="subtotal"><span>Week Total</span> <span class="value">{{money weekTotal}}</span></div>
+	</div>
 </div>

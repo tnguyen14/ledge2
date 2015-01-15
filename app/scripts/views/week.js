@@ -23,6 +23,13 @@ var Week = View.extend({
 			fn: function () {
 				return moment().day(7 + this.offset * 7).endOf('isoWeek');
 			}
+		},
+		weekTotal: {
+			fn: function () {
+				return this.collection.models.reduce(function (subTotal, model) {
+					return subTotal + model.amount;
+				}, 0)
+			}
 		}
 	},
 	initialize: function (options) {
