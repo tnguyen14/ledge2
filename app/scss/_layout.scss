@@ -1,7 +1,10 @@
 .main {
 	@include clearfix();
 	margin: 0 auto;
-	width: 90%;
+	width: 95%;
+	@media (min-width: 30.625em) {
+		width: 90%;
+	}
 }
 
 .new-transaction {
@@ -15,11 +18,15 @@
 .weekly {
 	@include clearfix();
 	.weekly-transactions {
-		float: left;
-		width: 65%;
+		@media (min-width: 30.625em) {
+			float: left;
+			width: 65%;
+		}
 	}
 	.summary {
-		float: left;
-		width: 35%;
+		@media (min-width: 30.625em) {
+			float: left;
+			width: 35%;
+		}
 	}
 }

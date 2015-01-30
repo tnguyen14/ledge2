@@ -30,8 +30,10 @@
 		}
 	}
 	.summary {
-		padding-top: 2.5em;
-		padding-left: 2em;
+		@media (min-width: 30.625em) {
+			padding-top: 2.5em;
+			padding-left: 2em;
+		}
 	}
 	.subtotal {
 		font-size: 1.2em;
