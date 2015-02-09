@@ -116,7 +116,6 @@ var NewTransaction = FormView.extend({
 				name: 'time',
 				type: 'time',
 				label: 'Time',
-				value: '08:00', // default to 08:00 AM
 				parent: this
 			}),
 			new InputAmountView({
