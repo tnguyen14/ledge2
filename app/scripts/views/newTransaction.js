@@ -106,6 +106,11 @@ var NewTransaction = FormView.extend({
 	},
 	fields: function () {
 		return [
+			new InputAmountView({
+				name: 'amount',
+				label: 'Amount',
+				parent: this
+			}),
 			new InputViewBS({
 				name: 'date',
 				type: 'date',
@@ -116,11 +121,6 @@ var NewTransaction = FormView.extend({
 				name: 'time',
 				type: 'time',
 				label: 'Time',
-				parent: this
-			}),
-			new InputAmountView({
-				name: 'amount',
-				label: 'Amount',
 				parent: this
 			}),
 			new InputViewBS({
