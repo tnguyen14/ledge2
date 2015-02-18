@@ -4,7 +4,10 @@ var View = require('ampersand-view');
 var SubCollection = require('ampersand-subcollection');
 var template = require('templates/week');
 var moment = require('moment-timezone');
+var $ = require('jquery');
 
+// define global jQuery for bootstrap
+window.jQuery = $;
 require('../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
 
 var Week = View.extend({

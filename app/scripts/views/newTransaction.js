@@ -7,6 +7,7 @@ var TPromise = require('promise');
 var moment = require('moment-timezone');
 var map = require('amp-map');
 var config = require('config');
+var $ = require('jquery');
 
 // Bootstrap inputs
 var InputViewBS = InputView.extend({

@@ -54,6 +54,7 @@
     "ampersand-subcollection": "^1.5.0",
     "ampersand-view": "^7.1.3",
     "handlebars": "^2.0.0",
+    "jquery": "^2.1.1",
     "moment-timezone": "^0.2.2",
     "promise": "^6.0.1",
     "restify": "^2.8.2",
