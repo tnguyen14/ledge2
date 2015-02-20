@@ -16,6 +16,10 @@ var Transaction = Model.extend({
 		status: ['string', true, 'POSTED'],
 		source: {
 			type: 'string'
+		},
+		active: {
+			type: 'boolean',
+			default: false
 		}
 	}
 });

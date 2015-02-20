@@ -8,7 +8,14 @@ module.exports = View.extend({
 	template: template,
 	events: {
 		'click .action .edit': 'edit',
-		'click .action .remove': 'removePrompt'
+		'click .action .remove': 'removePrompt',
+		'click': 'toggle'
+	},
+	bindings: {
+		'model.active': {
+			type: 'booleanClass',
+			name: 'active'
+		}
 	},
 	edit: function (e) {
 		this.collection.trigger('edit', this.model);
@@ -23,5 +30,8 @@ module.exports = View.extend({
 				}
 			}, {wait: true})
 		});
+	},
+	toggle: function () {
+		this.model.active = !this.model.active;
 	}
 });

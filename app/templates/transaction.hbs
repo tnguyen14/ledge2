@@ -1,4 +1,4 @@
-<tr data-transaction-id="{{model._id}}">
+<tr class="transaction" data-transaction-id="{{model._id}}">
 	<td class="day {{date 'ddd' model.date}}" data-date="{{date 'YYYY-MM-DD' model.date}}" data-time="{{date 'HH:mm A'}}"><span class="field-title">Day: </span><span class="badge">{{date 'ddd' model.date}}</span></td>
 	<td class="merchant"><span class="field-title">Merch: </span>{{model.merchant}}</td>
 	<td class="amount"><span class="field-title">Amt: </span>{{money model.amount}}</td>

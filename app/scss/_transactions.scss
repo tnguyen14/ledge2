@@ -60,11 +60,34 @@
 			flex-grow: 2;
 		}
 	}
+
+}
+
+.transaction {
 	.field-title {
 		font-size: .9em;
 		font-weight: 700;
 		@media (min-width: 30.625em) {
 			display: none;
+		}
+	}
+	.description,
+	.category,
+	.action {
+		display: none;
+	}
+	&.active {
+		.description,
+		.category,
+		.action {
+			display: table-cell;
+		}
+	}
+	@media (min-width: 30.625em) {
+		.description,
+		.category,
+		.action {
+			display: table-cell;
 		}
 	}
 }
