@@ -6,6 +6,9 @@ var TransactionsView = require('./views/transactions');
 var AccountModel = require('./models/account');
 
 require('./util/handlebars');
+// define global jQuery for bootstrap
+window.jQuery = require('jquery');
+require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
 
 var App = {
 	launch: function () {
