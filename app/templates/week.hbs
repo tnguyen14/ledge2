@@ -11,17 +11,6 @@
 			<th></th>
 		</thead>
 		<tbody>
-		{{#each collection.models}}
-			<tr data-transaction-id="{{_id}}">
-				<td class="day {{date 'ddd' date}}" data-date="{{date 'YYYY-MM-DD' date}}" data-time="{{date 'HH:mm A'}}"><span class="field-title">Day: </span><span class="badge">{{date 'ddd' date}}</span></td>
-				<td class="merchant"><span class="field-title">Merch: </span>{{merchant}}</td>
-				<td class="amount"><span class="field-title">Amt: </span>{{money amount}}</td>
-				<td class="source"><span class="field-title">Src: </span>{{getSource source}}</td>
-				<td class="description"><span class="field-title">Desc: </span>{{description}}</td>
-				<td class="category"><span class="field-title">Cat: </span>{{getCategory category}}</td>
-				<td class="action"><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-remove"></i></td>
-			</tr>
-		{{/each}}
 		</tbody>
 	</table>
 	<div class="summary">

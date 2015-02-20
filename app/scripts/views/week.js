@@ -3,6 +3,7 @@
 var View = require('ampersand-view');
 var SubCollection = require('ampersand-subcollection');
 var template = require('templates/week');
+var TransactionView = require('./transaction');
 var moment = require('moment-timezone');
 var $ = require('jquery');
 
@@ -49,37 +50,16 @@ var Week = View.extend({
 				return model.date;
 			}
 		});
-	},
-	events: {
-		'click .action .edit': 'editTransaction',
-		'click .action .remove': 'removePrompt'
+		// bubble the `edit` event up
+		this.listenTo(this.collection, 'edit', function (transaction) {
+			this.parent.trigger('edit', transaction);
+		});
 	},
 	template: template,
 	render: function () {
 		this.renderWithTemplate(this);
+		this.transactionsView = this.renderCollection(this.collection, TransactionView, this.query('tbody'));
 		return this;
-	},
-	editTransaction: function (e) {
-		var id = $(e.target).closest('tr').data('transactionId');
-		var transaction = this.collection.find({'_id': id});
-
-		if (!transaction) {return;}
-
-		this.parent.trigger('edit', transaction);
-	},
-	removePrompt: function (e) {
-		var self = this;
-		var id = $(e.target).closest('tr').data('transactionId');
-		var transaction = this.collection.find({'_id': id});
-		$('.remove-transaction-modal').modal();
-		$('.confirm-delete').on('click', function () {
-			if (!transaction) {return;}
-			transaction.destroy({
-				success: function () {
-					$('.remove-transaction-modal').modal('hide');
-				}
-			});
-		});
 	}
 });
 
