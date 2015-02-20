@@ -113,6 +113,11 @@ var NewTransaction = FormView.extend({
 				parent: this
 			}),
 			new InputViewBS({
+				name: 'merchant',
+				label: 'Merchant',
+				parent: this
+			}),
+			new InputViewBS({
 				name: 'date',
 				type: 'date',
 				label: 'Date',
@@ -125,17 +130,6 @@ var NewTransaction = FormView.extend({
 				label: 'Time',
 				parent: this,
 				value: moment().format('HH:mm')
-			}),
-			new InputViewBS({
-				name: 'merchant',
-				label: 'Merchant',
-				parent: this
-			}),
-			new TextAreaViewBS({
-				name: 'description',
-				label: 'Description',
-				required: false,
-				parent: this
 			}),
 			new SelectView({
 				template: selectTemplate,
@@ -156,6 +150,12 @@ var NewTransaction = FormView.extend({
 				}),
 				value: config.sources[0].slug,
 				parent: this,
+			}),
+			new TextAreaViewBS({
+				name: 'description',
+				label: 'Description',
+				required: false,
+				parent: this
 			}),
 			new SelectView({
 				template: selectTemplate,
