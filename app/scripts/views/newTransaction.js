@@ -116,13 +116,15 @@ var NewTransaction = FormView.extend({
 				name: 'date',
 				type: 'date',
 				label: 'Date',
-				parent: this
+				parent: this,
+				value: moment().format('YYYY-MM-DD')
 			}),
 			new InputViewBS({
 				name: 'time',
 				type: 'time',
 				label: 'Time',
-				parent: this
+				parent: this,
+				value: moment().format('HH:mm')
 			}),
 			new InputViewBS({
 				name: 'merchant',
