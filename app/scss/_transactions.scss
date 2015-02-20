@@ -30,7 +30,7 @@
 		}
 	}
 	.summary {
-		@media (min-width: 30.625em) {
+		@media (min-width: 33.5em) {
 			padding-top: 2.5em;
 			padding-left: 2em;
 		}
@@ -43,14 +43,14 @@
 	}
 	thead {
 		display: none;
-		@media (min-width: 30.625em) {
+		@media (min-width: 33.5em) {
 			display: table-header-group;
 		}
 	}
 	tr {
 		display: flex;
 		flex-flow: row wrap;
-		@media (min-width: 30.625em) {
+		@media (min-width: 33.5em) {
 			display: table-row;
 		}
 	}
@@ -64,11 +64,24 @@
 }
 
 .transaction {
+	cursor: pointer;
+	@media (min-width: 33.5em) {
+		cursor: default;
+	}
 	.field-title {
 		font-size: .9em;
 		font-weight: 700;
-		@media (min-width: 30.625em) {
+		@media (min-width: 33.5em) {
 			display: none;
+		}
+	}
+	.day,
+	.merchant,
+	.amount,
+	.source {
+		border-top-width: 2px;
+		@media (min-width: 33.5em) {
+			border-top-width: 1px;
 		}
 	}
 	.description,
@@ -83,7 +96,7 @@
 			display: table-cell;
 		}
 	}
-	@media (min-width: 30.625em) {
+	@media (min-width: 33.5em) {
 		.description,
 		.category,
 		.action {

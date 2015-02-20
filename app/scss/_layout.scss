@@ -2,7 +2,7 @@
 	@include clearfix();
 	margin: 0 auto;
 	width: 95%;
-	@media (min-width: 30.625em) {
+	@media (min-width: 33.5em) {
 		width: 90%;
 	}
 }
@@ -10,21 +10,27 @@
 .new-transaction {
 	margin: 0 auto;
 	width: 100%;
-	@media (min-width: 30.625em) {
+	@media (min-width: 53.125em) {
 		width: 70%;
+	}
+	@media (min-width: 62.5em) {
+		width: 60%;
+	}
+	@media (min-width: 75em) {
+		width: 50%;
 	}
 }
 
 .weekly {
 	@include clearfix();
 	.weekly-transactions {
-		@media (min-width: 30.625em) {
+		@media (min-width: 53.125em) {
 			float: left;
 			width: 65%;
 		}
 	}
 	.summary {
-		@media (min-width: 30.625em) {
+		@media (min-width: 53.125em) {
 			float: left;
 			width: 35%;
 		}
