@@ -68,13 +68,6 @@
 	@media (min-width: 33.5em) {
 		cursor: default;
 	}
-	.field-title {
-		font-size: .9em;
-		font-weight: 700;
-		@media (min-width: 33.5em) {
-			display: none;
-		}
-	}
 	.day,
 	.merchant,
 	.amount,
