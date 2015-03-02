@@ -42,7 +42,7 @@ var Week = View.extend({
 				return model.date >= self.weekStart.toISOString() && model.date <= self.weekEnd.toISOString();
 			},
 			comparator: function (model) {
-				return model.date;
+				return -model.date;
 			}
 		});
 		// bubble the `edit` event up
