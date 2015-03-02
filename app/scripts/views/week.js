@@ -14,13 +14,13 @@ var Week = View.extend({
 		weekStart: {
 			deps: ['offset'],
 			fn: function () {
-				return moment().day(1 + this.offset * 7).startOf('isoWeek');
+				return moment().isoWeekday(1 + this.offset * 7).startOf('isoWeek');
 			}
 		},
 		weekEnd: {
 			deps: ['offset'],
 			fn: function () {
-				return moment().day(7 + this.offset * 7).endOf('isoWeek');
+				return moment().isoWeekday(7 + this.offset * 7).endOf('isoWeek');
 			}
 		},
 		weekTotal: {

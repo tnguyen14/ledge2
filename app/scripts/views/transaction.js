@@ -28,7 +28,7 @@ module.exports = View.extend({
 				success: function () {
 					$('.remove-transaction-modal').modal('hide');
 				}
-			}, {wait: true})
+			}, {wait: true});
 		});
 	},
 	toggle: function () {
