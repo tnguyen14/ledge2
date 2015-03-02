@@ -4,7 +4,6 @@ var remapify = require('remapify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var xtend = require('xtend');
-
 var $ = require('gulp-load-plugins')();
 
 gulp.task('clean', require('del').bind(null, ['.tmp', 'dist']));
@@ -115,6 +114,12 @@ gulp.task('watch', ['enable-watch-mode', 'enable-dev-mode', 'build'], function (
 	gulp.watch('./app/templates/**/*.hbs', ['templates']);
 });
 
+gulp.task('deploy', ['build'], function () {
+	return gulp.src('./dist/**/*')
+		.pipe($.ghPages());
+});
+
 gulp.task('default', ['clean'], function () {
 	gulp.start('watch');
 });
+
