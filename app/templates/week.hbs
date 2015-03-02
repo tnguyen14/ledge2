@@ -2,13 +2,20 @@
 	<h3>{{date 'MMM D' weekStart}} - {{date 'MMM D' weekEnd}}</h3>
 	<table class="table table-striped weekly-transactions">
 		<thead>
-			<th>Day</th>
-			<th>Merchant</th>
-			<th>Amount</th>
-			<th>Source</th>
-			<th>Desc.</th>
-			<th>Category</th>
-			<th></th>
+			<tr>
+				<th>Day</th>
+				<th>Merchant</th>
+				<th>Amount</th>
+				<th>Source</th>
+				<th class="secondary">Desc.</th>
+				<th class="secondary">Category</th>
+				<th class="secondary"></th>
+			</tr>
+			<tr class="addition">
+				<th class="two-col">Desc.</th>
+				<th>Category</th>
+				<th></th>
+			</tr>
 		</thead>
 		<tbody>
 		</tbody>

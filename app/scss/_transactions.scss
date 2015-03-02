@@ -42,9 +42,22 @@
 		}
 	}
 	thead {
-		display: none;
-		@media (min-width: 33.5em) {
-			display: table-header-group;
+		.secondary {
+			display: none;
+			@media (min-width: 33.5em) {
+				display: table-cell;
+			}
+		}
+		.addition {
+			.two-col {
+				flex-grow: 2;
+			}
+			@media (min-width: 33.5em) {
+				display: none;
+			}
+			th {
+				border: none;
+			}
 		}
 	}
 	tr {
@@ -53,14 +66,19 @@
 		@media (min-width: 33.5em) {
 			display: table-row;
 		}
+		&.active {
+			td {
+				background-color: darken($white-smoke, 3%) !important;
+			}
+		}
 	}
-	td {
+	td,
+	th {
 		flex-basis: 25%;
 		&.description {
 			flex-grow: 2;
 		}
 	}
-
 }
 
 .transaction {
