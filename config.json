@@ -1,9 +1,6 @@
 {
 	"server_url": "http://ledge-server.herokuapp.com",
 	"categories": [{
-		"slug": "default",
-		"value": "Default"
-	}, {
 		"slug": "dineout",
 		"value": "Dine Out"
 	}, {
