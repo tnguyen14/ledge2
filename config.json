@@ -4,17 +4,20 @@
 		"slug": "dineout",
 		"value": "Dine Out"
 	}, {
-		"slug": "entertainment",
-		"value": "Entertainment"
+		"slug": "groceries",
+		"value": "Groceries"
 	}, {
 		"slug": "gas",
 		"value": "Gas"
 	}, {
-		"slug": "groceries",
-		"value": "Groceries"
-	}, {
 		"slug": "household",
 		"value": "Household"
+	}, {
+		"slug": "entertainment",
+		"value": "Entertainment"
+	}, {
+		"slug": "health",
+		"value": "Health"
 	}, {
 		"slug": "transportation",
 		"value": "Transportation"
