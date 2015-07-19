@@ -32,6 +32,7 @@
     "gulp-handlebars": "^3.0.0",
     "gulp-jshint": "^1.8.4",
     "gulp-load-plugins": "^0.8.0",
+    "gulp-nodemon": "^2.0.3",
     "gulp-plumber": "^0.6.6",
     "gulp-sass": "^1.2.4",
     "gulp-util": "^3.0.1",

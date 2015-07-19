@@ -119,7 +119,14 @@ gulp.task('deploy', ['build'], function () {
 		.pipe($.ghPages());
 });
 
-gulp.task('default', ['clean'], function () {
+gulp.task('serve', function () {
+	$.nodemon({
+		script: 'server/index.js',
+		ext: 'js'
+	});
+});
+
+gulp.task('default', ['clean', 'serve'], function () {
 	gulp.start('watch');
 });
 
