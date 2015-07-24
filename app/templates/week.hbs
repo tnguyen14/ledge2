@@ -21,6 +21,22 @@
 		</tbody>
 	</table>
 	<div class="summary">
-		<div class="subtotal"><span>Week Total</span> <span class="value">{{money model.weekTotal}}</span></div>
+		<div class="week-total">
+			<h3>Week Total</h3>
+			<div class="stat">
+				<span class="value">{{money model.weekTotal}}</span>
+			</div>
+		</div>
+		<div class="by-category">
+			<h3>By category</h3>
+			<div class="stat">
+				{{#each stats.totals}}
+					<div class="cat-total">
+						<label for="{{slug}}-cat-total">{{label}}</label>
+						<span id="{{slug}}-cat-total">{{money amount}}</span>
+					</div>
+				{{/each}}
+			</div>
+		</div>
 	</div>
 </div>

@@ -1,12 +1,14 @@
 <div class="stats">
 	<h2>Stats</h2>
-	<h3>Weekly Averages</h3>
 	<div class="averages">
-		{{#each averages}}
-			<div>
-				<label for="{{slug}}-avg">{{label}}</label>
-				<span id="{{slug}}-avg">{{money amount}}</span>
-			</div>
-		{{/each}}
+		<h3>Weekly Averages</h3>
+		<div class="stat">
+			{{#each averages}}
+				<div>
+					<label for="{{slug}}-avg">{{label}}</label>
+					<span id="{{slug}}-avg">{{money amount}}</span>
+				</div>
+			{{/each}}
+		</div>
 	</div>
 </div>

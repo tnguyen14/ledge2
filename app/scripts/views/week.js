@@ -5,11 +5,12 @@ var template = require('templates/week');
 var TransactionView = require('./transaction');
 
 var Week = View.extend({
-	initialize: function (options) {
+	initialize: function () {
 		// bubble the `edit` event up
 		this.listenTo(this.model.transactions, 'edit', function (transaction) {
 			this.parent.trigger('edit', transaction);
 		});
+		this.stats = this.model.getStats();
 	},
 	template: template,
 	render: function () {

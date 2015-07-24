@@ -4,6 +4,7 @@ var Model = require('ampersand-model');
 var moment = require('moment-timezone');
 var Transactions = require('../collections/transactions');
 var SubCollection = require('ampersand-filtered-subcollection');
+var config = require('config');
 
 var Week = Model.extend({
 	props: {
@@ -46,6 +47,29 @@ var Week = Model.extend({
 				return -t.date;
 			}
 		});
+	},
+	getStats: function () {
+		var stats = {
+			totals: []
+		};
+		var self = this;
+		config.categories.forEach(function (cat) {
+			var items = self.transactions.models.filter(function (t) {
+				return t.category === cat.slug;
+			});
+			if (items.length === 0) {
+				return;
+			}
+			var total = items.reduce(function (total, t) {
+				return total + t.amount;
+			}, 0);
+			stats.totals.push({
+				label: cat.value,
+				amount: total,
+				slug: cat.slug
+			});
+		});
+		return stats;
 	}
 });
 

@@ -46,7 +46,10 @@ body {
 		margin-top: 0;
 		padding-left: 3rem;
 	}
-	.averages {
+}
+
+.stat {
+	@media (min-width: 53.125em) {
 		padding-left: 1.5rem;
 	}
 }
@@ -81,7 +84,16 @@ body {
 			width: 35%;
 		}
 	}
-	.subtotal {
+	.week-total,
+	.by-category {
+		float: left;
+		width: 50%;
+		@media (min-width: 53.125em) {
+			float: none;
+			width: 100%;
+		}
+	}
+	.week-total {
 		font-size: 1.2em;
 		.value {
 			font-weight: bold;

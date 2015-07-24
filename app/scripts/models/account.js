@@ -25,18 +25,16 @@ var Account = Model.extend({
 		var numWeeks = statsUtil.totalWeeks(this.transactions);
 		var self = this;
 		config.categories.forEach(function (cat) {
-			var slug = cat.slug;
 			var items = self.transactions.models.filter(function (t) {
-				return t.category === slug;
+				return t.category === cat.slug;
 			});
 			var itemsTotal = items.reduce(function (total, t) {
-				return total += t.amount;
+				return total + t.amount;
 			}, 0);
-			console.log(itemsTotal);
 			stats.averages.push({
 				label: cat.value,
 				amount: itemsTotal / numWeeks,
-				slug: slug
+				slug: cat.slug
 			});
 		});
 		return stats;
