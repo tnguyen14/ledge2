@@ -2,7 +2,11 @@
 	<h2>Stats</h2>
 	<h3>Weekly Averages</h3>
 	<div class="average">
-		<label for="dineout-avg">Dine Out</label>
-		<span id="dineout-avg">{{money averages.dineout}}</span>
+		{{#each averages}}
+			<div>
+				<label for="{{slug}}-avg">{{label}}</label>
+				<span id="{{slug}}-avg">{{money amount}}</span>
+			</div>
+		{{/each}}
 	</div>
 </div>
