@@ -1,4 +1,22 @@
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.main {
+	@include clearfix();
+	margin: 0 auto;
+	width: 95%;
+	@media (min-width: 33.5em) {
+		width: 90%;
+	}
+}
+
 .new-transaction {
+	width: 100%;
+	@media (min-width: 53.125em) {
+		float: left;
+		width: 65%;
+	}
 	fieldset {
 		margin-top: 2rem;
 	}
@@ -20,7 +38,18 @@
 	}
 }
 
+.stats {
+	margin-top: 2rem;
+	@media (min-width: 53.125em) {
+		float: left;
+		width: 35%;
+		margin-top: 0;
+		padding-left: 3rem;
+	}
+}
+
 .weekly {
+	@include clearfix();
 	.action {
 		.edit, .remove {
 			cursor: pointer;
@@ -32,9 +61,17 @@
 			margin-left: 1em;
 		}
 	}
+	.weekly-transactions {
+		@media (min-width: 53.125em) {
+			float: left;
+			width: 65%;
+		}
+	}
 	.summary {
 		@media (min-width: 53.125em) {
-			padding-left: 2rem;
+			float: left;
+			padding-left: 3rem;
+			width: 35%;
 		}
 	}
 	.subtotal {
@@ -84,6 +121,7 @@
 }
 
 .transaction {
+	clear: left;
 	cursor: pointer;
 	@media (min-width: 33.5em) {
 		cursor: default;
