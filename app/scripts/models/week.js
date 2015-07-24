@@ -44,7 +44,7 @@ var Week = Model.extend({
 				return t.date >= self.weekStart.toISOString() && t.date <= self.weekEnd.toISOString();
 			},
 			comparator: function (t) {
-				return -t.date;
+				return -moment(t.date).unix();
 			}
 		});
 	},
