@@ -12,17 +12,25 @@ body {
 }
 
 .new-transaction {
-	margin: 0 auto;
 	width: 100%;
 	@media (min-width: 53.125em) {
-		width: 70%;
+		float: left;
+		width: 65%;
 	}
-	@media (min-width: 62.5em) {
-		width: 60%;
+}
+
+.stats {
+	margin-top: 2rem;
+	@media (min-width: 53.125em) {
+		float: left;
+		width: 35%;
+		margin-top: 0;
+		padding-left: 2rem;
 	}
-	@media (min-width: 75em) {
-		width: 50%;
-	}
+}
+
+.transactions {
+	clear: left;
 }
 
 .weekly {

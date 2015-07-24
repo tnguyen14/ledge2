@@ -1,7 +1,6 @@
 'use strict';
 
 var View = require('ampersand-view');
-var TransactionsCollection = require('../collections/transactions');
 var WeekView = require('./week');
 var template = require('templates/transactions');
 

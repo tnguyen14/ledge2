@@ -1,4 +1,7 @@
 .new-transaction {
+	fieldset {
+		margin-top: 2rem;
+	}
 	.form-group {
 		@include clearfix();
 	}
@@ -31,8 +34,8 @@
 	}
 	.summary {
 		@media (min-width: 33.5em) {
-			padding-top: 2.5em;
-			padding-left: 2em;
+			padding-top: 2.5rem;
+			padding-left: 2rem;
 		}
 	}
 	.subtotal {

@@ -6,7 +6,7 @@ var View = require('ampersand-view');
 var AppView = View.extend({
 	template: template,
 	render: function () {
-		this.renderWithTemplate();
+		this.renderWithTemplate(this.model);
 		document.body.appendChild(this.el);
 		return this;
 	}

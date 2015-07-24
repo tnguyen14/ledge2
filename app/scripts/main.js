@@ -2,6 +2,7 @@
 
 var AppView = require('./views/app');
 var NewTransactionView = require('./views/newTransaction');
+var StatsView = require('./views/stats');
 var TransactionsView = require('./views/transactions');
 var AccountModel = require('./models/account');
 
@@ -26,18 +27,24 @@ var App = {
 			el: document.querySelector('.new-transaction')
 		});
 
-		var transactions = new TransactionsView({
+		var statsView = new StatsView({
+			model: account,
+			el: document.querySelector('.stats')
+		});
+
+		var transactionsView = new TransactionsView({
 			el: document.querySelector('.transactions'),
 			model: account
 		});
 
-		transactions.on('edit', function (transaction) {
+		transactionsView.on('edit', function (transaction) {
 			newTransactionView.editTransaction(transaction);
 		});
 
 		account.fetch({
 			success: function (model, response, options) {
-				transactions.render();
+				transactionsView.render();
+				statsView.render();
 			}
 		});
 	}

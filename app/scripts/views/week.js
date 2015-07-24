@@ -6,6 +6,8 @@ var template = require('templates/week');
 var TransactionView = require('./transaction');
 var moment = require('moment-timezone');
 
+window.moment = moment;
+
 var Week = View.extend({
 	props: {
 		offset: ['number', true, 0]
