@@ -2,39 +2,28 @@
 
 var View = require('ampersand-view');
 var WeekView = require('./week');
+var WeekModel = require('../models/week');
 var template = require('templates/transactions');
 
 var Transactions = View.extend({
 	template: template,
 	render: function () {
 		this.renderWithTemplate();
-
-		// render the weekly views before registering subview, because of this https://github.com/AmpersandJS/ampersand-view/issues/90
-		this.currentWeekView = new WeekView({
-			offset: 0,
-			transactions: this.model.transactions
-		}).render();
-		this.prevWeekView = new WeekView({
-			offset: -1,
-			transactions: this.model.transactions
-		}).render();
-		this.prev2WeekView = new WeekView({
-			offset: -2,
-			transactions: this.model.transactions
-		}).render();
-		this.prev3WeekView = new WeekView({
-			offset: -3,
-			transactions: this.model.transactions
-		}).render();
-		this.el.appendChild(this.currentWeekView.el);
-		this.el.appendChild(this.prevWeekView.el);
-		this.el.appendChild(this.prev2WeekView.el);
-		this.el.appendChild(this.prev3WeekView.el);
-		this.registerSubview(this.currentWeekView);
-		this.registerSubview(this.prevWeekView);
-		this.registerSubview(this.prev2WeekView);
-		this.registerSubview(this.prev3WeekView);
+		this.renderWeekView(0);
+		this.renderWeekView(-1);
+		this.renderWeekView(-2);
+		this.renderWeekView(-3);
 		return this;
+	},
+	renderWeekView: function (offset) {
+		var weekModel = new WeekModel({
+			offset: offset,
+			transactions: this.model.transactions
+		});
+		var weekView = new WeekView({
+			model: weekModel
+		});
+		this.renderSubview(weekView);
 	}
 });
 

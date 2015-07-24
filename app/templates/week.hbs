@@ -1,5 +1,5 @@
 <div class="weekly">
-	<h3>{{date 'MMM D' weekStart}} - {{date 'MMM D' weekEnd}}</h3>
+	<h3>{{date 'MMM D' model.weekStart}} - {{date 'MMM D' model.weekEnd}}</h3>
 	<table class="table table-striped weekly-transactions">
 		<thead>
 			<tr>
@@ -21,6 +21,6 @@
 		</tbody>
 	</table>
 	<div class="summary">
-		<div class="subtotal"><span>Week Total</span> <span class="value">{{money weekTotal}}</span></div>
+		<div class="subtotal"><span>Week Total</span> <span class="value">{{money model.weekTotal}}</span></div>
 	</div>
 </div>
