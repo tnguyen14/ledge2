@@ -4,3 +4,4 @@ bower_components
 dist
 .tmp
 *.swp
+config.dev.json
