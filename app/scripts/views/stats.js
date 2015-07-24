@@ -2,8 +2,6 @@
 
 var View = require('ampersand-view');
 var template = require('templates/stats');
-var config = require('config');
-var statsUtil = require('../util/stats');
 
 module.exports = View.extend({
 	template: template,

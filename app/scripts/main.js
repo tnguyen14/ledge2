@@ -18,7 +18,7 @@ var App = {
 		});
 
 		window.account = account;
-		var appView = new AppView({
+		new AppView({
 			model: account
 		}).render();
 
@@ -42,7 +42,7 @@ var App = {
 		});
 
 		account.fetch({
-			success: function (model, response, options) {
+			success: function () {
 				transactionsView.render();
 				statsView.render();
 			}

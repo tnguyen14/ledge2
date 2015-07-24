@@ -17,10 +17,10 @@ module.exports = View.extend({
 			name: 'active'
 		}
 	},
-	edit: function (e) {
+	edit: function () {
 		this.collection.trigger('edit', this.model);
 	},
-	removePrompt: function (e) {
+	removePrompt: function () {
 		var self = this;
 		$('.remove-transaction-modal').modal();
 		$('.confirm-delete').on('click', function () {

@@ -81,7 +81,7 @@ var NewTransaction = FormView.extend({
 			url: url,
 			type: type,
 			data: data
-		})).then(function (result) {
+		})).then(function () {
 			// clear the input fields
 			this._fieldViewsArray.forEach(function (view) {
 				// check on clear, but use setValue to skip validation
