@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
-var remapify = require('remapify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
 var xtend = require('xtend');
@@ -42,13 +41,6 @@ gulp.task('jshint', function () {
 		.pipe($.jshint.reporter(require('jshint-stylish')));
 });
 
-gulp.task('templates', function () {
-	return gulp.src('./app/templates/**/*.hbs')
-		.pipe($.handlebars())
-		.pipe($.defineModule('node'))
-		.pipe(gulp.dest('./.tmp/templates'))
-});
-
 var watching = false;
 gulp.task('enable-watch-mode', function () {
 	watching = true;
@@ -59,7 +51,7 @@ gulp.task('enable-dev-mode', function () {
 	dev = true;
 });
 
-gulp.task('scripts', ['jshint', 'templates'], function () {
+gulp.task('scripts', ['jshint'], function () {
 	var opts = {
 		entries: ['./app/scripts/main.js'],
 		debug: dev
@@ -71,14 +63,6 @@ gulp.task('scripts', ['jshint', 'templates'], function () {
 	if (watching) {
 		bundler = watchify(bundler);
 	}
-	// optionally transform
-	// bundler.transform('transformer');
-
-	bundler.plugin(remapify, [{
-		src: './**/*.js',
-		expose: 'templates',
-		cwd: './.tmp/templates'
-	}]);
 
 	var aliasify = require('aliasify').configure({
 		aliases: {
@@ -111,7 +95,6 @@ gulp.task('build', ['copy', 'fonts', 'scss', 'scripts']);
 gulp.task('watch', ['enable-watch-mode', 'enable-dev-mode', 'build'], function () {
 	gulp.watch('./app/scss/**/*.scss', ['scss']);
 	gulp.watch('./app/**/*.html', ['copy']);
-	gulp.watch('./app/templates/**/*.hbs', ['templates']);
 });
 
 gulp.task('deploy', ['build'], function () {

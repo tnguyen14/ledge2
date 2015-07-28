@@ -1,6 +1,6 @@
 'use strict';
 
-var Handlebars = require('handlebars');
+var Handlebars = require('hbsfy/runtime');
 var moment = require('moment-timezone');
 var config = require('config');
 var filter = require('amp-filter');

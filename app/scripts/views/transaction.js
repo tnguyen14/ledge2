@@ -1,7 +1,7 @@
 'use strict';
 
 var View = require('ampersand-view');
-var template = require('templates/transaction');
+var template = require('../../templates/transaction.hbs');
 var $ = require('jquery');
 
 module.exports = View.extend({

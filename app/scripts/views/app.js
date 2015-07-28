@@ -1,6 +1,6 @@
 'use strict';
 
-var template = require('templates/app');
+var template = require('../../templates/app.hbs');
 var View = require('ampersand-view');
 
 var AppView = View.extend({

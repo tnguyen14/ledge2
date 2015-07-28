@@ -3,7 +3,7 @@
 var View = require('ampersand-view');
 var WeekView = require('./week');
 var WeekModel = require('../models/week');
-var template = require('templates/transactions');
+var template = require('../../templates/transactions.hbs');
 
 var Transactions = View.extend({
 	template: template,

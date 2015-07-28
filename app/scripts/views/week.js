@@ -1,7 +1,7 @@
 'use strict';
 
 var View = require('ampersand-view');
-var template = require('templates/week');
+var template = require('../../templates/week.hbs');
 var TransactionView = require('./transaction');
 
 var Week = View.extend({
