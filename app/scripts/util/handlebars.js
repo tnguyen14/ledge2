@@ -35,6 +35,6 @@ Handlebars.registerHelper('money', function (amount) {
 	if (!amount) {
 		return Handlebars.SafeString('$0.00');
 	} else {
-		return '$' + amount.toFixed(2);
+		return '$' + (amount / 100).toFixed(2);
 	}
 });

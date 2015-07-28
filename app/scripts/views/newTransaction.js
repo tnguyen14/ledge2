@@ -77,6 +77,8 @@ var NewTransaction = FormView.extend({
 			// delete id from data
 			delete data._id;
 		}
+		// multiply by 100 to store to database
+		data.amount = data.amount * 100;
 		return TPromise.resolve($.ajax({
 			url: url,
 			type: type,
@@ -99,6 +101,7 @@ var NewTransaction = FormView.extend({
 		var date = moment(transaction.date);
 		transaction.date = date.format('YYYY-MM-DD');
 		transaction.time = date.format('HH:mm');
+		transaction.amount = transaction.amount / 100;
 		for (var field in this._fieldViews) {
 			this._fieldViews[field].setValue(transaction[field]);
 		}
