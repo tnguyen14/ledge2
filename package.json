@@ -65,5 +65,9 @@
     "transform": [
       "hbsfy"
     ]
+  },
+  "browser": {
+    "typeahead": "./bower_components/typeahead.js/dist/typeahead.jquery.js",
+    "bloodhound": "./bower_components/typeahead.js/dist/bloodhound.js"
   }
 }
