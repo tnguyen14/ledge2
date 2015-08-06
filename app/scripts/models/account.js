@@ -37,6 +37,14 @@ var Account = Model.extend({
 				slug: cat.slug
 			});
 		});
+		var totalAmount = this.transactions.models.reduce(function (total, t) {
+			return total + t.amount;
+		}, 0);
+		stats.averages.push({
+			label: 'Total',
+			amount: totalAmount / numWeeks,
+			slug: 'total'
+		});
 		return stats;
 	}
 });
