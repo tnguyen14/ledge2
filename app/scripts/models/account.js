@@ -13,7 +13,8 @@ var Account = Model.extend({
 		name: ['string', true, ''],
 		starting_balance: ['number', true, 0],
 		type: ['string', true, 'BUDGET'],
-		period_length: ['number', true, 7]
+		period_length: ['number', true, 7],
+		merchants_count: 'object'
 	},
 	collections: {
 		transactions: Transactions
