@@ -48,7 +48,11 @@ body {
 		}
 	}
 	.tt-suggestion {
+		cursor: pointer;
 		padding: .5rem;
+		&:hover {
+			background-color: darken($white-smoke, 10%);
+		}
 	}
 }
 

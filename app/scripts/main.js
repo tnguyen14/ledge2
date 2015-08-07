@@ -15,6 +15,19 @@ window.jQuery = $;
 require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
 require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert');
 
+function merchantTypeahead(merchants) {
+	$('input[name="merchant"]').typeahead({
+		highlight: true
+	}, {
+		name: 'merchants',
+		source: new Bloodhound({
+			datumTokenizer: Bloodhound.tokenizers.whitespace,
+			queryTokenizer: Bloodhound.tokenizers.whitespace,
+			local: merchants
+		})
+	});
+}
+
 var App = {
 	launch: function () {
 		var account = new AccountModel({
@@ -29,17 +42,6 @@ var App = {
 		var newTransactionView = new NewTransactionView({
 			model: account,
 			el: document.querySelector('.new-transaction')
-		});
-
-		$('input[name="merchant"]').typeahead({
-			highlight: true
-		}, {
-			name: 'merchants',
-			source: new Bloodhound({
-				datumTokenizer: Bloodhound.tokenizers.whitespace,
-				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				local: ['Amazon', 'Target', 'Gap', 'Cumberland Farms']
-			})
 		});
 
 		var statsView = new StatsView({
@@ -57,7 +59,10 @@ var App = {
 		});
 
 		account.fetch({
-			success: function () {
+			success: function (model) {
+				merchantTypeahead(Object.keys(model.merchants_count).reduce(function (merchants, merchant) {
+					return merchants.concat(model.merchants_count[merchant].values);
+				}, []));
 				transactionsView.render();
 				statsView.render();
 			}
