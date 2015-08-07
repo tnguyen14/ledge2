@@ -13,6 +13,7 @@ require('typeahead');
 // define global jQuery for bootstrap
 window.jQuery = $;
 require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
+require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert');
 
 var App = {
 	launch: function () {
