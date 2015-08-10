@@ -40,6 +40,7 @@ var App = {
 		}).render();
 
 		var newTransactionView = new NewTransactionView({
+			autoRender: true,
 			model: account,
 			el: document.querySelector('.new-transaction')
 		});
