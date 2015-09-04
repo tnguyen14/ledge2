@@ -21,7 +21,7 @@
   "homepage": "https://github.com/tnguyen14/ledge2",
   "devDependencies": {
     "aliasify": "^1.4.0",
-    "browserify": "^6.3.4",
+    "browserify": "^11.0.1",
     "del": "^1.1.0",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^2.0.0",
@@ -39,7 +39,7 @@
     "jshint-stylish": "^1.0.0",
     "main-bower-files": "^2.0.0",
     "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.1.1",
+    "watchify": "^3.3.1",
     "xtend": "^4.0.0"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
     "jquery": "^2.1.1",
     "moment-timezone": "^0.2.2",
     "promise": "^6.0.1",
-    "restify": "^2.8.2",
+    "restify": "^3.0.3",
     "serve-static": "^1.6.1"
   },
   "browserify": {
