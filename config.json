@@ -1,5 +1,5 @@
 {
-	"server_url": "http://ledge-server.herokuapp.com",
+	"server_url": "http://45.55.92.84:13040",
 	"categories": [{
 		"slug": "dineout",
 		"value": "Dine Out"
