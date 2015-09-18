@@ -46,10 +46,6 @@
     "xtend": "^4.0.0"
   },
   "dependencies": {
-    "amp-filter": "^1.0.1",
-    "amp-is-array": "^1.0.0",
-    "amp-is-object": "^1.0.0",
-    "amp-map": "^1.0.1",
     "ampersand-filtered-subcollection": "^2.0.2",
     "ampersand-form-view": "^5.1.1",
     "ampersand-input-view": "^5.0.0",
@@ -75,7 +71,10 @@
   },
   "eslintConfig": {
     "rules": {
-      "indent": [2, "tab"]
+      "indent": [
+        2,
+        "tab"
+      ]
     }
   }
 }

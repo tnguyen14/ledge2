@@ -3,7 +3,7 @@
 var Handlebars = require('hbsfy/runtime');
 var moment = require('moment-timezone');
 var config = require('config');
-var filter = require('amp-filter');
+var filter = require('lodash/collection/filter');
 
 Handlebars.registerHelper('log', function (stuff) {
 	console.log(stuff);
