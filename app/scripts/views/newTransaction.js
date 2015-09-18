@@ -5,6 +5,7 @@ var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
 var moment = require('moment-timezone');
 var map = require('amp-map');
+var extend = require('lodash/object/extend');
 var config = require('config');
 var $ = require('jquery');
 
@@ -70,13 +71,17 @@ var selectTemplate = [
 
 var NewTransaction = FormView.extend({
 	submitCallback: function (data) {
-		// delete _id to have it initialized to undefined
-		if (data._id === '') {
-			delete data._id;
-		}
+		var transaction = data;
 		// multiply by 100 to store to database
-		data.amount = data.amount * 100;
-		this.trigger('newtransaction', data);
+		transaction.amount = transaction.amount * 100;
+		if (transaction._id && this.transactionBeingEdited) {
+			transaction = extend(this.transactionBeingEdited, transaction);
+			delete this.transactionBeingEdited;
+		} else if (transaction._id === '') {
+			// delete _id to have it initialized to undefined
+			delete transaction._id;
+		}
+		this.trigger('newtransaction', transaction);
 	},
 	clearFields: function () {
 		// clear the input fields
@@ -91,14 +96,22 @@ var NewTransaction = FormView.extend({
 		this.el.querySelector('[type="submit"]').innerHTML = 'Add';
 	},
 	editTransaction: function (transaction) {
-		// update date and time fields
 		var date = moment(transaction.date);
-		transaction.date = date.format('YYYY-MM-DD');
-		transaction.time = date.format('HH:mm');
-		transaction.amount = transaction.amount / 100;
 		for (var field in this._fieldViews) {
-			this._fieldViews[field].setValue(transaction[field]);
+			var fieldValue = transaction[field];
+			if (field === 'date') {
+				fieldValue = date.format('YYYY-MM-DD');
+			}
+			if (field === 'time') {
+				fieldValue = date.format('HH:mm');
+			}
+			if (field === 'amount') {
+				fieldValue = fieldValue / 100;
+			}
+			this._fieldViews[field].setValue(fieldValue);
 		}
+		// store reference to transaction for submitCallback
+		this.transactionBeingEdited = transaction;
 		this.el.querySelector('[type="submit"]').innerHTML = 'Update';
 		$('html, body').animate({scrollTop: $(this.el).scrollTop()});
 	},
@@ -137,6 +150,7 @@ var NewTransaction = FormView.extend({
 				}),
 				value: config.categories[0].slug,
 				parent: this,
+				unselectedText: 'Select a category'
 			}),
 			new SelectView({
 				template: selectTemplate,
@@ -147,6 +161,7 @@ var NewTransaction = FormView.extend({
 				}),
 				value: config.sources[0].slug,
 				parent: this,
+				unselectedText: 'Select a payment type'
 			}),
 			new TextAreaViewBS({
 				name: 'description',
@@ -160,7 +175,8 @@ var NewTransaction = FormView.extend({
 				label: 'Status',
 				options: ['POSTED', 'SCHEDULED', 'PENDING'],
 				value: 'POSTED',
-				parent: this
+				parent: this,
+				unselectedText: 'Select a status'
 			}),
 			new InputViewBS({
 				name: '_id',

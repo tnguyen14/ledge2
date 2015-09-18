@@ -72,6 +72,8 @@ var App = {
 		appView.listenTo(newTransactionView, 'newtransaction', function (data) {
 			account.transactions.create(data, {
 				wait: true,
+				// make a patch request if it's updating transaction
+				patch: true,
 				success: function () {
 					newTransactionView.clearFields();
 				}

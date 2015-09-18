@@ -39,6 +39,7 @@
     "gulp-util": "^3.0.1",
     "hbsfy": "^2.2.1",
     "jshint-stylish": "^2.0.1",
+    "lodash": "^3.10.1",
     "main-bower-files": "^2.0.0",
     "vinyl-source-stream": "^1.0.0",
     "watchify": "^3.3.1",
