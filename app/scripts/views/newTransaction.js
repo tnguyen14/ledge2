@@ -3,12 +3,12 @@
 var FormView = require('ampersand-form-view');
 var InputView = require('ampersand-input-view');
 var SelectView = require('ampersand-select-view');
-var TPromise = require('promise');
 var moment = require('moment-timezone');
 var map = require('amp-map');
 var config = require('config');
 var $ = require('jquery');
 
+/*eslint-disable indent */
 // Bootstrap inputs
 var InputViewBS = InputView.extend({
 	template: [
@@ -66,35 +66,29 @@ var selectTemplate = [
 			'</div>',
 		'</div>'
 	].join('');
+/* esling-enable indent*/
 
 var NewTransaction = FormView.extend({
 	submitCallback: function (data) {
-		var url = this.model.url() + '/transactions',
-			type = 'POST';
-		if (data._id) {
-			url += '/' + data._id;
-			type = 'PATCH';
-			// delete id from data
+		// delete _id to have it initialized to undefined
+		if (data._id === '') {
 			delete data._id;
 		}
 		// multiply by 100 to store to database
 		data.amount = data.amount * 100;
-		return TPromise.resolve($.ajax({
-			url: url,
-			type: type,
-			data: data
-		})).then(function () {
-			// clear the input fields
-			this._fieldViewsArray.forEach(function (view) {
-				// check on clear, but use setValue to skip validation
-				if (view.clear && typeof view.clear === 'function') {
-					view.shouldValidate = false;
-					view.setValue('', true);
-				}
-			});
-			// reset submit button
-			this.el.querySelector('[type="submit"]').innerHTML = 'Add';
-		}.bind(this));
+		this.trigger('newtransaction', data);
+	},
+	clearFields: function () {
+		// clear the input fields
+		this._fieldViewsArray.forEach(function (view) {
+			// check on clear, but use setValue to skip validation
+			if (view.clear && typeof view.clear === 'function') {
+				view.shouldValidate = false;
+				view.setValue('', true);
+			}
+		});
+		// reset submit button
+		this.el.querySelector('[type="submit"]').innerHTML = 'Add';
 	},
 	editTransaction: function (transaction) {
 		// update date and time fields

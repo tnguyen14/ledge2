@@ -35,7 +35,7 @@ var App = {
 		});
 
 		window.account = account;
-		new AppView({
+		var appView = new AppView({
 			model: account
 		}).render();
 
@@ -67,6 +67,15 @@ var App = {
 				transactionsView.render();
 				statsView.render();
 			}
+		});
+
+		appView.listenTo(newTransactionView, 'newtransaction', function (data) {
+			account.transactions.create(data, {
+				wait: true,
+				success: function () {
+					newTransactionView.clearFields();
+				}
+			});
 		});
 	}
 };
