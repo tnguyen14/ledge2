@@ -8,15 +8,12 @@ var Transaction = Model.extend({
 		_id: 'string',
 		amount: ['number', true, 0],
 		merchant: ['string', true, ''],
-		date: {
-			type: 'string'
-		},
+		date: 'string',
+		time: 'string',
 		description: ['string', false, ''],
 		category: ['string', false, 'Default'],
 		status: ['string', true, 'POSTED'],
-		source: {
-			type: 'string'
-		},
+		source: 'string',
 		active: {
 			type: 'boolean',
 			default: false

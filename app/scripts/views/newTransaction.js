@@ -96,7 +96,7 @@ var NewTransaction = FormView.extend({
 		this.el.querySelector('[type="submit"]').innerHTML = 'Add';
 	},
 	editTransaction: function (transaction) {
-		var date = moment(transaction.date);
+		var date = moment.tz(transaction.date, 'America/New_York');
 		for (var field in this._fieldViews) {
 			var fieldValue = transaction[field];
 			if (field === 'date') {
