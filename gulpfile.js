@@ -55,7 +55,7 @@ gulp.task('scripts', ['jshint'], function () {
 	var opts = {
 		entries: ['./app/scripts/main.js'],
 		debug: dev
-	}
+	};
 	if (watching) {
 		opts = xtend(opts, watchify.args);
 	}
@@ -69,7 +69,7 @@ gulp.task('scripts', ['jshint'], function () {
 			'config': './config' + (dev ? '.dev' : '') + '.json'
 		},
 		configDir: __dirname
-	})
+	});
 	bundler.transform(aliasify);
 
 	bundler.on('update', function (ids) {
@@ -78,7 +78,7 @@ gulp.task('scripts', ['jshint'], function () {
 		rebundle();
 	});
 
-	function rebundle() {
+	function rebundle () {
 		return bundler
 			.bundle()
 			.on('error', function (e) {
@@ -112,4 +112,3 @@ gulp.task('serve', function () {
 gulp.task('default', ['clean', 'serve'], function () {
 	gulp.start('watch');
 });
-

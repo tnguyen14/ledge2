@@ -4,7 +4,6 @@ var Model = require('ampersand-model');
 var Transactions = require('../collections/transactions');
 var config = require('config');
 var statsUtil = require('../util/stats');
-var config = require('config');
 
 var Account = Model.extend({
 	idAttribute: 'name',

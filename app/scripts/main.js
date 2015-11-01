@@ -15,7 +15,7 @@ window.jQuery = $;
 require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal');
 require('../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert');
 
-function merchantTypeahead(merchants) {
+function merchantTypeahead (merchants) {
 	$('input[name="merchant"]').typeahead({
 		highlight: true
 	}, {
