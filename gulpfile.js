@@ -35,12 +35,6 @@ gulp.task('fonts', function () {
 		.pipe(gulp.dest('dist/fonts'));
 });
 
-gulp.task('jshint', function () {
-	return gulp.src('./app/scripts/**/*.js')
-		.pipe($.jshint())
-		.pipe($.jshint.reporter(require('jshint-stylish')));
-});
-
 var watching = false;
 gulp.task('enable-watch-mode', function () {
 	watching = true;
@@ -51,7 +45,7 @@ gulp.task('enable-dev-mode', function () {
 	dev = true;
 });
 
-gulp.task('scripts', ['jshint'], function () {
+gulp.task('scripts', function () {
 	var opts = {
 		entries: ['./app/scripts/main.js'],
 		debug: dev
