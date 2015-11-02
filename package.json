@@ -1,14 +1,25 @@
 {
-  "name": "ledge2",
+  "name": "ledge",
   "version": "1.0.0",
-  "description": "ledge. round 2.",
+  "description": "ledge. in react.",
   "main": "server/index.js",
-  "scripts": {
-    "start": "node server/index.js"
-  },
   "repository": {
     "type": "git",
-    "url": "git@github.com:tnguyen14/ledge2.git"
+    "url": "git@github.com:tnguyen14/ledge.git"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "clean": "rm -rf dist",
+    "copy": "cp app/index.html dist/ && cp app/manifest.json dist/",
+    "scss": "node-sass app/scss/style.scss dist/style.css",
+    "autoprefixer": "postcss --use autoprefixer dist/style.css -o dist/style.css",
+    "css": "npm run scss && npm run autoprefixer",
+    "js": "browserify -t babelify -t aliasify app/scripts/main-react.js -o dist/main.js",
+    "build": "npm run clean && npm run css && npm run js && npm run copy && npm start",
+    "watch": "watch 'npm run build' app"
+  },
+  "aliasify": {
+    "config": "./config.json"
   },
   "keywords": [
     "ledge"
@@ -16,56 +27,24 @@
   "author": "Tri Nguyen <tri@tridnguyen.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tnguyen14/ledge2/issues"
+    "url": "https://github.com/tnguyen14/ledge/issues"
   },
-  "homepage": "https://github.com/tnguyen14/ledge2",
+  "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
-    "aliasify": "^1.4.0",
-    "browserify": "^11.0.1",
-    "del": "^2.0.2",
-    "gulp": "^3.8.8",
-    "gulp-autoprefixer": "^3.0.1",
-    "gulp-define-module": "^0.1.1",
-    "gulp-filter": "^3.0.1",
-    "gulp-flatten": "0.2.0",
-    "gulp-gh-pages": "^0.5.2",
-    "gulp-jshint": "^1.8.4",
-    "gulp-load-plugins": "^1.0.0-rc.1",
-    "gulp-nodemon": "^2.0.3",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.0.4",
-    "gulp-util": "^3.0.1",
-    "happiness": "^1.0.7",
-    "hbsfy": "^2.2.1",
-    "jshint-stylish": "^2.0.1",
-    "lodash": "^3.10.1",
-    "main-bower-files": "^2.0.0",
-    "vinyl-source-stream": "^1.0.0",
-    "watchify": "^3.3.1",
-    "xtend": "^4.0.0"
+    "aliasify": "^1.8.0",
+    "autoprefixer": "^6.0.3",
+    "babelify": "^7.1.0",
+    "browserify": "^12.0.1",
+    "node-sass": "^3.4.1",
+    "postcss-cli": "^2.3.2",
+    "watch": "^0.16.0",
+    "watchify": "^3.6.0"
   },
   "dependencies": {
-    "ampersand-filtered-subcollection": "^2.0.2",
-    "ampersand-form-view": "^5.1.1",
-    "ampersand-input-view": "^5.0.0",
-    "ampersand-model": "^6.0.1",
-    "ampersand-rest-collection": "^5.0.0",
-    "ampersand-select-view": "^4.3.2",
-    "ampersand-view": "^8.0.1",
-    "handlebars": "^4.0.2",
-    "jquery": "^2.1.1",
-    "moment-timezone": "^0.4.0",
-    "promise": "^7.0.4",
-    "restify": "^4.0.2",
-    "serve-static": "^1.6.1"
-  },
-  "browserify": {
-    "transform": [
-      "hbsfy"
-    ]
-  },
-  "browser": {
-    "typeahead": "./bower_components/typeahead.js/dist/typeahead.jquery.js",
-    "bloodhound": "./bower_components/typeahead.js/dist/bloodhound.js"
+    "bootstrap-sass": "^3.3.5",
+    "react": "^0.14.1",
+    "react-dom": "^0.14.1",
+    "restify": "^4.0.3",
+    "serve-static": "^1.10.0"
   }
 }
