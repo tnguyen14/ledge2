@@ -1,10 +1,12 @@
 'use strict';
 
 require('es6-promise').polyfill();
-require('isomorphic-fetch');
+var fetch = require('isomorphic-fetch');
 var config = require('config');
 
 var ACCOUNT_NAME = 'daily';
+
+// action types
 var RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
 
 function getAccount () {
