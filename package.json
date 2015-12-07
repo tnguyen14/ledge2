@@ -14,12 +14,27 @@
     "scss": "node-sass app/scss/style.scss dist/style.css",
     "autoprefixer": "postcss --use autoprefixer dist/style.css -o dist/style.css",
     "css": "npm run scss && npm run autoprefixer",
-    "js": "browserify -t babelify -t aliasify app/scripts/main-react.js -o dist/main.js",
+    "css:watch": "npm run scss -- -w & npm run autoprefixer -- -w",
+    "js": "browserify app/scripts/main-react.js -o dist/main.js",
+    "js:watch": "watchify app/scripts/main-react.js -o dist/main.js -dv",
     "build": "npm run clean && npm run css && npm run js && npm run copy && npm start",
-    "watch": "watch 'npm run build' app"
+    "watch": "npm run copy && npm run js:watch & npm run css:watch & npm start"
   },
   "aliasify": {
     "config": "./config.json"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "react"
+          ]
+        }
+      ],
+      "aliasify"
+    ]
   },
   "keywords": [
     "ledge"
@@ -33,6 +48,7 @@
   "devDependencies": {
     "aliasify": "^1.8.0",
     "autoprefixer": "^6.0.3",
+    "babel-preset-react": "^6.0.15",
     "babelify": "^7.1.0",
     "browserify": "^12.0.1",
     "node-sass": "^3.4.1",
@@ -44,6 +60,8 @@
     "bootstrap-sass": "^3.3.5",
     "react": "^0.14.1",
     "react-dom": "^0.14.1",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
     "restify": "^4.0.3",
     "serve-static": "^1.10.0"
   }
