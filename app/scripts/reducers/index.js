@@ -1,17 +1,14 @@
 'use strict';
 
 var combineReducers = require('redux').combineReducers;
-var assign = require('lodash.assign');
 var actions = require('../actions');
 
 function account (state, action) {
 	switch (action.type) {
 		case actions.RECEIVE_ACCOUNT:
-			return assign({}, {account: action.payload});
+			return action.payload;
 		default: {
-			return {
-				account: {}
-			};
+			return {};
 		}
 	}
 }

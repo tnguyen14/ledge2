@@ -16,9 +16,7 @@ function getAccount () {
 			.then(function (json) {
 				return dispatch({
 					type: RECEIVE_ACCOUNT,
-					payload: {
-						account: json
-					}
+					payload: json
 				});
 			});
 	};
