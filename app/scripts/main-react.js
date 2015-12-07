@@ -9,5 +9,5 @@ ReactDOM.render(
 	<Provider store={configureStore()}>
 		<App/>
 	</Provider>,
-	document.body
+	document.getElementById('root')
 );
