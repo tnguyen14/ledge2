@@ -8,17 +8,15 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "node server/index.js",
-    "clean": "rm -rf dist",
+    "server": "node server/index.js",
+    "clean": "rm -rf dist && mkdir dist",
     "copy": "cp app/index.html dist/ && cp app/manifest.json dist/",
-    "scss": "node-sass app/scss/style.scss dist/style.css",
-    "autoprefixer": "postcss --use autoprefixer dist/style.css -o dist/style.css",
-    "css": "npm run scss && npm run autoprefixer",
-    "css:watch": "npm run scss -- -w & npm run autoprefixer -- -w",
+    "css": "node-sass app/scss/style.scss | postcss -u autoprefixer -o dist/style.css",
+    "css:watch": "node-sass -w app/scss/style.scss dist/style.css & postcss -u autoprefixer -o dist/style.css dist/style.css",
     "js": "browserify app/scripts/main-react.js -o dist/main.js",
     "js:watch": "watchify app/scripts/main-react.js -o dist/main.js -dv",
-    "build": "npm run clean && npm run css && npm run js && npm run copy && npm start",
-    "watch": "npm run copy && npm run js:watch & npm run css:watch & npm start"
+    "build": "npm run clean && npm run copy && npm run css && npm run js",
+    "start": "npm run clean && npm run copy && npm run js:watch & npm run css:watch & npm run server"
   },
   "aliasify": {
     "config": "./config.json"
