@@ -194,25 +194,25 @@ body {
 }
 
 .badge {
-	.Mon & {
+	[data-day=Mon] & {
 		background-color: $purple;
 	}
-	.Tue & {
+	[data-day=Tue] & {
 		background-color: $deep-purple;
 	}
-	.Wed & {
+	[data-day=Wed] & {
 		background-color: $indigo;
 	}
-	.Thu & {
+	[data-day=Thu] & {
 		background-color: $cyan;
 	}
-	.Fri & {
+	[data-day=Fri] & {
 		background-color: $teal;
 	}
-	.Sat & {
+	[data-day=Sat] & {
 		background-color: $green;
 	}
-	.Sun & {
+	[data-day=Sun] & {
 		background-color: $light-green;
 	}
 }

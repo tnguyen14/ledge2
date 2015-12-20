@@ -2,10 +2,12 @@
 
 var React = require('react');
 var Transaction = require('./Transaction');
+var helpers = require('../util/handlebars');
 
 function Week (props) {
 	return (
 		<div className="weekly">
+			<h3>{helpers.date('MMM D', props.data.start)} - {helpers.date('MMM D', props.data.end)}</h3>
 			<table className="table table-striped weekly-transactions">
 				<thead>
 					<tr>
@@ -24,7 +26,9 @@ function Week (props) {
 					</tr>
 				</thead>
 				<tbody>
-					{props.transactions.map(Transaction)}
+					{props.data.transactions.map(function (t) {
+						return <Transaction key={t._id} data={t}/>;
+					})}
 				</tbody>
 			</table>
 		</div>
