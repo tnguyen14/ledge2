@@ -5,6 +5,7 @@ var PropTypes = React.PropTypes;
 var connect = require('react-redux').connect;
 var Alert = require('../components/Alert');
 var NewTransaction = require('../components/NewTransaction');
+var Transactions = require('../components/Transactions');
 
 var actions = require('../actions');
 var getAccount = actions.getAccount;
@@ -22,6 +23,7 @@ var App = React.createClass({
 			<div className="main">
 				<Alert/>
 				<NewTransaction/>
+				<Transactions weeks={this.props.account.weeks}/>
 			</div>
 		);
 	}
