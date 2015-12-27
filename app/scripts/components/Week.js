@@ -32,7 +32,7 @@ function Week (props) {
 					})}
 				</tbody>
 			</table>
-			<WeeklyStats total={props.data.stats.total} categoryTotals={props.data.stats.categoryTotals}/>
+			<WeeklyStats {...props.data.stats}/>
 		</div>
 	);
 }
