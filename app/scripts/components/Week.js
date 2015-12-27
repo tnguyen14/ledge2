@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Transaction = require('./Transaction');
+var WeeklyStats = require('./WeeklyStats');
 var helpers = require('../util/handlebars');
 
 function Week (props) {
@@ -15,7 +16,7 @@ function Week (props) {
 						<th>Merc hant</th>
 						<th>Amount</th>
 						<th>Source</th>
-						<th className="secondary">Des.</th>
+						<th className="secondary">Desc.</th>
 						<th className="secondary">Category</th>
 						<th className="secondary"></th>
 					</tr>
@@ -31,6 +32,7 @@ function Week (props) {
 					})}
 				</tbody>
 			</table>
+			<WeeklyStats total={props.data.stats.total} categoryTotals={props.data.stats.categoryTotals}/>
 		</div>
 	);
 }

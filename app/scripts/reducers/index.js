@@ -3,6 +3,7 @@
 var combineReducers = require('redux').combineReducers;
 var actions = require('../actions');
 var moment = require('moment-timezone');
+var config = require('config');
 
 function account (state, action) {
 	switch (action.type) {
@@ -42,12 +43,38 @@ function weeks (transactions) {
 function getWeek (offset, transactions) {
 	var start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
 	var end = moment().isoWeekday(7 + offset * 7).endOf('isoWeek');
+	var thisTransactions = transactions.filter(function (t) {
+		return t.date >= start.toISOString() && t.date <= end.toISOString();
+	});
+	var thisTotal = thisTransactions.reduce(function (total, t) {
+		return total + t.amount;
+	}, 0);
+	var categoryTotals = [];
+	config.categories.forEach(function (cat) {
+		var catTransactions = thisTransactions.filter(function (t) {
+			return t.category === cat.slug;
+		});
+		if (catTransactions.length === 0) {
+			return;
+		}
+		var catTotal = catTransactions.reduce(function (total, t) {
+			return total + t.amount;
+		}, 0);
+		categoryTotals.push({
+			amount: catTotal,
+			label: cat.value,
+			slug: cat.slug + '-cat-total'
+		});
+	});
+
 	return {
 		start: start,
 		end: end,
-		transactions: transactions.filter(function (t) {
-			return t.date >= start.toISOString() && t.date <= end.toISOString();
-		})
+		transactions: thisTransactions,
+		stats: {
+			total: thisTotal,
+			categoryTotals: categoryTotals
+		}
 	};
 }
 

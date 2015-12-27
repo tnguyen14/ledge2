@@ -37,7 +37,7 @@ function getSource (source) {
 // simple money formatter
 function money (amount) {
 	if (!amount) {
-		return Handlebars.SafeString('$0.00');
+		return '$0.00';
 	} else {
 		return '$' + (amount / 100).toFixed(2);
 	}
