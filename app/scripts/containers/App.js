@@ -6,6 +6,7 @@ var connect = require('react-redux').connect;
 var Alert = require('../components/Alert');
 var NewTransaction = require('../components/NewTransaction');
 var Transactions = require('../components/Transactions');
+var Stats = require('../components/Stats');
 
 var actions = require('../actions');
 var getAccount = actions.getAccount;
@@ -23,6 +24,7 @@ var App = React.createClass({
 			<div className="main">
 				<Alert/>
 				<NewTransaction/>
+				<Stats {...this.props.account.stats}/>
 				<Transactions weeks={this.props.account.weeks}/>
 			</div>
 		);

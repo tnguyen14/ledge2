@@ -4,18 +4,54 @@ var combineReducers = require('redux').combineReducers;
 var actions = require('../actions');
 var moment = require('moment-timezone');
 var config = require('config');
+var statsUtil = require('../util/stats');
 
 function account (state, action) {
 	switch (action.type) {
 		case actions.RECEIVE_ACCOUNT:
 			return Object.assign({}, action.payload, {
-				weeks: weeks(action.payload.transactions)
+				weeks: weeks(action.payload.transactions),
+				stats: stats(action.payload.transactions)
 			});
 		default:
 			return {
-				weeks: []
+				weeks: [],
+				stats: {
+					averages: []
+				}
 			};
 	}
+}
+
+function stats (transactions) {
+	var averages = [];
+	var numWeeks = statsUtil.totalWeeks(transactions);
+	config.categories.forEach(function (cat) {
+		var catTransactions = transactions.filter(function (t) {
+			return t.category === cat.slug;
+		});
+		var catTotal = catTransactions.reduce(function (total, t) {
+			return total + t.amount;
+		}, 0);
+		averages.push({
+			amount: catTotal / numWeeks,
+			label: cat.value,
+			slug: cat.slug + '-avg'
+		});
+	});
+
+	var allTotal = transactions.reduce(function (total, t) {
+		return total + t.amount;
+	}, 0);
+	averages.push({
+		amount: allTotal / numWeeks,
+		label: 'Total',
+		slug: 'total-avg'
+	});
+
+	return {
+		averages: averages
+	};
 }
 
 /**

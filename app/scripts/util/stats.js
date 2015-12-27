@@ -18,8 +18,8 @@ function weeksInBetween (beginning, end) {
  * @param transactions {collection} the collection of transactions
  */
 function totalWeeks (transactions) {
-	var beginning = transactions.models[transactions.length - 1].date;
-	var end = transactions.models[0].date;
+	var beginning = transactions[transactions.length - 1].date;
+	var end = transactions[0].date;
 	return weeksInBetween(beginning, end);
 }
 
