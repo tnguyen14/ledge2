@@ -1,17 +1,13 @@
-'use strict';
-
-require('es6-promise').polyfill();
-var fetch = require('isomorphic-fetch');
-var config = require('config');
-
-var ACCOUNT_NAME = 'daily';
+import 'babel-polyfill';
+import fetch from 'isomorphic-fetch';
+import config from 'config';
 
 // action types
-var RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
+export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
 
-function getAccount () {
+export function getAccount () {
 	return function (dispatch) {
-		return fetch(config.server_url + '/accounts/' + ACCOUNT_NAME)
+		return fetch(config.server_url + '/accounts/' + config.account_name)
 			.then(function (response) {
 				return response.json();
 			})
@@ -24,7 +20,3 @@ function getAccount () {
 	};
 }
 
-module.exports = {
-	RECEIVE_ACCOUNT: RECEIVE_ACCOUNT,
-	getAccount: getAccount
-};

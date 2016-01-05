@@ -1,9 +1,7 @@
-'use strict';
+import React from 'react';
+import Week from './Week';
 
-var React = require('react');
-var Week = require('./Week');
-
-function Transactions (props) {
+export default function Transactions (props) {
 	return (
 		<div className="transactions">
 			{props.weeks.map(function (week, index) {
@@ -12,5 +10,3 @@ function Transactions (props) {
 		</div>
 	);
 }
-
-module.exports = Transactions;

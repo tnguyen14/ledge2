@@ -1,14 +1,12 @@
-'use strict';
-
-var combineReducers = require('redux').combineReducers;
-var actions = require('../actions');
-var moment = require('moment-timezone');
-var config = require('config');
-var statsUtil = require('../util/stats');
+import { combineReducers } from 'redux';
+import { RECEIVE_ACCOUNT } from '../actions';
+import moment from 'moment-timezone';
+import config from 'config';
+import statsUtil from '../util/stats';
 
 function account (state, action) {
 	switch (action.type) {
-		case actions.RECEIVE_ACCOUNT:
+		case RECEIVE_ACCOUNT:
 			return Object.assign({}, action.payload, {
 				weeks: weeks(action.payload.transactions),
 				stats: stats(action.payload.transactions)
@@ -24,13 +22,13 @@ function account (state, action) {
 }
 
 function stats (transactions) {
-	var averages = [];
-	var numWeeks = statsUtil.totalWeeks(transactions);
+	let averages = [];
+	const numWeeks = statsUtil.totalWeeks(transactions);
 	config.categories.forEach(function (cat) {
-		var catTransactions = transactions.filter(function (t) {
+		const catTransactions = transactions.filter(function (t) {
 			return t.category === cat.slug;
 		});
-		var catTotal = catTransactions.reduce(function (total, t) {
+		const catTotal = catTransactions.reduce(function (total, t) {
 			return total + t.amount;
 		}, 0);
 		averages.push({
@@ -40,7 +38,7 @@ function stats (transactions) {
 		});
 	});
 
-	var allTotal = transactions.reduce(function (total, t) {
+	const allTotal = transactions.reduce(function (total, t) {
 		return total + t.amount;
 	}, 0);
 	averages.push({
@@ -77,23 +75,23 @@ function weeks (transactions) {
  * @return {Object} week
  */
 function getWeek (offset, transactions) {
-	var start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
-	var end = moment().isoWeekday(7 + offset * 7).endOf('isoWeek');
-	var thisTransactions = transactions.filter(function (t) {
+	const start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
+	const end = moment().isoWeekday(7 + offset * 7).endOf('isoWeek');
+	const thisTransactions = transactions.filter(function (t) {
 		return t.date >= start.toISOString() && t.date <= end.toISOString();
 	});
-	var thisTotal = thisTransactions.reduce(function (total, t) {
+	const thisTotal = thisTransactions.reduce(function (total, t) {
 		return total + t.amount;
 	}, 0);
-	var categoryTotals = [];
+	let categoryTotals = [];
 	config.categories.forEach(function (cat) {
-		var catTransactions = thisTransactions.filter(function (t) {
+		const catTransactions = thisTransactions.filter(function (t) {
 			return t.category === cat.slug;
 		});
 		if (catTransactions.length === 0) {
 			return;
 		}
-		var catTotal = catTransactions.reduce(function (total, t) {
+		const catTotal = catTransactions.reduce(function (total, t) {
 			return total + t.amount;
 		}, 0);
 		categoryTotals.push({
@@ -114,6 +112,8 @@ function getWeek (offset, transactions) {
 	};
 }
 
-module.exports = combineReducers({
+const rootReducer = combineReducers({
 	account: account
 });
+
+export default rootReducer;

@@ -1,9 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-
-var Provider = require('react-redux').Provider;
-var App = require('./containers/App');
-var configureStore = require('./store');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './containers/App';
+import configureStore from './store';
 
 ReactDOM.render(
 	<Provider store={configureStore()}>

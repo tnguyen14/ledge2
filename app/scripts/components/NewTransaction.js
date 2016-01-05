@@ -1,9 +1,7 @@
-'use strict';
+import React from 'react';
+import Input from './Input';
 
-var React = require('react');
-var Input = require('./Input');
-
-function NewTransaction (props) {
+export default function NewTransaction (props) {
 	return (
 		<form className="new-transaction">
 			<h2>Add a new transaction</h2>
@@ -14,5 +12,3 @@ function NewTransaction (props) {
 		</form>
 	);
 }
-
-module.exports = NewTransaction;

@@ -1,14 +1,12 @@
-'use strict';
+import React from 'react';
+import { date } from '../util/helpers';
+import Transaction from './Transaction';
+import WeeklyStats from './WeeklyStats';
 
-var React = require('react');
-var Transaction = require('./Transaction');
-var WeeklyStats = require('./WeeklyStats');
-var helpers = require('../util/handlebars');
-
-function Week (props) {
+export default function Week (props) {
 	return (
 		<div className="weekly">
-			<h3>{helpers.date('MMM D', props.data.start)} - {helpers.date('MMM D', props.data.end)}</h3>
+			<h3>{date('MMM D', props.data.start)} - {date('MMM D', props.data.end)}</h3>
 			<table className="table table-striped weekly-transactions">
 				<thead>
 					<tr>
@@ -36,5 +34,3 @@ function Week (props) {
 		</div>
 	);
 }
-
-module.exports = Week;

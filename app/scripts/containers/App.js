@@ -1,22 +1,18 @@
-'use strict';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import Alert from '../components/Alert';
+import NewTransaction from '../components/NewTransaction';
+import Transactions from '../components/Transactions';
+import Stats from '../components/Stats';
+import { getAccount } from '../actions';
 
-var React = require('react');
-var PropTypes = React.PropTypes;
-var connect = require('react-redux').connect;
-var Alert = require('../components/Alert');
-var NewTransaction = require('../components/NewTransaction');
-var Transactions = require('../components/Transactions');
-var Stats = require('../components/Stats');
-
-var actions = require('../actions');
-var getAccount = actions.getAccount;
-
-var App = React.createClass({
+const App = React.createClass({
 	propTypes: {
-		dispatch: PropTypes.func.isRequired
+		dispatch: PropTypes.func.isRequired,
+		account: PropTypes.object
 	},
 	componentDidMount: function () {
-		var dispatch = this.props.dispatch;
+		const dispatch = this.props.dispatch;
 		dispatch(getAccount());
 	},
 	render: function () {
@@ -36,4 +32,4 @@ function mapStateToProps (state) {
 		account: state.account
 	};
 }
-module.exports = connect(mapStateToProps)(App);
+export default connect(mapStateToProps)(App);

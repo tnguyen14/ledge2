@@ -1,7 +1,6 @@
-'use strict';
-var React = require('react');
+import React from 'react';
 
-function Input (props) {
+export default function Input (props) {
 	return (
 		<div className="form-group">
 			<label className="control-label">{props.label}</label>
@@ -17,5 +16,3 @@ function Input (props) {
 Input.defaultProps = {
 	type: 'text'
 };
-
-module.exports = Input;

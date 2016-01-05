@@ -1,15 +1,13 @@
-'use strict';
+import React from 'react';
+import { money } from '../util/helpers.js';
 
-var React = require('react');
-var helpers = require('../util/handlebars');
-
-function WeeklyStats (props) {
+export default function WeeklyStats (props) {
 	return (
 		<div className="summary">
 			<div className="week-total">
 				<h3>Week Total</h3>
 				<div className="stat">
-					<span className="value">{helpers.money(props.total)}</span>
+					<span className="value">{money(props.total)}</span>
 				</div>
 			</div>
 			<div className="by-category">
@@ -19,7 +17,7 @@ function WeeklyStats (props) {
 						return (
 							<div className="cat-total" key={total.slug}>
 								<label htmlFor={total.slug}>{total.label}</label>{' '}
-								<span id={total.slug}>{helpers.money(total.amount)}</span>
+								<span id={total.slug}>{money(total.amount)}</span>
 							</div>
 						);
 					})}
@@ -28,5 +26,3 @@ function WeeklyStats (props) {
 		</div>
 	);
 }
-
-module.exports = WeeklyStats;

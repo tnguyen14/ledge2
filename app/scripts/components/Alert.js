@@ -1,9 +1,8 @@
 'use strict';
 
-var React = require('react');
+import React from 'react';
 
-function Alert () {
+export default function Alert () {
 	return <div className="alert-container"></div>;
 }
 
-module.exports = Alert;

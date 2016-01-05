@@ -1,9 +1,7 @@
-'use strict';
+import React from 'react';
+import { money } from '../util/helpers';
 
-var React = require('react');
-var helpers = require('../util/handlebars');
-
-function Stats (props) {
+export default function Stats (props) {
 	return (
 		<div className="stats">
 			<h2>Stats</h2>
@@ -14,7 +12,7 @@ function Stats (props) {
 						return (
 							<div key={stat.slug}>
 								<label htmlFor={stat.slug}>{stat.label}</label>{' '}
-								<span id={stat.slug}>{helpers.money(stat.amount)}</span>
+								<span id={stat.slug}>{money(stat.amount)}</span>
 							</div>
 						);
 					})}
@@ -23,5 +21,3 @@ function Stats (props) {
 		</div>
 	);
 }
-
-module.exports = Stats;
