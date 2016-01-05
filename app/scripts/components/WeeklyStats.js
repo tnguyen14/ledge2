@@ -18,7 +18,7 @@ function WeeklyStats (props) {
 					{props.categoryTotals.map(function (total) {
 						return (
 							<div className="cat-total" key={total.slug}>
-								<label htmlFor={total.slug}>{total.label}</label>
+								<label htmlFor={total.slug}>{total.label}</label>{' '}
 								<span id={total.slug}>{helpers.money(total.amount)}</span>
 							</div>
 						);

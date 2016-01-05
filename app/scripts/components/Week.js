@@ -13,7 +13,7 @@ function Week (props) {
 				<thead>
 					<tr>
 						<th>Day</th>
-						<th>Merc hant</th>
+						<th>Merchant</th>
 						<th>Amount</th>
 						<th>Source</th>
 						<th className="secondary">Desc.</th>

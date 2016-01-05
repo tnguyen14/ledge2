@@ -13,7 +13,7 @@ function Stats (props) {
 					{props.averages.map(function (stat) {
 						return (
 							<div key={stat.slug}>
-								<label htmlFor={stat.slug}>{stat.label}</label>
+								<label htmlFor={stat.slug}>{stat.label}</label>{' '}
 								<span id={stat.slug}>{helpers.money(stat.amount)}</span>
 							</div>
 						);
