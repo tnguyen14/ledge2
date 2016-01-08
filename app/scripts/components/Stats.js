@@ -1,18 +1,14 @@
 import React from 'react';
 import config from 'config';
-import statsUtil from '../util/stats';
+import { getTotalWeeks } from '../util/weeks';
+import { getTotal, getCategoryTotal } from '../util/total';
 import { money } from '../util/helpers';
 
 export default function Stats (props) {
 	let averages = [];
-	const numWeeks = statsUtil.totalWeeks(props.transactions);
+	const numWeeks = getTotalWeeks(props.transactions);
 	config.categories.forEach(function (cat) {
-		const catTransactions = props.transactions.filter(function (t) {
-			return t.category === cat.slug;
-		});
-		const catTotal = catTransactions.reduce(function (total, t) {
-			return total + t.amount;
-		}, 0);
+		const catTotal = getCategoryTotal(props.transactions, cat);
 		averages.push({
 			amount: catTotal / numWeeks,
 			label: cat.value,
@@ -20,11 +16,8 @@ export default function Stats (props) {
 		});
 	});
 
-	const allTotal = props.transactions.reduce(function (total, t) {
-		return total + t.amount;
-	}, 0);
 	averages.push({
-		amount: allTotal / numWeeks,
+		amount: getTotal(props.transactions) / numWeeks,
 		label: 'Total',
 		slug: 'total'
 	});

@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 import config from 'config';
 import { date } from '../util/helpers';
+import { getTotal, getCategoryTotal } from '../util/total';
 import Transaction from './Transaction';
 import WeeklyStats from './WeeklyStats';
 
@@ -14,21 +15,14 @@ export default function Week (props) {
 		return t.date >= start.toISOString() && t.date <= end.toISOString();
 	});
 
-	const weekTotal = weekTransactions.reduce(function (total, t) {
-		return total + t.amount;
-	}, 0);
+	const weekTotal = getTotal(weekTransactions);
 
 	let categoryTotals = [];
 	config.categories.forEach(function (cat) {
-		const catTransactions = weekTransactions.filter(function (t) {
-			return t.category === cat.slug;
-		});
-		if (catTransactions.length === 0) {
+		const catTotal = getCategoryTotal(weekTransactions, cat);
+		if (catTotal === 0) {
 			return;
 		}
-		const catTotal = catTransactions.reduce(function (total, t) {
-			return total + t.amount;
-		}, 0);
 		categoryTotals.push({
 			amount: catTotal,
 			label: cat.value,
