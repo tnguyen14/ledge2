@@ -18,6 +18,12 @@ function weeksInBetween (beginning, end) {
  * @param transactions {collection} the collection of transactions
  */
 function totalWeeks (transactions) {
+	if (!transactions || !Array.isArray(transactions)) {
+		throw new Error('transactions needs to be an array.');
+	}
+	if (transactions.length === 0 || transactions.length === 1) {
+		return transactions.length;
+	}
 	var beginning = transactions[transactions.length - 1].date;
 	var end = transactions[0].date;
 	return weeksInBetween(beginning, end);

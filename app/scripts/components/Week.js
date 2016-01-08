@@ -1,12 +1,49 @@
 import React from 'react';
+import moment from 'moment-timezone';
+import config from 'config';
 import { date } from '../util/helpers';
 import Transaction from './Transaction';
 import WeeklyStats from './WeeklyStats';
 
 export default function Week (props) {
+	const offset = props.offset;
+	const start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
+	const end = moment().isoWeekday(7 + offset * 7).endOf('isoWeek');
+
+	const weekTransactions = props.transactions.filter(function (t) {
+		return t.date >= start.toISOString() && t.date <= end.toISOString();
+	});
+
+	const weekTotal = weekTransactions.reduce(function (total, t) {
+		return total + t.amount;
+	}, 0);
+
+	let categoryTotals = [];
+	config.categories.forEach(function (cat) {
+		const catTransactions = weekTransactions.filter(function (t) {
+			return t.category === cat.slug;
+		});
+		if (catTransactions.length === 0) {
+			return;
+		}
+		const catTotal = catTransactions.reduce(function (total, t) {
+			return total + t.amount;
+		}, 0);
+		categoryTotals.push({
+			amount: catTotal,
+			label: cat.value,
+			slug: cat.slug
+		});
+	});
+
+	const stats = {
+		weekTotal,
+		categoryTotals
+	};
+
 	return (
 		<div className="weekly">
-			<h3>{date('MMM D', props.data.start)} - {date('MMM D', props.data.end)}</h3>
+			<h3>{date('MMM D', start)} - {date('MMM D', end)}</h3>
 			<table className="table table-striped weekly-transactions">
 				<thead>
 					<tr>
@@ -25,12 +62,12 @@ export default function Week (props) {
 					</tr>
 				</thead>
 				<tbody>
-					{props.data.transactions.map(function (t) {
+					{weekTransactions.map(function (t) {
 						return <Transaction key={t._id} data={t}/>;
 					})}
 				</tbody>
 			</table>
-			<WeeklyStats {...props.data.stats}/>
+			<WeeklyStats {...stats}/>
 		</div>
 	);
 }
