@@ -1,11 +1,34 @@
 import React from 'react';
 
 export default function Input (props) {
+	let input;
+	switch (props.type) {
+		case 'select':
+			input = (
+				<select className="form-control">
+					<option>{props.placeholder || 'Select ' + props.label}</option>
+					{props.options.map(function (opt) {
+						return <option key={opt.slug} value={opt.slug}>{opt.value}</option>;
+					})}
+				</select>
+			);
+			break;
+		case 'textarea':
+			input = <textarea className="form-control"></textarea>;
+			break;
+		case 'text':
+		case 'date':
+		case 'time':
+		case 'number':
+		default:
+			input = <input className="form-control" type={props.type} placeholder={props.placeholder} />;
+			break;
+	}
 	return (
 		<div className="form-group">
 			<label className="control-label">{props.label}</label>
 			<div className="input-container">
-				<input className="form-control" type={props.type} />
+				{input}
 				<div className="message message-below message-error">
 					<p>{props.error}</p>
 				</div>
