@@ -26,6 +26,17 @@ function NewTransaction (props) {
 	);
 }
 
+function validate (values) {
+	let errors = {};
+	const requireds = ['amount', 'merchant', 'date', 'time', 'category', 'source', 'status'];
+	requireds.forEach(function (required) {
+		if (!values[required]) {
+			errors[required] = 'This field is required.';
+		}
+	});
+	return errors;
+}
+
 function mapStateToProps (state) {
 	return {
 		initialValues: state.transaction
@@ -34,7 +45,8 @@ function mapStateToProps (state) {
 
 export default reduxForm({
 	form: 'transaction',
-	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status']
+	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status'],
+	validate
 }, mapStateToProps, {
 	onSubmit: newTransaction
 })(NewTransaction);

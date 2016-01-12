@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Input (props) {
-	let input;
+	let input, error;
 	switch (props.type) {
 		case 'select':
 			input = (
@@ -24,14 +24,19 @@ export default function Input (props) {
 			input = <input className="form-control" {...props}/>;
 			break;
 	}
+	if (props.touched && props.error) {
+		error = (
+			<div className="message message-below message-error">
+				<p>{props.error}</p>
+			</div>
+		);
+	}
 	return (
 		<div className="form-group">
 			<label className="control-label">{props.label}</label>
 			<div className="input-container">
 				{input}
-				<div className="message message-below message-error">
-					<p>{props.error}</p>
-				</div>
+				{error}
 			</div>
 		</div>
 	);
