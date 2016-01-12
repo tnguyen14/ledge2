@@ -158,10 +158,32 @@ body {
 }
 
 .transaction {
+	border-left: 5px solid $gainsboro;
 	clear: left;
 	cursor: pointer;
 	@media (min-width: 33.5em) {
 		cursor: default;
+	}
+	&[data-day=Mon] {
+		border-left-color: $light-blue-100;
+	}
+	&[data-day=Tue] {
+		border-left-color: $light-blue-300;
+	}
+	&[data-day=Wed] {
+		border-left-color: $light-blue;
+	}
+	&[data-day=Thu] {
+		border-left-color: $light-blue-600;
+	}
+	&[data-day=Fri] {
+		border-left-color: $light-blue-700;
+	}
+	&[data-day=Sat] {
+		border-left-color: $light-blue-800;
+	}
+	&[data-day=Sun] {
+		border-left-color: $light-blue-900;
 	}
 	.day,
 	.merchant,
@@ -194,25 +216,28 @@ body {
 }
 
 .badge {
-	[data-day=Mon] & {
+	[data-cat=dineout] & {
 		background-color: $purple;
 	}
-	[data-day=Tue] & {
-		background-color: $deep-purple;
+	[data-cat=groceries] & {
+		background-color: $deep-orange;
 	}
-	[data-day=Wed] & {
-		background-color: $indigo;
-	}
-	[data-day=Thu] & {
-		background-color: $cyan;
-	}
-	[data-day=Fri] & {
-		background-color: $teal;
-	}
-	[data-day=Sat] & {
+	[data-cat=gas] & {
 		background-color: $green;
 	}
-	[data-day=Sun] & {
+	[data-cat=household] & {
+		background-color: $cyan;
+	}
+	[data-cat=entertainment] & {
 		background-color: $light-green;
+	}
+	[data-cat=health] & {
+		background-color: $red;
+	}
+	[data-cat=shopping] & {
+		background-color: $orange;
+	}
+	[data-cat=misc] & {
+		background-color: $lime;
 	}
 }
