@@ -1,5 +1,6 @@
 import { getJson, postJson } from 'simple-fetch';
 import config from 'config';
+import { reset } from 'redux-form';
 
 // action types
 export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
@@ -18,13 +19,15 @@ export function getAccount () {
 }
 
 export function newTransaction (data) {
+	data.amount = data.amount * 100;
 	return dispatch => {
 		// return postJson(config.server_url + '/accounts/' + config.account_name + '/transactions', data)
 		return Promise.resolve(data)
-			.then(function () {
+			.then(function (json) {
+				dispatch(reset('transaction'));
 				return dispatch({
 					type: ADD_TRANSACTION,
-					payload: data
+					payload: json
 				});
 			});
 	};
