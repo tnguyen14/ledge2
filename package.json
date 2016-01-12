@@ -12,10 +12,11 @@
     "clean": "rm -rf dist && mkdir dist",
     "copy": "cp app/index.html dist/ && cp app/manifest.json dist/",
     "css": "node-sass app/scss/style.scss | postcss -u autoprefixer -o dist/style.css",
+    "font": "mkdir dist/fonts && find node_modules/bootstrap-sass/assets/fonts/bootstrap -iname 'glyphicon*' -exec cp \\{\\} dist/fonts/ \\;",
     "css:watch": "node-sass -w app/scss/style.scss dist/style.css & postcss -u autoprefixer -o dist/style.css dist/style.css",
     "js": "browserify app/scripts/main-react.js -t babelify -o dist/main.js",
     "js:watch": "watchify app/scripts/main-react.js -t babelify -t [ envify --NODE_ENV development ] -o dist/main.js -dv",
-    "build": "npm run clean && npm run copy && npm run css && npm run js",
+    "build": "npm run clean && npm run copy && npm run font && npm run css && npm run js",
     "start": "npm run build && npm run js:watch & npm run css:watch & npm run server"
   },
   "browser": {
