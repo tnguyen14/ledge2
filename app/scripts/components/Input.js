@@ -5,7 +5,7 @@ export default function Input (props) {
 	switch (props.type) {
 		case 'select':
 			input = (
-				<select className="form-control">
+				<select className="form-control" {...props}>
 					<option>{props.placeholder || 'Select ' + props.label}</option>
 					{props.options.map(function (opt) {
 						return <option key={opt.slug} value={opt.slug}>{opt.value}</option>;
@@ -14,14 +14,14 @@ export default function Input (props) {
 			);
 			break;
 		case 'textarea':
-			input = <textarea className="form-control"></textarea>;
+			input = <textarea className="form-control" {...props}></textarea>;
 			break;
 		case 'text':
 		case 'date':
 		case 'time':
 		case 'number':
 		default:
-			input = <input className="form-control" type={props.type} placeholder={props.placeholder} />;
+			input = <input className="form-control" {...props}/>;
 			break;
 	}
 	return (
