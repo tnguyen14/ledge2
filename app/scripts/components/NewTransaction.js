@@ -26,11 +26,15 @@ function NewTransaction (props) {
 	);
 }
 
+function mapStateToProps (state) {
+	return {
+		initialValues: state.transaction
+	};
+}
+
 export default reduxForm({
 	form: 'transaction',
 	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status']
-},
-undefined,
-{
+}, mapStateToProps, {
 	onSubmit: newTransaction
 })(NewTransaction);

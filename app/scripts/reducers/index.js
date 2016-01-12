@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { RECEIVE_ACCOUNT, ADD_TRANSACTION } from '../actions';
 import {reducer as formReducer} from 'redux-form';
+import moment from 'moment-timezone';
+import config from 'config';
 
 const accountInitialState = {
 	transactions: []
@@ -36,9 +38,23 @@ function weeks (state, action) {
 	}
 }
 
+function transaction (state, action) {
+	switch (action.type) {
+		default:
+			return {
+				date: moment().format('YYYY-MM-DD'),
+				time: moment().format('HH:mm'),
+				category: config.categories[0].slug,
+				source: config.sources[0].slug,
+				status: 'POSTED'
+			};
+	}
+}
+
 const rootReducer = combineReducers({
 	account,
 	weeks,
+	transaction,
 	form: formReducer
 });
 
