@@ -10,7 +10,10 @@ export default function Transaction (props) {
 			<td className="source">{getSource(props.data.source)}</td>
 			<td className="description">{props.data.description}</td>
 			<td className="category">{getCategory(props.data.category)}</td>
-			<td className="action"><i className="edit glyphicon glyphicon-pencil"></i><i className="remove glyphicon glyphicon-remove"></i></td>
+			<td className="action">
+				<i className="edit glyphicon glyphicon-pencil" onClick={props.onEditClick.bind(this, props.data._id)}></i>
+				<i className="remove glyphicon glyphicon-remove"></i>
+			</td>
 		</tr>
 	);
 }

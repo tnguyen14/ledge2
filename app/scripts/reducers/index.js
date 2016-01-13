@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_ACCOUNT, ADD_TRANSACTION } from '../actions';
+import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION } from '../actions';
 import {reducer as formReducer} from 'redux-form';
 import moment from 'moment-timezone';
 import config from 'config';
@@ -39,15 +39,23 @@ function weeks (state, action) {
 }
 
 function transaction (state, action) {
+	const defaultForm = {
+		date: moment().format('YYYY-MM-DD'),
+		time: moment().format('HH:mm'),
+		category: config.categories[0].slug,
+		source: config.sources[0].slug,
+		status: 'POSTED'
+	};
 	switch (action.type) {
+		case EDIT_TRANSACTION:
+			const transaction = Object.assign({}, action.payload);
+			const date = moment.tz(transaction.date, 'America/New_York');
+			transaction.amount = transaction.amount / 100;
+			transaction.date = date.format('YYYY-MM-DD');
+			transaction.time = date.format('HH:mm');
+			return transaction;
 		default:
-			return {
-				date: moment().format('YYYY-MM-DD'),
-				time: moment().format('HH:mm'),
-				category: config.categories[0].slug,
-				source: config.sources[0].slug,
-				status: 'POSTED'
-			};
+			return state || defaultForm;
 	}
 }
 

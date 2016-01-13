@@ -44,7 +44,7 @@ function mapStateToProps (state) {
 }
 
 export default reduxForm({
-	form: 'transaction',
+	form: 'editTransaction',
 	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status'],
 	validate
 }, mapStateToProps, {
