@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import moment from 'moment-timezone';
 import config from 'config';
 import { date } from '../util/helpers';
@@ -38,7 +39,7 @@ export default function Week (props) {
 	return (
 		<div className="weekly">
 			<h3>{date('MMM D', start)} - {date('MMM D', end)}</h3>
-			<table className="table table-striped weekly-transactions">
+			<Table striped className="weekly-transactions">
 				<thead>
 					<tr>
 						<th>Day</th>
@@ -60,7 +61,7 @@ export default function Week (props) {
 						return <Transaction key={t._id} data={t} onEditClick={props.onEditClick}/>;
 					})}
 				</tbody>
-			</table>
+			</Table>
 			<WeeklyStats {...stats}/>
 		</div>
 	);

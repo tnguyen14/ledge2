@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import Input from './Input';
 import config from 'config';
 import { reduxForm } from 'redux-form';
@@ -25,7 +26,7 @@ function NewTransaction (props) {
 			<Input label="Description" type="textarea" {...description} />
 			<Input label="Status" type="select" options={statuses} {...status} />
 			<input type="hidden" {..._id}/>
-			<button className="btn btn-primary" type="submit">{submitText}</button>
+			<Button bsStyle="primary" type="submit">{submitText}</Button>
 		</form>
 	);
 }
