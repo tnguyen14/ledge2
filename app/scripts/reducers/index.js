@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION } from '../actions';
+import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION, UPDATE_TRANSACTION, RESET_FORM } from '../actions';
 import {reducer as formReducer} from 'redux-form';
 import moment from 'moment-timezone';
 import config from 'config';
@@ -26,6 +26,10 @@ function transactions (state = accountInitialState.transactions, action) {
 				action.payload,
 				...state
 			];
+		case UPDATE_TRANSACTION:
+			return state.map(function (tx) {
+				return tx._id === action.payload._id ? Object.assign({}, tx, action.payload) : tx;
+			});
 		default:
 			return state;
 	}
@@ -54,6 +58,8 @@ function transaction (state, action) {
 			transaction.date = date.format('YYYY-MM-DD');
 			transaction.time = date.format('HH:mm');
 			return transaction;
+		case RESET_FORM:
+			return defaultForm;
 		default:
 			return state || defaultForm;
 	}
