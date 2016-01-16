@@ -1,12 +1,19 @@
 import React from 'react';
+import classNames from 'classnames';
 
 export default function Input (props) {
-	let input, error;
+	let input, help;
+
+	let formGroupClass = classNames({
+		'form-group': true,
+		'has-success': props.touched && !props.pristine && !props.error,
+		'has-error': props.touched && props.error
+	});
 	switch (props.type) {
 		case 'select':
 			input = (
 				<select className="form-control" {...props}>
-					<option>{props.placeholder || 'Select ' + props.label}</option>
+					<option value="">{props.placeholder || 'Select ' + props.label}</option>
 					{props.options.map(function (opt) {
 						return <option key={opt.slug} value={opt.slug}>{opt.value}</option>;
 					})}
@@ -25,18 +32,20 @@ export default function Input (props) {
 			break;
 	}
 	if (props.touched && props.error) {
-		error = (
-			<div className="message message-below message-error">
-				<p>{props.error}</p>
-			</div>
+		help = (
+			<p className="help-block">{props.error}</p>
+		);
+	} else if (props.help) {
+		help = (
+			<p className="help-block">{props.help}</p>
 		);
 	}
 	return (
-		<div className="form-group">
+		<div className={formGroupClass}>
 			<label className="control-label">{props.label}</label>
 			<div className="input-container">
 				{input}
-				{error}
+				{help}
 			</div>
 		</div>
 	);
