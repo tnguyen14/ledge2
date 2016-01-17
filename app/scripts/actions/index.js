@@ -1,4 +1,4 @@
-import { getJson, postJson, patchJson } from 'simple-fetch';
+import { getJson, postJson, patchJson, deleteJson } from 'simple-fetch';
 import config from 'config';
 
 // action types
@@ -6,6 +6,9 @@ export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
 export const UPDATE_TRANSACTION = 'UPDATE_TRANSACTION';
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
+export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
+export const CONFIRM_DELETE = 'CONFIRM_DELETE';
+export const CANCEL_DELETE = 'CANCEL_DELETE';
 export const RESET_FORM = 'RESET_FORM';
 
 export function getAccount () {
@@ -45,6 +48,18 @@ export function newTransaction (data) {
 	};
 }
 
+export function deleteTransaction (id) {
+	return dispatch => {
+		return deleteJson(config.server_url + '/accounts/' + config.account_name + '/transactions/' + id)
+			.then(json => {
+				dispatch({
+					type: DELETE_TRANSACTION,
+					payload: id
+				});
+			});
+	}
+}
+
 export function editTransaction (id) {
 	return (dispatch, getState) => {
 		const { account: {transactions} } = getState();
@@ -53,5 +68,18 @@ export function editTransaction (id) {
 			type: EDIT_TRANSACTION,
 			payload: transaction
 		});
+	};
+}
+
+export function confirmDelete (id) {
+	return {
+		type: CONFIRM_DELETE,
+		payload: id
+	};
+}
+
+export function cancelDelete () {
+	return {
+		type: CANCEL_DELETE
 	};
 }

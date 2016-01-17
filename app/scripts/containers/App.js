@@ -1,25 +1,26 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Alert from '../components/Alert';
 import NewTransaction from '../components/NewTransaction';
 import Stats from '../components/Stats';
 import Transactions from '../components/Transactions';
-import { editTransaction } from '../actions';
+import ConfirmDelete from './ConfirmDelete';
+import { editTransaction, confirmDelete } from '../actions';
 
 function App (props) {
-	const { dispatch } = props;
 	return (
 		<div className="main">
 			<Alert/>
 			<NewTransaction/>
 			<Stats transactions={props.account.transactions} />
-			<Transactions weeks={props.weeks} transactions={props.account.transactions} onEditClick={id => dispatch(editTransaction(id))}/>
+			<Transactions weeks={props.weeks} transactions={props.account.transactions} onEditClick={props.editTransaction} onDeleteClick={props.confirmDelete}/>
+			<ConfirmDelete/>
 		</div>
 	);
 }
 
 App.propTypes = {
-	dispatch: PropTypes.func.isRequired,
 	account: PropTypes.object.isRequired,
 	weeks: PropTypes.array.isRequired
 };
@@ -31,4 +32,7 @@ function mapStateToProps (state) {
 	};
 }
 
-export default connect(mapStateToProps)(App);
+function mapDispatchToProps (dispatch) {
+	return bindActionCreators({editTransaction, confirmDelete}, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
