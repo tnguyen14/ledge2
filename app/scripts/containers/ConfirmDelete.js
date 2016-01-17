@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button, Modal } from 'react-bootstrap';
@@ -17,6 +17,13 @@ function ConfirmDelete (props) {
 		</Modal>
 	);
 }
+
+ConfirmDelete.propTypes = {
+	cancelDelete: PropTypes.func.isRequired,
+	deleteTransaction: PropTypes.func.isRequired,
+	active: PropTypes.bool.isRequired,
+	id: PropTypes.string
+};
 
 function mapStateToProps (state) {
 	return {

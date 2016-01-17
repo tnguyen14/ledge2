@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import Week from './Week';
 
 export default function Transactions (props) {
@@ -10,3 +10,10 @@ export default function Transactions (props) {
 		</div>
 	);
 }
+
+Transactions.propTypes = {
+	weeks: PropTypes.array.isRequired,
+	transactions: PropTypes.array.isRequired,
+	onEditClick: PropTypes.func.isRequired,
+	onDeleteClick: PropTypes.func.isRequired
+};

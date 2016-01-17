@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import Input from './Input';
 import config from 'config';
@@ -30,6 +30,12 @@ function NewTransaction (props) {
 		</form>
 	);
 }
+
+NewTransaction.propTypes = {
+	editing: PropTypes.bool.isRequired,
+	handleSubmit: PropTypes.func.isRequired,
+	fields: PropTypes.object.isRequired
+};
 
 function validate (values) {
 	let errors = {};

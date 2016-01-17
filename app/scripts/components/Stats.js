@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import config from 'config';
 import { getTotalWeeks } from '../util/weeks';
 import { getTotal, getCategoryTotal } from '../util/total';
@@ -42,3 +42,7 @@ export default function Stats (props) {
 		</div>
 	);
 }
+
+Stats.propTypes = {
+	transactions: PropTypes.array.isRequired
+};

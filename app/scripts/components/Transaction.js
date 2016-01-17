@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Badge } from 'react-bootstrap';
 import { date, money, getSource, getCategory } from '../util/helpers';
 
@@ -18,3 +18,9 @@ export default function Transaction (props) {
 		</tr>
 	);
 }
+
+Transaction.propTypes = {
+	data: PropTypes.object.isRequired,
+	onEditClick: PropTypes.func.isRequired,
+	onDeleteClick: PropTypes.func.isRequired
+};

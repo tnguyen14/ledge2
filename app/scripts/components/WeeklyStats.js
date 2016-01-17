@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { money } from '../util/helpers.js';
 
 export default function WeeklyStats (props) {
@@ -27,3 +27,8 @@ export default function WeeklyStats (props) {
 		</div>
 	);
 }
+
+WeeklyStats.propTypes = {
+	weekTotal: PropTypes.number.isRequired,
+	categoryTotals: PropTypes.array.isRequired
+};

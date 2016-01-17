@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 export default function Input (props) {
@@ -53,3 +53,10 @@ export default function Input (props) {
 Input.defaultProps = {
 	type: 'text'
 };
+
+Input.propTypes = {
+	type: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	placeholder: PropTypes.string,
+	options: PropTypes.array
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Table } from 'react-bootstrap';
 import moment from 'moment-timezone';
 import config from 'config';
@@ -65,4 +65,11 @@ export default function Week (props) {
 			<WeeklyStats {...stats}/>
 		</div>
 	);
+}
+
+Week.propTypes = {
+	offset: PropTypes.number.isRequired,
+	onEditClick: PropTypes.func.isRequired,
+	onDeleteClick: PropTypes.func.isRequired,
+	transactions: PropTypes.array.isRequired
 }
