@@ -1,9 +1,0 @@
-<tr class="transaction" data-transaction-id="{{model._id}}">
-	<td class="day {{date 'ddd' model.date}}" data-date="{{date 'YYYY-MM-DD' model.date}}" data-time="{{date 'HH:mm A'}}"><span class="badge">{{date 'ddd' model.date}}</span></td>
-	<td class="merchant">{{model.merchant}}</td>
-	<td class="amount">{{money model.amount}}</td>
-	<td class="source">{{getSource model.source}}</td>
-	<td class="description">{{model.description}}</td>
-	<td class="category">{{getCategory model.category}}</td>
-	<td class="action"><i class="edit glyphicon glyphicon-pencil"></i><i class="remove glyphicon glyphicon-remove"></i></td>
-</tr>
