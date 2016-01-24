@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
-import Input from './Input';
-import InputTypeahead from './InputTypeahead';
+import Input from '../components/Input';
+import InputTypeahead from '../components/InputTypeahead';
 import config from 'config';
 import { reduxForm } from 'redux-form';
 import { saveTransaction } from '../actions';

@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Alert from '../components/Alert';
-import NewTransaction from '../components/NewTransaction';
+import NewTransaction from '../containers/NewTransaction';
 import AccountStats from '../components/AccountStats';
 import Transactions from '../components/Transactions';
 import ConfirmDelete from './ConfirmDelete';
