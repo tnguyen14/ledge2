@@ -12,6 +12,7 @@ body {
 }
 
 .new-transaction {
+	@include clearfix();
 	width: 100%;
 	@media (min-width: 53.125em) {
 		float: left;
@@ -32,9 +33,6 @@ body {
 	.input-container {
 		float: left;
 		width: calc(100% - 6em);
-	}
-	button[type="submit"] {
-		margin-left: 6em;
 	}
 }
 
@@ -57,18 +55,32 @@ body {
 }
 
 .stats {
-	margin-top: 2rem;
+	.table {
+		width: 80%;
+		@media (min-width: 33.5em) {
+			width: 50%;
+		}
+		@media (min-width: 53.125em) {
+			width: 100%;
+		}
+	}
+}
+
+.stat {
+	.table & > td {
+		border-top: none;
+	}
+	&[data-cat=total] {
+		font-weight: bold;
+	}
+}
+
+.account-stats {
 	@media (min-width: 53.125em) {
 		float: left;
 		width: 35%;
 		margin-top: 0;
 		padding-left: 3rem;
-	}
-}
-
-.stat {
-	@media (min-width: 53.125em) {
-		padding-left: 1.5rem;
 	}
 }
 
@@ -78,6 +90,10 @@ body {
 
 .weekly {
 	@include clearfix();
+	border-bottom: 1px solid $gainsboro;
+	&:last-of-type {
+		border-bottom: none;
+	}
 	.action {
 		.edit, .remove {
 			cursor: pointer;
@@ -94,6 +110,44 @@ body {
 			float: left;
 			width: 65%;
 		}
+		thead {
+			.secondary {
+				display: none;
+				@media (min-width: 33.5em) {
+					display: table-cell;
+				}
+			}
+			.addition {
+				.two-col {
+					flex-grow: 2;
+				}
+				@media (min-width: 33.5em) {
+					display: none;
+				}
+				th {
+					border: none;
+				}
+			}
+		}
+		tr {
+			display: flex;
+			flex-flow: row wrap;
+			@media (min-width: 33.5em) {
+				display: table-row;
+			}
+			&.active {
+				td {
+					background-color: darken($white-smoke, 3%) !important;
+				}
+			}
+		}
+		td,
+		th {
+			flex-basis: 25%;
+			&.description {
+				flex-grow: 2;
+			}
+		}
 	}
 	.summary {
 		@media (min-width: 53.125em) {
@@ -102,66 +156,35 @@ body {
 			width: 35%;
 		}
 	}
-	.week-total,
-	.by-category {
-		float: left;
-		width: 50%;
-		@media (min-width: 53.125em) {
-			float: none;
-			width: 100%;
-		}
-	}
-	.week-total {
-		font-size: 1.2em;
-		.value {
-			font-weight: bold;
-		}
-	}
-	thead {
-		.secondary {
-			display: none;
-			@media (min-width: 33.5em) {
-				display: table-cell;
-			}
-		}
-		.addition {
-			.two-col {
-				flex-grow: 2;
-			}
-			@media (min-width: 33.5em) {
-				display: none;
-			}
-			th {
-				border: none;
-			}
-		}
-	}
-	tr {
-		display: flex;
-		flex-flow: row wrap;
-		@media (min-width: 33.5em) {
-			display: table-row;
-		}
-		&.active {
-			td {
-				background-color: darken($white-smoke, 3%) !important;
-			}
-		}
-	}
-	td,
-	th {
-		flex-basis: 25%;
-		&.description {
-			flex-grow: 2;
-		}
-	}
 }
 
 .transaction {
+	border-left: 5px solid $gainsboro;
 	clear: left;
 	cursor: pointer;
 	@media (min-width: 33.5em) {
 		cursor: default;
+	}
+	&[data-day=Mon] {
+		border-left-color: $light-blue-100;
+	}
+	&[data-day=Tue] {
+		border-left-color: $light-blue-300;
+	}
+	&[data-day=Wed] {
+		border-left-color: $light-blue;
+	}
+	&[data-day=Thu] {
+		border-left-color: $light-blue-600;
+	}
+	&[data-day=Fri] {
+		border-left-color: $light-blue-700;
+	}
+	&[data-day=Sat] {
+		border-left-color: $light-blue-800;
+	}
+	&[data-day=Sun] {
+		border-left-color: $light-blue-900;
 	}
 	.day,
 	.merchant,
@@ -190,29 +213,47 @@ body {
 		.action {
 			display: table-cell;
 		}
+		.action {
+			min-width: 6rem;
+		}
 	}
 }
 
-.badge {
-	.Mon & {
+.legend {
+	border-radius: 3px;
+	display: inline-block;
+	margin-right: 1rem;
+	width: 1rem;
+	height: 2rem;
+}
+
+.badge,
+.legend {
+	[data-cat=dineout] & {
 		background-color: $purple;
 	}
-	.Tue & {
-		background-color: $deep-purple;
+	[data-cat=groceries] & {
+		background-color: $deep-orange;
 	}
-	.Wed & {
-		background-color: $indigo;
-	}
-	.Thu & {
-		background-color: $cyan;
-	}
-	.Fri & {
-		background-color: $teal;
-	}
-	.Sat & {
+	[data-cat=gas] & {
 		background-color: $green;
 	}
-	.Sun & {
+	[data-cat=household] & {
+		background-color: $cyan;
+	}
+	[data-cat=entertainment] & {
 		background-color: $light-green;
+	}
+	[data-cat=health] & {
+		background-color: $red;
+	}
+	[data-cat=transportation] & {
+		background-color: $amber;
+	}
+	[data-cat=shopping] & {
+		background-color: $orange;
+	}
+	[data-cat=misc] & {
+		background-color: $lime;
 	}
 }

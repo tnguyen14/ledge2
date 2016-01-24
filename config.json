@@ -1,5 +1,6 @@
 {
 	"server_url": "http://api.tridnguyen.com/ledge",
+	"account_name": "daily",
 	"categories": [{
 		"slug": "dineout",
 		"value": "Dine Out"

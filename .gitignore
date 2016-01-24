@@ -4,4 +4,3 @@ bower_components
 dist
 .publish
 *.swp
-config.dev.json

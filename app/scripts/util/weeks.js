@@ -17,10 +17,14 @@ function weeksInBetween (beginning, end) {
  * calculate the number of weeks a transactions collection span
  * @param transactions {collection} the collection of transactions
  */
-function totalWeeks (transactions) {
-	var beginning = transactions.models[transactions.length - 1].date;
-	var end = transactions.models[0].date;
+export function getTotalWeeks (transactions) {
+	if (!transactions || !Array.isArray(transactions)) {
+		throw new Error('transactions needs to be an array.');
+	}
+	if (transactions.length === 0 || transactions.length === 1) {
+		return transactions.length;
+	}
+	var beginning = transactions[transactions.length - 1].date;
+	var end = transactions[0].date;
 	return weeksInBetween(beginning, end);
 }
-
-module.exports.totalWeeks = totalWeeks;
