@@ -17,7 +17,7 @@ function NewTransaction (props) {
 	const submittingText = props.editing ? 'Updating...' : 'Adding...';
 
 	return (
-		<form className="new-transaction clearfix" onSubmit={handleSubmit}>
+		<form className="new-transaction" onSubmit={handleSubmit}>
 			<h2>Add a new transaction</h2>
 			<Input label="Amount" type="number" min="0" step="any" {...amount} />
 			<InputTypeahead source={props.merchants} label="Merchant" {...merchant} />

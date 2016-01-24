@@ -4,8 +4,17 @@ import { Table } from 'react-bootstrap';
 import slug from 'slug';
 
 export default function Stats (props) {
-	const { stats, label } = props;
+	const { label, total } = props;
 
+	props.stats.sort(function (a, b) {
+		return b.amount - a.amount;
+	});
+
+	const stats = props.stats.concat({
+		amount: total,
+		slug: 'total',
+		label: 'Total'
+	});
 	return (
 		<div className="stats">
 			<h3>{label}</h3>
@@ -28,5 +37,6 @@ export default function Stats (props) {
 
 Stats.propTypes = {
 	stats: PropTypes.array.isRequired,
+	total: PropTypes.number,
 	label: PropTypes.string
 };

@@ -4,28 +4,20 @@ import config from 'config';
 import { getTotal, getCategoryTotal } from '../util/total';
 
 export default function WeeklyStats (props) {
-	let stats = [];
-	config.categories.forEach(function (cat) {
-		const catTotal = getCategoryTotal(props.transactions, cat);
-		if (catTotal === 0) {
-			return;
-		}
-		stats.push({
-			amount: catTotal,
+	const stats = config.categories.map(function (cat) {
+		return {
+			amount: getCategoryTotal(props.transactions, cat),
 			label: cat.value,
 			slug: cat.slug
-		});
+		};
+	}).filter(function (stat) {
+		return stat.amount > 0;
 	});
-
-	stats.push({
-		amount: getTotal(props.transactions),
-		label: 'Total',
-		slug: 'total'
-	});
+	const total = getTotal(props.transactions);
 
 	return (
 		<div className="summary">
-			<Stats stats={stats} />
+			<Stats stats={stats} total={total} />
 		</div>
 	);
 }

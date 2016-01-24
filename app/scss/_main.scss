@@ -12,6 +12,7 @@ body {
 }
 
 .new-transaction {
+	@include clearfix();
 	width: 100%;
 	@media (min-width: 53.125em) {
 		float: left;
@@ -89,6 +90,10 @@ body {
 
 .weekly {
 	@include clearfix();
+	border-bottom: 1px solid $gainsboro;
+	&:last-of-type {
+		border-bottom: none;
+	}
 	.action {
 		.edit, .remove {
 			cursor: pointer;

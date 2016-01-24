@@ -5,26 +5,19 @@ import { getTotalWeeks } from '../util/weeks';
 import { getTotal, getCategoryTotal } from '../util/total';
 
 export default function AccountStats (props) {
-	let averages = [];
 	const numWeeks = getTotalWeeks(props.transactions);
-	config.categories.forEach(function (cat) {
-		const catTotal = getCategoryTotal(props.transactions, cat);
-		averages.push({
-			amount: catTotal / numWeeks,
+	const averages = config.categories.map(function (cat) {
+		return {
+			amount: getCategoryTotal(props.transactions, cat) / numWeeks,
 			label: cat.value,
 			slug: cat.slug
-		});
+		};
 	});
-
-	averages.push({
-		amount: getTotal(props.transactions) / numWeeks,
-		label: 'Total',
-		slug: 'total'
-	});
+	const total = getTotal(props.transactions) / numWeeks;
 
 	return (
 		<div className="account-stats">
-			<Stats stats={averages} label="Weekly Averages"/>
+			<Stats stats={averages} label="Weekly Averages" total={total}/>
 		</div>
 	);
 }
