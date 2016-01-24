@@ -17,7 +17,9 @@
     "js": "browserify app/scripts/main.js -t babelify -o dist/main.js",
     "js:watch": "watchify app/scripts/main.js -t babelify -t [ envify --NODE_ENV development ] -o dist/main.js -dv",
     "build": "npm run clean && npm run copy && npm run font && npm run css && npm run js",
-    "start": "npm run build && npm run js:watch & npm run css:watch & npm run server"
+    "start": "npm run build && npm run js:watch & npm run css:watch & npm run server",
+    "gh-pages": "./bin/publish.js",
+    "deploy": "npm run build && npm run gh-pages"
   },
   "browser": {
     "config": "./config.json"
@@ -39,6 +41,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "envify": "^3.4.0",
+    "gh-pages": "^0.8.0",
     "node-sass": "^3.4.2",
     "postcss-cli": "^2.4.0",
     "watch": "^0.17.1",
