@@ -4,7 +4,7 @@ import Input from './Input';
 import InputTypeahead from './InputTypeahead';
 import config from 'config';
 import { reduxForm } from 'redux-form';
-import { newTransaction } from '../actions';
+import { saveTransaction } from '../actions';
 
 function NewTransaction (props) {
 	const statuses = [{
@@ -12,11 +12,12 @@ function NewTransaction (props) {
 		value: 'POSTED'
 	}];
 
+	const {fields: {amount, merchant, date, time, category, source, description, status, _id}, handleSubmit, submitting} = props;
 	const submitText = props.editing ? 'Update' : 'Add';
+	const submittingText = props.editing ? 'Updating...' : 'Adding...';
 
-	const {fields: {amount, merchant, date, time, category, source, description, status, _id}, handleSubmit} = props;
 	return (
-		<form className="new-transaction" onSubmit={handleSubmit}>
+		<form className="new-transaction clearfix" onSubmit={handleSubmit}>
 			<h2>Add a new transaction</h2>
 			<Input label="Amount" type="number" min="0" step="any" {...amount} />
 			<InputTypeahead source={props.merchants} label="Merchant" {...merchant} />
@@ -27,7 +28,7 @@ function NewTransaction (props) {
 			<Input label="Description" type="textarea" {...description} />
 			<Input label="Status" type="select" options={statuses} {...status} />
 			<input type="hidden" {..._id}/>
-			<Button bsStyle="primary" type="submit">{submitText}</Button>
+			<Button bsStyle="primary" className="pull-right" type="submit" disabled={submitting}>{submitting ? submittingText : submitText}</Button>
 		</form>
 	);
 }
@@ -35,7 +36,8 @@ function NewTransaction (props) {
 NewTransaction.propTypes = {
 	editing: PropTypes.bool.isRequired,
 	handleSubmit: PropTypes.func.isRequired,
-	fields: PropTypes.object.isRequired
+	fields: PropTypes.object.isRequired,
+	submitting: PropTypes.bool.isRequired
 };
 
 function validate (values) {
@@ -68,5 +70,5 @@ export default reduxForm({
 	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status', '_id'],
 	validate
 }, mapStateToProps, {
-	onSubmit: newTransaction
+	onSubmit: saveTransaction
 })(NewTransaction);

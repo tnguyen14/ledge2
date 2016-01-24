@@ -23,7 +23,7 @@ export function getAccount () {
 	};
 }
 
-export function newTransaction (data) {
+export function saveTransaction (data) {
 	data.amount = data.amount * 100;
 	const saveMethod = data._id ? patchJson : postJson;
 	const actionType = data._id ? UPDATE_TRANSACTION : ADD_TRANSACTION;
@@ -57,7 +57,7 @@ export function deleteTransaction (id) {
 					payload: id
 				});
 			});
-	}
+	};
 }
 
 export function editTransaction (id) {
