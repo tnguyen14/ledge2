@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Table } from 'react-bootstrap';
 import moment from 'moment-timezone';
-import config from 'config';
 import { date } from '../util/helpers';
-import { getTotal, getCategoryTotal } from '../util/total';
 import Transaction from './Transaction';
 import WeeklyStats from './WeeklyStats';
 
@@ -12,29 +10,9 @@ export default function Week (props) {
 	const start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
 	const end = moment().isoWeekday(7 + offset * 7).endOf('isoWeek');
 
-	const weekTransactions = props.transactions.filter(function (t) {
+	const transactions = props.transactions.filter(function (t) {
 		return t.date >= start.toISOString() && t.date <= end.toISOString();
 	});
-
-	const weekTotal = getTotal(weekTransactions);
-
-	let categoryTotals = [];
-	config.categories.forEach(function (cat) {
-		const catTotal = getCategoryTotal(weekTransactions, cat);
-		if (catTotal === 0) {
-			return;
-		}
-		categoryTotals.push({
-			amount: catTotal,
-			label: cat.value,
-			slug: cat.slug
-		});
-	});
-
-	const stats = {
-		weekTotal,
-		categoryTotals
-	};
 
 	return (
 		<div className="weekly">
@@ -57,12 +35,12 @@ export default function Week (props) {
 					</tr>
 				</thead>
 				<tbody>
-					{weekTransactions.map(function (t) {
+					{transactions.map(function (t) {
 						return <Transaction key={t._id} data={t} onEditClick={props.onEditClick} onDeleteClick={props.onDeleteClick}/>;
 					})}
 				</tbody>
 			</Table>
-			<WeeklyStats {...stats}/>
+			<WeeklyStats transactions={transactions}/>
 		</div>
 	);
 }
@@ -72,4 +50,4 @@ Week.propTypes = {
 	onEditClick: PropTypes.func.isRequired,
 	onDeleteClick: PropTypes.func.isRequired,
 	transactions: PropTypes.array.isRequired
-}
+};

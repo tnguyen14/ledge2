@@ -1,48 +1,32 @@
 import React, { PropTypes } from 'react';
-import config from 'config';
-import { getTotalWeeks } from '../util/weeks';
-import { getTotal, getCategoryTotal } from '../util/total';
 import { money } from '../util/helpers';
+import { Table } from 'react-bootstrap';
+import slug from 'slug';
 
 export default function Stats (props) {
-	let averages = [];
-	const numWeeks = getTotalWeeks(props.transactions);
-	config.categories.forEach(function (cat) {
-		const catTotal = getCategoryTotal(props.transactions, cat);
-		averages.push({
-			amount: catTotal / numWeeks,
-			label: cat.value,
-			slug: cat.slug
-		});
-	});
-
-	averages.push({
-		amount: getTotal(props.transactions) / numWeeks,
-		label: 'Total',
-		slug: 'total'
-	});
+	const { stats, label } = props;
 
 	return (
 		<div className="stats">
-			<h2>Stats</h2>
-			<div className="averages">
-				<h3>Weekly Averages</h3>
-				<div className="stat">
-					{averages.map(function (stat) {
-						const id = stat.slug + '-avg';
+			<h3>{label}</h3>
+			<Table>
+				<tbody>
+					{stats.map(function (stat) {
+						const id = slug(stat.slug + ' ' + label);
 						return (
-							<div key={stat.slug}>
-								<label htmlFor={id}>{stat.label}</label>{' '}
-								<span id={id}>{money(stat.amount)}</span>
-							</div>
+							<tr className="stat" key={stat.slug} data-cat={stat.slug}>
+								<td id={id}><span className="legend">&nbsp;</span>{stat.label}</td>
+								<td aria-labelledby={id}>{money(stat.amount)}</td>
+							</tr>
 						);
 					})}
-				</div>
-			</div>
+				</tbody>
+			</Table>
 		</div>
 	);
 }
 
 Stats.propTypes = {
-	transactions: PropTypes.array.isRequired
+	stats: PropTypes.array.isRequired,
+	label: PropTypes.string
 };

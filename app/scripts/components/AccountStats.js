@@ -1,35 +1,34 @@
 import React, { PropTypes } from 'react';
 import Stats from './Stats';
 import config from 'config';
+import { getTotalWeeks } from '../util/weeks';
 import { getTotal, getCategoryTotal } from '../util/total';
 
-export default function WeeklyStats (props) {
-	let stats = [];
+export default function AccountStats (props) {
+	let averages = [];
+	const numWeeks = getTotalWeeks(props.transactions);
 	config.categories.forEach(function (cat) {
 		const catTotal = getCategoryTotal(props.transactions, cat);
-		if (catTotal === 0) {
-			return;
-		}
-		stats.push({
-			amount: catTotal,
+		averages.push({
+			amount: catTotal / numWeeks,
 			label: cat.value,
 			slug: cat.slug
 		});
 	});
 
-	stats.push({
-		amount: getTotal(props.transactions),
+	averages.push({
+		amount: getTotal(props.transactions) / numWeeks,
 		label: 'Total',
 		slug: 'total'
 	});
 
 	return (
-		<div className="summary">
-			<Stats stats={stats} />
+		<div className="account-stats">
+			<Stats stats={averages} label="Weekly Averages"/>
 		</div>
 	);
 }
 
-WeeklyStats.propTypes = {
+AccountStats.propTypes = {
 	transactions: PropTypes.array.isRequired
 };

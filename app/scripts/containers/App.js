@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Alert from '../components/Alert';
 import NewTransaction from '../components/NewTransaction';
-import Stats from '../components/Stats';
+import AccountStats from '../components/AccountStats';
 import Transactions from '../components/Transactions';
 import ConfirmDelete from './ConfirmDelete';
 import { editTransaction, confirmDelete } from '../actions';
@@ -13,7 +13,7 @@ function App (props) {
 		<div className="main">
 			<Alert/>
 			<NewTransaction/>
-			<Stats transactions={props.account.transactions} />
+			<AccountStats transactions={props.account.transactions} />
 			<Transactions weeks={props.weeks} transactions={props.account.transactions} onEditClick={props.editTransaction} onDeleteClick={props.confirmDelete}/>
 			<ConfirmDelete/>
 		</div>
