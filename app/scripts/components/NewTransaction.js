@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Button } from 'react-bootstrap';
 import Input from './Input';
+import InputTypeahead from './InputTypeahead';
 import config from 'config';
 import { reduxForm } from 'redux-form';
 import { newTransaction } from '../actions';
@@ -18,7 +19,7 @@ function NewTransaction (props) {
 		<form className="new-transaction" onSubmit={handleSubmit}>
 			<h2>Add a new transaction</h2>
 			<Input label="Amount" type="number" min="0" step="any" {...amount} />
-			<Input label="Merchant" {...merchant} />
+			<InputTypeahead source={props.merchants} label="Merchant" {...merchant} />
 			<Input label="Date" type="date" {...date} />
 			<Input label="Time" type="time" {...time} />
 			<Input label="Category" type="select" options={config.categories} placeholder="Select a category" {...category} />
@@ -49,9 +50,16 @@ function validate (values) {
 }
 
 function mapStateToProps (state) {
+	let merchants = [];
+	if (state.account.merchants_count) {
+		merchants = Object.keys(state.account.merchants_count).reduce(function (merchants, merchant) {
+			return merchants.concat(state.account.merchants_count[merchant].values);
+		}, []);
+	}
 	return {
 		initialValues: state.transaction,
-		editing: !!state.transaction._id
+		editing: !!state.transaction._id,
+		merchants: merchants
 	};
 }
 

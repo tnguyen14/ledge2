@@ -28,7 +28,9 @@ export default function Input (props) {
 		case 'time':
 		case 'number':
 		default:
-			input = <input className="form-control" {...props}/>;
+			// call the inputCallback, passing ref to it
+			// used in typeahead case
+			input = <input className="form-control" ref={(ref) => props.inputCallback(ref)} {...props}/>;
 			break;
 	}
 	if (props.touched && props.error) {
@@ -51,12 +53,14 @@ export default function Input (props) {
 	);
 }
 Input.defaultProps = {
-	type: 'text'
+	type: 'text',
+	inputCallback: function () {}
 };
 
 Input.propTypes = {
 	type: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	placeholder: PropTypes.string,
-	options: PropTypes.array
-}
+	options: PropTypes.array,
+	inputCallback: PropTypes.func
+};
