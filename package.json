@@ -2,23 +2,23 @@
   "name": "ledge",
   "version": "1.0.0",
   "description": "ledge. in react.",
-  "main": "server/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "server": "node server/index.js",
+    "server": "node server.js",
     "clean": "rm -rf dist && mkdir dist",
-    "copy": "cp app/index.html dist/ && cp app/manifest.json dist/",
-    "css": "node-sass app/scss/style.scss | postcss -u autoprefixer -o dist/style.css",
+    "copy": "cp index.html dist/ && cp manifest.json dist/",
+    "css": "node-sass scss/style.scss | postcss -u autoprefixer -o dist/style.css",
     "font": "mkdir dist/fonts && find node_modules/bootstrap-sass/assets/fonts/bootstrap -iname 'glyphicon*' -exec cp \\{\\} dist/fonts/ \\;",
-    "css:watch": "node-sass -w app/scss/style.scss dist/style.css & postcss -u autoprefixer -o dist/style.css dist/style.css",
-    "js": "browserify app/scripts/main.js -t babelify -o dist/main.js",
-    "js:watch": "watchify app/scripts/main.js -t babelify -t [ envify --NODE_ENV development ] -o dist/main.js -dv",
+    "css:watch": "node-sass -w scss/style.scss dist/style.css & postcss -u autoprefixer -o dist/style.css dist/style.css",
+    "js": "browserify index.js -t babelify -o dist/index.js",
+    "js:watch": "watchify index.js -t babelify -t [ envify --NODE_ENV development ] -o dist/index.js -dv",
     "build": "npm run clean && npm run copy && npm run font && npm run css && npm run js",
     "start": "npm run build && npm run js:watch & npm run css:watch & npm run server",
-    "gh-pages": "./bin/publish.js",
+    "gh-pages": "./gh-pages.js",
     "deploy": "npm run build && npm run gh-pages"
   },
   "browser": {
