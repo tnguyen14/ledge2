@@ -12,7 +12,7 @@ export default function Week (props) {
 
 	const transactions = props.transactions.filter(function (t) {
 		return t.date >= start.toISOString() && t.date <= end.toISOString();
-	});
+	}).reverse();
 
 	return (
 		<div className="weekly">

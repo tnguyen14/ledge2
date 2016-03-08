@@ -23,8 +23,8 @@ function transactions (state = accountInitialState.transactions, action) {
 	switch (action.type) {
 	case ADD_TRANSACTION:
 		return [
-			action.payload,
-			...state
+			...state,
+			action.payload
 		];
 	case UPDATE_TRANSACTION:
 		return state.map(function (tx) {
