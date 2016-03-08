@@ -10,28 +10,28 @@ export default function Input (props) {
 		'has-error': props.touched && props.error
 	});
 	switch (props.type) {
-		case 'select':
-			input = (
-				<select className="form-control" {...props}>
-					<option value="">{props.placeholder || 'Select ' + props.label}</option>
-					{props.options.map(function (opt) {
-						return <option key={opt.slug} value={opt.slug}>{opt.value}</option>;
-					})}
-				</select>
-			);
-			break;
-		case 'textarea':
-			input = <textarea className="form-control" {...props}></textarea>;
-			break;
-		case 'text':
-		case 'date':
-		case 'time':
-		case 'number':
-		default:
-			// call the inputCallback, passing ref to it
-			// used in typeahead case
-			input = <input className="form-control" ref={(ref) => props.inputCallback(ref)} {...props}/>;
-			break;
+	case 'select':
+		input = (
+			<select className="form-control" {...props}>
+				<option value="">{props.placeholder || 'Select ' + props.label}</option>
+				{props.options.map(function (opt) {
+					return <option key={opt.slug} value={opt.slug}>{opt.value}</option>;
+				})}
+			</select>
+		);
+		break;
+	case 'textarea':
+		input = <textarea className="form-control" {...props}></textarea>;
+		break;
+	case 'text':
+	case 'date':
+	case 'time':
+	case 'number':
+	default:
+		// call the inputCallback, passing ref to it
+		// used in typeahead case
+		input = <input className="form-control" ref={(ref) => props.inputCallback(ref)} {...props}/>;
+		break;
 	}
 	if (props.touched && props.error) {
 		help = (

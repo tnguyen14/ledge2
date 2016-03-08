@@ -49,9 +49,9 @@ export function saveTransaction (data) {
 }
 
 export function deleteTransaction (id) {
-	return dispatch => {
+	return (dispatch) => {
 		return deleteJson(config.server_url + '/accounts/' + config.account_name + '/transactions/' + id)
-			.then(json => {
+			.then((json) => {
 				dispatch({
 					type: DELETE_TRANSACTION,
 					payload: id
