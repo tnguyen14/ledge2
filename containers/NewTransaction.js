@@ -12,7 +12,7 @@ function NewTransaction (props) {
 		value: 'POSTED'
 	}];
 
-	const {fields: {amount, merchant, date, time, category, source, description, status, _id}, handleSubmit, submitting} = props;
+	const {fields: {amount, merchant, date, time, category, source, description, status, id}, handleSubmit, submitting} = props;
 	const submitText = props.editing ? 'Update' : 'Add';
 	const submittingText = props.editing ? 'Updating...' : 'Adding...';
 
@@ -27,7 +27,7 @@ function NewTransaction (props) {
 			<Input label="Source" type="select" options={config.sources} placeholder="Select a source" {...source} />
 			<Input label="Description" type="textarea" {...description} />
 			<Input label="Status" type="select" options={statuses} {...status} />
-			<input type="hidden" {..._id}/>
+			<input type="hidden" {...id}/>
 			<Button bsStyle="primary" className="pull-right" type="submit" disabled={submitting}>{submitting ? submittingText : submitText}</Button>
 		</form>
 	);
@@ -60,14 +60,14 @@ function mapStateToProps (state) {
 	}
 	return {
 		initialValues: state.transaction,
-		editing: !!state.transaction._id,
+		editing: !!state.transaction.id,
 		merchants: merchants
 	};
 }
 
 export default reduxForm({
 	form: 'editTransaction',
-	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status', '_id'],
+	fields: ['amount', 'merchant', 'date', 'time', 'category', 'source', 'description', 'status', 'id'],
 	validate
 }, mapStateToProps, {
 	onSubmit: saveTransaction

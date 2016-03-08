@@ -36,7 +36,7 @@ export default function Week (props) {
 				</thead>
 				<tbody>
 					{transactions.map(function (t) {
-						return <Transaction key={t._id} data={t} onEditClick={props.onEditClick} onDeleteClick={props.onDeleteClick}/>;
+						return <Transaction key={t.id} data={t} onEditClick={props.onEditClick} onDeleteClick={props.onDeleteClick}/>;
 					})}
 				</tbody>
 			</Table>

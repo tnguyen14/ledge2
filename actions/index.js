@@ -25,16 +25,16 @@ export function getAccount () {
 
 export function saveTransaction (data) {
 	data.amount = data.amount * 100;
-	const saveMethod = data._id ? patchJson : postJson;
-	const actionType = data._id ? UPDATE_TRANSACTION : ADD_TRANSACTION;
-	const url = config.server_url + '/accounts/' + config.account_name + '/transactions' + (data._id ? '/' + data._id : '');
-	return dispatch => {
+	const saveMethod = data.id ? patchJson : postJson;
+	const actionType = data.id ? UPDATE_TRANSACTION : ADD_TRANSACTION;
+	const url = config.server_url + '/accounts/' + config.account_name + '/transactions' + (data.id ? '/' + data.id : '');
+	return (dispatch) => {
 		return saveMethod(url, data)
 			.then(function (json) {
 				let payload = json;
 				// if updating, return data as the patch REST API response
 				// does not contain transaction data
-				if (data._id) {
+				if (data.id) {
 					payload = data;
 				}
 				dispatch({
@@ -63,7 +63,7 @@ export function deleteTransaction (id) {
 export function editTransaction (id) {
 	return (dispatch, getState) => {
 		const { account: {transactions} } = getState();
-		const transaction = transactions.filter(tx => tx._id === id)[0];
+		const transaction = transactions.filter((tx) => tx.id === id)[0];
 		dispatch({
 			type: EDIT_TRANSACTION,
 			payload: transaction

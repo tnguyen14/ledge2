@@ -28,11 +28,11 @@ function transactions (state = accountInitialState.transactions, action) {
 			];
 		case UPDATE_TRANSACTION:
 			return state.map(function (tx) {
-				return tx._id === action.payload._id ? Object.assign({}, tx, action.payload) : tx;
+				return tx.id === action.payload.id ? Object.assign({}, tx, action.payload) : tx;
 			});
 		case DELETE_TRANSACTION:
 			return state.filter(function (tx) {
-				return tx._id !== action.payload;
+				return tx.id !== action.payload;
 			});
 		default:
 			return state;

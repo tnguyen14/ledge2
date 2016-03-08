@@ -23,9 +23,9 @@ const Transaction = React.createClass({
 	},
 
 	render () {
-		const { data: { _id, date, merchant, category, amount, source, description }, onEditClick, onDeleteClick } = this.props;
+		const { data: { id, date, merchant, category, amount, source, description }, onEditClick, onDeleteClick } = this.props;
 		return (
-			<tr className={classNames('transaction', {active: this.state.active})} data-transaction-id={_id} data-day={getDate('ddd', date)} onClick={this.handleClick}>
+			<tr className={classNames('transaction', {active: this.state.active})} data-transaction-id={id} data-day={getDate('ddd', date)} onClick={this.handleClick}>
 				<td className="day">{getDate('ddd', date)}</td>
 				<td className="merchant">{merchant}</td>
 				<td className="amount" data-cat={category}><Badge>{money(amount)}</Badge></td>
@@ -33,8 +33,8 @@ const Transaction = React.createClass({
 				<td className="description">{description}</td>
 				<td className="category">{getCategory(category)}</td>
 				<td className="action">
-					<i className="edit glyphicon glyphicon-pencil" onClick={onEditClick.bind(this, _id)}></i>
-					<i className="remove glyphicon glyphicon-remove" onClick={onDeleteClick.bind(this, _id)}></i>
+					<i className="edit glyphicon glyphicon-pencil" onClick={onEditClick.bind(this, id)}></i>
+					<i className="remove glyphicon glyphicon-remove" onClick={onDeleteClick.bind(this, id)}></i>
 				</td>
 			</tr>
 		);
