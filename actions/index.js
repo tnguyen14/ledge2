@@ -27,17 +27,21 @@ export function getAccount () {
 
 export function saveTransaction (data) {
 	data.amount = data.amount * 100;
-	const saveMethod = data.id ? patchJson : postJson;
-	const actionType = data.id ? UPDATE_TRANSACTION : ADD_TRANSACTION;
-	const url = config.server_url + '/accounts/' + config.account_name + '/transactions' + (data.id ? '/' + data.id : '');
+	const isUpdating = Boolean(data.id);
+	const saveMethod = isUpdating ? patchJson : postJson;
+	const actionType = isUpdating ? UPDATE_TRANSACTION : ADD_TRANSACTION;
+	const url = config.server_url + '/accounts/' + config.account_name + '/transactions' + (isUpdating ? '/' + data.id : '');
 	return (dispatch) => {
 		return saveMethod(url, data)
 			.then(function (json) {
-				let payload = json;
-				// if updating, return data as the patch REST API response
-				// does not contain transaction data
-				if (data.id) {
+				let payload;
+				if (isUpdating) {
 					payload = data;
+				} else {
+					payload = {
+						...data,
+						id: json.id
+					};
 				}
 				dispatch({
 					type: actionType,
