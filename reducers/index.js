@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION, UPDATE_TRANSACTION, DELETE_TRANSACTION, RESET_FORM, CONFIRM_DELETE, CANCEL_DELETE } from '../actions';
+import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION, UPDATE_TRANSACTION, DELETE_TRANSACTION, RESET_FORM, CONFIRM_DELETE, CANCEL_DELETE, ALERT, DISMISS_ALERT } from '../actions';
 import {reducer as formReducer} from 'redux-form';
 import moment from 'moment-timezone';
 import config from 'config';
@@ -87,11 +87,25 @@ function confirmDelete (state, action) {
 	}
 }
 
+function alert (state, action) {
+	switch (action.type) {
+	case ALERT:
+		return {
+			active: true,
+			...action.payload
+		};
+	case DISMISS_ALERT:
+	default:
+		return {};
+	}
+}
+
 const rootReducer = combineReducers({
 	account,
 	weeks,
 	transaction,
 	confirmDelete,
+	alert,
 	form: formReducer
 });
 

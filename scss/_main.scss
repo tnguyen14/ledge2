@@ -4,10 +4,13 @@ body {
 
 .main {
 	@include clearfix();
-	margin: 0 auto;
+	margin: .5rem auto;
 	width: 95%;
 	@media (min-width: 33.5em) {
 		width: 90%;
+	}
+	.alert {
+		margin-bottom: 0;
 	}
 }
 

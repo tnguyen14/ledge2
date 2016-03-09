@@ -10,6 +10,8 @@ export const DELETE_TRANSACTION = 'DELETE_TRANSACTION';
 export const CONFIRM_DELETE = 'CONFIRM_DELETE';
 export const CANCEL_DELETE = 'CANCEL_DELETE';
 export const RESET_FORM = 'RESET_FORM';
+export const ALERT = 'ALERT';
+export const DISMISS_ALERT = 'DISMISS_ALERT';
 
 export function getAccount () {
 	return function (dispatch) {
@@ -56,6 +58,16 @@ export function deleteTransaction (id) {
 					type: DELETE_TRANSACTION,
 					payload: id
 				});
+			}, (err) => {
+				err.response.json().then(function (json) {
+					dispatch({
+						type: ALERT,
+						payload: {
+							type: 'danger',
+							content: err.message + ': ' + json.message
+						}
+					});
+				});
 			});
 	};
 }
@@ -81,5 +93,11 @@ export function confirmDelete (id) {
 export function cancelDelete () {
 	return {
 		type: CANCEL_DELETE
+	};
+}
+
+export function dismissAlert () {
+	return {
+		type: DISMISS_ALERT
 	};
 }

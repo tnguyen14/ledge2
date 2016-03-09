@@ -48,6 +48,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",
     "isomorphic-fetch": "^2.2.1",
