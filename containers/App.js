@@ -35,4 +35,5 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
 	return bindActionCreators({editTransaction, confirmDelete}, dispatch);
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -24,7 +24,7 @@ export function getTotalWeeks (transactions) {
 	if (transactions.length === 0 || transactions.length === 1) {
 		return transactions.length;
 	}
-	var beginning = transactions[transactions.length - 1].date;
-	var end = transactions[0].date;
+	var beginning = transactions[0].date;
+	var end = transactions[transactions.length - 1].date;
 	return weeksInBetween(beginning, end);
 }
