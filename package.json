@@ -18,7 +18,7 @@
     "js:watch": "watchify index.js -t babelify -t [ envify --NODE_ENV development ] -o dist/index.js -dv",
     "build": "npm run clean && npm run copy && npm run font && npm run css && npm run js",
     "start": "npm run build && npm run js:watch & npm run css:watch & npm run server",
-    "gh-pages": "./gh-pages.js",
+    "gh-pages": "./bin/gh-pages.js",
     "deploy": "npm run build && npm run gh-pages"
   },
   "browser": {
