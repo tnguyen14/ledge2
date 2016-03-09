@@ -8,7 +8,7 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "server": "node server.js",
+    "serve": "http-server dist -p 4001",
     "clean": "rm -rf dist && mkdir dist",
     "copy": "cp index.html dist/ && cp manifest.json dist/",
     "css": "node-sass scss/style.scss | postcss -u autoprefixer -o dist/style.css",
@@ -17,7 +17,7 @@
     "js": "browserify index.js -t babelify -o dist/index.js",
     "js:watch": "watchify index.js -t babelify -t [ envify --NODE_ENV development ] -o dist/index.js -dv",
     "build": "npm run clean && npm run copy && npm run font && npm run css && npm run js",
-    "start": "npm run build && npm run js:watch & npm run css:watch & npm run server",
+    "start": "npm run build && npm run js:watch & npm run css:watch & npm run serve",
     "gh-pages": "./bin/gh-pages.js",
     "deploy": "npm run build && npm run gh-pages"
   },
@@ -42,6 +42,7 @@
     "browserify": "^13.0.0",
     "envify": "^3.4.0",
     "gh-pages": "^0.8.0",
+    "http-server": "^0.9.0",
     "node-sass": "^3.4.2",
     "postcss-cli": "^2.4.0",
     "watch": "^0.17.1",
