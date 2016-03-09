@@ -22,8 +22,13 @@ const Transaction = React.createClass({
 		});
 	},
 
+	handleEditClick () {
+		window.scroll(0, 0);
+		this.props.onEditClick(this.props.data.id);
+	},
+
 	render () {
-		const { data: { id, date, merchant, category, amount, source, description }, onEditClick, onDeleteClick } = this.props;
+		const { data: { id, date, merchant, category, amount, source, description }, onDeleteClick } = this.props;
 		return (
 			<tr className={classNames('transaction', {active: this.state.active})} data-transaction-id={id} data-day={getDate('ddd', date)} onClick={this.handleClick}>
 				<td className="day">{getDate('ddd', date)}</td>
@@ -33,7 +38,7 @@ const Transaction = React.createClass({
 				<td className="description">{description}</td>
 				<td className="category">{getCategory(category)}</td>
 				<td className="action">
-					<i className="edit glyphicon glyphicon-pencil" onClick={onEditClick.bind(this, id)}></i>
+					<i className="edit glyphicon glyphicon-pencil" onClick={this.handleEditClick}></i>
 					<i className="remove glyphicon glyphicon-remove" onClick={onDeleteClick.bind(this, id)}></i>
 				</td>
 			</tr>
