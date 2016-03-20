@@ -20,7 +20,8 @@
     "gh-pages": "./bin/gh-pages.js",
     "static": "npm run copy && npm run font && npm run assets",
     "build": "npm run clean && npm run static && npm run css && npm run js",
-    "start": "npm run build && npm run js:watch & npm run css:watch & npm run serve",
+    "watch": "npm run js:watch & npm run css:watch & npm run serve",
+    "start": "npm run build && npm run watch",
     "deploy": "npm run build && npm run gh-pages"
   },
   "browser": {
