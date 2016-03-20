@@ -7,12 +7,12 @@
     <g transform="matrix(2.09621,-2.51602e-17,-2.51605e-17,2.19891,-51.1118,-75.1895)">
         <ellipse cx="70.18" cy="77.852" rx="45.797" ry="43.658" style="fill:rgb(0,155,113);"/>
     </g>
-    <g transform="matrix(0.837891,-0.545838,0.545838,0.837891,84.7721,190.003)">
-        <text x="0px" y="0px" style="font-family:'Roboto-Bold';font-size:210px;fill:rgb(239,239,239);">L</text>
+    <g transform="matrix(0.837891,-0.545838,0.545838,0.837891,83.1085,190.003)">
+        <text x="0px" y="0px" style="font-family:'Raleway-Bold';font-size:210px;fill:rgb(239,239,239);">L</text>
     </g>
-    <g transform="matrix(0.6105,-0.39798,0.39798,0.6105,111.476,165.742)">
+    <g transform="matrix(0.6105,-0.39798,0.39798,0.6105,109.819,165.138)">
         <g>
-            <text x="0px" y="0px" style="font-family:'Roboto-Regular';font-size:32.932px;fill:rgb(0,155,113);">l<tspan x="9.639px 28.732px 48.952px 69.074px " y="0px 0px 0px 0px ">edge</tspan></text>
+            <text x="0px" y="0px" style="font-family:'Raleway';font-size:32.932px;fill:rgb(0,155,113);">l<tspan x="10.341px 31.319px 53.482px 75.415px " y="0px 0px 0px 0px ">edge</tspan></text>
         </g>
     </g>
 </svg>
