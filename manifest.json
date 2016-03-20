@@ -1,4 +1,11 @@
 {
+	"name": "Ledge",
 	"short_name": "Ledge",
-	"display": "standalone"
+	"display": "standalone",
+	"icons": [{
+		"src": "logo.png",
+		"sizes": "192x192",
+		"type": "image/png"
+	}],
+	"background_color": "#008C5E"
 }
