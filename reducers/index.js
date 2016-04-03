@@ -41,6 +41,11 @@ function transactions (state = accountInitialState.transactions, action) {
 
 function weeks (state, action) {
 	switch (action.type) {
+	case actionTypes.LOAD_MORE:
+		return [
+			...state,
+			state[state.length - 1] -1
+		];
 	default:
 		return [0, -1, -2, -3];
 	}

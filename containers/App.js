@@ -5,8 +5,9 @@ import AlertMessage from '../containers/AlertMessage';
 import NewTransaction from '../containers/NewTransaction';
 import AccountStats from '../components/AccountStats';
 import Transactions from '../components/Transactions';
+import LoadMore from '../components/LoadMore';
 import ConfirmDelete from './ConfirmDelete';
-import { editTransaction, confirmDelete } from '../actions';
+import { editTransaction, confirmDelete, loadMore } from '../actions';
 
 function App (props) {
 	return (
@@ -15,6 +16,7 @@ function App (props) {
 			<NewTransaction/>
 			<AccountStats transactions={props.account.transactions} />
 			<Transactions weeks={props.weeks} transactions={props.account.transactions} onEditClick={props.editTransaction} onDeleteClick={props.confirmDelete}/>
+			<LoadMore onClick={props.loadMore}/>
 			<ConfirmDelete/>
 		</div>
 	);
@@ -33,7 +35,7 @@ function mapStateToProps (state) {
 }
 
 function mapDispatchToProps (dispatch) {
-	return bindActionCreators({editTransaction, confirmDelete}, dispatch);
+	return bindActionCreators({editTransaction, confirmDelete, loadMore}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -94,3 +94,9 @@ export function dismissAlert () {
 		type: actionTypes.DISMISS_ALERT
 	};
 }
+
+export function loadMore () {
+	return {
+		type: actionTypes.LOAD_MORE
+	};
+}

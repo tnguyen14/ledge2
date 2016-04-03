@@ -9,3 +9,4 @@ export const CANCEL_DELETE = 'CANCEL_DELETE';
 export const RESET_FORM = 'RESET_FORM';
 export const ALERT = 'ALERT';
 export const DISMISS_ALERT = 'DISMISS_ALERT';
+export const LOAD_MORE = 'LOAD_MORE';
