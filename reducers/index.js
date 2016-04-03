@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { RECEIVE_ACCOUNT, ADD_TRANSACTION, EDIT_TRANSACTION, UPDATE_TRANSACTION, DELETE_TRANSACTION, RESET_FORM, CONFIRM_DELETE, CANCEL_DELETE, ALERT, DISMISS_ALERT } from '../actions';
+import * as actionTypes from '../actions/types';
 import {reducer as formReducer} from 'redux-form';
 import moment from 'moment-timezone';
 import config from 'config';
@@ -10,7 +10,7 @@ const accountInitialState = {
 
 function account (state = accountInitialState, action) {
 	switch (action.type) {
-	case RECEIVE_ACCOUNT:
+	case actionTypes.RECEIVE_ACCOUNT:
 		return Object.assign({}, action.payload);
 	default:
 		return {
@@ -21,16 +21,16 @@ function account (state = accountInitialState, action) {
 
 function transactions (state = accountInitialState.transactions, action) {
 	switch (action.type) {
-	case ADD_TRANSACTION:
+	case actionTypes.ADD_TRANSACTION:
 		return [
 			...state,
 			action.payload
 		];
-	case UPDATE_TRANSACTION:
+	case actionTypes.UPDATE_TRANSACTION:
 		return state.map(function (tx) {
 			return tx.id === action.payload.id ? Object.assign({}, tx, action.payload) : tx;
 		});
-	case DELETE_TRANSACTION:
+	case actionTypes.DELETE_TRANSACTION:
 		return state.filter(function (tx) {
 			return tx.id !== action.payload;
 		});
@@ -55,14 +55,14 @@ function transaction (state, action) {
 		status: 'POSTED'
 	};
 	switch (action.type) {
-	case EDIT_TRANSACTION:
+	case actionTypes.EDIT_TRANSACTION:
 		const transaction = Object.assign({}, action.payload);
 		const date = moment.tz(transaction.date, 'America/New_York');
 		transaction.amount = transaction.amount / 100;
 		transaction.date = date.format('YYYY-MM-DD');
 		transaction.time = date.format('HH:mm');
 		return transaction;
-	case RESET_FORM:
+	case actionTypes.RESET_FORM:
 		return defaultForm;
 	default:
 		return state || defaultForm;
@@ -71,12 +71,12 @@ function transaction (state, action) {
 
 function confirmDelete (state, action) {
 	switch (action.type) {
-	case CONFIRM_DELETE:
+	case actionTypes.CONFIRM_DELETE:
 		return {
 			active: true,
 			id: action.payload
 		};
-	case CANCEL_DELETE:
+	case actionTypes.CANCEL_DELETE:
 		return {
 			active: false
 		};
@@ -89,12 +89,12 @@ function confirmDelete (state, action) {
 
 function alert (state, action) {
 	switch (action.type) {
-	case ALERT:
+	case actionTypes.ALERT:
 		return {
 			active: true,
 			...action.payload
 		};
-	case DISMISS_ALERT:
+	case actionTypes.DISMISS_ALERT:
 	default:
 		return {};
 	}
