@@ -12,8 +12,10 @@ export default function Week (props) {
 
 	const transactions = props.transactions.filter(function (t) {
 		return t.date >= start.toISOString() && t.date <= end.toISOString();
-	}).reverse();
-
+	}).sort(function (a, b) {
+		// sort by id
+		return Number(b.id) - Number(a.id);
+	});
 	return (
 		<div className="weekly">
 			<h3>{date('MMM D', start)} - {date('MMM D', end)}</h3>
