@@ -17,12 +17,11 @@
     "css:watch": "node-sass -w scss/style.scss dist/style.css & postcss -u autoprefixer -o dist/style.css dist/style.css",
     "js": "browserify index.js -t babelify -o dist/index.js",
     "js:watch": "watchify index.js -t babelify -t [ envify --NODE_ENV development ] -o dist/index.js -dv",
-    "gh-pages": "./bin/gh-pages.js",
     "static": "npm run copy && npm run font && npm run assets",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "watch": "npm run js:watch & npm run css:watch & npm run serve",
     "start": "npm run build && npm run watch",
-    "deploy": "npm run build && npm run gh-pages"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "browser": {
     "config": "./config.json"
