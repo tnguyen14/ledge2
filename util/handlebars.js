@@ -1,4 +1,4 @@
-import { date, money } from './helpers';
+import { date, money, getCategory, getSource } from './helpers';
 import helpers from 'handlebars-helpers';
 import Handlebars from 'hbsfy/runtime';
 
@@ -8,3 +8,5 @@ helpers({
 
 Handlebars.registerHelper('date', date);
 Handlebars.registerHelper('money', money);
+Handlebars.registerHelper('getCategory', getCategory);
+Handlebars.registerHelper('getSource', getSource);

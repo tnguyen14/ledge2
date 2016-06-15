@@ -1,0 +1,10 @@
+<td class="day">{{date 'ddd' ./date}}</td>
+<td class="merchant">{{merchant}}</td>
+<td class="amount" data-cat={{category}}><span class="badge">{{money amount}}</span></td>
+<td class="source">{{getSource source}}</td>
+<td class="description">{{description}}</td>
+<td class="category">{{getCategory category}}</td>
+<td class="action">
+	<i class="edit glyphicon glyphicon-pencil"></i>
+	<i class="remove glyphicon glyphicon-remove"></i>
+</td>

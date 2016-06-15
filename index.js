@@ -1,5 +1,5 @@
 import {render as renderForm} from './components/form';
-import {render as renderTransactions} from './components/transactions2';
+import {render as renderTransactions, updateWithTransactions} from './components/transactions2';
 import {getJson} from 'simple-fetch';
 import config from 'config';
 import './util/handlebars';
@@ -11,4 +11,5 @@ root.appendChild(renderTransactions());
 getJson(config.server_url + '/accounts/' + config.account_name)
 	.then((json) => {
 		console.log(json);
+		updateWithTransactions(json.transactions);
 	});
