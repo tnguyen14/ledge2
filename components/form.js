@@ -47,12 +47,11 @@ const context = {
 
 let rootEl;
 
-export function render (root) {
+export function render () {
 	if (!rootEl) {
-		rootEl = document.querySelector(root);
-		if (!rootEl) {
-			throw new Error('Cannot find root element');
-		}
+		rootEl = document.createElement('form');
+		rootEl.className = 'new-transaction';
 	}
 	rootEl.innerHTML = formTemplate(context);
+	return rootEl;
 }

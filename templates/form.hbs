@@ -20,11 +20,9 @@
 	</div>
 {{/inline}}
 
-<form class="new-transaction">
-	<h2>Add a new transaction</h2>
-	{{#each fields}}
-		{{> field inputElTypes=../inputElTypes values=../values}}
-	{{/each}}
-	<input type="hidden" name="id"/>
-	<button type="submit" class="btn btn-primary pull-right">Add</button>
-</form>
+<h2>Add a new transaction</h2>
+{{#each fields}}
+	{{> field inputElTypes=../inputElTypes values=../values}}
+{{/each}}
+<input type="hidden" name="id"/>
+<button type="submit" class="btn btn-primary pull-right">Add</button>
