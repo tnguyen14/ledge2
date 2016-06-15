@@ -1,10 +1,23 @@
 import formTemplate from '../templates/form.hbs';
 import config from 'config';
 import moment from 'moment-timezone';
+import {postJson, patchJson} from 'simple-fetch';
 
 const context = {
 	inputElTypes: ['text', 'date', 'time', 'number'],
 	fields: [{
+		type: 'number',
+		attributes: {
+			min: 0,
+			step: 'any'
+		},
+		label: 'Amount',
+		name: 'amount'
+	}, {
+		type: 'text',
+		label: 'Merchant',
+		name: 'merchant'
+	}, {
 		type: 'date',
 		label: 'Date',
 		name: 'date'
@@ -37,21 +50,63 @@ const context = {
 		}]
 	}],
 	values: {
+		amount: '',
+		merchant: '',
 		date: moment().format('YYYY-MM-DD'),
 		time: moment().format('HH:mm'),
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
+		description: '',
 		status: 'POSTED'
 	}
 };
 
 let rootEl;
 
+function handleSubmit (e) {
+	e.preventDefault();
+	let entry = {};
+	const button = rootEl.querySelector('button');
+	/* global FormData */
+	let formData = new FormData(rootEl);
+	let isUpdating = false;
+	for (var [key, value] of formData.entries()) {
+		entry[key] = value;
+	}
+	entry.amount = entry.amount * 100;
+	if (entry.id) {
+		isUpdating = true;
+	}
+	const action = isUpdating ? patchJson : postJson;
+	const updateText = isUpdating ? 'Updating...' : 'Adding...';
+	const url = config.server_url + '/accounts/' + config.account_name + '/transactions' + (isUpdating ? '/' + entry.id : '');
+
+	button.innerHTML = updateText;
+	button.setAttribute('disabled', '');
+	action(url, entry)
+		.then(function (json) {
+			button.innerHTML = 'Add';
+			button.removeAttribute('disabled');
+			resetForm();
+		});
+}
+
+function resetForm () {
+	// reset date and tiem values;
+	context.values.date = moment().format('YYYY-MM-DD');
+	context.values.time = moment().format('HH:mm');
+	Object.keys(context.values).forEach((field) => {
+		rootEl.querySelector('[name=' + field + ']').value = context.values[field];
+	});
+}
+
 export function render () {
 	if (!rootEl) {
 		rootEl = document.createElement('form');
 		rootEl.className = 'new-transaction';
+		rootEl.setAttribute('method', 'POST');
 	}
 	rootEl.innerHTML = formTemplate(context);
+	rootEl.addEventListener('submit', handleSubmit);
 	return rootEl;
 }

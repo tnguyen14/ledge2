@@ -3,11 +3,18 @@
 		<label class="control-label">{{label}}</label>
 		<div class="input-container">
 			{{#contains inputElTypes type}}
-				<input class="form-control" type={{type}} name={{name}} value="{{lookup values name}}"/>
+				<input class="form-control" type={{type}} name={{name}}
+						value="{{lookup values name}}"
+						{{#each attributes}}
+							{{@key}}={{this}}
+						{{/each}}
+					/>
 			{{/contains}}
 			{{#eq type 'select'}}
 				<select class="form-control" name="{{name}}">
-					<option value="">{{#default placeholder (add 'Select ' label)}}{{/default}}
+					<option value="">
+						{{#default placeholder (add 'Select ' label)}}{{/default}}
+					</option>
 					{{#each options}}
 						<option value="{{slug}}" {{#eq slug (lookup ../values ../name)}}selected{{/eq}}>{{value}}</option>
 					{{/each}}
