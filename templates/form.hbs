@@ -1,0 +1,30 @@
+{{#*inline "field"}}
+	<div class="form-group">
+		<label class="control-label">{{label}}</label>
+		<div class="input-container">
+			{{#contains inputElTypes type}}
+				<input class="form-control" type={{type}} name={{name}}/>
+			{{/contains}}
+			{{#eq type 'select'}}
+				<select class="form-control" name="{{name}}">
+					<option value="">{{#default placeholder (add 'Select ' label)}}{{/default}}
+					{{#each options}}
+						<option value="slug">{{value}}</option>
+					{{/each}}
+				</select>
+			{{/eq}}
+			{{#eq type 'textarea'}}
+				<textarea class="form-control" name={{name}}></textarea>
+			{{/eq}}
+		</div>
+	</div>
+{{/inline}}
+
+<form class="new-transaction">
+	<h2>Add a new transaction</h2>
+	{{#each fields}}
+		{{> field inputElTypes=../inputElTypes}}
+	{{/each}}
+	<input type="hidden" name="id"/>
+	<button type="submit" class="btn btn-primary pull-right">Add</button>
+</form>
