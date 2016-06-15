@@ -1,5 +1,6 @@
 import formTemplate from '../templates/form.hbs';
 import config from 'config';
+import moment from 'moment-timezone';
 
 const context = {
 	inputElTypes: ['text', 'date', 'time', 'number'],
@@ -34,7 +35,14 @@ const context = {
 			slug: 'POSTED',
 			value: 'POSTED'
 		}]
-	}]
+	}],
+	values: {
+		date: moment().format('YYYY-MM-DD'),
+		time: moment().format('HH:mm'),
+		category: config.categories[0].slug,
+		source: config.sources[0].slug,
+		status: 'POSTED'
+	}
 };
 
 let rootEl;
