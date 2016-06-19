@@ -1,21 +1,30 @@
 import {create as createWeek} from './week2';
+import EventEmitter from 'eventemitter3';
 
-let rootEl;
+let transactions = Object.create(EventEmitter.prototype);
 
 const weekOffsets = [0, -1, -2, -3];
 let weeks = [];
 
+function startListening () {
+	weeks.forEach((week) => {
+		week.on('transaction:edit', (tx) => {
+			transactions.emit('transaction:edit', tx);
+		});
+	})
+}
 export function render () {
-	if (!rootEl) {
-		rootEl = document.createElement('div');
-		rootEl.className = 'transactions';
+	if (!transactions.rootEl) {
+		transactions.rootEl = document.createElement('div');
+		transactions.rootEl.className = 'transactions';
 		weekOffsets.forEach((offset) => {
 			let week = createWeek(offset);
 			weeks.push(week);
-			rootEl.appendChild(week.render());
+			transactions.rootEl.appendChild(week.render());
 		});
+		startListening();
 	}
-	return rootEl;
+	return transactions;
 }
 
 export function updateWithTransactions (transactions) {

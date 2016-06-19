@@ -1,6 +1,7 @@
 import weekTemplate from '../templates/week.hbs';
 import {create as createTransaction} from './transaction2';
 import moment from 'moment-timezone';
+import EventEmitter from 'eventemitter3';
 
 function getStartEnd (offset) {
 	const start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
@@ -11,7 +12,7 @@ function getStartEnd (offset) {
 	};
 }
 
-const week = {
+const week = Object.assign(Object.create(EventEmitter.prototype), {
 	render () {
 		if (this.offset === undefined) {
 			this.offset = 0;
@@ -32,6 +33,14 @@ const week = {
 			return Number(b.id) - Number(a.id);
 		});
 	},
+	startListening () {
+		this.transactionsEls.forEach((tx) => {
+			tx.on('edit', this.editTransaction.bind(this));
+		});
+	},
+	editTransaction (tx) {
+		this.emit('transaction:edit', tx);
+	},
 	renderTransactions () {
 		this.transactionsEls = this.transactions.map((transactionData) => {
 			let tx = createTransaction(transactionData);
@@ -39,12 +48,13 @@ const week = {
 				.appendChild(tx.render());
 			return tx;
 		});
+		this.startListening();
 	},
 	updateWithTransactions (transactions) {
 		this.transactions = this.filterTransactions(transactions);
 		this.renderTransactions();
 	}
-};
+});
 
 export function create (offset) {
 	return Object.assign(Object.create(week), getStartEnd(offset), {

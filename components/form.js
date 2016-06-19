@@ -3,6 +3,9 @@ import config from 'config';
 import moment from 'moment-timezone';
 import {postJson, patchJson} from 'simple-fetch';
 
+const dateFormat = 'YYYY-MM-DD';
+const timeFormat = 'HH:mm';
+
 const context = {
 	inputElTypes: ['text', 'date', 'time', 'number'],
 	fields: [{
@@ -52,8 +55,8 @@ const context = {
 	values: {
 		amount: '',
 		merchant: '',
-		date: moment().format('YYYY-MM-DD'),
-		time: moment().format('HH:mm'),
+		date: moment().format(dateFormat),
+		time: moment().format(timeFormat),
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
 		description: '',
@@ -98,6 +101,21 @@ function resetForm () {
 	Object.keys(context.values).forEach((field) => {
 		rootEl.querySelector('[name=' + field + ']').value = context.values[field];
 	});
+}
+
+export function updateTransaction (tx) {
+	const transaction = Object.assign({}, tx);
+	const date = moment.tz(transaction.date, 'America/New_York');
+	transaction.amount = transaction.amount / 100;
+	transaction.date = date.format(dateFormat);
+	transaction.time = date.format(timeFormat);
+	Object.keys(context.values).forEach((field) => {
+		if (transaction[field]) {
+			rootEl.querySelector('[name=' + field + ']').value = transaction[field];
+		}
+	});
+	rootEl.querySelector('[name=id]').value = transaction.id;
+	rootEl.querySelector('button').innerHTML = 'Update';
 }
 
 export function render () {
