@@ -11,7 +11,7 @@ function startListening () {
 		week.on('transaction:edit', (tx) => {
 			transactions.emit('transaction:edit', tx);
 		});
-	})
+	});
 }
 export function render () {
 	if (!transactions.rootEl) {

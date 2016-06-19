@@ -9,9 +9,7 @@ const transactions = renderTransactions();
 root.appendChild(renderForm());
 root.appendChild(transactions.rootEl);
 
-transactions.on('transaction:edit', (tx) => {
-	updateTransaction(tx);
-});
+transactions.on('transaction:edit', updateTransaction);
 
 getJson(config.server_url + '/accounts/' + config.account_name)
 	.then((json) => {
