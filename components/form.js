@@ -5,6 +5,7 @@ import {postJson, patchJson} from 'simple-fetch';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
+const timezone = 'America/New_York';
 
 const context = {
 	inputElTypes: ['text', 'date', 'time', 'number'],
@@ -55,8 +56,8 @@ const context = {
 	values: {
 		amount: '',
 		merchant: '',
-		date: moment().format(dateFormat),
-		time: moment().format(timeFormat),
+		date: moment.tz(timezone).format(dateFormat),
+		time: moment.tz(timezone).format(timeFormat),
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
 		description: '',
@@ -105,7 +106,7 @@ function resetForm () {
 
 export function updateTransaction (tx) {
 	const transaction = Object.assign({}, tx);
-	const date = moment.tz(transaction.date, 'America/New_York');
+	const date = moment.tz(transaction.date, timezone);
 	transaction.amount = transaction.amount / 100;
 	transaction.date = date.format(dateFormat);
 	transaction.time = date.format(timeFormat);
