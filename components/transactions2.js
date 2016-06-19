@@ -32,3 +32,9 @@ export function updateWithTransactions (transactions) {
 		week.updateWithTransactions(transactions);
 	});
 }
+
+export function addTransaction (transaction) {
+	weeks.forEach((week) => {
+		week.addTransaction(transaction);
+	});
+}

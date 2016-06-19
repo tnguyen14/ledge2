@@ -22,37 +22,55 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			this.rootEl.className = 'weekly';
 			this.rootEl.innerHTML = weekTemplate(this);
 		}
+		this.tbodyEl = this.rootEl.querySelector('.weekly-transactions tbody');
 		return this.rootEl;
 	},
 	filterTransactions (transactions) {
-		const self = this;
-		return transactions.filter((t) => {
-			return t.date >= self.start.toISOString() && t.date <= self.end.toISOString();
-		}).sort((a, b) => {
+		return transactions.filter(this.isWithinWeek.bind(this)).sort((a, b) => {
 			// sort by id
 			return Number(b.id) - Number(a.id);
 		});
 	},
 	startListening () {
-		this.transactionsEls.forEach((tx) => {
+		this.transactions.forEach((tx) => {
 			tx.on('edit', this.editTransaction.bind(this));
 		});
 	},
 	editTransaction (tx) {
 		this.emit('transaction:edit', tx);
 	},
-	renderTransactions () {
-		this.transactionsEls = this.transactions.map((transactionData) => {
+	renderTransactions (transactions) {
+		this.transactions = transactions.map((transactionData) => {
 			let tx = createTransaction(transactionData);
-			this.rootEl.querySelector('.weekly-transactions tbody')
-				.appendChild(tx.render());
+			this.tbodyEl.appendChild(tx.render());
 			return tx;
 		});
 		this.startListening();
 	},
 	updateWithTransactions (transactions) {
-		this.transactions = this.filterTransactions(transactions);
-		this.renderTransactions();
+		this.renderTransactions(this.filterTransactions(transactions));
+	},
+	isWithinWeek (t) {
+		return t.date >= this.start.toISOString() && t.date <= this.end.toISOString();
+	},
+	addTransaction (transaction) {
+		if (!this.isWithinWeek(transaction)) {
+			return;
+		}
+		let tx = createTransaction(transaction);
+		// find where to insert the new transaction
+		let earlierIndex = 0;
+		let earlierTransaction;
+		while (earlierIndex < this.transactions.length && !earlierTransaction) {
+			let tx = this.transactions[earlierIndex];
+			if (tx.id < transaction.id) {
+				earlierTransaction = tx;
+			} else {
+				earlierIndex += 1;
+			}
+		}
+		this.transactions.splice(earlierIndex, 0, tx);
+		this.tbodyEl.insertBefore(tx.render(), earlierTransaction ? earlierTransaction.rootEl : null);
 	}
 });
 

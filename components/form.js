@@ -2,10 +2,13 @@ import formTemplate from '../templates/form.hbs';
 import config from 'config';
 import moment from 'moment-timezone';
 import {postJson, patchJson} from 'simple-fetch';
+import EventEmitter from 'eventemitter3';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
 const timezone = 'America/New_York';
+
+let form = Object.create(EventEmitter.prototype);
 
 const context = {
 	inputElTypes: ['text', 'date', 'time', 'number'],
@@ -89,6 +92,15 @@ function handleSubmit (e) {
 	button.setAttribute('disabled', '');
 	action(url, entry)
 		.then(function (json) {
+			if (!isUpdating) {
+				form.emit('transaction:add', Object.assign({}, entry, {
+					id: json.id,
+					// replicate the conversion done on the server as the date value
+					// is not returned
+					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
+				}));
+			}
+			// resetting form
 			button.innerHTML = 'Add';
 			button.removeAttribute('disabled');
 			resetForm();
@@ -97,8 +109,8 @@ function handleSubmit (e) {
 
 function resetForm () {
 	// reset date and tiem values;
-	context.values.date = moment().format('YYYY-MM-DD');
-	context.values.time = moment().format('HH:mm');
+	context.values.date = moment.tz(timezone).format(dateFormat);
+	context.values.time = moment.tz(timezone).format(timeFormat);
 	Object.keys(context.values).forEach((field) => {
 		rootEl.querySelector('[name=' + field + ']').value = context.values[field];
 	});
@@ -127,5 +139,6 @@ export function render () {
 	}
 	rootEl.innerHTML = formTemplate(context);
 	rootEl.addEventListener('submit', handleSubmit);
-	return rootEl;
+	form.rootEl = rootEl;
+	return form;
 }
