@@ -167,8 +167,15 @@ export function render () {
 export function updateMerchantList (merchantsCount) {
 	let merchants = [];
 	if (merchantsCount) {
-		merchants = Object.keys(merchantsCount).reduce(function (merchants, merchant) {
-			return merchants.concat(merchantsCount[merchant].values);
+		merchants = Object.keys(merchantsCount).map((merchant) => {
+			return {
+				slug: merchant,
+				count: merchantsCount[merchant].count
+			};
+		}).sort((a, b) => {
+			return b.count - a.count;
+		}).reduce(function (merchants, merchant) {
+			return merchants.concat(merchantsCount[merchant.slug].values);
 		}, []);
 	}
 	rootEl.querySelector('#merchant-list').innerHTML = merchants.map((merchant) => {
