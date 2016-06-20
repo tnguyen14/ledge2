@@ -1,4 +1,4 @@
-import {render as renderForm, editTransaction} from './components/form';
+import {render as renderForm, editTransaction, updateMerchantList} from './components/form';
 import {render as renderTransactions, updateWithTransactions, addTransaction, updateTransaction} from './components/transactions2';
 import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './components/accountStats2';
 import {getJson} from 'simple-fetch';
@@ -21,4 +21,5 @@ getJson(config.server_url + '/accounts/' + config.account_name)
 		console.log(json);
 		updateWithTransactions(json.transactions);
 		updateStatsWithTransactions(json.transactions);
+		updateMerchantList(json.merchants_count)
 	});

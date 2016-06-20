@@ -13,6 +13,13 @@
 							{{/eq}}
 						{{/each}}
 					/>
+				{{#with datalist}}
+					<datalist id={{id}}>
+						{{#each options}}
+							<option>{{this}}</option>
+						{{/each}}
+					</datalist>
+				{{/with}}
 			{{/contains}}
 			{{#eq type 'select'}}
 				<select class="form-control" name="{{name}}">

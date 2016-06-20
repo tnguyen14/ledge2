@@ -26,7 +26,12 @@ const context = {
 		label: 'Merchant',
 		name: 'merchant',
 		attributes: {
-			required: true
+			required: true,
+			list: 'merchant-list'
+		},
+		datalist: {
+			id: 'merchant-list',
+			options: []
 		}
 	}, {
 		type: 'date',
@@ -157,4 +162,16 @@ export function render () {
 	rootEl.addEventListener('submit', handleSubmit);
 	form.rootEl = rootEl;
 	return form;
+}
+
+export function updateMerchantList (merchantsCount) {
+	let merchants = [];
+	if (merchantsCount) {
+		merchants = Object.keys(merchantsCount).reduce(function (merchants, merchant) {
+			return merchants.concat(merchantsCount[merchant].values);
+		}, []);
+	}
+	rootEl.querySelector('#merchant-list').innerHTML = merchants.map((merchant) => {
+		return '<option>' + merchant + '</option>';
+	}).join('\n');
 }
