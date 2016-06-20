@@ -94,14 +94,19 @@ function handleSubmit (e) {
 		.then(function (json) {
 			if (!isUpdating) {
 				form.emit('transaction:add', Object.assign({}, entry, {
-					id: json.id,
+					id: String(json.id),
 					// replicate the conversion done on the server as the date value
 					// is not returned
 					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
 				}));
+			} else {
+				form.emit('transaction:edit', Object.assign({}, entry, {
+					oldId: entry.id,
+					id: String(json.id),
+					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
+				}));
 			}
 			// resetting form
-			button.innerHTML = 'Add';
 			button.removeAttribute('disabled');
 			resetForm();
 		});
@@ -114,9 +119,11 @@ function resetForm () {
 	Object.keys(context.values).forEach((field) => {
 		rootEl.querySelector('[name=' + field + ']').value = context.values[field];
 	});
+	rootEl.querySelector('[name=id]').value = '';
+	rootEl.querySelector('button').innerHTML = 'Add';
 }
 
-export function updateTransaction (tx) {
+export function editTransaction (tx) {
 	const transaction = Object.assign({}, tx);
 	const date = moment.tz(transaction.date, timezone);
 	transaction.amount = transaction.amount / 100;

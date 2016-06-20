@@ -63,7 +63,7 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		let earlierTransaction;
 		while (earlierIndex < this.transactions.length && !earlierTransaction) {
 			let tx = this.transactions[earlierIndex];
-			if (tx.id < transaction.id) {
+			if (tx.date < transaction.date) {
 				earlierTransaction = tx;
 			} else {
 				earlierIndex += 1;
@@ -71,6 +71,30 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		}
 		this.transactions.splice(earlierIndex, 0, tx);
 		this.tbodyEl.insertBefore(tx.render(), earlierTransaction ? earlierTransaction.rootEl : null);
+		tx.on('edit', this.editTransaction.bind(this));
+	},
+	updateTransaction (transaction) {
+		let IDs = this.transactions.map((t) => {
+			return t.id;
+		});
+		// week does not have the old transaction
+		if (!IDs.includes(transaction.oldId)) {
+			if (this.isWithinWeek(transaction)) {
+				this.addTransaction(transaction);
+				return;
+			} else {
+				return;
+			}
+		}
+		let index = IDs.indexOf(transaction.oldId);
+		// week has the old transaction, but not the new one
+		// remove the old one
+		if (!this.isWithinWeek(transaction)) {
+			this.transactions[index].remove();
+			this.transactions.splice(index, 1);
+		} else {
+			this.transactions[index].update(transaction);
+		}
 	}
 });
 
