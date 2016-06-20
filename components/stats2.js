@@ -1,5 +1,15 @@
 import template from '../templates/stats.hbs';
 
+function transformData (data) {
+	data.stats.sort((a, b) => {
+		return b.amount - a.amount;
+	});
+	return {...data, stats: data.stats.concat({
+		amount: data.total,
+		label: 'Total',
+		slug: 'total'
+	})};
+}
 const stats = {
 	render () {
 		if (!this.rootEl) {
@@ -13,10 +23,12 @@ const stats = {
 		return this.rootEl;
 	},
 	updateWithData (data) {
-		Object.assign(this, data);
+		Object.assign(this, transformData(data));
 	}
 };
 
+export default stats;
+
 export function create (data) {
-	return Object.assign(Object.create(stats), data);
+	return Object.assign(Object.create(stats), transformData(data));
 }

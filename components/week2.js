@@ -1,5 +1,6 @@
 import weekTemplate from '../templates/week.hbs';
 import {create as createTransaction} from './transaction2';
+import {create as createStats} from './weeklyStats2';
 import moment from 'moment-timezone';
 import EventEmitter from 'eventemitter3';
 
@@ -23,6 +24,11 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			this.rootEl.innerHTML = weekTemplate(this);
 		}
 		this.tbodyEl = this.rootEl.querySelector('.weekly-transactions tbody');
+		this.stats = createStats({
+			transactions: [],
+			offset: this.offset
+		});
+		this.rootEl.appendChild(this.stats.render());
 		return this.rootEl;
 	},
 	filterTransactions (transactions) {
@@ -49,6 +55,7 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 	},
 	updateWithTransactions (transactions) {
 		this.renderTransactions(this.filterTransactions(transactions));
+		this.stats.updateWithTransactions(this.transactions);
 	},
 	isWithinWeek (t) {
 		return t.date >= this.start.toISOString() && t.date <= this.end.toISOString();

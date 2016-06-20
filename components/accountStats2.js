@@ -9,7 +9,8 @@ let label = 'Weekly Averages';
 // initialize with empty array
 let stats = createStats(Object.assign({
 	label: label,
-	className: 'account-stats'
+	className: 'account-stats',
+	id: slug(label)
 }, calculateStats([])));
 
 function calculateStats (transactions) {
@@ -18,19 +19,12 @@ function calculateStats (transactions) {
 		return {
 			amount: getCategoryTotal(transactions, cat) / numWeeks,
 			label: cat.value,
-			slug: cat.slug,
-			id: slug(cat.slug + ' ' + label)
+			slug: cat.slug
 		};
-	}).sort((a, b) => {
-		return b.amount - a.amount;
 	});
-	const total = getTotal(transactions) / numWeeks;
 	return {
-		stats: averages.concat({
-			amount: total,
-			slug: 'total',
-			label: 'Total'
-		})
+		stats: averages,
+		total: getTotal(transactions) / numWeeks
 	};
 }
 

@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import config from 'config';
+import slug from 'slug';
 
 export function date (format, date) {
 	return moment(date).format(format);
@@ -29,4 +30,8 @@ export function money (amount) {
 	} else {
 		return '$' + (amount / 100).toFixed(2);
 	}
+}
+
+export function slugify (args) {
+	return slug(args.join(' '));
 }

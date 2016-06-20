@@ -3,8 +3,8 @@
 	<tbody>
 		{{#each stats}}
 			<tr class="stat" data-cat={{slug}}>
-				<td id={{id}}><span class="legend">&nbsp;</span>{{label}}</td>
-				<td aria-labeledby={{id}}>{{money amount}}</td>
+				<td id={{slug}}-{{../id}}><span class="legend">&nbsp;</span>{{label}}</td>
+				<td aria-labeledby={{slug}}-{{../id}}>{{money amount}}</td>
 			</tr>
 		{{/each}}
 	</tbody>
