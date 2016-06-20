@@ -16,22 +16,32 @@ const context = {
 		type: 'number',
 		attributes: {
 			min: 0,
-			step: 'any'
+			step: 'any',
+			required: true
 		},
 		label: 'Amount',
 		name: 'amount'
 	}, {
 		type: 'text',
 		label: 'Merchant',
-		name: 'merchant'
+		name: 'merchant',
+		attributes: {
+			required: true
+		}
 	}, {
 		type: 'date',
 		label: 'Date',
-		name: 'date'
+		name: 'date',
+		attributes: {
+			required: true
+		}
 	}, {
 		type: 'time',
 		label: 'Time',
-		name: 'time'
+		name: 'time',
+		attributes: {
+			required: true
+		}
 	}, {
 		type: 'select',
 		label: 'Category',

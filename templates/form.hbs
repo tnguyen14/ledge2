@@ -6,7 +6,11 @@
 				<input class="form-control" type={{type}} name={{name}}
 						value="{{lookup values name}}"
 						{{#each attributes}}
-							{{@key}}={{this}}
+							{{#eq this true}}
+								{{@key}}
+							{{else}}
+								{{@key}}={{this}}
+							{{/eq}}
 						{{/each}}
 					/>
 			{{/contains}}
