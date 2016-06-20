@@ -1,0 +1,11 @@
+<h3>{{label}}</h3>
+<table class="table">
+	<tbody>
+		{{#each stats}}
+			<tr class="stat" data-cat={{slug}}>
+				<td id={{id}}><span class="legend">&nbsp;</span>{{label}}</td>
+				<td aria-labeledby={{id}}>{{money amount}}</td>
+			</tr>
+		{{/each}}
+	</tbody>
+</table>
