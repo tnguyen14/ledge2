@@ -1,4 +1,4 @@
-import {date, money, getCategory, getSource, slugify} from './helpers';
+import {date, money, getCategory, getSource} from './helpers';
 import helpers from 'handlebars-helpers';
 import Handlebars from 'hbsfy/runtime';
 
@@ -10,6 +10,5 @@ Handlebars.registerHelper({
 	'date': date,
 	'money': money,
 	'getCategory': getCategory,
-	'getSource': getSource,
-	'slugify': slugify
+	'getSource': getSource
 });

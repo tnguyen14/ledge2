@@ -18,8 +18,7 @@ form.on('transaction:update', updateTransaction);
 
 getJson(config.server_url + '/accounts/' + config.account_name)
 	.then((json) => {
-		console.log(json);
 		updateWithTransactions(json.transactions);
 		updateStatsWithTransactions(json.transactions);
-		updateMerchantList(json.merchants_count)
+		updateMerchantList(json.merchants_count);
 	});
