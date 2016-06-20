@@ -24,11 +24,13 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 	remove () {
 		this.rootEl.parentNode.removeChild(this.rootEl);
 		delete this.rootEl;
+		this.emit('remove', this.id);
 	},
 	update (transaction) {
 		// no longer need reference to old ID
 		delete transaction.oldId;
 		Object.assign(this, transaction);
+		this.emit('update', this);
 		this.render();
 	},
 	startListening () {

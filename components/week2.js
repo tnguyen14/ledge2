@@ -38,9 +38,12 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		});
 	},
 	startListening () {
-		this.transactions.forEach((tx) => {
-			tx.on('edit', this.editTransaction.bind(this));
-		});
+		this.transactions.forEach(this.listenOnTransaction.bind(this));
+	},
+	listenOnTransaction (tx) {
+		tx.on('edit', this.editTransaction.bind(this));
+		tx.on('update', this.updateStats.bind(this));
+		tx.on('remove', this.removeTransaction.bind(this));
 	},
 	editTransaction (tx) {
 		this.emit('transaction:edit', tx);
@@ -55,6 +58,9 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 	},
 	updateWithTransactions (transactions) {
 		this.renderTransactions(this.filterTransactions(transactions));
+		this.updateStats();
+	},
+	updateStats () {
 		this.stats.updateWithTransactions(this.transactions);
 	},
 	isWithinWeek (t) {
@@ -78,7 +84,16 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		}
 		this.transactions.splice(earlierIndex, 0, tx);
 		this.tbodyEl.insertBefore(tx.render(), earlierTransaction ? earlierTransaction.rootEl : null);
-		tx.on('edit', this.editTransaction.bind(this));
+		this.updateStats();
+		this.listenOnTransaction(tx);
+	},
+	removeTransaction (id) {
+		let IDs = this.transactions.map((t) => t.id);
+		let index = IDs.indexOf(id);
+		if (index > -1) {
+			this.transactions.splice(index, 1);
+			this.updateStats();
+		}
 	},
 	updateTransaction (transaction) {
 		let IDs = this.transactions.map((t) => {
@@ -98,7 +113,6 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		// remove the old one
 		if (!this.isWithinWeek(transaction)) {
 			this.transactions[index].remove();
-			this.transactions.splice(index, 1);
 		} else {
 			this.transactions[index].update(transaction);
 		}
