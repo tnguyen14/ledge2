@@ -27,8 +27,6 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 		this.emit('remove', this.id);
 	},
 	update (transaction) {
-		// no longer need reference to old ID
-		delete transaction.oldId;
 		Object.assign(this, transaction);
 		this.emit('update', this);
 		this.render();

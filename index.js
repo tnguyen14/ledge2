@@ -14,7 +14,7 @@ root.appendChild(transactions.rootEl);
 
 transactions.on('transaction:edit', editTransaction);
 form.on('transaction:add', addTransaction);
-form.on('transaction:edit', updateTransaction);
+form.on('transaction:update', updateTransaction);
 
 getJson(config.server_url + '/accounts/' + config.account_name)
 	.then((json) => {

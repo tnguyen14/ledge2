@@ -39,8 +39,8 @@ export function addTransaction (transaction) {
 	});
 }
 
-export function updateTransaction (transaction) {
+export function updateTransaction (oldId, transaction) {
 	weeks.forEach((week) => {
-		week.updateTransaction(transaction);
+		week.updateTransaction(oldId, transaction);
 	});
 }

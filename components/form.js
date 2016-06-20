@@ -100,8 +100,7 @@ function handleSubmit (e) {
 					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
 				}));
 			} else {
-				form.emit('transaction:edit', Object.assign({}, entry, {
-					oldId: entry.id,
+				form.emit('transaction:update', entry.id, Object.assign({}, entry, {
 					id: String(json.id),
 					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
 				}));

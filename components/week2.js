@@ -95,12 +95,13 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			this.updateStats();
 		}
 	},
-	updateTransaction (transaction) {
+	updateTransaction (oldId, transaction) {
 		let IDs = this.transactions.map((t) => {
 			return t.id;
 		});
+		let index = IDs.indexOf(oldId);
 		// week does not have the old transaction
-		if (!IDs.includes(transaction.oldId)) {
+		if (index === -1) {
 			if (this.isWithinWeek(transaction)) {
 				this.addTransaction(transaction);
 				return;
@@ -108,7 +109,6 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 				return;
 			}
 		}
-		let index = IDs.indexOf(transaction.oldId);
 		// week has the old transaction, but not the new one
 		// remove the old one
 		if (!this.isWithinWeek(transaction)) {
