@@ -26,11 +26,6 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 		delete this.rootEl;
 		this.emit('remove', this.id);
 	},
-	update (transaction) {
-		Object.assign(this, transaction);
-		this.emit('update', this);
-		this.render();
-	},
 	toggleActive () {
 		if (this.rootEl.classList.contains('active')) {
 			this.rootEl.classList.remove('active');

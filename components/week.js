@@ -38,12 +38,15 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		});
 	},
 	startListening () {
-		this.transactions.forEach(this.listenOnTransaction.bind(this));
+		this.transactions.forEach(this.startListeningOnTransaction.bind(this));
 	},
-	listenOnTransaction (tx) {
+	startListeningOnTransaction (tx) {
 		tx.on('edit', this.editTransaction.bind(this));
-		tx.on('update', this.updateStats.bind(this));
 		tx.on('remove', this.removeTransaction.bind(this));
+	},
+	stopListeningOnTransaction (tx) {
+		tx.off('edit');
+		tx.off('remove');
 	},
 	editTransaction (tx) {
 		this.emit('transaction:edit', tx);
@@ -85,12 +88,13 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		this.transactions.splice(earlierIndex, 0, tx);
 		this.tbodyEl.insertBefore(tx.render(), earlierTransaction ? earlierTransaction.rootEl : null);
 		this.updateStats();
-		this.listenOnTransaction(tx);
+		this.startListeningOnTransaction(tx);
 	},
 	removeTransaction (id) {
 		let IDs = this.transactions.map((t) => t.id);
 		let index = IDs.indexOf(id);
 		if (index > -1) {
+			this.stopListeningOnTransaction(this.transactions[index]);
 			this.transactions.splice(index, 1);
 			this.updateStats();
 		}
@@ -100,21 +104,13 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			return t.id;
 		});
 		let index = IDs.indexOf(oldId);
-		// week does not have the old transaction
-		if (index === -1) {
-			if (this.isWithinWeek(transaction)) {
-				this.addTransaction(transaction);
-				return;
-			} else {
-				return;
-			}
-		}
-		// week has the old transaction, but not the new one
-		// remove the old one
-		if (!this.isWithinWeek(transaction)) {
+		// week has the old transaction -> remove
+		if (index !== -1) {
 			this.transactions[index].remove();
-		} else {
-			this.transactions[index].update(transaction);
+		}
+		// week has the new transaction
+		if (this.isWithinWeek(transaction)) {
+			this.addTransaction(transaction);
 		}
 	}
 });
