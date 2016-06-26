@@ -1,4 +1,4 @@
-import stats from './stats2';
+import stats from './stats';
 import config from 'config';
 import {getTotal, getCategoryTotal} from '../util/total';
 

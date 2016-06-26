@@ -1,4 +1,4 @@
-import {create as createStats} from './stats2';
+import {create as createStats} from './stats';
 import config from 'config';
 import slug from 'slug';
 import {getTotalWeeks} from '../util/weeks';

@@ -1,4 +1,4 @@
-import {create as createWeek} from './week2';
+import {create as createWeek} from './week';
 import EventEmitter from 'eventemitter3';
 
 let transactions = Object.create(EventEmitter.prototype);

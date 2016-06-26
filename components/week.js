@@ -1,6 +1,6 @@
 import weekTemplate from '../templates/week.hbs';
-import {create as createTransaction} from './transaction2';
-import {create as createStats} from './weeklyStats2';
+import {create as createTransaction} from './transaction';
+import {create as createStats} from './weeklyStats';
 import moment from 'moment-timezone';
 import EventEmitter from 'eventemitter3';
 

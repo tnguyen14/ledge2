@@ -1,6 +1,6 @@
 import {render as renderForm, editTransaction, updateMerchantList} from './components/form';
-import {render as renderTransactions, updateWithTransactions, addTransaction, updateTransaction} from './components/transactions2';
-import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './components/accountStats2';
+import {render as renderTransactions, updateWithTransactions, addTransaction, updateTransaction} from './components/transactions';
+import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './components/accountStats';
 import {getJson} from 'simple-fetch';
 import config from 'config';
 import './util/handlebars';
