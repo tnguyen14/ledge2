@@ -31,10 +31,18 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 		this.emit('update', this);
 		this.render();
 	},
+	toggleActive () {
+		if (this.rootEl.classList.contains('active')) {
+			this.rootEl.classList.remove('active');
+		} else {
+			this.rootEl.classList.add('active');
+		}
+	},
 	startListening () {
 		this.events.bind({
 			'click .action .edit': 'edit',
-			'click .action .remove': 'delete'
+			'click .action .remove': 'delete',
+			'click': 'toggleActive'
 		});
 	},
 	stopListening () {
