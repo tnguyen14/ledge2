@@ -8,6 +8,7 @@ import events from 'events-mixin';
 
 const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 	edit () {
+		window.scroll(0, 0);
 		this.emit('edit', this);
 	},
 	delete () {
@@ -15,7 +16,8 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 		this.rootEl.appendChild(dialog.rootEl);
 		showDialog();
 		dialog.on('confirm', () => {
-			deleteJson(config.server_url + '/accounts/' + config.account_name + '/transactions/' + this.id)
+			deleteJson(config.server_url + '/accounts/' + config.account_name +
+				'/transactions/' + this.id)
 				.then((json) => {
 					this.remove();
 				});

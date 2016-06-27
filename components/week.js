@@ -32,10 +32,11 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		return this.rootEl;
 	},
 	filterTransactions (transactions) {
-		return transactions.filter(this.isWithinWeek.bind(this)).sort((a, b) => {
-			// sort by id
-			return Number(b.id) - Number(a.id);
-		});
+		return transactions.filter(this.isWithinWeek.bind(this))
+			.sort((a, b) => {
+				// sort by id
+				return Number(b.id) - Number(a.id);
+			});
 	},
 	startListening () {
 		this.transactions.forEach(this.startListeningOnTransaction.bind(this));
@@ -67,7 +68,8 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		this.stats.updateWithTransactions(this.transactions);
 	},
 	isWithinWeek (t) {
-		return t.date >= this.start.toISOString() && t.date <= this.end.toISOString();
+		return t.date >= this.start.toISOString() &&
+			t.date <= this.end.toISOString();
 	},
 	addTransaction (transaction) {
 		if (!this.isWithinWeek(transaction)) {
@@ -77,7 +79,8 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		// find where to insert the new transaction
 		let earlierIndex = 0;
 		let earlierTransaction;
-		while (earlierIndex < this.transactions.length && !earlierTransaction) {
+		while (earlierIndex < this.transactions.length &&
+			!earlierTransaction) {
 			let tx = this.transactions[earlierIndex];
 			if (tx.date < transaction.date) {
 				earlierTransaction = tx;
@@ -86,7 +89,8 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			}
 		}
 		this.transactions.splice(earlierIndex, 0, tx);
-		this.tbodyEl.insertBefore(tx.render(), earlierTransaction ? earlierTransaction.rootEl : null);
+		this.tbodyEl.insertBefore(tx.render(),
+			earlierTransaction ? earlierTransaction.rootEl : null);
 		this.updateStats();
 		this.startListeningOnTransaction(tx);
 	},
