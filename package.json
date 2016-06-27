@@ -1,7 +1,7 @@
 {
   "name": "ledge",
-  "version": "1.0.0",
-  "description": "ledge. in react.",
+  "version": "2.0.0",
+  "description": "ledge. in plain JS.",
   "main": "index.js",
   "repository": {
     "type": "git",
