@@ -31,7 +31,9 @@ export function render () {
 }
 
 export function updateWithTransactions (transactions) {
-	transactionsData = transactions;
+	transactionsData = transactions.sort((a, b) => {
+		return Number(b.id) - Number(a.id);
+	});
 	weeks.forEach((week) => {
 		week.updateWithTransactions(transactions);
 	});
