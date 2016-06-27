@@ -1,8 +1,10 @@
 import {create as createWeek} from './week';
 import EventEmitter from 'eventemitter3';
+import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './accountStats';
+import {findPositionToInsert, findIndexByID} from '../util/transactions';
 
 let transactions = Object.create(EventEmitter.prototype);
-let transactionsData;
+let data;
 
 let weekOffsets = [0, -1, -2, -3];
 let weeks = [];
@@ -11,6 +13,8 @@ function startListeningOnWeek (week) {
 	week.on('transaction:edit', (tx) => {
 		transactions.emit('transaction:edit', tx);
 	});
+	week.on('week:transaction:add', addTransactionToData);
+	week.on('week:transaction:remove', removeTransactionFromData);
 }
 
 function renderWeek (offset) {
@@ -30,13 +34,36 @@ export function render () {
 	return transactions;
 }
 
-export function updateWithTransactions (transactions) {
-	transactionsData = transactions.sort((a, b) => {
+export function renderAccountStats () {
+	transactions.rootEl.parentNode.insertBefore(renderStats(),
+		transactions.rootEl
+	);
+}
+
+export function updateWithTransactions (_transactions) {
+	data = _transactions.sort((a, b) => {
 		return Number(b.id) - Number(a.id);
 	});
 	weeks.forEach((week) => {
-		week.updateWithTransactions(transactions);
+		week.updateWithTransactions(data);
 	});
+	updateStatsWithTransactions(data);
+}
+
+function addTransactionToData (transaction) {
+	const earlierIndex = findPositionToInsert(data,
+		transaction.date);
+	data.splice(earlierIndex, 0, transaction);
+	updateStatsWithTransactions(data);
+}
+
+function removeTransactionFromData (id) {
+	let index = findIndexByID(data, id);
+	if (index === -1) {
+		throw new Error('Transaction with ID ' + id + ' is not found.');
+	}
+	data.splice(index, 1);
+	updateStatsWithTransactions(data);
 }
 
 export function addTransaction (transaction) {
@@ -55,5 +82,5 @@ export function addWeek () {
 	let offset = weekOffsets[weekOffsets.length - 1] - 1;
 	weekOffsets.push(offset);
 	let week = renderWeek(offset);
-	week.updateWithTransactions(transactionsData);
+	week.updateWithTransactions(data);
 }

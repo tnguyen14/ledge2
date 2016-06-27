@@ -1,6 +1,7 @@
 import weekTemplate from '../templates/week.hbs';
 import {create as createTransaction} from './transaction';
 import {create as createStats} from './weeklyStats';
+import {findPositionToInsert, findIndexByID} from '../util/transactions';
 import moment from 'moment-timezone';
 import EventEmitter from 'eventemitter3';
 
@@ -49,9 +50,6 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		tx.off('edit');
 		tx.off('remove');
 	},
-	editTransaction (tx) {
-		this.emit('transaction:edit', tx);
-	},
 	renderTransactions (transactions) {
 		this.transactions = transactions.map((transactionData) => {
 			let tx = createTransaction(transactionData);
@@ -71,43 +69,36 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		return t.date >= this.start.toISOString() &&
 			t.date <= this.end.toISOString();
 	},
+	editTransaction (tx) {
+		this.emit('transaction:edit', tx);
+	},
+	removeTransaction (id) {
+		let index = findIndexByID(this.transactions, id);
+		if (index === -1) {
+			throw new Error('Transaction ' + id + ' is not in week.');
+		}
+		this.stopListeningOnTransaction(this.transactions[index]);
+		this.transactions.splice(index, 1);
+		this.updateStats();
+		this.emit('week:transaction:remove', id);
+	},
 	addTransaction (transaction) {
 		if (!this.isWithinWeek(transaction)) {
 			return;
 		}
 		let tx = createTransaction(transaction);
-		// find where to insert the new transaction
-		let earlierIndex = 0;
-		let earlierTransaction;
-		while (earlierIndex < this.transactions.length &&
-			!earlierTransaction) {
-			let tx = this.transactions[earlierIndex];
-			if (tx.date < transaction.date) {
-				earlierTransaction = tx;
-			} else {
-				earlierIndex += 1;
-			}
-		}
+		const earlierIndex = findPositionToInsert(this.transactions,
+			transaction.date);
+		const earlierTransaction = this.transactions[earlierIndex];
 		this.transactions.splice(earlierIndex, 0, tx);
 		this.tbodyEl.insertBefore(tx.render(),
 			earlierTransaction ? earlierTransaction.rootEl : null);
 		this.updateStats();
 		this.startListeningOnTransaction(tx);
-	},
-	removeTransaction (id) {
-		let IDs = this.transactions.map((t) => t.id);
-		let index = IDs.indexOf(id);
-		if (index > -1) {
-			this.stopListeningOnTransaction(this.transactions[index]);
-			this.transactions.splice(index, 1);
-			this.updateStats();
-		}
+		this.emit('week:transaction:add', transaction);
 	},
 	updateTransaction (oldId, transaction) {
-		let IDs = this.transactions.map((t) => {
-			return t.id;
-		});
-		let index = IDs.indexOf(oldId);
+		let index = findIndexByID(this.transactions, oldId);
 		// week has the old transaction -> remove
 		if (index !== -1) {
 			this.transactions[index].remove();
