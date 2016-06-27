@@ -43,8 +43,8 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		this.transactions.forEach(this.startListeningOnTransaction.bind(this));
 	},
 	startListeningOnTransaction (tx) {
-		tx.on('edit', this.editTransaction.bind(this));
-		tx.on('remove', this.removeTransaction.bind(this));
+		tx.on('transaction:edit', this.editTransaction.bind(this));
+		tx.on('transaction:remove', this.removeTransaction.bind(this));
 	},
 	stopListeningOnTransaction (tx) {
 		tx.off('edit');
@@ -70,7 +70,7 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			t.date <= this.end.toISOString();
 	},
 	editTransaction (tx) {
-		this.emit('transaction:edit', tx);
+		this.emit('week:transaction:edit', tx);
 	},
 	removeTransaction (id) {
 		let index = findIndexByID(this.transactions, id);

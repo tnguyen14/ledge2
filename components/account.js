@@ -3,15 +3,15 @@ import EventEmitter from 'eventemitter3';
 import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './accountStats';
 import {findPositionToInsert, findIndexByID} from '../util/transactions';
 
-let transactions = Object.create(EventEmitter.prototype);
+let account = Object.create(EventEmitter.prototype);
 let data;
 
 let weekOffsets = [0, -1, -2, -3];
 let weeks = [];
 
 function startListeningOnWeek (week) {
-	week.on('transaction:edit', (tx) => {
-		transactions.emit('transaction:edit', tx);
+	week.on('week:transaction:edit', (tx) => {
+		account.emit('account:transaction:edit', tx);
 	});
 	week.on('week:transaction:add', addTransactionToData);
 	week.on('week:transaction:remove', removeTransactionFromData);
@@ -20,28 +20,28 @@ function startListeningOnWeek (week) {
 function renderWeek (offset) {
 	let week = createWeek(offset);
 	weeks.push(week);
-	transactions.rootEl.appendChild(week.render());
+	account.rootEl.appendChild(week.render());
 	startListeningOnWeek(week);
 	return week;
 }
 
 export function render () {
-	if (!transactions.rootEl) {
-		transactions.rootEl = document.createElement('div');
-		transactions.rootEl.className = 'transactions';
+	if (!account.rootEl) {
+		account.rootEl = document.createElement('div');
+		account.rootEl.className = 'transactions';
 		weekOffsets.forEach(renderWeek);
 	}
-	return transactions;
+	return account;
 }
 
 export function renderAccountStats () {
-	transactions.rootEl.parentNode.insertBefore(renderStats(),
-		transactions.rootEl
+	account.rootEl.parentNode.insertBefore(renderStats(),
+		account.rootEl
 	);
 }
 
-export function updateWithTransactions (_transactions) {
-	data = _transactions.sort((a, b) => {
+export function updateWithTransactions (transactions) {
+	data = transactions.sort((a, b) => {
 		return Number(b.id) - Number(a.id);
 	});
 	weeks.forEach((week) => {

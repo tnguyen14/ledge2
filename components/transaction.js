@@ -9,7 +9,7 @@ import events from 'events-mixin';
 const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 	edit () {
 		window.scroll(0, 0);
-		this.emit('edit', this);
+		this.emit('transaction:edit', this);
 	},
 	delete () {
 		const dialog = renderDialog();
@@ -26,7 +26,7 @@ const transaction = Object.assign(Object.create(EventEmitter.prototype), {
 	remove () {
 		this.rootEl.parentNode.removeChild(this.rootEl);
 		delete this.rootEl;
-		this.emit('remove', this.id);
+		this.emit('transaction:remove', this.id);
 	},
 	toggleActive () {
 		if (this.rootEl.classList.contains('active')) {
