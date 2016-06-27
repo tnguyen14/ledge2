@@ -108,14 +108,14 @@ function handleSubmit (e) {
 	action(url, entry)
 		.then(function (json) {
 			if (!isUpdating) {
-				form.emit('transaction:add', Object.assign({}, entry, {
+				form.emit('form:transaction:add', Object.assign({}, entry, {
 					id: String(json.id),
 					// replicate the conversion done on the server as the date value
 					// is not returned
 					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
 				}));
 			} else {
-				form.emit('transaction:update', entry.id, Object.assign({}, entry, {
+				form.emit('form:transaction:update', entry.id, Object.assign({}, entry, {
 					id: String(json.id),
 					date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
 				}));

@@ -15,9 +15,9 @@ renderAccountStats();
 root.appendChild(loadMore.rootEl);
 
 account.on('account:transaction:edit', editTransaction);
-form.on('transaction:add', addTransaction);
-form.on('transaction:update', updateTransaction);
-loadMore.on('weeks:add', addWeek);
+form.on('form:transaction:add', addTransaction);
+form.on('form:transaction:update', updateTransaction);
+loadMore.on('loadmore:week:add', addWeek);
 
 getJson(config.server_url + '/accounts/' + config.account_name)
 	.then((json) => {

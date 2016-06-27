@@ -47,8 +47,8 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		tx.on('transaction:remove', this.removeTransaction.bind(this));
 	},
 	stopListeningOnTransaction (tx) {
-		tx.off('edit');
-		tx.off('remove');
+		tx.off('transaction:edit');
+		tx.off('transaction:remove');
 	},
 	renderTransactions (transactions) {
 		this.transactions = transactions.map((transactionData) => {

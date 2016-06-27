@@ -7,7 +7,7 @@ function startListening () {
 		return;
 	}
 	loadMore.rootEl.addEventListener('click', function (e) {
-		loadMore.emit('weeks:add');
+		loadMore.emit('loadmore:week:add');
 	});
 }
 
