@@ -88,7 +88,7 @@ let rootEl;
 function handleSubmit (e) {
 	e.preventDefault();
 	let entry = {};
-	const button = rootEl.querySelector('button');
+	const button = rootEl.querySelector('.submit');
 	/* global FormData */
 	let formData = new FormData(rootEl);
 	let isUpdating = false;
@@ -134,7 +134,12 @@ function resetForm () {
 		rootEl.querySelector('[name=' + field + ']').value = context.values[field];
 	});
 	rootEl.querySelector('[name=id]').value = '';
-	rootEl.querySelector('button').innerHTML = 'Add';
+	rootEl.querySelector('.submit').innerHTML = 'Add';
+}
+
+function startListening () {
+	form.rootEl.addEventListener('submit', handleSubmit);
+	form.rootEl.querySelector('.reset').addEventListener('click', resetForm);
 }
 
 export function editTransaction (tx) {
@@ -149,7 +154,7 @@ export function editTransaction (tx) {
 		}
 	});
 	rootEl.querySelector('[name=id]').value = transaction.id;
-	rootEl.querySelector('button').innerHTML = 'Update';
+	rootEl.querySelector('.submit').innerHTML = 'Update';
 }
 
 export function render () {
@@ -159,8 +164,8 @@ export function render () {
 		rootEl.setAttribute('method', 'POST');
 	}
 	rootEl.innerHTML = formTemplate(context);
-	rootEl.addEventListener('submit', handleSubmit);
 	form.rootEl = rootEl;
+	startListening();
 	return form;
 }
 
