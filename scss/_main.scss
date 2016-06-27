@@ -37,23 +37,8 @@ body {
 		float: left;
 		width: calc(100% - 6em);
 	}
-}
-
-.twitter-typeahead {
-	width: 100%;
-	.tt-menu {
-		&.tt-open {
-			background-color: $white-smoke;
-			padding: 1rem;
-			width: 100%;
-		}
-	}
-	.tt-suggestion {
-		cursor: pointer;
-		padding: .5rem;
-		&:hover {
-			background-color: darken($white-smoke, 10%);
-		}
+	.reset {
+		margin-right: 1rem;
 	}
 }
 

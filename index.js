@@ -1,16 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import App from './containers/App';
-import configureStore from './store';
-import { getAccount } from './actions';
+import {render as renderForm, editTransaction, updateMerchantList} from './components/form';
+import {render as renderAccount, updateWithTransactions, addTransaction, updateTransaction, addWeek, renderAccountStats} from './components/account';
+import {render as renderLoadMore} from './components/loadMore.js';
+import {getJson} from 'simple-fetch';
+import config from 'config';
+import './util/handlebars';
 
-const store = configureStore();
-store.dispatch(getAccount());
+const root = document.querySelector('.main');
+const account = renderAccount();
+const form = renderForm();
+const loadMore = renderLoadMore();
+root.appendChild(form.rootEl);
+root.appendChild(account.rootEl);
+renderAccountStats();
+root.appendChild(loadMore.rootEl);
 
-ReactDOM.render(
-	<Provider store={store}>
-		<App/>
-	</Provider>,
-	document.getElementById('root')
-);
+account.on('account:transaction:edit', editTransaction);
+form.on('form:transaction:add', addTransaction);
+form.on('form:transaction:update', updateTransaction);
+loadMore.on('loadmore:week:add', addWeek);
+
+getJson(config.server_url + '/accounts/' + config.account_name)
+	.then((json) => {
+		updateWithTransactions(json.transactions);
+		updateMerchantList(json.merchants_count);
+	});
