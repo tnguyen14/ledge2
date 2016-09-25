@@ -40,16 +40,6 @@ export function renderAccountStats () {
 	);
 }
 
-export function updateWithTransactions (transactions) {
-	data = transactions.sort((a, b) => {
-		return Number(b.id) - Number(a.id);
-	});
-	weeks.forEach((week) => {
-		week.updateWithTransactions(data);
-	});
-	updateStatsWithTransactions(data);
-}
-
 function addTransactionToData (transaction) {
 	const earlierIndex = findPositionToInsert(data,
 		transaction.date);
@@ -81,6 +71,5 @@ export function updateTransaction (oldId, transaction) {
 export function addWeek () {
 	let offset = weekOffsets[weekOffsets.length - 1] - 1;
 	weekOffsets.push(offset);
-	let week = renderWeek(offset);
-	week.updateWithTransactions(data);
+	renderWeek(offset);
 }

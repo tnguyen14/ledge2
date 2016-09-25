@@ -1,8 +1,6 @@
 import {render as renderForm, editTransaction, updateMerchantList} from './components/form';
-import {render as renderAccount, updateWithTransactions, addTransaction, updateTransaction, addWeek, renderAccountStats} from './components/account';
+import {render as renderAccount, addTransaction, updateTransaction, addWeek, renderAccountStats} from './components/account';
 import {render as renderLoadMore} from './components/loadMore.js';
-import {getJson} from 'simple-fetch';
-import config from 'config';
 import './util/handlebars';
 
 const root = document.querySelector('.main');
@@ -18,9 +16,3 @@ account.on('account:transaction:edit', editTransaction);
 form.on('form:transaction:add', addTransaction);
 form.on('form:transaction:update', updateTransaction);
 loadMore.on('loadmore:week:add', addWeek);
-
-getJson(config.server_url + '/accounts/' + config.account_name)
-	.then((json) => {
-		updateWithTransactions(json.transactions);
-		updateMerchantList(json.merchants_count);
-	});

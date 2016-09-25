@@ -4,6 +4,8 @@ import {create as createStats} from './weeklyStats';
 import {findPositionToInsert, findIndexByID} from '../util/transactions';
 import moment from 'moment-timezone';
 import EventEmitter from 'eventemitter3';
+import {getJson} from 'simple-fetch';
+import config from 'config';
 
 function getStartEnd (offset) {
 	const start = moment().isoWeekday(1 + offset * 7).startOf('isoWeek');
@@ -30,6 +32,7 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 			offset: this.offset
 		});
 		this.rootEl.appendChild(this.stats.render());
+		this.loadTransactions();
 		return this.rootEl;
 	},
 	filterTransactions (transactions) {
@@ -58,9 +61,11 @@ const week = Object.assign(Object.create(EventEmitter.prototype), {
 		});
 		this.startListening();
 	},
-	updateWithTransactions (transactions) {
-		this.renderTransactions(this.filterTransactions(transactions));
-		this.updateStats();
+	loadTransactions () {
+		getJson(config.server_url + '/accounts/' + config.account_name + '/weekly/' + this.offset).then((transactions) => {
+			this.renderTransactions(this.filterTransactions(transactions));
+			this.updateStats();
+		});
 	},
 	updateStats () {
 		this.stats.updateWithTransactions(this.transactions);
