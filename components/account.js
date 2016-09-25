@@ -2,6 +2,9 @@ import {create as createWeek} from './week';
 import EventEmitter from 'eventemitter3';
 import {render as renderStats, updateWithTransactions as updateStatsWithTransactions} from './accountStats';
 import {findPositionToInsert, findIndexByID} from '../util/transactions';
+import {updateMerchantList} from './form';
+import {getJson} from 'simple-fetch';
+import config from 'config';
 
 let account = Object.create(EventEmitter.prototype);
 let data;
@@ -31,6 +34,7 @@ export function render () {
 		account.rootEl.className = 'transactions';
 		weekOffsets.forEach(renderWeek);
 	}
+	loadAccount();
 	return account;
 }
 
@@ -38,6 +42,13 @@ export function renderAccountStats () {
 	account.rootEl.parentNode.insertBefore(renderStats(),
 		account.rootEl
 	);
+}
+
+function loadAccount () {
+	getJson(config.server_url + '/accounts/' + config.account_name)
+		.then((account) => {
+			updateMerchantList(account.merchants_count);
+		});
 }
 
 function addTransactionToData (transaction) {
