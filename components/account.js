@@ -16,8 +16,8 @@ function startListeningOnWeek (week) {
 	week.on('week:transaction:edit', (tx) => {
 		account.emit('account:transaction:edit', tx);
 	});
-	week.on('week:transaction:add', addTransactionToData);
-	week.on('week:transaction:remove', removeTransactionFromData);
+	// week.on('week:transaction:add', addTransactionToData);
+	// week.on('week:transaction:remove', removeTransactionFromData);
 }
 
 function renderWeek (offset) {
