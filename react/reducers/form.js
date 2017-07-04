@@ -5,7 +5,7 @@ const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
 const timezone = 'America/New_York';
 const initialState = {
-	submitText: 'Add',
+	action: 'add',
 	values: {
 		amount: '',
 		merchant: '',
