@@ -23,7 +23,8 @@
     "watch": "npm run js:watch & npm run css:watch & npm run serve",
     "watch:react": "npm run js:watch:react & npm run css:watch & npm run serve",
     "start": "npm run build && npm run watch",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "precommit": "lint-staged"
   },
   "browser": {
     "config": "./config.json"
@@ -45,12 +46,16 @@
     "browserify": "^13.0.0",
     "envify": "^3.4.0",
     "eslint-config-happiness": "^5.3.1",
+    "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-react": "^7.1.0",
     "gh-pages": "^0.8.0",
     "handlebars": "^4.0.5",
     "hbsfy": "^2.7.0",
     "http-server": "^0.9.0",
+    "husky": "^0.14.2",
+    "lint-staged": "^4.0.0",
     "node-sass": "^4.5.3",
+    "prettier": "^1.5.2",
     "watchify": "^3.7.0"
   },
   "dependencies": {
@@ -68,5 +73,11 @@
     "redux": "^3.7.1",
     "simple-fetch": "^1.2.0",
     "slug": "^0.9.1"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --use-tabs --single-quote",
+      "git add"
+    ]
   }
 }

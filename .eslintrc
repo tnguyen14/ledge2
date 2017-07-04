@@ -1,5 +1,10 @@
 {
-  "extends": ["happiness", "plugin:react/recommended"],
+  "extends": [
+    "happiness",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/react"
+  ],
   "plugins": ["react"],
   "parserOptions": {
     "ecmaFeatures": {
