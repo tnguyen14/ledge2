@@ -33,11 +33,7 @@ const initialState = {
 			name: 'merchant',
 			attributes: {
 				required: true,
-				list: 'merchant-list'
-			},
-			datalist: {
-				id: 'merchant-list',
-				options: []
+				list: 'merchants-list'
 			}
 		},
 		{

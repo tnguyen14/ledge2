@@ -40,6 +40,7 @@
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.3.14",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.2.0",

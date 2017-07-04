@@ -25,19 +25,6 @@ function Field(props) {
 				{...attributes}
 			/>
 		);
-		if (datalist) {
-			dataListEl = (
-				<datalist id={datalist.id}>
-					{datalist.options.map(opt => {
-						return (
-							<option key={opt}>
-								{opt}
-							</option>
-						);
-					})}
-				</datalist>
-			);
-		}
 	} else if (type === 'select') {
 		inputEl = (
 			<select className="form-control" name={name} value={value}>
