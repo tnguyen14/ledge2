@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const inputTypes = ['text', 'date', 'time', 'number'];
+const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field (props) {
 	const {type, label, name, attributes, value, options, datalist, placeholder} = props;
 	let inputEl;
@@ -42,6 +42,10 @@ function Field (props) {
 		inputEl = (
 			<textarea className="form-control" name={name}></textarea>
 		);
+	}
+	// no wrapper for hidden element
+	if (type === 'hidden') {
+		return inputEl;
 	}
 	return (
 		<div className="form-group">

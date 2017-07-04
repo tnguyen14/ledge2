@@ -74,6 +74,9 @@ const initialState = {
 			slug: 'POSTED',
 			value: 'POSTED'
 		}]
+	}, {
+		type: 'hidden',
+		name: 'id'
 	}]
 };
 
