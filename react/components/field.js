@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const inputTypes = ['text', 'date', 'time', 'number'];
-function Field(props) {
+function Field (props) {
 	const {type, label, name, attributes, value, options, datalist, placeholder} = props;
 	let inputEl;
 	let dataListEl;
@@ -52,5 +53,16 @@ function Field(props) {
 		</div>
 	);
 }
+
+Field.propTypes = {
+	type: PropTypes.string.isRequired,
+	label: PropTypes.string,
+	name: PropTypes.string,
+	attributes: PropTypes.object,
+	value: PropTypes.string,
+	options: PropTypes.array,
+	datalist: PropTypes.object,
+	placeholder: PropTypes.string
+};
 
 export default Field;
