@@ -24,7 +24,7 @@ function Field(props) {
 		inputEl = (
 			<select className="form-control" name={name} value={value}>
 				<option value="">
-					{(placeholder ? placeholder : `Select ${label}`)}
+					{(placeholder || `Select ${label}`)}
 				</option>
 				{options.map((option) => {
 					const optionProps = {
