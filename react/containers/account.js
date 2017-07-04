@@ -2,13 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadAccount } from '../actions/account';
+import Week from './week';
 
 class Account extends Component {
 	componentWillMount() {
 		this.props.loadAccount();
 	}
 	render() {
-		return <div className="transactions" />;
+		const { weeks } = this.props;
+		return (
+			<div className="transactions">
+				{weeks.map(week => {
+					return <Week offset={week} />;
+				})}
+			</div>
+		);
 	}
 }
 

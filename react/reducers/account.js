@@ -7,6 +7,8 @@ const initialState = {
 export default function account(state = initialState, action) {
 	switch (action.type) {
 		case LOAD_ACCOUNT_SUCCESS:
+			// create a list of merchants based on the
+			// merchants_count object
 			const merchants = Object.keys(action.data.merchants_count)
 				.map(merchant => {
 					return {
