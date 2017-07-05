@@ -2,17 +2,27 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadTransactions } from '../actions/transactions';
+import { loadWeek } from '../actions/weeks';
 import Transaction from '../components/transaction';
 
 class Week extends Component {
 	componentWillMount() {
+		// load week first to instantiate week object
+		this.props.loadWeek(this.props.offset);
+		// load transactions
 		this.props.loadTransactions(this.props.offset);
 	}
 	render() {
-		const { transactions } = this.props;
+		const { transactions, start, end } = this.props;
+		let dateRange;
+		if (start && end) {
+			dateRange = `${start.format('MMM D')} - ${end.format('MMM D')}`;
+		}
 		return (
 			<div className="weekly">
-				<h3 />
+				<h3>
+					{dateRange}
+				</h3>
 				<table className="weekly-transactions table table-striped">
 					<thead>
 						<tr>
@@ -26,10 +36,11 @@ class Week extends Component {
 						</tr>
 						<tr className="addition" />
 					</thead>
-					{transactions.map(tx => {
-						return <Transaction {...tx} />;
-					})}
-					<tbody />
+					<tbody>
+						{transactions.map(tx => {
+							return <Transaction {...tx} />;
+						})}
+					</tbody>
 				</table>
 			</div>
 		);
@@ -38,7 +49,9 @@ class Week extends Component {
 
 Week.propTypes = {
 	offset: PropTypes.number.isRequired,
-	transactions: PropTypes.array
+	transactions: PropTypes.array,
+	start: PropTypes.object,
+	end: PropTypes.object
 };
 
 Week.defaultProps = {
@@ -47,10 +60,11 @@ Week.defaultProps = {
 
 function mapStateToProps(state, ownProps) {
 	return {
-		transactions: state.transactions[ownProps.offset]
+		...state.weeks[ownProps.offset]
 	};
 }
 
 export default connect(mapStateToProps, {
-	loadTransactions
+	loadTransactions,
+	loadWeek
 })(Week);
