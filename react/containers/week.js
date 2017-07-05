@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadTransactions } from '../actions/transactions';
 import Transaction from '../components/transaction';
+import WeeklyStats from '../components/weeklyStats';
 
 class Week extends Component {
 	componentWillMount() {
@@ -10,7 +11,7 @@ class Week extends Component {
 		this.props.loadTransactions(this.props.offset);
 	}
 	render() {
-		const { transactions, start, end } = this.props;
+		const { offset, transactions, start, end } = this.props;
 		return (
 			<div className="weekly">
 				<h3>
@@ -35,6 +36,7 @@ class Week extends Component {
 						})}
 					</tbody>
 				</table>
+				<WeeklyStats weekId={`week-${offset}`} transactions={transactions} />
 			</div>
 		);
 	}
