@@ -1,5 +1,6 @@
 import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/transactions';
 import { ADD_WEEK } from '../actions/weeks';
+import { ADD_TRANSACTION_SUCCESS } from '../actions/form';
 import moment from 'moment-timezone';
 
 const weekOffsets = [0, -1, -2, -3];
@@ -61,6 +62,20 @@ export default function weeks(state = initialState, action) {
 				...state,
 				[newOffset]: createDefaultWeek(newOffset)
 			};
+		case ADD_TRANSACTION_SUCCESS:
+			return Object.keys(state).reduce((newState, offset) => {
+				const week = state[offset];
+				// only care if transaction is within a week
+				if (isWithinWeek(action.data.date, week.start, week.end)) {
+					week.transactions = filterTransactions(
+						week.transactions.concat(action.data),
+						week.start,
+						week.end
+					);
+				}
+				newState[offset] = week;
+				return newState;
+			}, {});
 		default:
 			return state;
 	}

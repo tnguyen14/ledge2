@@ -16,7 +16,17 @@ class Form extends Component {
 		};
 	}
 	render() {
-		const { fields, values, action, merchants, submitForm } = this.props;
+		const {
+			fields,
+			values,
+			action,
+			merchants,
+			submitForm,
+			pending
+		} = this.props;
+		const buttonAttrs = {
+			disabled: Boolean(pending)
+		};
 		return (
 			<form className="new-transaction" method="POST">
 				<h2>Add a new transaction</h2>
@@ -40,10 +50,15 @@ class Form extends Component {
 					type="submit"
 					className="btn btn-primary pull-right submit"
 					onClick={submitForm}
+					{...buttonAttrs}
 				>
 					{action}
 				</button>
-				<button type="button" className="btn btn-default pull-right reset">
+				<button
+					type="button"
+					className="btn btn-default pull-right reset"
+					{...buttonAttrs}
+				>
 					Reset
 				</button>
 			</form>

@@ -1,13 +1,58 @@
-export const SUBMIT_TRANSACTION = 'SUBMIT_TRANSACTION';
+import { postJson, patchJson } from 'simple-fetch';
+import moment from 'moment-timezone';
+import config from 'config';
 
-export function submitForm(transaction) {
+const timezone = 'America/New_York';
+
+export const SUBMIT_TRANSACTION = 'SUBMIT_TRANSACTION';
+export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
+export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
+export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
+
+export function submitForm(event) {
+	event.preventDefault();
 	return (dispatch, getState) => {
-		const { action } = getState().form;
-		console.log('action is ', action);
+		const { action, values } = getState().form;
+		let entry = {
+			...values,
+			amount: values.amount * 100
+		};
+
+		const isUpdating = action === 'update';
+		const serverAction = isUpdating ? patchJson : postJson;
+		const actionUrl = `${config.server_url}/accounts/${config.account_name}/transactions/${isUpdating
+			? entry.id
+			: ''}`;
+		const successActionType = isUpdating
+			? UPDATE_TRANSACTION_SUCCESS
+			: ADD_TRANSACTION_SUCCESS;
+
 		dispatch({
-			type: SUBMIT_TRANSACTION,
-			data: transaction
+			type: SUBMIT_TRANSACTION
 		});
+
+		serverAction(actionUrl, entry).then(
+			json => {
+				dispatch({
+					type: successActionType,
+					data: {
+						...entry,
+						id: String(json.id),
+						// replicate the conversion done on the server as the
+						// date value is not returned
+						date: moment
+							.tz(entry.date + ' ' + entry.time, timezone)
+							.toISOString()
+					}
+				});
+			},
+			err => {
+				dispatch({
+					type: SUBMIT_TRANSACTION_FAILURE,
+					data: err
+				});
+			}
+		);
 	};
 }
 

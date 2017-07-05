@@ -1,22 +1,35 @@
 import moment from 'moment-timezone';
 import config from 'config';
-import { INPUT_CHANGE } from '../actions/form';
+import {
+	INPUT_CHANGE,
+	SUBMIT_TRANSACTION,
+	SUBMIT_TRANSACTION_FAILURE,
+	ADD_TRANSACTION_SUCCESS,
+	UPDATE_TRANSACTION_SUCCESS
+} from '../actions/form';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
 const timezone = 'America/New_York';
-const initialState = {
-	action: 'add',
-	values: {
+
+// abstract this into a function so it can be called again later
+// resetting the date and time to the current value when it's called
+function createInitialValues() {
+	const now = moment.tz(timezone);
+	return {
 		amount: '',
 		merchant: '',
-		date: moment.tz(timezone).format(dateFormat),
-		time: moment.tz(timezone).format(timeFormat),
+		date: now.format(dateFormat),
+		time: now.format(timeFormat),
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
 		description: '',
 		status: 'POSTED'
-	},
+	};
+}
+const initialState = {
+	action: 'add',
+	values: createInitialValues(),
 	fields: [
 		{
 			type: 'number',
@@ -91,6 +104,27 @@ const initialState = {
 
 export default function form(state = initialState, action) {
 	switch (action.type) {
+		case SUBMIT_TRANSACTION:
+			return {
+				...state,
+				pending: true,
+				action: state.action === 'add' ? 'adding...' : 'updating...'
+			};
+		case SUBMIT_TRANSACTION_FAILURE:
+			return {
+				...state,
+				pending: false,
+				action: state.action === 'adding...' ? 'add' : 'update'
+			};
+		case ADD_TRANSACTION_SUCCESS:
+		case UPDATE_TRANSACTION_SUCCESS:
+			// after successful save to the server, reset to initial values
+			return {
+				...state,
+				pending: false,
+				values: createInitialValues(),
+				action: 'add'
+			};
 		case INPUT_CHANGE:
 			return {
 				...state,
