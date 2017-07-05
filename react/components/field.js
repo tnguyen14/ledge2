@@ -11,7 +11,8 @@ function Field(props) {
 		value,
 		options,
 		datalist,
-		placeholder
+		placeholder,
+		handleChange
 	} = props;
 	let inputEl;
 	let dataListEl;
@@ -22,12 +23,18 @@ function Field(props) {
 				type={type}
 				name={name}
 				value={value}
+				onChange={handleChange}
 				{...attributes}
 			/>
 		);
 	} else if (type === 'select') {
 		inputEl = (
-			<select className="form-control" name={name} value={value}>
+			<select
+				className="form-control"
+				name={name}
+				value={value}
+				onChange={handleChange}
+			>
 				<option value="">
 					{placeholder || `Select ${label}`}
 				</option>
@@ -45,7 +52,14 @@ function Field(props) {
 			</select>
 		);
 	} else if (type === 'textarea') {
-		inputEl = <textarea className="form-control" name={name} />;
+		inputEl = (
+			<textarea
+				className="form-control"
+				name={name}
+				value={value}
+				onChange={handleChange}
+			/>
+		);
 	}
 	// no wrapper for hidden element
 	if (type === 'hidden') {
@@ -72,7 +86,8 @@ Field.propTypes = {
 	value: PropTypes.string,
 	options: PropTypes.array,
 	datalist: PropTypes.object,
-	placeholder: PropTypes.string
+	placeholder: PropTypes.string,
+	handleChange: PropTypes.func.isRequired
 };
 
 export default Field;

@@ -2,12 +2,11 @@ import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/transactions';
 import { ADD_WEEK } from '../actions/weeks';
 import moment from 'moment-timezone';
 
-const initialState = {
-	'0': {},
-	'-1': {},
-	'-2': {},
-	'-3': {}
-};
+const weekOffsets = [0, -1, -2, -3];
+const initialState = weekOffsets.reduce((state, offset) => {
+	state[offset] = createDefaultWeek(offset);
+	return state;
+}, {});
 
 function createDefaultWeek(offset) {
 	return {
@@ -17,13 +16,14 @@ function createDefaultWeek(offset) {
 	};
 }
 
+function isWithinWeek(date, start, end) {
+	return date >= start.toISOString() && date <= end.toISOString();
+}
+
 function filterTransactions(transactions, start, end) {
-	function isWithinWeek(date) {
-		return date >= start.toISOString() && date <= end.toISOString();
-	}
 	return transactions
 		.filter(tx => {
-			return isWithinWeek(tx.date);
+			return isWithinWeek(tx.date, start, end);
 		})
 		.sort((a, b) => {
 			// sort by id, which is the transaction timestamp
@@ -62,11 +62,6 @@ export default function weeks(state = initialState, action) {
 				[newOffset]: createDefaultWeek(newOffset)
 			};
 		default:
-			let newState = Object.keys(state).reduce((newState, weekKey) => {
-				let offset = Number(weekKey);
-				newState[offset] = createDefaultWeek(Number(weekKey));
-				return newState;
-			}, {});
-			return newState;
+			return state;
 	}
 }

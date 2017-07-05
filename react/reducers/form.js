@@ -1,5 +1,6 @@
 import moment from 'moment-timezone';
 import config from 'config';
+import { INPUT_CHANGE } from '../actions/form';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -90,6 +91,14 @@ const initialState = {
 
 export default function form(state = initialState, action) {
 	switch (action.type) {
+		case INPUT_CHANGE:
+			return {
+				...state,
+				values: {
+					...state.values,
+					[action.data.name]: action.data.value
+				}
+			};
 		default:
 			return state;
 	}

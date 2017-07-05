@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Field from '../components/field';
-import { submitForm } from '../actions/form';
+import { submitForm, inputChange } from '../actions/form';
 import { loadAccount } from '../actions/account';
 
 class Form extends Component {
@@ -10,6 +10,11 @@ class Form extends Component {
 		this.props.loadAccount();
 	}
 
+	handleInputChange(fieldName) {
+		return event => {
+			return this.props.inputChange(fieldName, event.target.value);
+		};
+	}
 	render() {
 		const { fields, values, action, merchants, submitForm } = this.props;
 		return (
@@ -17,7 +22,8 @@ class Form extends Component {
 				<h2>Add a new transaction</h2>
 				{fields.map(field => {
 					const props = Object.assign({}, field, {
-						value: values[field.name]
+						value: values[field.name],
+						handleChange: this.handleInputChange(field.name)
 					});
 					return <Field key={field.name} {...props} />;
 				})}
@@ -62,5 +68,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, {
 	submitForm,
-	loadAccount
+	loadAccount,
+	inputChange
 })(Form);

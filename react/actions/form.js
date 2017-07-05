@@ -10,3 +10,15 @@ export function submitForm(transaction) {
 		});
 	};
 }
+
+export const INPUT_CHANGE = 'INPUT_CHANGE';
+
+export function inputChange(name, value) {
+	return {
+		type: INPUT_CHANGE,
+		data: {
+			name,
+			value
+		}
+	};
+}
