@@ -1,12 +1,12 @@
 import React from 'react';
 import Form from './form';
-import Account from './account';
+import Weeks from './weeks';
 
 function App() {
 	return (
 		<div>
 			<Form />
-			<Account />
+			<Weeks />
 		</div>
 	);
 }

@@ -1,8 +1,7 @@
-export const LOAD_WEEK = 'LOAD_WEEK';
+export const ADD_WEEK = 'ADD_WEEK';
 
-export function loadWeek(offset) {
+export function addWeek() {
 	return {
-		type: LOAD_WEEK,
-		data: offset
+		type: ADD_WEEK
 	};
 }

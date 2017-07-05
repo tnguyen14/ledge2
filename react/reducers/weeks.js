@@ -1,8 +1,12 @@
 import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/transactions';
-import { LOAD_WEEK } from '../actions/weeks';
 import moment from 'moment-timezone';
 
-const initialState = {};
+const initialState = {
+	'0': {},
+	'-1': {},
+	'-2': {},
+	'-3': {}
+};
 
 function filterTransactions(transactions, start, end) {
 	function isWithinWeek(date) {
@@ -20,15 +24,6 @@ function filterTransactions(transactions, start, end) {
 export default function weeks(state = initialState, action) {
 	let offset;
 	switch (action.type) {
-		case LOAD_WEEK:
-			offset = action.data;
-			return {
-				...state,
-				[offset]: {
-					start: moment().isoWeekday(1 + offset * 7).startOf('isoWeek'),
-					end: moment().isoWeekday(7 + offset * 7).endOf('isoWeek')
-				}
-			};
 		case LOAD_TRANSACTIONS_SUCCESS:
 			offset = action.data.offset;
 			const start = state[offset].start;
@@ -51,6 +46,15 @@ export default function weeks(state = initialState, action) {
 				}
 			};
 		default:
-			return state;
+			let newState = Object.keys(state).reduce((newState, weekKey) => {
+				let offset = Number(weekKey);
+				newState[offset] = {
+					start: moment().isoWeekday(1 + offset * 7).startOf('isoWeek'),
+					end: moment().isoWeekday(7 + offset * 7).endOf('isoWeek'),
+					transactions: []
+				};
+				return newState;
+			}, {});
+			return newState;
 	}
 }

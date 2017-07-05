@@ -1,6 +1,5 @@
 import { LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 const initialState = {
-	weeks: [0, -1, -2, -3],
 	merchants: []
 };
 
