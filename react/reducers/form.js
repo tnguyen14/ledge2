@@ -5,7 +5,8 @@ import {
 	SUBMIT_TRANSACTION,
 	SUBMIT_TRANSACTION_FAILURE,
 	ADD_TRANSACTION_SUCCESS,
-	UPDATE_TRANSACTION_SUCCESS
+	UPDATE_TRANSACTION_SUCCESS,
+	RESET_FORM
 } from '../actions/form';
 import { EDIT_TRANSACTION } from '../actions/transactions';
 
@@ -120,6 +121,7 @@ export default function form(state = initialState, action) {
 			};
 		case ADD_TRANSACTION_SUCCESS:
 		case UPDATE_TRANSACTION_SUCCESS:
+		case RESET_FORM:
 			// after successful save to the server, reset to initial values
 			return {
 				...state,

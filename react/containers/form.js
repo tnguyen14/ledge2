@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Field from '../components/field';
-import { submitForm, inputChange } from '../actions/form';
+import { submitForm, inputChange, resetForm } from '../actions/form';
 import { loadAccount } from '../actions/account';
 
 class Form extends Component {
@@ -27,7 +27,8 @@ class Form extends Component {
 			action,
 			merchants,
 			submitForm,
-			pending
+			pending,
+			resetForm
 		} = this.props;
 		const buttonAttrs = {
 			disabled: Boolean(pending)
@@ -70,6 +71,7 @@ class Form extends Component {
 				<button
 					type="button"
 					className="btn btn-default pull-right reset"
+					onClick={resetForm}
 					{...buttonAttrs}
 				>
 					Reset
@@ -84,7 +86,10 @@ Form.propTypes = {
 	values: PropTypes.object.isRequired,
 	action: PropTypes.string.isRequired,
 	submitForm: PropTypes.func,
-	merchants: PropTypes.array
+	merchants: PropTypes.array,
+	loadAccount: PropTypes.func,
+	inputChange: PropTypes.func,
+	resetForm: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -97,5 +102,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
 	submitForm,
 	loadAccount,
-	inputChange
+	inputChange,
+	resetForm
 })(Form);
