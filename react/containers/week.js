@@ -5,7 +5,7 @@ import {
 	loadTransactions,
 	removeTransaction,
 	editTransaction
-} from '../actions/transactions';
+} from '../actions/account';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
 

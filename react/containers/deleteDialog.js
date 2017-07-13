@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {
 	confirmRemoveTransaction,
 	cancelRemoveTransaction
-} from '../actions/transactions';
+} from '../actions/account';
 
 function DeleteDialog(props) {
 	const {

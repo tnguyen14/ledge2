@@ -1,9 +1,9 @@
-import { LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 import {
+	LOAD_ACCOUNT_SUCCESS,
 	REMOVE_TRANSACTION,
 	REMOVE_TRANSACTION_SUCCESS,
 	CANCEL_REMOVE_TRANSACTION
-} from '../actions/transactions';
+} from '../actions/account';
 const initialState = {
 	merchants: [],
 	isRemovingTransaction: false

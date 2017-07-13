@@ -1,8 +1,5 @@
-import {
-	LOAD_TRANSACTIONS_SUCCESS,
-	REMOVE_TRANSACTION_SUCCESS
-} from '../actions/transactions';
-import { ADD_WEEK } from '../actions/weeks';
+import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
+import { ADD_WEEK, LOAD_TRANSACTIONS_SUCCESS } from '../actions/weeks';
 import {
 	ADD_TRANSACTION_SUCCESS,
 	UPDATE_TRANSACTION_SUCCESS

@@ -8,7 +8,7 @@ import {
 	UPDATE_TRANSACTION_SUCCESS,
 	RESET_FORM
 } from '../actions/form';
-import { EDIT_TRANSACTION } from '../actions/transactions';
+import { EDIT_TRANSACTION } from '../actions/account';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
