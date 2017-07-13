@@ -1,17 +1,16 @@
-import {render as renderForm, editTransaction, updateMerchantList} from './components/form';
-import {render as renderAccount, addTransaction, updateTransaction, addWeek} from './components/account';
-import {render as renderLoadMore} from './components/loadMore.js';
-import './util/handlebars';
+import React from 'react';
+import { render } from 'react-dom';
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from 'react-redux';
+import App from './containers/App';
+import reducer from './reducers';
 
-const root = document.querySelector('.main');
-const account = renderAccount();
-const form = renderForm();
-const loadMore = renderLoadMore();
-root.appendChild(form.rootEl);
-root.appendChild(account.rootEl);
-root.appendChild(loadMore.rootEl);
+const store = createStore(reducer, applyMiddleware(thunk));
 
-account.on('account:transaction:edit', editTransaction);
-form.on('form:transaction:add', addTransaction);
-form.on('form:transaction:update', updateTransaction);
-loadMore.on('loadmore:week:add', addWeek);
+render(
+	<Provider store={store}>
+		<App />
+	</Provider>,
+	document.querySelector('.main')
+);

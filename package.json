@@ -1,7 +1,7 @@
 {
   "name": "ledge",
-  "version": "2.0.0",
-  "description": "ledge. in plain JS.",
+  "version": "3.0.0",
+  "description": "ledge. in react with redux.",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -15,13 +15,14 @@
     "assets": "cp assets/*.{svg,png} dist/",
     "css": "node-sass scss/style.scss dist/style.css",
     "css:watch": "node-sass -w scss/style.scss dist/style.css",
-    "js": "browserify index.js -t envlocalify -t babelify -t [ hbsfy -t ] -o dist/index.js",
-    "js:watch": "watchify index.js -t envlocalify -t babelify -t [ hbsfy -t ] -t [ envify --NODE_ENV development ] -o dist/index.js -dv",
+    "js": "browserify index.js -t babelify -o dist/index.js",
+    "js:watch": "watchify index.js -t babelify -o dist/index.js -dv",
     "static": "npm run copy && npm run font && npm run assets",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "watch": "npm run js:watch & npm run css:watch & npm run serve",
     "start": "npm run build && npm run watch",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build && gh-pages -d dist",
+    "precommit": "lint-staged"
   },
   "browser": {
     "config": "./config.json"
@@ -36,28 +37,40 @@
   },
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.3.14",
-    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.24.1",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
-    "envify": "^3.4.0",
+    "eslint-config-happiness": "^5.3.1",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-react": "^7.1.0",
     "gh-pages": "^0.8.0",
-    "handlebars": "^4.0.5",
-    "hbsfy": "^2.7.0",
     "http-server": "^0.9.0",
+    "husky": "^0.14.2",
+    "lint-staged": "^4.0.0",
     "node-sass": "^4.5.3",
+    "prettier": "^1.5.2",
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "bootstrap-sass": "^3.3.6",
-    "envlocalify": "^1.1.1",
-    "eventemitter3": "^1.2.0",
-    "events-mixin": "^1.3.0",
-    "handlebars-helpers": "^0.6.1",
     "isomorphic-fetch": "^2.2.1",
     "moment-timezone": "^0.5.0",
-    "simple-fetch": "^1.2.0",
-    "slug": "^0.9.1"
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-modal": "^2.2.2",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.1",
+    "redux-thunk": "^2.2.0",
+    "simple-fetch": "^1.2.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write --use-tabs --single-quote",
+      "git add"
+    ]
   }
 }

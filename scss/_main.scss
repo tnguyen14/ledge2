@@ -40,6 +40,9 @@ body {
 	.reset {
 		margin-right: 1rem;
 	}
+	button[type=submit] {
+		text-transform: capitalize;
+	}
 }
 
 .stats {
@@ -244,4 +247,12 @@ body {
 	[data-cat=misc] & {
 		background-color: $lime;
 	}
+}
+
+.delete-dialog {
+	// centering it
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 }
