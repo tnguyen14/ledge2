@@ -31,6 +31,7 @@ function createInitialValues() {
 }
 const initialState = {
 	action: 'add',
+	focus: true,
 	values: createInitialValues(),
 	fields: [
 		{
@@ -110,12 +111,14 @@ export default function form(state = initialState, action) {
 		case SUBMIT_TRANSACTION:
 			return {
 				...state,
+				focus: false,
 				pending: true,
 				action: state.action === 'add' ? 'adding...' : 'updating...'
 			};
 		case SUBMIT_TRANSACTION_FAILURE:
 			return {
 				...state,
+				focus: false,
 				pending: false,
 				action: state.action === 'adding...' ? 'add' : 'update'
 			};
@@ -125,6 +128,7 @@ export default function form(state = initialState, action) {
 			// after successful save to the server, reset to initial values
 			return {
 				...state,
+				focus: true,
 				pending: false,
 				values: createInitialValues(),
 				action: 'add'
@@ -132,6 +136,7 @@ export default function form(state = initialState, action) {
 		case INPUT_CHANGE:
 			return {
 				...state,
+				focus: false,
 				values: {
 					...state.values,
 					[action.data.name]: action.data.value
@@ -142,6 +147,7 @@ export default function form(state = initialState, action) {
 			return {
 				...state,
 				action: 'update',
+				focus: true,
 				values: {
 					...action.data,
 					amount: action.data.amount / 100,

@@ -11,7 +11,9 @@ class Form extends Component {
 	}
 
 	componentDidUpdate() {
-		this.amount.focus();
+		if (this.props.focus) {
+			this.amount.focus();
+		}
 	}
 
 	handleInputChange(fieldName) {
@@ -85,6 +87,7 @@ Form.propTypes = {
 	fields: PropTypes.array.isRequired,
 	values: PropTypes.object.isRequired,
 	action: PropTypes.string.isRequired,
+	focus: PropTypes.bool,
 	submitForm: PropTypes.func,
 	merchants: PropTypes.array,
 	loadAccount: PropTypes.func,
