@@ -12,7 +12,8 @@ function Field(props) {
 		options,
 		datalist,
 		placeholder,
-		handleChange
+		handleChange,
+		inputRef
 	} = props;
 	let inputEl;
 	let dataListEl;
@@ -24,6 +25,7 @@ function Field(props) {
 				name={name}
 				value={value}
 				onChange={handleChange}
+				ref={inputRef}
 				{...attributes}
 			/>
 		);
@@ -34,6 +36,7 @@ function Field(props) {
 				name={name}
 				value={value}
 				onChange={handleChange}
+				ref={inputRef}
 			>
 				<option value="">
 					{placeholder || `Select ${label}`}
@@ -58,6 +61,7 @@ function Field(props) {
 				name={name}
 				value={value}
 				onChange={handleChange}
+				ref={inputRef}
 			/>
 		);
 	}
@@ -87,7 +91,8 @@ Field.propTypes = {
 	options: PropTypes.array,
 	datalist: PropTypes.object,
 	placeholder: PropTypes.string,
-	handleChange: PropTypes.func.isRequired
+	handleChange: PropTypes.func.isRequired,
+	inputRef: PropTypes.func
 };
 
 export default Field;

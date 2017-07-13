@@ -40,6 +40,9 @@ body {
 	.reset {
 		margin-right: 1rem;
 	}
+	button[type=submit] {
+		text-transform: capitalize;
+	}
 }
 
 .stats {

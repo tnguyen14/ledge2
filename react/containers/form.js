@@ -10,11 +10,16 @@ class Form extends Component {
 		this.props.loadAccount();
 	}
 
+	componentDidUpdate() {
+		this.amount.focus();
+	}
+
 	handleInputChange(fieldName) {
 		return event => {
 			return this.props.inputChange(fieldName, event.target.value);
 		};
 	}
+
 	render() {
 		const {
 			fields,
@@ -35,7 +40,15 @@ class Form extends Component {
 						value: values[field.name],
 						handleChange: this.handleInputChange(field.name)
 					});
-					return <Field key={field.name} {...props} />;
+					return (
+						<Field
+							inputRef={input => {
+								this[field.name] = input;
+							}}
+							key={field.name}
+							{...props}
+						/>
+					);
 				})}
 				<datalist id="merchants-list">
 					{merchants.map(merchant => {

@@ -37,7 +37,8 @@ const initialState = {
 			attributes: {
 				min: 0,
 				step: 'any',
-				required: true
+				required: true,
+				autoFocus: true
 			},
 			label: 'Amount',
 			name: 'amount'
