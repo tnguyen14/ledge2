@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-	loadTransactions,
-	removeTransaction,
-	editTransaction
-} from '../actions/account';
+import { removeTransaction, editTransaction } from '../actions/account';
+import { loadTransactions } from '../actions/weeks';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
 

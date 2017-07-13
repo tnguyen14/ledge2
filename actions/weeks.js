@@ -1,4 +1,5 @@
 import { getJson } from 'simple-fetch';
+import config from 'config';
 export const ADD_WEEK = 'ADD_WEEK';
 
 export function addWeek() {
