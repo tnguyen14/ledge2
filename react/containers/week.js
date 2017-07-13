@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { loadTransactions } from '../actions/transactions';
+import {
+	loadTransactions,
+	removeTransaction,
+	editTransaction
+} from '../actions/transactions';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
 
@@ -11,7 +15,14 @@ class Week extends Component {
 		this.props.loadTransactions(this.props.offset);
 	}
 	render() {
-		const { offset, transactions, start, end } = this.props;
+		const {
+			offset,
+			transactions,
+			start,
+			end,
+			removeTransaction,
+			editTransaction
+		} = this.props;
 		return (
 			<div className="weekly">
 				<h3>
@@ -32,7 +43,14 @@ class Week extends Component {
 					</thead>
 					<tbody>
 						{transactions.map(tx => {
-							return <Transaction key={tx.id} {...tx} />;
+							return (
+								<Transaction
+									key={tx.id}
+									handleRemove={removeTransaction}
+									handleEdit={editTransaction}
+									{...tx}
+								/>
+							);
 						})}
 					</tbody>
 				</table>
@@ -47,9 +65,13 @@ Week.propTypes = {
 	transactions: PropTypes.array,
 	start: PropTypes.object,
 	end: PropTypes.object,
-	loadTransactions: PropTypes.func
+	loadTransactions: PropTypes.func,
+	removeTransaction: PropTypes.func,
+	editTransaction: PropTypes.func
 };
 
 export default connect(null, {
-	loadTransactions
+	loadTransactions,
+	removeTransaction,
+	editTransaction
 })(Week);

@@ -1,4 +1,7 @@
-import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/transactions';
+import {
+	LOAD_TRANSACTIONS_SUCCESS,
+	REMOVE_TRANSACTION_SUCCESS
+} from '../actions/transactions';
 import { ADD_WEEK } from '../actions/weeks';
 import { ADD_TRANSACTION_SUCCESS } from '../actions/form';
 import moment from 'moment-timezone';
@@ -18,18 +21,25 @@ function createDefaultWeek(offset) {
 }
 
 function isWithinWeek(date, start, end) {
+	// date string comparison
 	return date >= start.toISOString() && date <= end.toISOString();
 }
 
+function findIndexById(transactions, id) {
+	return transactions.map(t => t.id).indexOf(id);
+}
+
 function filterTransactions(transactions, start, end) {
-	return transactions
-		.filter(tx => {
-			return isWithinWeek(tx.date, start, end);
-		})
-		.sort((a, b) => {
-			// sort by id, which is the transaction timestamp
-			return Number(b.id) - Number(a.id);
-		});
+	return transactions.filter(tx => {
+		return isWithinWeek(tx.date, start, end);
+	});
+}
+
+function sortTransactions(transactions) {
+	return transactions.sort((a, b) => {
+		// sort by id, which is the transaction timestamp
+		return Number(b.id) - Number(a.id);
+	});
 }
 
 export default function weeks(state = initialState, action) {
@@ -45,10 +55,8 @@ export default function weeks(state = initialState, action) {
 			return {
 				...state,
 				[offset]: {
-					transactions: filterTransactions(
-						action.data.transactions,
-						start,
-						end
+					transactions: sortTransactions(
+						filterTransactions(action.data.transactions, start, end)
 					),
 					// assign start and end again
 					// as nested object will be overriden
@@ -67,13 +75,20 @@ export default function weeks(state = initialState, action) {
 				const week = state[offset];
 				// only care if transaction is within a week
 				if (isWithinWeek(action.data.date, week.start, week.end)) {
-					week.transactions = filterTransactions(
-						week.transactions.concat(action.data),
-						week.start,
-						week.end
+					week.transactions = sortTransactions(
+						week.transactions.concat(action.data)
 					);
 				}
 				newState[offset] = week;
+				return newState;
+			}, {});
+		case REMOVE_TRANSACTION_SUCCESS:
+			return Object.keys(state).reduce((newState, offset) => {
+				const week = state[offset];
+				newState[offset] = {
+					...week,
+					transactions: week.transactions.filter(tx => tx.id !== action.data)
+				};
 				return newState;
 			}, {});
 		default:

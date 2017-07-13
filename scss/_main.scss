@@ -245,3 +245,11 @@ body {
 		background-color: $lime;
 	}
 }
+
+.delete-dialog {
+	// centering it
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}

@@ -1,6 +1,12 @@
 import { LOAD_ACCOUNT_SUCCESS } from '../actions/account';
+import {
+	REMOVE_TRANSACTION,
+	REMOVE_TRANSACTION_SUCCESS,
+	CANCEL_REMOVE_TRANSACTION
+} from '../actions/transactions';
 const initialState = {
-	merchants: []
+	merchants: [],
+	isRemovingTransaction: false
 };
 
 export default function account(state = initialState, action) {
@@ -24,6 +30,19 @@ export default function account(state = initialState, action) {
 					);
 				}, []);
 			return { ...state, ...action.data, merchants: merchants };
+		case REMOVE_TRANSACTION:
+			return {
+				...state,
+				isRemovingTransaction: true,
+				transactionToBeRemoved: action.data
+			};
+		case REMOVE_TRANSACTION_SUCCESS:
+		case CANCEL_REMOVE_TRANSACTION:
+			return {
+				...state,
+				isRemovingTransaction: false,
+				transactionToBeRemoved: undefined
+			};
 		default:
 			return state;
 	}
