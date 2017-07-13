@@ -3,7 +3,10 @@ import {
 	REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions';
 import { ADD_WEEK } from '../actions/weeks';
-import { ADD_TRANSACTION_SUCCESS } from '../actions/form';
+import {
+	ADD_TRANSACTION_SUCCESS,
+	UPDATE_TRANSACTION_SUCCESS
+} from '../actions/form';
 import moment from 'moment-timezone';
 
 const weekOffsets = [0, -1, -2, -3];
@@ -88,6 +91,17 @@ export default function weeks(state = initialState, action) {
 				newState[offset] = {
 					...week,
 					transactions: week.transactions.filter(tx => tx.id !== action.data)
+				};
+				return newState;
+			}, {});
+		case UPDATE_TRANSACTION_SUCCESS:
+			return Object.keys(state).reduce((newState, offset) => {
+				const week = state[offset];
+				newState[offset] = {
+					...week,
+					transactions: week.transactions.map(
+						tx => (tx.id === action.data.id ? { ...action.data } : tx)
+					)
 				};
 				return newState;
 			}, {});

@@ -7,6 +7,7 @@ import {
 	ADD_TRANSACTION_SUCCESS,
 	UPDATE_TRANSACTION_SUCCESS
 } from '../actions/form';
+import { EDIT_TRANSACTION } from '../actions/transactions';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -131,6 +132,18 @@ export default function form(state = initialState, action) {
 				values: {
 					...state.values,
 					[action.data.name]: action.data.value
+				}
+			};
+		case EDIT_TRANSACTION:
+			const date = moment.tz(action.data.date, timezone);
+			return {
+				...state,
+				action: 'update',
+				values: {
+					...action.data,
+					amount: action.data.amount / 100,
+					date: date.format(dateFormat),
+					time: date.format(timeFormat)
 				}
 			};
 		default:
