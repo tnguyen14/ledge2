@@ -124,8 +124,14 @@ export default function form(state = initialState, action) {
 			};
 		case ADD_TRANSACTION_SUCCESS:
 		case UPDATE_TRANSACTION_SUCCESS:
-		case RESET_FORM:
 			// after successful save to the server, reset to initial values
+			return {
+				...state,
+				pending: false,
+				values: createInitialValues(),
+				action: 'add'
+			};
+		case RESET_FORM:
 			return {
 				...state,
 				focus: true,
