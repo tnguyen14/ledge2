@@ -96,8 +96,10 @@ export default function weeks(state = initialState, action) {
 				const week = state[offset];
 				newState[offset] = {
 					...week,
-					transactions: week.transactions.map(
-						tx => (tx.id === action.data.id ? { ...action.data } : tx)
+					transactions: sortTransactions(
+						week.transactions.map(
+							tx => (tx.id === action.data.oldId ? { ...action.data } : tx)
+						)
 					)
 				};
 				return newState;

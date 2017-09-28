@@ -37,6 +37,9 @@ export function submitForm(event) {
 					type: successActionType,
 					data: {
 						...entry,
+						// pass back the old ID in case the transaction's ID
+						// has been changed due to changed time
+						oldId: entry.id,
 						id: String(json.id),
 						// replicate the conversion done on the server as the
 						// date value is not returned
