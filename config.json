@@ -28,6 +28,9 @@
 	}, {
 		"slug": "misc",
 		"value": "Miscellaneous"
+	}, {
+		"slug": "donation",
+		"value": "Donation"
 	}],
 	"sources": [{
 		"slug": "amex-1003",
