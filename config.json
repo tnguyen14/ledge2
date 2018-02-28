@@ -26,13 +26,16 @@
 		"slug": "shopping",
 		"value": "Shopping"
 	}, {
-		"slug": "misc",
-		"value": "Miscellaneous"
-	}, {
 		"slug": "donation",
 		"value": "Donation"
+	}, {
+		"slug": "misc",
+		"value": "Miscellaneous"
 	}],
 	"sources": [{
+		"slug": "chase-sapphire",
+		"value": "Chase Sapphire"
+	}, {
 		"slug": "amex-1003",
 		"value": "Amex"
 	}, {
@@ -41,9 +44,6 @@
 	}, {
 		"slug": "dcu-checking",
 		"value": "DCU Checking"
-	}, {
-		"slug": "simple-checking",
-		"value": "Simple Checking"
 	}, {
 		"slug": "cash",
 		"value": "Cash"
