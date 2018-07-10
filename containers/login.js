@@ -1,18 +1,13 @@
 import React from 'react';
-import auth from '../auth';
+import PropTypes from 'prop-types';
 
-function Login() {
-	return (
-		<button
-			onClick={() =>
-				auth.authorize({
-					redirect_uri: `${window.location.href}callback.html`
-				})
-			}
-		>
-			Log In
-		</button>
-	);
+function Login(props) {
+	const { login } = props;
+	return <button onClick={login}>Log In</button>;
 }
+
+Login.propTypes = {
+	login: PropTypes.func.isRequired
+};
 
 export default Login;
