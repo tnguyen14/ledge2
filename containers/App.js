@@ -24,7 +24,7 @@ class App extends Component {
 	render() {
 		const { login, authenticated, isAuthenticating } = this.props;
 		if (isAuthenticating) {
-			return <h2>Loading...</h2>;
+			return <h2 className="auth-loading">Loading...</h2>;
 		}
 		if (!authenticated) {
 			return <Login login={login} />;
