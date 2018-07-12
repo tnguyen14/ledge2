@@ -13,9 +13,11 @@ function Weeks(props) {
 					<Week key={week} offset={Number(week)} {...weeks[week]} />
 				);
 			})}
-			<button className="btn btn-success" onClick={addWeek}>
-				Show More
-			</button>
+			<div className="show-more">
+				<button className="btn btn-success" onClick={addWeek}>
+					Show More
+				</button>
+			</div>
 		</div>
 	);
 }

@@ -151,14 +151,20 @@ body {
 }
 
 .transactions {
-	clear: left;
+	margin-bottom: 2em;
+	.show-more {
+		text-align: right;
+		@media (min-width: 53.125em) {
+			text-align: left;
+		}
+	}
 }
 
 .weekly {
 	@include clearfix();
-	border-bottom: 1px solid $gainsboro;
-	&:last-of-type {
-		border-bottom: none;
+	border-top: 1px solid $gainsboro;
+	&:first-of-type {
+		border-top: none;
 	}
 	.action {
 		.edit, .remove {
