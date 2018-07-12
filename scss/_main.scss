@@ -60,6 +60,21 @@ body {
 	}
 }
 
+.login {
+	padding-top: 5em;
+	text-align: center;
+	.btn {
+		background-color: $light-blue-600;
+		border-color: $light-blue-900;
+		color: $white-smoke;
+		font-size: 1.5em;
+		padding: .5em 1em;
+		&:hover {
+			background-color: $light-blue-800;
+		}
+	}
+}
+
 .app {
 	margin: .5rem auto;
 	width: 95%;
