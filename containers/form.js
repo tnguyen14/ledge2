@@ -55,11 +55,7 @@ class Form extends Component {
 				})}
 				<datalist id="merchants-list">
 					{merchants.map(merchant => {
-						return (
-							<option key={merchant}>
-								{merchant}
-							</option>
-						);
+						return <option key={merchant}>{merchant}</option>;
 					})}
 				</datalist>
 				<button
@@ -88,6 +84,7 @@ Form.propTypes = {
 	values: PropTypes.object.isRequired,
 	action: PropTypes.string.isRequired,
 	focus: PropTypes.bool,
+	pending: PropTypes.bool,
 	submitForm: PropTypes.func,
 	merchants: PropTypes.array,
 	loadAccount: PropTypes.func,
