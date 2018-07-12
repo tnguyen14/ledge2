@@ -1,5 +1,6 @@
 /* global localStorage */
 import { AUTHENTICATING, AUTHENTICATED, LOGOUT } from '../actions/user';
+import getUser from '../util/user';
 
 const initialState = {
 	authenticated: false,
@@ -23,15 +24,18 @@ function deleteSession() {
 }
 
 function getSession() {
-	let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
+	const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
 	if (isAuthenticated({ expiresAt })) {
+		// Auth0 example does not retrieve these tokens
+		// but it seems like they should be
+		const accessToken = localStorage.getItem('access_token');
+		const idToken = localStorage.getItem('id_token');
 		return {
 			authenticated: true,
 			expiresAt,
-			// Auth0 example does not retrieve these tokens
-			// but it seems like they should be
-			accessToken: localStorage.getItem('access_token'),
-			idToken: localStorage.getItem('id_token')
+			accessToken,
+			idToken,
+			profile: getUser(idToken)
 		};
 	}
 	// if not authenticated, remove any existing session
@@ -43,7 +47,8 @@ export default function user(state = initialState, action) {
 		case AUTHENTICATING:
 			return {
 				...state,
-				isAuthenticating: true
+				isAuthenticating: true,
+				authenticated: false
 			};
 		case AUTHENTICATED:
 			const { accessToken, idToken, expiresIn } = action.data;
@@ -54,7 +59,8 @@ export default function user(state = initialState, action) {
 				authenticated: isAuthenticated({ expiresAt }),
 				expiresAt,
 				accessToken,
-				idToken
+				idToken,
+				profile: getUser(idToken)
 			};
 			storeSession(newState);
 			return newState;

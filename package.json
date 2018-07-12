@@ -65,9 +65,11 @@
   "dependencies": {
     "auth0-js": "^9.6.1",
     "bootstrap-sass": "^3.3.6",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
+    "jwt-decode": "^2.2.0",
+    "lodash.pick": "^4.4.0",
     "moment-timezone": "^0.5.14",
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
