@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import App from './containers/App';
+import Header from './containers/header';
 import reducer from './reducers';
 import { Router, Route } from 'react-router-dom';
 import history from './history';
@@ -14,6 +15,7 @@ render(
 	<Provider store={store}>
 		<Router history={history}>
 			<div>
+				<Header />
 				<Route path="/" component={App} />
 			</div>
 		</Router>

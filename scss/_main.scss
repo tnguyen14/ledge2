@@ -3,14 +3,28 @@ body {
 }
 
 .main {
-	@include clearfix();
+	.alert {
+		margin-bottom: 0;
+	}
+}
+
+.header {
+	background-color: $green;
+	width: 100%;
+	h1 {
+		color: $white-smoke;
+		font-family: 'Shadows Into Light Two', cursive;
+		text-align: center;
+		margin: 0;
+		padding: .25em 0;
+	}
+}
+
+.app {
 	margin: .5rem auto;
 	width: 95%;
 	@media (min-width: 33.5em) {
 		width: 90%;
-	}
-	.alert {
-		margin-bottom: 0;
 	}
 }
 
