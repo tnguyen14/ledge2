@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Form from './form';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
-import Login from './login';
+import Login from '../components/login';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, handleAuthentication } from '../actions/user';
@@ -30,7 +30,7 @@ class App extends Component {
 			return <Login login={login} />;
 		}
 		return (
-			<div>
+			<div className="app">
 				<Form />
 				<Weeks />
 				<DeleteDialog />
