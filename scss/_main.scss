@@ -151,6 +151,7 @@ body {
 }
 
 .transactions {
+	clear: left; // needed to clear float left form at wide screen
 	margin-bottom: 2em;
 	.show-more {
 		text-align: right;
