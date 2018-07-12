@@ -34,6 +34,8 @@ function getSession() {
 			idToken: localStorage.getItem('id_token')
 		};
 	}
+	// if not authenticated, remove any existing session
+	deleteSession();
 }
 
 export default function user(state = initialState, action) {

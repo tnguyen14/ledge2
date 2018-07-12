@@ -5,7 +5,7 @@ const auth = new auth0.WebAuth({
 	clientID: 'IxcfVZqCVF9b5FS2NVVnElOeBnoNG02Z',
 	audience: 'https://tridnguyen.auth0.com/userinfo',
 	responseType: 'token id_token',
-	scope: 'openid'
+	scope: 'openid profile'
 });
 
 export const LOGIN = 'LOGIN';
