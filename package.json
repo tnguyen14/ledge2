@@ -14,7 +14,7 @@
     "font": "mkdir dist/fonts && find node_modules/bootstrap-sass/assets/fonts/bootstrap -iname 'glyphicon*' -exec cp \\{\\} dist/fonts/ \\;",
     "css": "node-sass scss/style.scss dist/style.css",
     "css:watch": "node-sass -w scss/style.scss dist/style.css",
-    "js": "browserify index.js -t babelify -o dist/index.js",
+    "js": "browserify index.js -t babelify -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
     "js:watch": "watchify index.js -t babelify -o dist/index.js -dv",
     "build": "npm run clean && npm run static && npm run font && npm run css && npm run js",
     "watch": "npm run js:watch & npm run css:watch & npm run serve",
@@ -57,6 +57,8 @@
     "lint-staged": "^6.0.0",
     "node-sass": "^4.9.2",
     "prettier": "^1.9.2",
+    "uglify-es": "^3.3.9",
+    "uglifyify": "^5.0.1",
     "watchify": "^3.11.0"
   },
   "dependencies": {
