@@ -21,7 +21,7 @@
     "js": "browserify client/js/index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
     "js:watch": "watchify client/js/index.js -t babelify -o dist/index.js -dv",
     "precommit": "lint-staged",
-    "server": "PORT=13040 node server",
+    "server": "node server",
     "server:watch": "PORT=13040 nodemon --inspect=9223 server",
     "doc": "apidoc -i server/"
   },
