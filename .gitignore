@@ -9,3 +9,4 @@ dist
 # server side
 data
 doc
+.travis/muffin
