@@ -5,3 +5,7 @@ dist
 .publish
 *.swp
 .env
+
+# server side
+data
+doc
