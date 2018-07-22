@@ -56,23 +56,15 @@ class Transaction extends Component {
 				onClick={this.toggleActive}
 				data-day={displayDate}
 			>
-				<td className="day">
-					{displayDate}
-				</td>
-				<td className="merchant">
-					{merchant}
-				</td>
+				<td className="day">{displayDate}</td>
+				<td className="merchant">{merchant}</td>
 				<td className="amount" data-cat={category}>
-					<span className="badge">
-						{money(amount)}
-					</span>
+					<span className="badge">{money(amount)}</span>
 				</td>
 				<td className="source">
 					{getValueFromOptions(config.sources, source)}
 				</td>
-				<td className="description">
-					{description}
-				</td>
+				<td className="description">{description}</td>
 				<td className="category">
 					{getValueFromOptions(config.categories, category)}
 				</td>

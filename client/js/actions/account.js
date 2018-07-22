@@ -5,14 +5,14 @@ export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 export function loadAccount() {
 	return function(dispatch) {
-		getJson(
-			`${config.server_url}/accounts/${config.account_name}`
-		).then(account => {
-			dispatch({
-				type: LOAD_ACCOUNT_SUCCESS,
-				data: account
-			});
-		});
+		getJson(`${config.server_url}/accounts/${config.account_name}`).then(
+			account => {
+				dispatch({
+					type: LOAD_ACCOUNT_SUCCESS,
+					data: account
+				});
+			}
+		);
 	};
 }
 
@@ -66,7 +66,9 @@ export function confirmRemoveTransaction(transactionId) {
 	return function(dispatch) {
 		return function() {
 			deleteJson(
-				`${config.server_url}/accounts/${config.account_name}/transactions/${transactionId}`
+				`${config.server_url}/accounts/${
+					config.account_name
+				}/transactions/${transactionId}`
 			).then(json => {
 				dispatch({
 					type: REMOVE_TRANSACTION_SUCCESS,
