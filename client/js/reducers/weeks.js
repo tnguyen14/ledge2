@@ -14,8 +14,12 @@ const initialState = weekOffsets.reduce((state, offset) => {
 
 function createDefaultWeek(offset) {
 	return {
-		start: moment().isoWeekday(1 + offset * 7).startOf('isoWeek'),
-		end: moment().isoWeekday(7 + offset * 7).endOf('isoWeek'),
+		start: moment()
+			.isoWeekday(1 + offset * 7)
+			.startOf('isoWeek'),
+		end: moment()
+			.isoWeekday(7 + offset * 7)
+			.endOf('isoWeek'),
 		transactions: []
 	};
 }
@@ -87,7 +91,9 @@ export default function weeks(state = initialState, action) {
 				const week = state[offset];
 				newState[offset] = {
 					...week,
-					transactions: week.transactions.filter(tx => tx.id !== action.data)
+					transactions: week.transactions.filter(
+						tx => tx.id !== action.data
+					)
 				};
 				return newState;
 			}, {});
@@ -98,7 +104,10 @@ export default function weeks(state = initialState, action) {
 					...week,
 					transactions: sortTransactions(
 						week.transactions.map(
-							tx => (tx.id === action.data.oldId ? { ...action.data } : tx)
+							tx =>
+								tx.id === action.data.oldId
+									? { ...action.data }
+									: tx
 						)
 					)
 				};

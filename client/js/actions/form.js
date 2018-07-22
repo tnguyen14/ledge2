@@ -20,9 +20,9 @@ export function submitForm(event) {
 
 		const isUpdating = action === 'update';
 		const serverAction = isUpdating ? patchJson : postJson;
-		const actionUrl = `${config.server_url}/accounts/${config.account_name}/transactions/${isUpdating
-			? entry.id
-			: ''}`;
+		const actionUrl = `${config.server_url}/accounts/${
+			config.account_name
+		}/transactions/${isUpdating ? entry.id : ''}`;
 		const successActionType = isUpdating
 			? UPDATE_TRANSACTION_SUCCESS
 			: ADD_TRANSACTION_SUCCESS;

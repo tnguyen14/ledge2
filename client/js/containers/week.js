@@ -51,7 +51,10 @@ class Week extends Component {
 						})}
 					</tbody>
 				</table>
-				<WeeklyStats weekId={`week-${offset}`} transactions={transactions} />
+				<WeeklyStats
+					weekId={`week-${offset}`}
+					transactions={transactions}
+				/>
 			</div>
 		);
 	}

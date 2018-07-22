@@ -18,8 +18,8 @@
     "font": "mkdir dist/fonts && find node_modules/bootstrap-sass/assets/fonts/bootstrap -iname 'glyphicon*' -exec cp \\{\\} dist/fonts/ \\;",
     "css": "node-sass client/scss/style.scss dist/style.css",
     "css:watch": "npm run css -- -w",
-    "js": "browserify index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
-    "js:watch": "watchify index.js -t babelify -o dist/index.js -dv",
+    "js": "browserify client/js/index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
+    "js:watch": "watchify client/js/index.js -t babelify -o dist/index.js -dv",
     "precommit": "lint-staged"
   },
   "browser": {
