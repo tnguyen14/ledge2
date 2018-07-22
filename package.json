@@ -1,8 +1,8 @@
 {
   "name": "ledge",
   "version": "3.0.0",
-  "description": "ledge. in react with redux.",
-  "main": "index.js",
+  "description": "personal financial transaction manager",
+  "main": "server/index.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:tnguyen14/ledge.git"
@@ -11,7 +11,7 @@
     "start": "npm run build && npm run watch",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run font && npm run css && npm run js",
-    "watch": "npm run js:watch & npm run css:watch & npm run serve",
+    "watch": "npm run js:watch & npm run css:watch & npm run serve & npm run server:watch",
     "serve": "http-server dist -p 14001",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
@@ -20,7 +20,10 @@
     "css:watch": "npm run css -- -w",
     "js": "browserify client/js/index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
     "js:watch": "watchify client/js/index.js -t babelify -o dist/index.js -dv",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "server": "PORT=13040 node server",
+    "server:watch": "PORT=13040 nodemon --inspect=9223 server",
+    "doc": "apidoc -i server/"
   },
   "browser": {
     "config": "./config.json"
@@ -35,6 +38,7 @@
   },
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
+    "apidoc": "^0.17.5",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
@@ -56,6 +60,7 @@
     "husky": "^0.14.3",
     "lint-staged": "^6.0.0",
     "loose-envify": "^1.4.0",
+    "nodemon": "^1.10.2",
     "node-sass": "^4.9.2",
     "prettier": "^1.9.2",
     "redux-devtools-extension": "^2.13.5",
@@ -64,12 +69,18 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "auth0-js": "^9.6.1",
+    "body-parser": "^1.17.1",
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.6",
+    "cors": "^2.8.3",
+    "express": "^4.15.2",
     "history": "^4.7.2",
     "isomorphic-fetch": "^2.2.1",
     "jwt-decode": "^2.2.0",
+    "level": "^4.0.0",
+    "lodash": "^3.10.1",
     "lodash.pick": "^4.4.0",
     "moment-timezone": "^0.5.14",
     "prop-types": "^15.6.0",
@@ -80,12 +91,17 @@
     "react-router-dom": "^4.3.1",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "simple-fetch": "^1.2.0"
+    "simple-fetch": "^1.2.0",
+    "underscore.string": "^3.1.1"
   },
   "lint-staged": {
     "*.js": [
       "prettier --write --use-tabs --single-quote",
       "git add"
     ]
+  },
+  "apidoc": {
+    "title": "Ledge API",
+    "url": "https://api.tridnguyen.com/ledge"
   }
 }
