@@ -22,7 +22,7 @@
     "js:watch": "watchify client/js/index.js -t babelify -o dist/index.js -dv",
     "precommit": "lint-staged",
     "server": "node server",
-    "server:watch": "PORT=13040 nodemon --inspect=9223 server",
+    "server:watch": "PORT=13040 nodemon --inspect=9223 server --watch server",
     "doc": "apidoc -i server/"
   },
   "browser": {
