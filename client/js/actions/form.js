@@ -1,4 +1,4 @@
-import { postJson, patchJson } from 'simple-fetch';
+import { postJson, patchJson } from '../util/fetch';
 import moment from 'moment-timezone';
 import config from 'config';
 
@@ -14,7 +14,9 @@ const serverUrl = process.env.SERVER_URL;
 export function submitForm(event) {
 	event.preventDefault();
 	return (dispatch, getState) => {
-		const { form: { action, values }, user: { idToken } } = getState();
+		const {
+			form: { action, values }
+		} = getState();
 		let entry = {
 			...values,
 			amount: values.amount * 100
@@ -33,35 +35,33 @@ export function submitForm(event) {
 			type: SUBMIT_TRANSACTION
 		});
 
-		serverAction(actionUrl, entry, {
-			headers: {
-				Authorization: `Bearer ${idToken}`
-			}
-		}).then(
-			json => {
-				dispatch({
-					type: successActionType,
-					data: {
-						...entry,
-						// pass back the old ID in case the transaction's ID
-						// has been changed due to changed time
-						oldId: entry.id,
-						id: String(json.id),
-						// replicate the conversion done on the server as the
-						// date value is not returned
-						date: moment
-							.tz(entry.date + ' ' + entry.time, timezone)
-							.toISOString()
-					}
-				});
-			},
-			err => {
-				dispatch({
-					type: SUBMIT_TRANSACTION_FAILURE,
-					data: err
-				});
-			}
-		);
+		serverAction
+			.bind(null, dispatch, getState)(actionUrl, entry)
+			.then(
+				json => {
+					dispatch({
+						type: successActionType,
+						data: {
+							...entry,
+							// pass back the old ID in case the transaction's ID
+							// has been changed due to changed time
+							oldId: entry.id,
+							id: String(json.id),
+							// replicate the conversion done on the server as the
+							// date value is not returned
+							date: moment
+								.tz(entry.date + ' ' + entry.time, timezone)
+								.toISOString()
+						}
+					});
+				},
+				err => {
+					dispatch({
+						type: SUBMIT_TRANSACTION_FAILURE,
+						data: err
+					});
+				}
+			);
 	};
 }
 

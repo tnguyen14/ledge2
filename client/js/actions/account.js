@@ -1,4 +1,4 @@
-import { getJson, deleteJson } from 'simple-fetch';
+import { getJson, deleteJson } from '../util/fetch';
 import config from 'config';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
@@ -6,17 +6,16 @@ export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 const serverUrl = process.env.SERVER_URL;
 export function loadAccount() {
 	return function(dispatch, getState) {
-		const { user: { idToken } } = getState();
-		getJson(`${serverUrl}/accounts/${config.account_name}`, {
-			headers: {
-				Authorization: `Bearer ${idToken}`
-			}
-		}).then(account => {
-			dispatch({
-				type: LOAD_ACCOUNT_SUCCESS,
-				data: account
+		getJson
+			.bind(null, dispatch, getState)(
+				`${serverUrl}/accounts/${config.account_name}`
+			)
+			.then(account => {
+				dispatch({
+					type: LOAD_ACCOUNT_SUCCESS,
+					data: account
+				});
 			});
-		});
 	};
 }
 
@@ -69,22 +68,18 @@ export function removeTransaction(transactionId) {
 export function confirmRemoveTransaction(transactionId) {
 	return function(dispatch, getState) {
 		return function() {
-			const { user: { idToken } } = getState();
-			deleteJson(
-				`${serverUrl}/accounts/${
-					config.account_name
-				}/transactions/${transactionId}`,
-				{
-					headers: {
-						Authorization: `Bearer ${idToken}`
-					}
-				}
-			).then(json => {
-				dispatch({
-					type: REMOVE_TRANSACTION_SUCCESS,
-					data: transactionId
+			deleteJson
+				.bind(null, dispatch, getState)(
+					`${serverUrl}/accounts/${
+						config.account_name
+					}/transactions/${transactionId}`
+				)
+				.then(json => {
+					dispatch({
+						type: REMOVE_TRANSACTION_SUCCESS,
+						data: transactionId
+					});
 				});
-			});
 		};
 	};
 }
