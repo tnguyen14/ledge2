@@ -4,15 +4,18 @@ import config from 'config';
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 export function loadAccount() {
-	return function(dispatch) {
-		getJson(`${config.server_url}/accounts/${config.account_name}`).then(
-			account => {
-				dispatch({
-					type: LOAD_ACCOUNT_SUCCESS,
-					data: account
-				});
+	return function(dispatch, getState) {
+		const { user: { idToken } } = getState();
+		getJson(`${config.server_url}/accounts/${config.account_name}`, {
+			headers: {
+				Authorization: `Bearer ${idToken}`
 			}
-		);
+		}).then(account => {
+			dispatch({
+				type: LOAD_ACCOUNT_SUCCESS,
+				data: account
+			});
+		});
 	};
 }
 
@@ -63,12 +66,18 @@ export function removeTransaction(transactionId) {
 }
 
 export function confirmRemoveTransaction(transactionId) {
-	return function(dispatch) {
+	return function(dispatch, getState) {
 		return function() {
+			const { user: { idToken } } = getState();
 			deleteJson(
 				`${config.server_url}/accounts/${
 					config.account_name
-				}/transactions/${transactionId}`
+				}/transactions/${transactionId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${idToken}`
+					}
+				}
 			).then(json => {
 				dispatch({
 					type: REMOVE_TRANSACTION_SUCCESS,

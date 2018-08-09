@@ -12,7 +12,7 @@ export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
 export function submitForm(event) {
 	event.preventDefault();
 	return (dispatch, getState) => {
-		const { action, values } = getState().form;
+		const { form: { action, values }, user: { idToken } } = getState();
 		let entry = {
 			...values,
 			amount: values.amount * 100
@@ -31,7 +31,11 @@ export function submitForm(event) {
 			type: SUBMIT_TRANSACTION
 		});
 
-		serverAction(actionUrl, entry).then(
+		serverAction(actionUrl, entry, {
+			headers: {
+				Authorization: `Bearer ${idToken}`
+			}
+		}).then(
 			json => {
 				dispatch({
 					type: successActionType,
