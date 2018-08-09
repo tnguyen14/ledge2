@@ -8,12 +8,29 @@
 
 'use strict';
 
-var express = require('express');
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var app = express();
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const jwt = require('express-jwt');
+const jwksRsa = require('jwks-rsa');
+require('dotenv').config();
+
+const app = express();
 
 app.use(cors());
+app.use(
+	jwt({
+		secret: jwksRsa.expressJwtSecret({
+			cache: true,
+			rateLimit: true,
+			jwksRequestPerMinute: 5,
+			jwksUri: `${process.env.AUTH0_SERVER}.well-known/jwks.json`
+		}),
+		audience: process.env.AUTH0_CLIENT_ID,
+		issuer: process.env.AUTH0_SERVER,
+		algorithms: ['RS256']
+	})
+);
 app.use(bodyParser.json());
 
 // docs
