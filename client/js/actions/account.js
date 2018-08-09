@@ -3,10 +3,11 @@ import config from 'config';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
+const serverUrl = process.env.SERVER_URL;
 export function loadAccount() {
 	return function(dispatch, getState) {
 		const { user: { idToken } } = getState();
-		getJson(`${config.server_url}/accounts/${config.account_name}`, {
+		getJson(`${serverUrl}/accounts/${config.account_name}`, {
 			headers: {
 				Authorization: `Bearer ${idToken}`
 			}
@@ -70,7 +71,7 @@ export function confirmRemoveTransaction(transactionId) {
 		return function() {
 			const { user: { idToken } } = getState();
 			deleteJson(
-				`${config.server_url}/accounts/${
+				`${serverUrl}/accounts/${
 					config.account_name
 				}/transactions/${transactionId}`,
 				{

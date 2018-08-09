@@ -10,13 +10,13 @@ export function addWeek() {
 
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
+const serverUrl = process.env.SERVER_URL;
+
 export function loadTransactions(offset) {
 	return function(dispatch, getState) {
 		const { user: { idToken } } = getState();
 		getJson(
-			`${config.server_url}/accounts/${
-				config.account_name
-			}/weekly/${offset}`,
+			`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`,
 			{
 				headers: {
 					Authorization: `Bearer ${idToken}`

@@ -9,6 +9,8 @@ export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
 
+const serverUrl = process.env.SERVER_URL;
+
 export function submitForm(event) {
 	event.preventDefault();
 	return (dispatch, getState) => {
@@ -20,7 +22,7 @@ export function submitForm(event) {
 
 		const isUpdating = action === 'update';
 		const serverAction = isUpdating ? patchJson : postJson;
-		const actionUrl = `${config.server_url}/accounts/${
+		const actionUrl = `${serverUrl}/accounts/${
 			config.account_name
 		}/transactions/${isUpdating ? entry.id : ''}`;
 		const successActionType = isUpdating
