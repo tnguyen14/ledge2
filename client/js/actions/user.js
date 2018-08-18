@@ -8,15 +8,13 @@ const auth = new auth0.WebAuth({
 	scope: 'openid profile'
 });
 
-export const LOGIN = 'LOGIN';
+const redirectUrl = `${window.location.href}callback.html`;
 
 export function login() {
 	auth.authorize({
-		redirect_uri: `${window.location.href}callback.html`
+		redirect_uri: redirectUrl,
+		prompt: 'none'
 	});
-	return {
-		type: LOGIN
-	};
 }
 
 export const AUTHENTICATING = 'AUTHENTICATING';
@@ -29,7 +27,13 @@ export function handleAuthentication() {
 		});
 		auth.parseHash((err, authResult) => {
 			if (err) {
-				console.error(err);
+				if (err.error === 'login_required') {
+					auth.authorize({
+						redirect_uri: redirectUrl
+					});
+				} else {
+					console.error(err);
+				}
 				return;
 			}
 			if (authResult && authResult.accessToken && authResult.idToken) {
