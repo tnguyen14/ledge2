@@ -24,11 +24,11 @@ class App extends Component {
 	}
 	render() {
 		const { login, authenticated, isAuthenticating } = this.props;
-		if (!authenticated) {
-			return <Login login={login} />;
-		}
 		if (isAuthenticating) {
 			return <h2 className="auth-loading">Loading...</h2>;
+		}
+		if (!authenticated) {
+			return <Login login={login} />;
 		}
 		return (
 			<div className="app">
