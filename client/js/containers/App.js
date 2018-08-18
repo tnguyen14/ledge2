@@ -9,8 +9,9 @@ import { login, handleAuthentication } from '../actions/user';
 import history from '../history';
 
 class App extends Component {
-	componentWillMount() {
-		const { location, handleAuthentication } = this.props;
+	constructor(props) {
+		super(props);
+		const { location, handleAuthentication } = props;
 		const callbackRegex = /callback\.html/;
 		const isCallback = callbackRegex.test(location.pathname);
 		const basePath = location.pathname.replace(callbackRegex, '');
@@ -23,11 +24,11 @@ class App extends Component {
 	}
 	render() {
 		const { login, authenticated, isAuthenticating } = this.props;
-		if (isAuthenticating) {
-			return <h2 className="auth-loading">Loading...</h2>;
-		}
 		if (!authenticated) {
 			return <Login login={login} />;
+		}
+		if (isAuthenticating) {
+			return <h2 className="auth-loading">Loading...</h2>;
 		}
 		return (
 			<div className="app">
@@ -52,7 +53,10 @@ function mapStateToProps(state) {
 		...state.user
 	};
 }
-export default connect(mapStateToProps, {
-	login,
-	handleAuthentication
-})(App);
+export default connect(
+	mapStateToProps,
+	{
+		login,
+		handleAuthentication
+	}
+)(App);
