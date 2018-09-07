@@ -29,8 +29,11 @@ app.use(
 		audience: process.env.AUTH0_CLIENT_ID,
 		issuer: process.env.AUTH0_SERVER,
 		algorithms: ['RS256']
+	}).unless({
+		path: [/\/docs*/]
 	})
 );
+
 app.use(bodyParser.json());
 
 // docs
