@@ -9,6 +9,7 @@ function route(controller) {
 			res.json();
 			return next();
 		}
+		console.log(req.user);
 		// Merge req.params and req.body together into a single object
 		// This is mostly to be consistent with restify's API before
 		controller(Object.assign({}, req.params, req.body), function(

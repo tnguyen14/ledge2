@@ -10,3 +10,4 @@ dist
 data
 doc
 .travis/muffin
+auth/*.json
