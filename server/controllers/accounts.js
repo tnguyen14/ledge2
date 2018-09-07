@@ -1,7 +1,8 @@
 'use strict';
 
 var db = require('../db');
-var _ = require('lodash');
+var union = require('lodash.union');
+var pick = require('lodash.pick');
 var noAccount = new Error('No such account was found');
 noAccount.status = 404;
 var missingAccountName = new Error('Account name is required.');
@@ -96,7 +97,7 @@ function updateAccount(params, callback) {
 			params.categories[0] === '[' &&
 			params.categories[-1] === ']'
 		) {
-			opts.categories = _.union(
+			opts.categories = union(
 				JSON.parse(params.categories),
 				account.categories
 			);
@@ -109,7 +110,7 @@ function updateAccount(params, callback) {
 			Object.assign(
 				{},
 				account,
-				_.pick(params, [
+				pick(params, [
 					'type',
 					'categories',
 					'starting_balance',

@@ -2,7 +2,8 @@
 
 var db = require('../db');
 var moment = require('moment-timezone');
-var _ = require('lodash');
+var filter = require('lodash.filter');
+var pick = require('lodash.pick');
 var slugify = require('underscore.string/slugify');
 var async = require('async');
 var timezone = 'America/New_York';
@@ -129,7 +130,7 @@ function removeMerchant(merchant, account, callback) {
 				if (err2) {
 					return callback(err2);
 				}
-				var merchantCount = _.filter(items, { merchant: merchant })
+				var merchantCount = filter(items, { merchant: merchant })
 					.length;
 				db.put(
 					'account!' + account,
@@ -370,7 +371,7 @@ function updateTransaction(params, callback) {
 	opts.updatedOn = Date.now();
 	newTransaction = Object.assign(
 		{},
-		_.pick(params, [
+		pick(params, [
 			// only update specified properties
 			'amount',
 			'date',
