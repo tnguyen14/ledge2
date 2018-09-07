@@ -25,7 +25,7 @@
     "server:watch": "PORT=13040 nodemon --inspect=9223 server --watch server",
     "doc": "apidoc -i server/",
     "db:sync:muffin": "sh server/db/sync/level-from-muffin.sh",
-    "db:migrate:firestore": "node server/db/migrate/firestore.js"
+    "db:migrate:firestore": "node server/db/migrate/level-to-firestore.js"
   },
   "browser": {
     "config": "./config.json"
