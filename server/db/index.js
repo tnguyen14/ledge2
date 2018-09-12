@@ -7,8 +7,7 @@ var db = level('./data', { valueEncoding: 'json' });
 module.exports = db;
 module.exports.getRange = function(options, callback) {
 	var items = [];
-	db
-		.createReadStream(options)
+	db.createReadStream(options)
 		.on('data', function(item) {
 			items.push(item);
 		})
@@ -17,3 +16,15 @@ module.exports.getRange = function(options, callback) {
 			callback(null, items);
 		});
 };
+
+const Firestore = require('@google-cloud/firestore');
+const firestore = new Firestore({
+	projectId: process.env.FIREBASE_PROJECT_ID,
+	keyFilename: process.env.SERVICE_ACCOUNT_JSON
+});
+
+firestore.settings({
+	timestampsInSnapshots: true
+});
+
+module.exports.firestore = firestore;

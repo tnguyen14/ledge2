@@ -1,22 +1,14 @@
 require('dotenv').config();
-const Firestore = require('@google-cloud/firestore');
 const async = require('async');
 const chunk = require('lodash.chunk');
+
+const { firestore } = require('../');
 
 const accounts = require('../../controllers/accounts');
 const transactions = require('../../controllers/transactions');
 //
 // migrating all old accounts/ transactions to this user
 const user = process.env.AUTH0_USER;
-
-const firestore = new Firestore({
-	projectId: process.env.FIREBASE_PROJECT_ID,
-	keyFilename: process.env.SERVICE_ACCOUNT_JSON
-});
-
-firestore.settings({
-	timestampsInSnapshots: true
-});
 
 // firestore batch call limit
 const maxEntitiesPerBatch = 500;
@@ -52,10 +44,17 @@ async.waterfall(
 
 function writeAccount(acct, callback) {
 	const acctRef = firestore.doc(`accounts/${user}!${acct.id}`);
-	acctRef.set(acct).then(() => {
-		console.log(`Successfully wrote account ${acct.id} for user ${user}`);
-		callback(null);
-	}, callback);
+	acctRef
+		.set({
+			...acct,
+			user
+		})
+		.then(() => {
+			console.log(
+				`Successfully wrote account ${acct.id} for user ${user}`
+			);
+			callback(null);
+		}, callback);
 }
 
 function writeTransactionsInChunks(acct, callback) {
