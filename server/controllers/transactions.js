@@ -12,35 +12,6 @@ const merchants = require('./accounts/merchants');
 const missingAccountName = new Error('Account name is required.');
 missingAccountName.status = 404;
 
-/**
- * Check if the id is unique. If not, keep incrementing it until it is
- * @param {Number} id time value as id
- * @param {String} accountName account name
- * @param {Function} callback
- */
-function getUniqueTransactionId(id, accountName, callback) {
-	var _id = id;
-	var notFound = false;
-	async.until(
-		function() {
-			return notFound;
-		},
-		function(cb) {
-			db.get(['transaction', accountName, _id].join(SEPARATOR), function(
-				err
-			) {
-				if (err && err.notFound) {
-					notFound = true;
-				} else {
-					_id++;
-				}
-				cb(null, _id);
-			});
-		},
-		callback
-	);
-}
-
 /** TRANSATIONS ACTIONS **/
 
 function showAll(params, callback) {
@@ -143,23 +114,19 @@ function newTransaction(params, callback) {
 		missingAmount.status = 409;
 		return callback(missingAmount);
 	}
-	if (!params.date || !params.time) {
+	if (!(params.date && params.time)) {
 		let missingDateTime = new Error(
 			'Cannot add a transaction without date and time'
 		);
 		return callback(missingDateTime);
 	}
-	var date = moment.tz(
-		params.date + ' ' + (params.time || '08:00'),
-		timezone
-	);
-	var id = date.valueOf();
+	var date = getTransactionDate(params.date, params.time);
 	var uniqueId;
 
 	async.series(
 		[
 			function(cb) {
-				getUniqueTransactionId(id, params.name, function(err, res) {
+				getUniqueTransactionId(date, params.name, function(err, res) {
 					if (!err) {
 						uniqueId = res;
 					}
@@ -218,10 +185,7 @@ function updateTransaction(params, callback) {
 		date,
 		hasDateChange;
 	if (params.date && params.time) {
-		date = moment.tz(
-			params.date + ' ' + (params.time || '08:00'),
-			timezone
-		);
+		date = getTransactionDate(params.date, params.time);
 		opts.date = date.toDate();
 	}
 	if (params.amount) {
@@ -262,10 +226,7 @@ function updateTransaction(params, callback) {
 					newTransactionId = oldTransactionId;
 					return cb(null);
 				}
-				getUniqueTransactionId(date.valueOf(), params.name, function(
-					err,
-					id
-				) {
+				getUniqueTransactionId(date, params.name, function(err, id) {
 					if (!err) {
 						uniqueId = id;
 						newTransactionId = [
@@ -341,6 +302,40 @@ function deleteTransaction(params, callback) {
 			});
 		}
 	);
+}
+
+/**
+ * Generate a unique transaction ID based on current timestamp
+ * If that value already exists, keep incrementing it until it is unique
+ * @param {Object} moment object that represents the date and time of transaction
+ * @param {String} accountName account name
+ * @param {Function} callback
+ */
+function getUniqueTransactionId(date, accountName, callback) {
+	let id = date.valueOf();
+	var notFound = false;
+	async.until(
+		function() {
+			return notFound;
+		},
+		function(cb) {
+			db.get(['transaction', accountName, id].join(SEPARATOR), function(
+				err
+			) {
+				if (err && err.notFound) {
+					notFound = true;
+				} else {
+					id++;
+				}
+				cb(null, id);
+			});
+		},
+		callback
+	);
+}
+
+function getTransactionDate(date, time) {
+	return moment.tz(`${date} ${time}`, timezone);
 }
 
 module.exports = {
