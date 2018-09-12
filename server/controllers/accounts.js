@@ -3,6 +3,8 @@
 var db = require('../db');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
+const firestore = db.firestore;
+
 var noAccount = new Error('No such account was found');
 noAccount.status = 404;
 var missingAccountName = new Error('Account name is required.');
