@@ -26,16 +26,14 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	accountsCol
-		.doc(`${params.userId}!${params.name}`)
-		.get()
-		.then(acctSnapshot => {
-			if (!acctSnapshot.exists) {
-				callback(noAccount);
-				return;
-			}
-			callback(null, acctSnapshot.data());
-		}, callback);
+	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			callback(noAccount);
+			return;
+		}
+		callback(null, acctSnapshot.data());
+	}, callback);
 }
 
 // starting_balance defaults to 0
@@ -45,15 +43,18 @@ function newAccount(params, callback) {
 		return callback(missingAccountName);
 	}
 
-	db.get('account!' + params.name, function(err, account) {
-		if (!err) {
+	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (acctSnapshot.exists) {
 			return callback(conflictAccountName);
 		}
-		var newAccount = {
+
+		const newAccount = {
 			starting_balance: params.starting_balance
 				? Number(params.starting_balance)
 				: 0,
-			type: params.type || 'BUDGET'
+			type: params.type || 'BUDGET',
+			user: params.userId
 		};
 
 		// add default period length to 4 weeks
@@ -61,14 +62,12 @@ function newAccount(params, callback) {
 			newAccount.period_length = 4;
 			newAccount.period_budget = 0;
 		}
-		db.put('account!' + params.name, newAccount, function(err) {
-			if (err) {
-				return callback(err);
-			}
+
+		acctRef.create(newAccount).then(() => {
 			callback(null, {
 				created: true
 			});
-		});
+		}, callback);
 	});
 }
 
