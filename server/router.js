@@ -9,23 +9,26 @@ function route(controller) {
 			res.json();
 			return next();
 		}
-		console.log(req.user);
 		// Merge req.params and req.body together into a single object
 		// This is mostly to be consistent with restify's API before
-		controller(Object.assign({}, req.params, req.body), function(
-			err,
-			result
-		) {
-			if (err) {
-				console.error(err);
-				res.status(err.status || 500).json({
-					message: err.message
-				});
-				return next(err);
+		controller(
+			{
+				...req.params,
+				...req.body,
+				userId: req.user.sub
+			},
+			(err, result) => {
+				if (err) {
+					console.error(err);
+					res.status(err.status || 500).json({
+						message: err.message
+					});
+					return next(err);
+				}
+				res.json(result);
+				return next();
 			}
-			res.json(result);
-			return next();
-		});
+		);
 	};
 }
 

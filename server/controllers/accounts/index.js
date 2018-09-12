@@ -1,6 +1,6 @@
 'use strict';
 
-var db = require('../../db');
+var { firestore } = require('../../db');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
 
@@ -11,26 +11,15 @@ missingAccountName.status = 404;
 var conflictAccountName = new Error('Account already exists');
 conflictAccountName.status = 409;
 
+const accountsCol = firestore.collection('accounts');
+
 function showAll(params, callback) {
-	db.getRange(
-		{
-			gte: 'account!',
-			lt: 'account!~'
-		},
-		function(err, items) {
-			if (err) {
-				return callback(err);
-			}
-			callback(
-				null,
-				items.map(function(item) {
-					return Object.assign({}, item.value, {
-						id: item.key.split('!').pop()
-					});
-				})
-			);
-		}
-	);
+	accountsCol
+		.where('user', '==', params.userId)
+		.get()
+		.then(acctSnapshot => {
+			callback(null, acctSnapshot.docs.map(acctDoc => acctDoc.data()));
+		}, callback);
 }
 
 function showOne(params, callback) {
