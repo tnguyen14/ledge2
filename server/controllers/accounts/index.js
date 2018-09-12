@@ -75,11 +75,13 @@ function updateAccount(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			return callback(err);
+	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			return callback(noAccount);
 		}
-		var opts = {};
+		const account = acctSnapshot.data();
+		const opts = {};
 		if (
 			params.categories &&
 			params.categories[0] === '[' &&
@@ -93,29 +95,25 @@ function updateAccount(params, callback) {
 		if (params.starting_balance) {
 			opts.starting_balance = parseInt(params.starting_balance, 10);
 		}
-		db.put(
-			'account!' + params.name,
-			Object.assign(
-				{},
-				account,
-				pick(params, [
-					'type',
-					'categories',
-					'starting_balance',
-					'period_length',
-					'period_budget'
-				]),
-				opts
-			),
-			function(err) {
-				if (err) {
-					return callback(err);
+		acctRef
+			.set(
+				{
+					...pick(params, [
+						'type',
+						'categories',
+						'starting_balance',
+						'period_length',
+						'period_budget'
+					]),
+					...opts
+				},
+				{
+					merge: true
 				}
-				callback(null, {
-					updated: true
-				});
-			}
-		);
+			)
+			.then(() => {
+				callback(null, { updated: true });
+			}, callback);
 	});
 }
 
