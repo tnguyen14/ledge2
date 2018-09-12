@@ -26,17 +26,16 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			if (err.notFound) {
+	accountsCol
+		.doc(`${params.userId}!${params.name}`)
+		.get()
+		.then(acctSnapshot => {
+			if (!acctSnapshot.exists) {
 				callback(noAccount);
-			} else {
-				callback(err);
+				return;
 			}
-			return;
-		}
-		callback(null, account);
-	});
+			callback(null, acctSnapshot.data());
+		}, callback);
 }
 
 // starting_balance defaults to 0
