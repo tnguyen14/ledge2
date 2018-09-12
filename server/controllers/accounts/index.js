@@ -121,48 +121,24 @@ function deleteAccount(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			if (err.notFound) {
-				callback(noAccount);
-			} else {
-				callback(err);
-			}
-			return;
+
+	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			return callback(noAccount);
 		}
-		// delete transactions associated with the account as well
-		db.getRange(
-			{
-				gt: 'transaction!' + params.name + '!',
-				lt: 'transaction!' + params.name + '!~'
-			},
-			function(err, transactions) {
-				if (err) {
-					return callback(err);
-				}
-				db.batch(
-					transactions
-						.map(function(tx) {
-							return {
-								type: 'del',
-								key: tx.key
-							};
-						})
-						.concat({
-							type: 'del',
-							key: 'account!' + params.name
-						}),
-					function(err) {
-						if (err) {
-							return callback(err);
-						}
-						callback(null, {
-							deleted: true
-						});
-					}
-				);
-			}
-		);
+		firestore
+			.deleteCollection(
+				`accounts/${params.userId}!${params.name}/transactions`
+			)
+			.then(() => {
+				return acctRef.delete();
+			})
+			.then(() => {
+				callback(null, {
+					deleted: true
+				});
+			}, callback);
 	});
 }
 
