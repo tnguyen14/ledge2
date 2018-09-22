@@ -7,6 +7,7 @@ var async = require('async');
 var timezone = 'America/New_York';
 var SEPARATOR = '!';
 
+const { accounts } = require('../db');
 const merchants = require('./accounts/merchants');
 
 const missingAccountName = new Error('Account name is required.');
@@ -18,25 +19,32 @@ function showAll(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.getRange(
-		{
-			gt: 'transaction!' + params.name + '!',
-			lt: 'transaction!' + params.name + '!~'
-		},
-		function(err, items) {
-			if (err) {
-				return callback(err);
-			}
+	// support range by date
+	const before = moment
+		.tz(params.before || new Date(), timezone)
+		.toISOString();
+	const after = moment
+		.tz(params.after || new Date(0), timezone)
+		.toISOString();
+	const order = params.order || 'desc';
+	const limit = Math.min(Number(params.limit) || 50, 1000);
+
+	const transactionsRef = accounts
+		.doc(`${params.userId}!${params.name}`)
+		.collection('transactions');
+	console.log(`before: ${before}, after: ${after}`);
+	transactionsRef
+		.where('date', '>', after)
+		.where('date', '<', before)
+		.orderBy('date', order)
+		.limit(limit)
+		.get()
+		.then(transactionsSnapshot => {
 			callback(
 				null,
-				items.map(function(item) {
-					return Object.assign({}, item.value, {
-						id: item.key.split('!').pop()
-					});
-				})
+				transactionsSnapshot.docs.map(txnSnapshot => txnSnapshot.data())
 			);
-		}
-	);
+		}, callback);
 }
 
 function showWeekly(params, callback) {

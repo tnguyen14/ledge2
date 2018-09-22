@@ -15,6 +15,7 @@ function route(controller) {
 			{
 				...req.params,
 				...req.body,
+				...req.query,
 				userId: req.user.sub
 			},
 			(err, result) => {
@@ -88,12 +89,19 @@ module.exports = function router(app) {
 
 	// transactions
 
+	// apidoc doesn't support query param separately
+	// https://github.com/apidoc/apidoc/issues/545
+
 	/**
 	 * @api {get} /accounts/:name/transactions Get all transactions of an account
 	 * @apiName GetAllTransactions
 	 * @apiGroup Transaction
 	 *
 	 * @apiParam {String} name Name of account
+	 * @apiParam {String} before="<current time>" The date string to specify the earlier boundary of transaction date
+	 * @apiParam {String} after="<epoch>" The date string to specify the later boundary of transaction date
+	 * @apiParam {String="asc","desc"} order="desc" The sorting order of transactions by date
+	 * @apiParam {Number} limit=50 Number of transactions to be returned. Max is 1000.
 	 */
 	app.get('/accounts/:name/transactions', route(transactions.showAll));
 
