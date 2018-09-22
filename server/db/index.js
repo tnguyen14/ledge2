@@ -29,6 +29,8 @@ firestore.settings({
 
 module.exports.firestore = firestore;
 
+module.exports.accounts = firestore.collection('accounts');
+
 const FIRESTORE_BATCH_SIZE = 500;
 
 module.exports.firestore.batchSize = FIRESTORE_BATCH_SIZE;

@@ -1,6 +1,6 @@
 'use strict';
 
-var { firestore } = require('../../db');
+var { firestore, accounts } = require('../../db');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
 
@@ -11,10 +11,8 @@ missingAccountName.status = 404;
 var conflictAccountName = new Error('Account already exists');
 conflictAccountName.status = 409;
 
-const accountsCol = firestore.collection('accounts');
-
 function showAll(params, callback) {
-	accountsCol
+	accounts
 		.where('user', '==', params.userId)
 		.get()
 		.then(acctSnapshot => {
@@ -26,7 +24,7 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
 	acctRef.get().then(acctSnapshot => {
 		if (!acctSnapshot.exists) {
 			callback(noAccount);
@@ -43,7 +41,7 @@ function newAccount(params, callback) {
 		return callback(missingAccountName);
 	}
 
-	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
 	acctRef.get().then(acctSnapshot => {
 		if (acctSnapshot.exists) {
 			return callback(conflictAccountName);
@@ -75,7 +73,7 @@ function updateAccount(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
 	acctRef.get().then(acctSnapshot => {
 		if (!acctSnapshot.exists) {
 			return callback(noAccount);
@@ -122,7 +120,7 @@ function deleteAccount(params, callback) {
 		return callback(missingAccountName);
 	}
 
-	const acctRef = accountsCol.doc(`${params.userId}!${params.name}`);
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
 	acctRef.get().then(acctSnapshot => {
 		if (!acctSnapshot.exists) {
 			return callback(noAccount);
