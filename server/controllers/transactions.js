@@ -32,7 +32,7 @@ function showAll(params, callback) {
 	const transactionsRef = accounts
 		.doc(`${params.userId}!${params.name}`)
 		.collection('transactions');
-	console.log(`before: ${before}, after: ${after}`);
+
 	transactionsRef
 		.where('date', '>', after)
 		.where('date', '<', before)
@@ -51,40 +51,38 @@ function showWeekly(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	var weekOffset = params.offset || 0;
-	var dayOffset = Number(weekOffset) * 7;
+	const weekOffset = params.offset || 0;
+	const dayOffset = Number(weekOffset) * 7;
 
 	// transactions are bound from this monday to before next monday
 	// Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/
-	var thisMonday = moment()
+	const thisMonday = moment()
 		.tz(timezone)
 		.isoWeekday(1 + dayOffset)
 		.startOf('day')
-		.valueOf();
-	var nextMonday = moment()
+		.toISOString();
+	const nextMonday = moment()
 		.tz(timezone)
 		.isoWeekday(8 + dayOffset)
 		.startOf('day')
-		.valueOf();
-	db.getRange(
-		{
-			gte: 'transaction!' + params.name + '!' + thisMonday,
-			lt: 'transaction!' + params.name + '!' + nextMonday
-		},
-		function(err, items) {
-			if (err) {
-				return callback(err);
-			}
+		.toISOString();
+
+	const transactionsRef = accounts
+		.doc(`${params.userId}!${params.name}`)
+		.collection('transactions');
+
+	transactionsRef
+		.where('date', '>=', thisMonday)
+		.where('date', '<', nextMonday)
+		.orderBy('date', 'desc')
+		.limit(1000) // heuristically set limit to 1000 transactions per week
+		.get()
+		.then(transactionsSnapshot => {
 			callback(
 				null,
-				items.map(function(item) {
-					return Object.assign({}, item.value, {
-						id: item.key.split('!').pop()
-					});
-				})
+				transactionsSnapshot.docs.map(txnSnapshot => txnSnapshot.data())
 			);
-		}
-	);
+		}, callback);
 }
 
 function showOne(params, callback) {
