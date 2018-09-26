@@ -89,24 +89,22 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('transaction!' + params.name + '!' + params.id, function(
-		err,
-		transaction
-	) {
-		if (err) {
-			if (err.notFound) {
-				var transactionNotFound = new Error(
+	accounts
+		.doc(`${params.userId}!${params.name}`)
+		.collection('transactions')
+		.doc(params.id)
+		.get()
+		.then(txnSnapshot => {
+			if (!txnSnapshot.exists) {
+				const transactionNotFound = new Error(
 					'No such transaction was found.'
 				);
 				transactionNotFound.status = 404;
 				callback(transactionNotFound);
-			} else {
-				callback(err);
+				return;
 			}
-			return;
-		}
-		callback(null, transaction);
-	});
+			callback(null, txnSnapshot.data());
+		}, callback);
 }
 
 function newTransaction(params, callback) {
