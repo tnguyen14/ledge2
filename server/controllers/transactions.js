@@ -90,7 +90,9 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	getTransaction(params.userId, params.name, params.id, callback);
+	getTransaction(params.userId, params.name, params.id).then(transaction => {
+		callback(null, transaction);
+	}, callback);
 }
 
 function createTransaction(params, callback) {
@@ -110,60 +112,38 @@ function createTransaction(params, callback) {
 		);
 		return callback(missingDateTime);
 	}
-	var date = getTransactionDate(params.date, params.time);
-	var uniqueId;
+	const date = getTransactionDate(params.date, params.time);
 
-	async.series(
-		[
-			function(cb) {
-				getUniqueTransactionId(
-					date,
-					params.userId,
-					params.name,
-					function(err, res) {
-						if (!err) {
-							uniqueId = res;
-						}
-						cb(err);
-					}
-				);
-			},
-			function(cb) {
-				accounts
-					.doc(`${params.userId}!${params.name}`)
-					.collection('transactions')
-					.doc(uniqueId)
-					.set({
-						amount: parseInt(params.amount, 10),
-						date: date.toISOString(),
-						description: params.description,
-						merchant: params.merchant,
-						status: params.status || 'POSTED',
-						category: params.category || 'default',
-						source: params.source
-					})
-					.then(() => {
-						return merchants.add(
-							params.merchant,
-							params.userId,
-							params.name
-						);
-					})
-					.then(() => {
-						cb(null);
-					}, cb);
-			}
-		],
-		function(err) {
-			if (err) {
-				return callback(err);
-			}
-			callback(null, {
-				created: true,
-				id: uniqueId
-			});
-		}
-	);
+	getUniqueTransactionId(date, params.userId, params.name)
+		.then(uniqueId => {
+			return accounts
+				.doc(`${params.userId}!${params.name}`)
+				.collection('transactions')
+				.doc(uniqueId)
+				.set({
+					amount: parseInt(params.amount, 10),
+					date: date.toISOString(),
+					description: params.description,
+					merchant: params.merchant,
+					status: params.status || 'POSTED',
+					category: params.category || 'default',
+					source: params.source
+				})
+				.then(() => {
+					return merchants.add(
+						params.merchant,
+						params.userId,
+						params.name
+					);
+				})
+				.then(() => {
+					callback(null, {
+						created: true,
+						id: uniqueId
+					});
+				});
+		})
+		.then(null, callback);
 }
 
 function updateTransaction(params, callback) {
@@ -176,8 +156,8 @@ function updateTransaction(params, callback) {
 		return callback(missingID);
 	}
 	// opts is a conditional subset of params with some parsing
-	var opts = {};
-	var newTransaction, oldTransaction, newTransactionId, date;
+	const opts = {};
+	let oldTransaction, newTransactionId, date;
 	if (params.date && params.time) {
 		date = getTransactionDate(params.date, params.time);
 		opts.date = date.toISOString();
@@ -188,7 +168,7 @@ function updateTransaction(params, callback) {
 	opts.updatedOn = moment()
 		.tz(timezone)
 		.toISOString();
-	newTransaction = Object.assign(
+	const newTransaction = Object.assign(
 		{},
 		pick(params, [
 			// only update specified properties
@@ -203,34 +183,26 @@ function updateTransaction(params, callback) {
 		opts
 	);
 
-	async.waterfall(
-		[
-			// get the old transaction
-			async.apply(getTransaction, params.userId, params.name, params.id),
-			function(txn, cb) {
-				oldTransaction = txn;
-				// if date hasn't changed, just update the old transaction
-				if (!date || date.isSame(oldTransaction.date)) {
-					newTransactionId = params.id;
-					return cb(null, false);
-				}
-
-				// set the new transaction id to a unique id if date has changed
-				getUniqueTransactionId(
-					date,
-					params.userId,
-					params.name,
-					(err, uniqueId) => {
-						if (err) {
-							return cb(err);
-						}
-						newTransactionId = uniqueId;
-						cb(null, true);
-					}
-				);
-			},
-			// write new transaction
-			function(hasDateChange, cb) {
+	getTransaction(params.userId, params.name, params.id)
+		.then(txn => {
+			oldTransaction = txn;
+			// if date hasn't changed, just update the old transaction
+			if (!date || date.isSame(oldTransaction.date)) {
+				newTransactionId = params.id;
+				return false;
+			}
+			// set the new transaction id to a unique id if date has changed
+			return getUniqueTransactionId(
+				date,
+				params.userId,
+				params.name
+			).then(uniqueId => {
+				newTransactionId = uniqueId;
+				return true;
+			});
+		})
+		.then(hasDateChange => {
+			return (
 				accounts
 					.doc(`${params.userId}!${params.name}`)
 					.collection('transactions')
@@ -238,71 +210,49 @@ function updateTransaction(params, callback) {
 					.set(newTransaction, { merge: true })
 					// if date has changed, remove the old transaction
 					.then(() => {
-						if (!hasDateChange) {
-							return cb(null);
+						if (hasDateChange) {
+							return removeTransaction(params);
 						}
-						deleteTransaction(params, cb);
-					}, cb);
-			},
-			function(cb) {
-				merchants
-					.update(
-						newTransaction.merchant,
-						oldTransaction.merchant,
-						params.userId,
-						params.name
-					)
-					.then(() => {
-						cb(null);
-					}, cb);
-			}
-		],
-		function(err) {
-			if (err) {
-				return callback(err);
-			}
+					})
+			);
+		})
+		.then(() => {
+			return merchants.update(
+				newTransaction.merchant,
+				oldTransaction.merchant,
+				params.userId,
+				params.name
+			);
+		})
+		.then(() => {
 			callback(null, {
 				updated: true,
 				id: newTransactionId
 			});
-		}
-	);
+		}, callback);
+}
+
+function removeTransaction(params) {
+	return getTransaction(params.userId, params.name, params.id)
+		.then(txn => {
+			return merchants.remove(txn.merchant, params.userId, params.name);
+		})
+		.then(() => {
+			return accounts
+				.doc(`${params.userId}!${params.name}`)
+				.collection('transactions')
+				.doc(params.id)
+				.delete();
+		});
 }
 
 function deleteTransaction(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	async.waterfall(
-		[
-			async.apply(getTransaction, params.userId, params.name, params.id),
-			function(transaction, cb) {
-				merchants
-					.remove(transaction.merchant, params.userId, params.name)
-					.then(() => {
-						cb(null);
-					}, cb);
-			},
-			function(cb) {
-				accounts
-					.doc(`${params.userId}!${params.name}`)
-					.collection('transactions')
-					.doc(params.id)
-					.delete()
-					.then(() => {
-						cb(null);
-					}, cb);
-			}
-		],
-		function(err) {
-			if (err) {
-				return callback(err);
-			}
-			callback(null, {
-				deleted: true
-			});
-		}
-	);
+	removeTransaction(params).then(() => {
+		callback(null, { deleted: true });
+	}, callback);
 }
 
 /**
@@ -313,28 +263,37 @@ function deleteTransaction(params, callback) {
  * @param {String} accountName account name
  * @param {Function} callback
  */
-function getUniqueTransactionId(date, userId, accountName, callback) {
+function getUniqueTransactionId(date, userId, accountName) {
 	let id = date.valueOf();
 	var notFound = false;
-	async.until(
-		function() {
-			return notFound;
-		},
-		function(cb) {
-			getTransaction(userId, accountName, id, err => {
-				if (err) {
-					if (err !== transactionNotFound) {
-						return cb(err);
+	return new Promise((resolve, reject) => {
+		async.until(
+			function() {
+				return notFound;
+			},
+			function(cb) {
+				getTransaction(userId, accountName, String(id)).then(
+					() => {
+						id++;
+						cb(null);
+					},
+					err => {
+						if (err !== transactionNotFound) {
+							return cb(err);
+						}
+						notFound = true;
+						cb(null, id);
 					}
-					notFound = true;
-				} else {
-					id++;
+				);
+			},
+			function(err, id) {
+				if (err) {
+					return reject(err);
 				}
-				cb(null, id);
-			});
-		},
-		callback
-	);
+				resolve(String(id));
+			}
+		);
+	});
 }
 
 function getTransactionDate(date, time) {
@@ -342,18 +301,18 @@ function getTransactionDate(date, time) {
 }
 
 function getTransaction(userId, accountName, transactionId, cb) {
-	accounts
+	console.log(`getting ${transactionId}`);
+	return accounts
 		.doc(`${userId}!${accountName}`)
 		.collection('transactions')
 		.doc(transactionId)
 		.get()
 		.then(txnSnapshot => {
 			if (!txnSnapshot.exists) {
-				cb(transactionNotFound);
-				return;
+				throw transactionNotFound;
 			}
-			cb(null, txnSnapshot.data());
-		}, cb);
+			return txnSnapshot.data();
+		});
 }
 
 module.exports = {
