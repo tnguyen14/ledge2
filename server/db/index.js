@@ -28,3 +28,7 @@ firestore.settings({
 });
 
 module.exports.firestore = firestore;
+
+const FIRESTORE_BATCH_SIZE = 500;
+
+module.exports.firestore.batchSize = FIRESTORE_BATCH_SIZE;
