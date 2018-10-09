@@ -14,23 +14,23 @@ getJson(`${serverUrl}/accounts`, {
 	headers: {
 		Authorization: `Bearer ${authToken}`
 	}
-}).then(accts => {
-	Promise.all(
-		accts.map(acct => {
-			return writeAccount(acct).then(() => {
-				return writeTransactionsInChunks(acct);
-			});
-		})
-	).then(
-		() => {
+}).then(
+	accts => {
+		return Promise.all(
+			accts.map(acct => {
+				return writeAccount(acct).then(() => {
+					return writeTransactionsInChunks(acct);
+				});
+			})
+		).then(() => {
 			console.log('Successfully migrated accounts');
-		},
-		err => {
-			console.error(err);
-			process.exit(1);
-		}
-	);
-});
+		});
+	},
+	err => {
+		console.error(err);
+		process.exit(1);
+	}
+);
 
 function writeAccount(acct) {
 	const acctRef = firestore.doc(`accounts/${user}!${acct.id}`);
