@@ -122,7 +122,7 @@ module.exports = function router(app) {
 	 */
 	app.post(
 		'/accounts/:name/transactions',
-		route(transactions.newTransaction)
+		route(transactions.createTransaction)
 	);
 
 	/**

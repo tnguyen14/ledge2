@@ -1,17 +1,18 @@
 'use strict';
 
-var db = require('../db');
 var moment = require('moment-timezone');
 var pick = require('lodash.pick');
 var async = require('async');
 var timezone = 'America/New_York';
-var SEPARATOR = '!';
 
 const { accounts } = require('../db');
 const merchants = require('./accounts/merchants');
 
 const missingAccountName = new Error('Account name is required.');
 missingAccountName.status = 404;
+
+const transactionNotFound = new Error('No such transaction was found');
+transactionNotFound.status = 404;
 
 /** TRANSATIONS ACTIONS **/
 
@@ -89,25 +90,10 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	accounts
-		.doc(`${params.userId}!${params.name}`)
-		.collection('transactions')
-		.doc(params.id)
-		.get()
-		.then(txnSnapshot => {
-			if (!txnSnapshot.exists) {
-				const transactionNotFound = new Error(
-					'No such transaction was found.'
-				);
-				transactionNotFound.status = 404;
-				callback(transactionNotFound);
-				return;
-			}
-			callback(null, txnSnapshot.data());
-		}, callback);
+	getTransaction(params.userId, params.name, params.id, callback);
 }
 
-function newTransaction(params, callback) {
+function createTransaction(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
@@ -130,27 +116,35 @@ function newTransaction(params, callback) {
 	async.series(
 		[
 			function(cb) {
-				getUniqueTransactionId(date, params.name, function(err, res) {
-					if (!err) {
-						uniqueId = res;
+				getUniqueTransactionId(
+					date,
+					params.userId,
+					params.name,
+					function(err, res) {
+						if (!err) {
+							uniqueId = res;
+						}
+						cb(err);
 					}
-					cb(err);
-				});
+				);
 			},
 			function(cb) {
-				db.put(
-					['transaction', params.name, uniqueId].join(SEPARATOR),
-					{
+				accounts
+					.doc(`${params.userId}!${params.name}`)
+					.collection('transactions')
+					.doc(uniqueId)
+					.set({
 						amount: parseInt(params.amount, 10),
-						date: date.toDate(),
+						date: date.toISOString(),
 						description: params.description,
 						merchant: params.merchant,
 						status: params.status || 'POSTED',
 						category: params.category || 'default',
 						source: params.source
-					},
-					cb
-				);
+					})
+					.then(() => {
+						cb(null);
+					}, cb);
 			},
 			function(cb) {
 				merchants.add(params.merchant, params.name, cb);
@@ -177,25 +171,19 @@ function updateTransaction(params, callback) {
 		missingID.status = 409;
 		return callback(missingID);
 	}
-	var oldTransactionId = ['transaction', params.name, params.id].join(
-		SEPARATOR
-	);
 	// opts is a conditional subset of params with some parsing
 	var opts = {};
-	var newTransaction,
-		oldTransaction,
-		uniqueId,
-		newTransactionId,
-		date,
-		hasDateChange;
+	var newTransaction, oldTransaction, newTransactionId, date;
 	if (params.date && params.time) {
 		date = getTransactionDate(params.date, params.time);
-		opts.date = date.toDate();
+		opts.date = date.toISOString();
 	}
 	if (params.amount) {
 		opts.amount = parseInt(params.amount, 10);
 	}
-	opts.updatedOn = Date.now();
+	opts.updatedOn = moment()
+		.tz(timezone)
+		.toISOString();
 	newTransaction = Object.assign(
 		{},
 		pick(params, [
@@ -211,63 +199,52 @@ function updateTransaction(params, callback) {
 		opts
 	);
 
-	async.series(
+	async.waterfall(
 		[
 			// get the old transaction
-			function(cb) {
-				db.get(oldTransactionId, function(err, transaction) {
-					oldTransaction = transaction;
-					// check if date has changed
-					if (date && !date.isSame(oldTransaction.date)) {
-						hasDateChange = true;
-					}
-					cb(err);
-				});
-			},
-			// set the new transaction id to a unique id if date has changed
-			function(cb) {
-				if (!hasDateChange) {
-					newTransactionId = oldTransactionId;
-					return cb(null);
+			async.apply(getTransaction, params.userId, params.name, params.id),
+			function(txn, cb) {
+				oldTransaction = txn;
+				// if date hasn't changed, just update the old transaction
+				if (!date || date.isSame(oldTransaction.date)) {
+					newTransactionId = params.id;
+					return cb(null, false);
 				}
-				getUniqueTransactionId(date, params.name, function(err, id) {
-					if (!err) {
-						uniqueId = id;
-						newTransactionId = [
-							'transaction',
-							params.name,
-							uniqueId
-						].join(SEPARATOR);
+
+				// set the new transaction id to a unique id if date has changed
+				getUniqueTransactionId(
+					date,
+					params.userId,
+					params.name,
+					(err, uniqueId) => {
+						if (err) {
+							return cb(err);
+						}
+						newTransactionId = uniqueId;
+						cb(null, true);
 					}
-					cb(null);
-				});
+				);
 			},
 			// write new transaction
-			function(cb) {
-				db.put(
-					newTransactionId,
-					Object.assign({}, oldTransaction, newTransaction),
-					cb
-				);
+			function(hasDateChange, cb) {
+				accounts
+					.doc(`${params.userId}!${params.name}`)
+					.collection('transactions')
+					.doc(newTransactionId)
+					.set(newTransaction, { merge: true })
+					// if date has changed, remove the old transaction
+					.then(() => {
+						if (!hasDateChange) {
+							return cb(null);
+						}
+						deleteTransaction(params, cb);
+					}, cb);
 			},
 			function(cb) {
 				merchants.update(
 					newTransaction.merchant,
 					oldTransaction.merchant,
 					params.name,
-					cb
-				);
-			},
-			// if date has changed, remove the old transaction
-			function(cb) {
-				if (!hasDateChange) {
-					return cb(null);
-				}
-				deleteTransaction(
-					{
-						name: params.name,
-						id: params.id
-					},
 					cb
 				);
 			}
@@ -278,7 +255,7 @@ function updateTransaction(params, callback) {
 			}
 			callback(null, {
 				updated: true,
-				id: hasDateChange ? uniqueId : params.id
+				id: newTransactionId
 			});
 		}
 	);
@@ -288,14 +265,22 @@ function deleteTransaction(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	var transactionId = 'transaction!' + params.name + '!' + params.id;
 	async.waterfall(
 		[
-			async.apply(db.get.bind(db), transactionId),
+			async.apply(getTransaction, params.userId, params.name, params.id),
 			function(transaction, cb) {
 				merchants.remove(transaction.merchant, params.name, cb);
 			},
-			async.apply(db.del.bind(db), transactionId)
+			function(cb) {
+				accounts
+					.doc(`${params.userId}!${params.name}`)
+					.collection('transactions')
+					.doc(params.id)
+					.delete()
+					.then(() => {
+						cb(null);
+					}, cb);
+			}
 		],
 		function(err) {
 			if (err) {
@@ -312,10 +297,11 @@ function deleteTransaction(params, callback) {
  * Generate a unique transaction ID based on current timestamp
  * If that value already exists, keep incrementing it until it is unique
  * @param {Object} moment object that represents the date and time of transaction
+ * @param {String} userId the user ID
  * @param {String} accountName account name
  * @param {Function} callback
  */
-function getUniqueTransactionId(date, accountName, callback) {
+function getUniqueTransactionId(date, userId, accountName, callback) {
 	let id = date.valueOf();
 	var notFound = false;
 	async.until(
@@ -323,10 +309,11 @@ function getUniqueTransactionId(date, accountName, callback) {
 			return notFound;
 		},
 		function(cb) {
-			db.get(['transaction', accountName, id].join(SEPARATOR), function(
-				err
-			) {
-				if (err && err.notFound) {
+			getTransaction(userId, accountName, id, err => {
+				if (err) {
+					if (err !== transactionNotFound) {
+						return cb(err);
+					}
 					notFound = true;
 				} else {
 					id++;
@@ -342,11 +329,26 @@ function getTransactionDate(date, time) {
 	return moment.tz(`${date} ${time}`, timezone);
 }
 
+function getTransaction(userId, accountName, transactionId, cb) {
+	accounts
+		.doc(`${userId}!${accountName}`)
+		.collection('transactions')
+		.doc(transactionId)
+		.get()
+		.then(txnSnapshot => {
+			if (!txnSnapshot.exists) {
+				cb(transactionNotFound);
+				return;
+			}
+			cb(null, txnSnapshot.data());
+		}, cb);
+}
+
 module.exports = {
 	showAll: showAll,
 	showWeekly: showWeekly,
 	showOne: showOne,
-	newTransaction: newTransaction,
+	createTransaction: createTransaction,
 	updateTransaction: updateTransaction,
 	deleteTransaction: deleteTransaction
 };
