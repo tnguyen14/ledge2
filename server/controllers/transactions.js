@@ -124,6 +124,7 @@ function createTransaction(params, callback) {
 					amount: parseInt(params.amount, 10),
 					date: date.toISOString(),
 					description: params.description,
+					id: uniqueId,
 					merchant: params.merchant,
 					status: params.status || 'POSTED',
 					category: params.category || 'default',
@@ -168,20 +169,18 @@ function updateTransaction(params, callback) {
 	opts.updatedOn = moment()
 		.tz(timezone)
 		.toISOString();
-	const newTransaction = Object.assign(
-		{},
-		pick(params, [
+	const newTransaction = {
+		...pick(params, [
 			// only update specified properties
 			'amount',
-			'date',
 			'description',
 			'merchant',
 			'status',
 			'category',
 			'source'
 		]),
-		opts
-	);
+		...opts
+	};
 
 	getTransaction(params.userId, params.name, params.id)
 		.then(txn => {
@@ -207,7 +206,13 @@ function updateTransaction(params, callback) {
 					.doc(`${params.userId}!${params.name}`)
 					.collection('transactions')
 					.doc(newTransactionId)
-					.set(newTransaction, { merge: true })
+					.set(
+						{
+							...newTransaction,
+							id: newTransactionId
+						},
+						{ merge: true }
+					)
 					// if date has changed, remove the old transaction
 					.then(() => {
 						if (hasDateChange) {
