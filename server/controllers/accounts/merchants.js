@@ -1,32 +1,30 @@
-const filter = require('lodash.filter');
+const cloneDeep = require('lodash.clonedeep');
 const slugify = require('underscore.string/slugify');
 
-const db = require('../../db');
+const { accounts } = require('../../db');
+const { noAccount } = require('./');
 
 /**
  * @description add a merchant to an account
  * @param {String} merchant name of merchant
- * @param {String} account name of account
+ * @param {String} userId
+ * @param {String} accountName name of account
  */
-function addMerchant(merchant, account, callback) {
-	db.get('account!' + account, function(err, acc) {
-		if (err) {
-			return callback(err);
+function addMerchant(merchant, userId, accountName) {
+	const acctRef = accounts.doc(`${userId}!${accountName}`);
+	return acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			throw noAccount;
 		}
-		db.put(
-			'account!' + account,
-			Object.assign({}, acc, {
+		const acc = acctSnapshot.data();
+		return acctRef.set(
+			{
 				merchants_count: addMerchantToCounts(
 					merchant,
 					acc.merchants_count
 				)
-			}),
-			function(err) {
-				if (err) {
-					return callback(err);
-				}
-				callback(null);
-			}
+			},
+			{ merge: true }
 		);
 	});
 }
@@ -35,61 +33,52 @@ function addMerchant(merchant, account, callback) {
  * @description update a merchant, remove the old one if necessary
  * @param {String} newMerchant name of new merchant to be added
  * @param {String} oldMerchant name of old merchant to be removed
- * @param {String} account name of account
+ * @param {String} userId
+ * @param {String} accountName name of account
  */
-function updateMerchant(newMerchant, oldMerchant, account, callback) {
+function updateMerchant(newMerchant, oldMerchant, userId, accountName) {
 	// if the new merchant is same as old, do nothing
 	if (!newMerchant || newMerchant === oldMerchant) {
-		return callback();
+		return Promise.resolve();
 	}
 
-	removeMerchant(oldMerchant, account, function(err) {
-		if (err) {
-			return callback(err);
-		}
-		addMerchant(newMerchant, account, callback);
+	return removeMerchant(oldMerchant, userId, accountName).then(() => {
+		return addMerchant(newMerchant, userId, accountName);
 	});
 }
 
 /**
  * @description remove a merchant from an account
  * @param {String} merchant name of merchant
+ * @param {String} userId
  * @param {String} account name of account
  */
-function removeMerchant(merchant, account, callback) {
-	db.get('account!' + account, function(err, acc) {
-		if (err) {
-			return callback(err);
+function removeMerchant(merchant, userId, accountName) {
+	const acctRef = accounts.doc(`${userId}!${accountName}`);
+	return acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			throw noAccount;
 		}
-		db.getRange(
-			{
-				gt: 'transaction!' + account + '!',
-				lt: 'transaction!' + account + '!~'
-			},
-			function(err2, items) {
-				if (err2) {
-					return callback(err2);
-				}
-				var merchantCount = filter(items, { merchant: merchant })
-					.length;
-				db.put(
-					'account!' + account,
-					Object.assign({}, acc, {
+		const acc = acctSnapshot.data();
+		return acctRef
+			.collection('transactions')
+			.where('merchant', '=', merchant)
+			.get()
+			.then(transactionsSnapshot => {
+				return transactionsSnapshot.size;
+			})
+			.then(merchantCount => {
+				return acctRef.set(
+					{
 						merchants_count: removeMerchantFromCounts(
 							merchant,
 							acc.merchants_count,
-							merchantCount === 1 || merchantCount === 0
+							merchantCount
 						)
-					}),
-					function(err) {
-						if (err) {
-							return callback(err);
-						}
-						callback(null);
-					}
+					},
+					{ merge: true }
 				);
-			}
-		);
+			});
 	});
 }
 
@@ -118,24 +107,28 @@ function addMerchantToCounts(merchant, counts) {
 /**
  * @param {String} merchant name of merchant to be removed
  * @param {Object} counts the counts object
- * @param {Boolean} removeValue whether the merchant should be removed from the values array
+ * @param {Boolean} merchantCount the count of transaction with the exact merchant
  */
-function removeMerchantFromCounts(merchant, counts, removeValue) {
-	var slug = slugify(merchant);
-	var _counts = counts;
+function removeMerchantFromCounts(merchant, counts, merchantCount) {
+	const slug = slugify(merchant);
+	let _counts = cloneDeep(counts);
 	// if the count doesn't exist, bail early
 	if (!_counts[slug]) {
-		return counts;
+		return _counts;
 	}
-	_counts[slug].count--;
-
-	// if the count is 0, remove it
+	if (merchantCount > 0) {
+		_counts[slug].count--;
+	}
 	if (_counts[slug].count === 0) {
 		delete _counts[slug];
-		// remove merchant from values array
-	} else if (removeValue) {
+		return _counts;
+	}
+
+	// remove merchant from values array
+	// if it is the last one, or it no longer exists
+	if (merchantCount === 0 || merchantCount === 1) {
 		var merchantIndex = _counts[slug].values.indexOf(merchant);
-		if (merchantIndex !== -1) {
+		if (merchantIndex > -1) {
 			_counts[slug].values.splice(merchantIndex, 1);
 		}
 	}

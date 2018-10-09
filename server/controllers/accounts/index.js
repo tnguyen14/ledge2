@@ -1,6 +1,6 @@
 'use strict';
 
-var db = require('../../db');
+var { firestore, accounts } = require('../../db');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
 
@@ -12,42 +12,26 @@ var conflictAccountName = new Error('Account already exists');
 conflictAccountName.status = 409;
 
 function showAll(params, callback) {
-	db.getRange(
-		{
-			gte: 'account!',
-			lt: 'account!~'
-		},
-		function(err, items) {
-			if (err) {
-				return callback(err);
-			}
-			callback(
-				null,
-				items.map(function(item) {
-					return Object.assign({}, item.value, {
-						id: item.key.split('!').pop()
-					});
-				})
-			);
-		}
-	);
+	accounts
+		.where('user', '==', params.userId)
+		.get()
+		.then(acctSnapshot => {
+			callback(null, acctSnapshot.docs.map(acctDoc => acctDoc.data()));
+		}, callback);
 }
 
 function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			if (err.notFound) {
-				callback(noAccount);
-			} else {
-				callback(err);
-			}
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			callback(noAccount);
 			return;
 		}
-		callback(null, account);
-	});
+		callback(null, acctSnapshot.data());
+	}, callback);
 }
 
 // starting_balance defaults to 0
@@ -57,15 +41,18 @@ function newAccount(params, callback) {
 		return callback(missingAccountName);
 	}
 
-	db.get('account!' + params.name, function(err, account) {
-		if (!err) {
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (acctSnapshot.exists) {
 			return callback(conflictAccountName);
 		}
-		var newAccount = {
+
+		const newAccount = {
 			starting_balance: params.starting_balance
 				? Number(params.starting_balance)
 				: 0,
-			type: params.type || 'BUDGET'
+			type: params.type || 'BUDGET',
+			user: params.userId
 		};
 
 		// add default period length to 4 weeks
@@ -73,14 +60,12 @@ function newAccount(params, callback) {
 			newAccount.period_length = 4;
 			newAccount.period_budget = 0;
 		}
-		db.put('account!' + params.name, newAccount, function(err) {
-			if (err) {
-				return callback(err);
-			}
+
+		acctRef.create(newAccount).then(() => {
 			callback(null, {
 				created: true
 			});
-		});
+		}, callback);
 	});
 }
 
@@ -88,11 +73,13 @@ function updateAccount(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			return callback(err);
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			return callback(noAccount);
 		}
-		var opts = {};
+		const account = acctSnapshot.data();
+		const opts = {};
 		if (
 			params.categories &&
 			params.categories[0] === '[' &&
@@ -106,29 +93,25 @@ function updateAccount(params, callback) {
 		if (params.starting_balance) {
 			opts.starting_balance = parseInt(params.starting_balance, 10);
 		}
-		db.put(
-			'account!' + params.name,
-			Object.assign(
-				{},
-				account,
-				pick(params, [
-					'type',
-					'categories',
-					'starting_balance',
-					'period_length',
-					'period_budget'
-				]),
-				opts
-			),
-			function(err) {
-				if (err) {
-					return callback(err);
+		acctRef
+			.set(
+				{
+					...pick(params, [
+						'type',
+						'categories',
+						'starting_balance',
+						'period_length',
+						'period_budget'
+					]),
+					...opts
+				},
+				{
+					merge: true
 				}
-				callback(null, {
-					updated: true
-				});
-			}
-		);
+			)
+			.then(() => {
+				callback(null, { updated: true });
+			}, callback);
 	});
 }
 
@@ -136,55 +119,32 @@ function deleteAccount(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	db.get('account!' + params.name, function(err, account) {
-		if (err) {
-			if (err.notFound) {
-				callback(noAccount);
-			} else {
-				callback(err);
-			}
-			return;
+
+	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
+	acctRef.get().then(acctSnapshot => {
+		if (!acctSnapshot.exists) {
+			return callback(noAccount);
 		}
-		// delete transactions associated with the account as well
-		db.getRange(
-			{
-				gt: 'transaction!' + params.name + '!',
-				lt: 'transaction!' + params.name + '!~'
-			},
-			function(err, transactions) {
-				if (err) {
-					return callback(err);
-				}
-				db.batch(
-					transactions
-						.map(function(tx) {
-							return {
-								type: 'del',
-								key: tx.key
-							};
-						})
-						.concat({
-							type: 'del',
-							key: 'account!' + params.name
-						}),
-					function(err) {
-						if (err) {
-							return callback(err);
-						}
-						callback(null, {
-							deleted: true
-						});
-					}
-				);
-			}
-		);
+		firestore
+			.deleteCollection(
+				`accounts/${params.userId}!${params.name}/transactions`
+			)
+			.then(() => {
+				return acctRef.delete();
+			})
+			.then(() => {
+				callback(null, {
+					deleted: true
+				});
+			}, callback);
 	});
 }
 
 module.exports = {
-	showAll: showAll,
-	showOne: showOne,
-	newAccount: newAccount,
-	updateAccount: updateAccount,
-	deleteAccount: deleteAccount
+	showAll,
+	showOne,
+	newAccount,
+	updateAccount,
+	deleteAccount,
+	noAccount
 };
