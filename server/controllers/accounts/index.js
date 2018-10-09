@@ -141,9 +141,10 @@ function deleteAccount(params, callback) {
 }
 
 module.exports = {
-	showAll: showAll,
-	showOne: showOne,
-	newAccount: newAccount,
-	updateAccount: updateAccount,
-	deleteAccount: deleteAccount
+	showAll,
+	showOne,
+	newAccount,
+	updateAccount,
+	deleteAccount,
+	noAccount
 };

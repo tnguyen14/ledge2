@@ -143,11 +143,15 @@ function createTransaction(params, callback) {
 						source: params.source
 					})
 					.then(() => {
+						return merchants.add(
+							params.merchant,
+							params.userId,
+							params.name
+						);
+					})
+					.then(() => {
 						cb(null);
 					}, cb);
-			},
-			function(cb) {
-				merchants.add(params.merchant, params.name, cb);
 			}
 		],
 		function(err) {
@@ -241,12 +245,16 @@ function updateTransaction(params, callback) {
 					}, cb);
 			},
 			function(cb) {
-				merchants.update(
-					newTransaction.merchant,
-					oldTransaction.merchant,
-					params.name,
-					cb
-				);
+				merchants
+					.update(
+						newTransaction.merchant,
+						oldTransaction.merchant,
+						params.userId,
+						params.name
+					)
+					.then(() => {
+						cb(null);
+					}, cb);
 			}
 		],
 		function(err) {
@@ -269,7 +277,11 @@ function deleteTransaction(params, callback) {
 		[
 			async.apply(getTransaction, params.userId, params.name, params.id),
 			function(transaction, cb) {
-				merchants.remove(transaction.merchant, params.name, cb);
+				merchants
+					.remove(transaction.merchant, params.userId, params.name)
+					.then(() => {
+						cb(null);
+					}, cb);
 			},
 			function(cb) {
 				accounts
