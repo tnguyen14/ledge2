@@ -10,12 +10,11 @@
   "scripts": {
     "start": "npm run build && npm run watch",
     "deploy": "npm run build && gh-pages -d dist",
-    "build": "npm run clean && npm run static && npm run font && npm run css && npm run js",
+    "build": "npm run clean && npm run static && npm run css && npm run js",
     "watch": "npm run js:watch & npm run css:watch & npm run serve & npm run server:watch",
     "serve": "http-server dist -p 14001",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
-    "font": "mkdir dist/fonts && find node_modules/bootstrap-sass/assets/fonts/bootstrap -iname 'glyphicon*' -exec cp \\{\\} dist/fonts/ \\;",
     "css": "postcss -o dist/style.css client/scss/style.scss",
     "css:watch": "npm run css -- -w",
     "js": "node -r dotenv/config ./node_modules/.bin/browserify client/js/index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
