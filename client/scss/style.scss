@@ -124,6 +124,9 @@ body {
 		float: left;
 		width: 65%;
 	}
+	h2 {
+		margin-bottom: 1rem;
+	}
 	fieldset {
 		margin-top: 1.3rem;
 	}
@@ -197,7 +200,7 @@ body {
 		border-top: none;
 	}
 	.week-title {
-		margin-top: .8rem;
+		margin-top: 1rem;
 	}
 	.action {
 		.edit, .remove {
@@ -216,6 +219,9 @@ body {
 			width: 65%;
 		}
 		thead {
+			th {
+				border: none;
+			}
 			.secondary {
 				display: none;
 				@media (min-width: 33.5em) {
@@ -228,9 +234,6 @@ body {
 				}
 				@media (min-width: 33.5em) {
 					display: none;
-				}
-				th {
-					border: none;
 				}
 			}
 		}
@@ -310,7 +313,7 @@ body {
 	.action {
 		display: none;
 	}
-	&.active {
+	&.table-active {
 		.description,
 		.category,
 		.action {
