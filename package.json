@@ -39,7 +39,6 @@
   },
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
-    "apidoc": "^0.17.5",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
@@ -76,6 +75,7 @@
   },
   "dependencies": {
     "@google-cloud/firestore": "^0.16.1",
+    "apidoc": "^0.17.6",
     "async": "^1.5.2",
     "auth0-js": "^9.7.3",
     "body-parser": "^1.17.1",
