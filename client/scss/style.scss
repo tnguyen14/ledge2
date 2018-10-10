@@ -248,6 +248,7 @@
 		td,
 		th {
 			flex-basis: 25%;
+			word-break: break-word;
 			&.description {
 				flex-grow: 2;
 			}
