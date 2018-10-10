@@ -1,3 +1,29 @@
+:root {
+	--color-amber: #FFC107;
+	--color-blue-grey: #607d8b;
+	--color-cyan: #00BCD4;
+	--color-deep-orange: #FF5722;
+	--color-deep-purple: #673AB7;
+	--color-gainsboro: #dcdcdc;
+	--color-green: #4CAF50;
+	--color-indigo: #3F51B5;
+	--color-light-blue: #03A9F4;
+	--color-light-blue-100: #B3E5FC;
+	--color-light-blue-300: #4FC3F7;
+	--color-light-blue-600: #039BE5;
+	--color-light-blue-700: #0288D1;
+	--color-light-blue-800: #0277BD;
+	--color-light-blue-900: #01579B;
+	--color-light-green: #8BC34A;
+	--color-lime: #CDDC39;
+	--color-orange: #FF9800;
+	--color-purple: #9C27B0;
+	--color-red: #F44336;
+	--color-teal: #009688;
+	--color-white-smoke: #f5f5f5;
+	--color-yellow: #FFEB3B;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 }
@@ -9,10 +35,10 @@ body {
 }
 
 .header {
-	background-color: $green;
+	background-color: var(--color-green);
 	width: 100%;
 	h1 {
-		color: $white-smoke;
+		color: var(--color-white-smoke);
 		font-family: 'Shadows Into Light Two', cursive;
 		text-align: center;
 		margin: 0;
@@ -47,11 +73,11 @@ body {
 			padding: 1.5rem;
 		}
 		.logout {
-			background-color: $white-smoke;
-			border-top: 1px solid $gainsboro;
+			background-color: var(--color-white-smoke);
+			border-top: 1px solid var(--color-gainsboro);
 			cursor: pointer;
 			&:hover {
-				background-color: $gainsboro;
+				background-color: var(--color-gainsboro);
 			}
 		}
 		&.profile-active .profile {
@@ -64,13 +90,13 @@ body {
 	padding-top: 5em;
 	text-align: center;
 	.btn {
-		background-color: $light-blue-600;
-		border-color: $light-blue-900;
-		color: $white-smoke;
+		background-color: var(--color-light-blue-600);
+		border-color: var(--color-light-blue-900);
+		color: var(--color-white-smoke);
 		font-size: 1.5em;
 		padding: .5em 1em;
 		&:hover {
-			background-color: $light-blue-800;
+			background-color: var(--color-light-blue-800);
 		}
 	}
 }
@@ -163,7 +189,7 @@ body {
 
 .weekly {
 	@util clearfix();
-	border-top: 1px solid $gainsboro;
+	border-top: 1px solid var(--color-gainsboro);
 	&:first-of-type {
 		border-top: none;
 	}
@@ -171,7 +197,7 @@ body {
 		.edit, .remove {
 			cursor: pointer;
 			&:hover {
-				color: $light-blue;
+				color: var(--color-light-blue);
 			}
 		}
 		.remove {
@@ -210,7 +236,7 @@ body {
 			}
 			&.active {
 				td {
-					background-color: darken($white-smoke, 3%) !important;
+					background-color: darken(var(--color-white-smoke, 3%) !important);
 				}
 			}
 		}
@@ -232,32 +258,32 @@ body {
 }
 
 .transaction {
-	border-left: 5px solid $gainsboro;
+	border-left: 5px solid var(--color-gainsboro);
 	clear: left;
 	cursor: pointer;
 	@media (min-width: 33.5em) {
 		cursor: default;
 	}
 	&[data-day=Mon] {
-		border-left-color: $light-blue-100;
+		border-left-color: var(--color-light-blue-100);
 	}
 	&[data-day=Tue] {
-		border-left-color: $light-blue-300;
+		border-left-color: var(--color-light-blue-300);
 	}
 	&[data-day=Wed] {
-		border-left-color: $light-blue;
+		border-left-color: var(--color-light-blue);
 	}
 	&[data-day=Thu] {
-		border-left-color: $light-blue-600;
+		border-left-color: var(--color-light-blue-600);
 	}
 	&[data-day=Fri] {
-		border-left-color: $light-blue-700;
+		border-left-color: var(--color-light-blue-700);
 	}
 	&[data-day=Sat] {
-		border-left-color: $light-blue-800;
+		border-left-color: var(--color-light-blue-800);
 	}
 	&[data-day=Sun] {
-		border-left-color: $light-blue-900;
+		border-left-color: var(--color-light-blue-900);
 	}
 	.day,
 	.merchant,
@@ -303,31 +329,31 @@ body {
 .badge,
 .legend {
 	[data-cat=dineout] & {
-		background-color: $purple;
+		background-color: var(--color-purple);
 	}
 	[data-cat=groceries] & {
-		background-color: $deep-orange;
+		background-color: var(--color-deep-orange);
 	}
 	[data-cat=gas] & {
-		background-color: $green;
+		background-color: var(--color-green);
 	}
 	[data-cat=household] & {
-		background-color: $cyan;
+		background-color: var(--color-cyan);
 	}
 	[data-cat=entertainment] & {
-		background-color: $light-green;
+		background-color: var(--color-light-green);
 	}
 	[data-cat=health] & {
-		background-color: $red;
+		background-color: var(--color-red);
 	}
 	[data-cat=transportation] & {
-		background-color: $amber;
+		background-color: var(--color-amber);
 	}
 	[data-cat=shopping] & {
-		background-color: $orange;
+		background-color: var(--color-orange);
 	}
 	[data-cat=misc] & {
-		background-color: $lime;
+		background-color: var(--color-lime);
 	}
 }
 
