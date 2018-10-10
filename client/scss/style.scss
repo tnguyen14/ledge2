@@ -260,6 +260,14 @@
 			width: 35%;
 		}
 	}
+	.transactions-loading {
+		@util clearfix();
+		margin: 1rem auto;
+		width: 5rem;
+		div {
+			background-color: var(--color-lime);
+		}
+	}
 }
 
 .transaction {

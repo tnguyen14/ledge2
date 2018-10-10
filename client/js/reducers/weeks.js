@@ -1,5 +1,9 @@
 import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
-import { ADD_WEEK, LOAD_TRANSACTIONS_SUCCESS } from '../actions/weeks';
+import {
+	ADD_WEEK,
+	LOAD_TRANSACTIONS,
+	LOAD_TRANSACTIONS_SUCCESS
+} from '../actions/weeks';
 import {
 	ADD_TRANSACTION_SUCCESS,
 	UPDATE_TRANSACTION_SUCCESS
@@ -20,6 +24,7 @@ function createDefaultWeek(offset) {
 		end: moment()
 			.isoWeekday(7 + offset * 7)
 			.endOf('isoWeek'),
+		isLoading: false,
 		transactions: []
 	};
 }
@@ -27,10 +32,6 @@ function createDefaultWeek(offset) {
 function isWithinWeek(date, start, end) {
 	// date string comparison
 	return date >= start.toISOString() && date <= end.toISOString();
-}
-
-function findIndexById(transactions, id) {
-	return transactions.map(t => t.id).indexOf(id);
 }
 
 function filterTransactions(transactions, start, end) {
@@ -49,6 +50,15 @@ function sortTransactions(transactions) {
 export default function weeks(state = initialState, action) {
 	let offset;
 	switch (action.type) {
+		case LOAD_TRANSACTIONS:
+			offset = action.data.offset;
+			return {
+				...state,
+				[offset]: {
+					...state[offset],
+					isLoading: true
+				}
+			};
 		case LOAD_TRANSACTIONS_SUCCESS:
 			offset = action.data.offset;
 			const start = state[offset].start;
@@ -59,6 +69,7 @@ export default function weeks(state = initialState, action) {
 			return {
 				...state,
 				[offset]: {
+					isLoading: false,
 					transactions: sortTransactions(
 						filterTransactions(action.data.transactions, start, end)
 					),

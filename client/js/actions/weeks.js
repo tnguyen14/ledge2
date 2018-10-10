@@ -8,12 +8,19 @@ export function addWeek() {
 	};
 }
 
+export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
 const serverUrl = process.env.SERVER_URL;
 
 export function loadTransactions(offset) {
 	return function(dispatch, getState) {
+		dispatch({
+			type: LOAD_TRANSACTIONS,
+			data: {
+				offset
+			}
+		});
 		getJson
 			.bind(null, dispatch, getState)(
 				`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`

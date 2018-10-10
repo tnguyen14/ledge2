@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PulseLoader from 'react-spinners/PulseLoader';
 import { removeTransaction, editTransaction } from '../actions/account';
 import { loadTransactions } from '../actions/weeks';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
 
 class Week extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		// load transactions
 		this.props.loadTransactions(this.props.offset);
 	}
 	render() {
 		const {
 			offset,
+			isLoading,
 			transactions,
 			start,
 			end,
@@ -55,6 +57,10 @@ class Week extends Component {
 					weekId={`week-${offset}`}
 					transactions={transactions}
 				/>
+				<PulseLoader
+					className="transactions-loading"
+					loading={isLoading}
+				/>
 			</div>
 		);
 	}
@@ -62,6 +68,7 @@ class Week extends Component {
 
 Week.propTypes = {
 	offset: PropTypes.number.isRequired,
+	isLoading: PropTypes.boolean,
 	transactions: PropTypes.array,
 	start: PropTypes.object,
 	end: PropTypes.object,
