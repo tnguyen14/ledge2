@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Button from 'react-bootstrap/lib/Button';
 import { addWeek } from '../actions/weeks';
 import Week from './week';
 
@@ -14,9 +15,9 @@ function Weeks(props) {
 				);
 			})}
 			<div className="show-more">
-				<button className="btn btn-success" onClick={addWeek}>
+				<Button variant="success" onClick={addWeek}>
 					Show More
-				</button>
+				</Button>
 			</div>
 		</div>
 	);
@@ -33,6 +34,9 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {
-	addWeek
-})(Weeks);
+export default connect(
+	mapStateToProps,
+	{
+		addWeek
+	}
+)(Weeks);

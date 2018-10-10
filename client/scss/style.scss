@@ -140,7 +140,7 @@ body {
 		float: left;
 		width: calc(100% - 6em);
 	}
-	.reset {
+	button + button {
 		margin-right: 1rem;
 	}
 	button[type=submit] {

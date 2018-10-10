@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Button from 'react-bootstrap/lib/Button';
 import Field from '../components/field';
 import { submitForm, inputChange, resetForm } from '../actions/form';
 import { loadAccount } from '../actions/account';
 
 class Form extends Component {
-	componentWillMount() {
+	componentDidMount() {
 		this.props.loadAccount();
 	}
 
@@ -58,22 +59,23 @@ class Form extends Component {
 						return <option key={merchant}>{merchant}</option>;
 					})}
 				</datalist>
-				<button
+				<Button
+					variant="primary"
+					className="float-right"
 					type="submit"
-					className="btn btn-primary float-right submit"
 					onClick={submitForm}
 					{...buttonAttrs}
 				>
 					{action}
-				</button>
-				<button
-					type="button"
-					className="btn btn-default float-right reset"
+				</Button>
+				<Button
+					variant="outline-secondary"
+					className="float-right"
 					onClick={resetForm}
 					{...buttonAttrs}
 				>
 					Reset
-				</button>
+				</Button>
 			</form>
 		);
 	}
