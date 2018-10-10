@@ -1,8 +1,8 @@
 import React from 'react';
-import Modal from 'react-modal';
+import Button from 'react-bootstrap/lib/Button';
+import Modal from 'react-bootstrap/lib/Modal';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Octicon, { X } from '@githubprimer/octicons-react';
 import {
 	confirmRemoveTransaction,
 	cancelRemoveTransaction
@@ -17,43 +17,27 @@ function DeleteDialog(props) {
 	} = props;
 	return (
 		<Modal
-			isOpen={isRemovingTransaction}
-			onRequestClose={cancelRemoveTransaction}
-			contentLabel="Delete Transaction"
-			className="modal-content delete-dialog"
+			show={isRemovingTransaction}
+			onHide={cancelRemoveTransaction}
+			className="delete-dialog"
 		>
-			<div className="modal-header">
-				<h4 className="modal-title">Delete Transaction</h4>
-				<button
-					type="button"
-					className="close cancel"
-					aria-label="Close"
-					onClick={cancelRemoveTransaction}
-				>
-					<span aria-hidden="true">
-						<Octicon icon={X} />
-					</span>
-				</button>
-			</div>
-			<div className="modal-body">
-				<p>Are you sure you want to delete this transaction?</p>
-			</div>
-			<div className="modal-footer">
-				<button
-					type="button"
-					className="btn btn-default cancel"
-					onClick={cancelRemoveTransaction}
-				>
+			<Modal.Header closeButton>
+				<Modal.Title>Delete Transaction</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				Are you sure you want to delete this transaction?
+			</Modal.Body>
+			<Modal.Footer>
+				<Button variant="secondary" onClick={cancelRemoveTransaction}>
 					Cancel
-				</button>
-				<button
-					type="button"
-					className="btn btn-danger confirm"
+				</Button>
+				<Button
+					variant="danger"
 					onClick={confirmRemoveTransaction(transactionToBeRemoved)}
 				>
 					Delete
-				</button>
-			</div>
+				</Button>
+			</Modal.Footer>
 		</Modal>
 	);
 }
