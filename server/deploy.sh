@@ -8,4 +8,6 @@ ssh-add .travis/muffin
 git remote add deploy $deploy_user@$deploy_host:$deploy_uri
 git push deploy master
 
-ssh $deploy_user@$deploy_host "cd $deploy_uri; docker-compose up --build -d"
+ssh $deploy_user@$deploy_host "cd $deploy_uri && \
+	docker-compose up --build -d && \
+	docker-compose ps"
