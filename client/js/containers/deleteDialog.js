@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Octicon, { X } from '@githubprimer/octicons-react';
 import {
 	confirmRemoveTransaction,
 	cancelRemoveTransaction
@@ -28,7 +29,9 @@ function DeleteDialog(props) {
 					aria-label="Close"
 					onClick={cancelRemoveTransaction}
 				>
-					<span aria-hidden="true">&times;</span>
+					<span aria-hidden="true">
+						<Octicon icon={X} />
+					</span>
 				</button>
 				<h4 className="modal-title">Delete Transaction</h4>
 			</div>
@@ -69,7 +72,10 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {
-	confirmRemoveTransaction,
-	cancelRemoveTransaction
-})(DeleteDialog);
+export default connect(
+	mapStateToProps,
+	{
+		confirmRemoveTransaction,
+		cancelRemoveTransaction
+	}
+)(DeleteDialog);

@@ -4,6 +4,7 @@ import moment from 'moment-timezone';
 import money from '../util/money';
 import config from 'config';
 import classnames from 'classnames';
+import Octicon, { Pencil, X } from '@githubprimer/octicons-react';
 
 function getValueFromOptions(options, slug) {
 	let option = options.find(opt => opt.slug === slug);
@@ -69,14 +70,12 @@ class Transaction extends Component {
 					{getValueFromOptions(config.categories, category)}
 				</td>
 				<td className="action">
-					<i
-						className="edit glyphicon glyphicon-pencil"
-						onClick={handleEdit(id)}
-					/>
-					<i
-						className="remove glyphicon glyphicon-remove"
-						onClick={handleRemove(id)}
-					/>
+					<a className="edit" onClick={handleEdit(id)}>
+						<Octicon icon={Pencil} />
+					</a>
+					<a className="remove" onClick={handleRemove(id)}>
+						<Octicon icon={X} />
+					</a>
 				</td>
 			</tr>
 		);
