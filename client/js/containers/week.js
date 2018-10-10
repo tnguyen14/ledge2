@@ -22,7 +22,7 @@ class Week extends Component {
 		} = this.props;
 		return (
 			<div className="weekly">
-				<h3>
+				<h3 className="week-title">
 					{start.format('MMM D')} - {end.format('MMM D')}
 				</h3>
 				<table className="weekly-transactions table table-striped">
@@ -70,8 +70,11 @@ Week.propTypes = {
 	editTransaction: PropTypes.func
 };
 
-export default connect(null, {
-	loadTransactions,
-	removeTransaction,
-	editTransaction
-})(Week);
+export default connect(
+	null,
+	{
+		loadTransactions,
+		removeTransaction,
+		editTransaction
+	}
+)(Week);

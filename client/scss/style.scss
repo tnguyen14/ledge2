@@ -196,6 +196,9 @@ body {
 	&:first-of-type {
 		border-top: none;
 	}
+	.week-title {
+		margin-top: 1.25rem;
+	}
 	.action {
 		.edit, .remove {
 			cursor: pointer;
