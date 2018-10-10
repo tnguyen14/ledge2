@@ -6,7 +6,8 @@ eval "$(ssh-agent -s)" # start the ssh agent
 ssh-add .travis/muffin
 
 ssh $deploy_user@$deploy_host "cd $deploy_uri && \
-	git pull && \
+	git checkout master && \
+	git pull origin master && \
 	docker-compose up --build -d && \
 	sleep 5 && \
 	docker-compose ps"
