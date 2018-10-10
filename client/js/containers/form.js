@@ -60,7 +60,7 @@ class Form extends Component {
 				</datalist>
 				<button
 					type="submit"
-					className="btn btn-primary pull-right submit"
+					className="btn btn-primary float-right submit"
 					onClick={submitForm}
 					{...buttonAttrs}
 				>
@@ -68,7 +68,7 @@ class Form extends Component {
 				</button>
 				<button
 					type="button"
-					className="btn btn-default pull-right reset"
+					className="btn btn-default float-right reset"
 					onClick={resetForm}
 					{...buttonAttrs}
 				>
@@ -99,9 +99,12 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, {
-	submitForm,
-	loadAccount,
-	inputChange,
-	resetForm
-})(Form);
+export default connect(
+	mapStateToProps,
+	{
+		submitForm,
+		loadAccount,
+		inputChange,
+		resetForm
+	}
+)(Form);
