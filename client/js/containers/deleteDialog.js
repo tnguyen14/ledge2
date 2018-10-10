@@ -23,6 +23,7 @@ function DeleteDialog(props) {
 			className="modal-content delete-dialog"
 		>
 			<div className="modal-header">
+				<h4 className="modal-title">Delete Transaction</h4>
 				<button
 					type="button"
 					className="close cancel"
@@ -33,7 +34,6 @@ function DeleteDialog(props) {
 						<Octicon icon={X} />
 					</span>
 				</button>
-				<h4 className="modal-title">Delete Transaction</h4>
 			</div>
 			<div className="modal-body">
 				<p>Are you sure you want to delete this transaction?</p>

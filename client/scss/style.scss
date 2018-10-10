@@ -179,7 +179,8 @@ body {
 }
 
 .transactions {
-	clear: left; // needed to clear float left form at wide screen
+	/* needed to clear float left form at wide screen */
+	clear: left;
 	margin-bottom: 2em;
 	.show-more {
 		text-align: right;
@@ -360,7 +361,6 @@ body {
 }
 
 .delete-dialog {
-	// centering it
 	position: absolute;
 	left: 50%;
 	top: 50%;
