@@ -236,7 +236,7 @@ body {
 			}
 			&.active {
 				td {
-					background-color: darken(var(--color-white-smoke, 3%) !important);
+					background-color: color(var(--color-white-smoke, shade(3%))) !important;
 				}
 			}
 		}
