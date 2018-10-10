@@ -53,7 +53,9 @@ class Transaction extends Component {
 		const displayDate = moment(date).format('ddd');
 		return (
 			<tr
-				className={classnames('transaction', { active })}
+				className={classnames('transaction', {
+					'table-active': active
+				})}
 				onClick={this.toggleActive}
 				data-day={displayDate}
 			>
