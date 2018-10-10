@@ -288,6 +288,11 @@ body {
 	&[data-day=Sun] {
 		border-left-color: var(--color-light-blue-900);
 	}
+
+	.amount {
+		color: white;
+	}
+
 	.day,
 	.merchant,
 	.amount,

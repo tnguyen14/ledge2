@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
+import Badge from 'react-bootstrap/lib/Badge';
 import money from '../util/money';
 import config from 'config';
 import classnames from 'classnames';
@@ -62,7 +63,7 @@ class Transaction extends Component {
 				<td className="day">{displayDate}</td>
 				<td className="merchant">{merchant}</td>
 				<td className="amount" data-cat={category}>
-					<span className="badge">{money(amount)}</span>
+					<Badge pill>{money(amount)}</Badge>
 				</td>
 				<td className="source">
 					{getValueFromOptions(config.sources, source)}
