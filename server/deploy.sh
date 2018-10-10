@@ -10,4 +10,5 @@ git push deploy master
 
 ssh $deploy_user@$deploy_host "cd $deploy_uri && \
 	docker-compose up --build -d && \
+	sleep 5 && \
 	docker-compose ps"
