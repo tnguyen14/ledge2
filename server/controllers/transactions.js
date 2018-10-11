@@ -112,23 +112,24 @@ function createTransaction(params, callback) {
 		);
 		return callback(missingDateTime);
 	}
-	const date = getTransactionDate(params.date, params.time);
+	const transaction = parseTransactionDetails(params);
+	const defaultProps = {
+		status: 'POSTED',
+		category: 'default',
+		span: 1,
+		effective: transaction.date
+	};
 
-	getUniqueTransactionId(date, params.userId, params.name)
+	getUniqueTransactionId(moment(transaction.date), params.userId, params.name)
 		.then(uniqueId => {
 			return accounts
 				.doc(`${params.userId}!${params.name}`)
 				.collection('transactions')
 				.doc(uniqueId)
 				.set({
-					amount: parseInt(params.amount, 10),
-					date: date.toISOString(),
-					description: params.description,
-					id: uniqueId,
-					merchant: params.merchant,
-					status: params.status || 'POSTED',
-					category: params.category || 'default',
-					source: params.source
+					...defaultProps,
+					...transaction,
+					id: uniqueId
 				})
 				.then(() => {
 					return merchants.add(
@@ -157,34 +158,13 @@ function updateTransaction(params, callback) {
 		return callback(missingID);
 	}
 	// opts is a conditional subset of params with some parsing
-	const opts = {};
-	let oldTransaction, newTransactionId, date;
-	if (params.date && params.time) {
-		date = getTransactionDate(params.date, params.time);
-		opts.date = date.toISOString();
-	}
-	if (params.amount) {
-		opts.amount = parseInt(params.amount, 10);
-	}
-	opts.updatedOn = moment()
-		.tz(timezone)
-		.toISOString();
-	const newTransaction = {
-		...pick(params, [
-			// only update specified properties
-			'amount',
-			'description',
-			'merchant',
-			'status',
-			'category',
-			'source'
-		]),
-		...opts
-	};
+	let oldTransaction, newTransactionId;
+	const newTransaction = parseTransactionDetails(params);
 
 	getTransaction(params.userId, params.name, params.id)
 		.then(txn => {
 			oldTransaction = txn;
+			const date = moment(newTransaction.date);
 			// if date hasn't changed, just update the old transaction
 			if (!date || date.isSame(oldTransaction.date)) {
 				newTransactionId = params.id;
@@ -209,6 +189,9 @@ function updateTransaction(params, callback) {
 					.set(
 						{
 							...newTransaction,
+							updatedOn: moment()
+								.tz(timezone)
+								.toISOString(),
 							id: newTransactionId
 						},
 						{ merge: true }
@@ -301,8 +284,32 @@ function getUniqueTransactionId(date, userId, accountName) {
 	});
 }
 
-function getTransactionDate(date, time) {
-	return moment.tz(`${date} ${time}`, timezone);
+function parseTransactionDetails(params) {
+	const opts = {};
+	if (params.date && params.time) {
+		opts.date = moment
+			.tz(`${params.date} ${params.time}`, timezone)
+			.toISOString();
+	}
+	if (params.effective) {
+		opts.effective = moment.tz(params.effective, timezone).toISOString();
+	}
+	if (params.amount) {
+		opts.amount = parseInt(params.amount, 10);
+	}
+	if (params.span) {
+		opts.span = parseInt(params.span, 10);
+	}
+	return {
+		...pick(params, [
+			'description',
+			'merchant',
+			'status',
+			'category',
+			'source'
+		]),
+		...opts
+	};
 }
 
 function getTransaction(userId, accountName, transactionId, cb) {
