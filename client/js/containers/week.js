@@ -68,7 +68,7 @@ class Week extends Component {
 
 Week.propTypes = {
 	offset: PropTypes.number.isRequired,
-	isLoading: PropTypes.boolean,
+	isLoading: PropTypes.bool,
 	transactions: PropTypes.array,
 	start: PropTypes.object,
 	end: PropTypes.object,

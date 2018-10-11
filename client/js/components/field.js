@@ -10,7 +10,6 @@ function Field(props) {
 		attributes,
 		value,
 		options,
-		datalist,
 		placeholder,
 		handleChange,
 		inputRef
@@ -26,6 +25,7 @@ function Field(props) {
 				value={value}
 				onChange={handleChange}
 				ref={inputRef}
+				placeholder={label}
 				{...attributes}
 			/>
 		);
@@ -40,11 +40,11 @@ function Field(props) {
 			>
 				<option value="">{placeholder || `Select ${label}`}</option>
 				{options.map(option => {
-					const optionProps = {
-						key: option.slug,
-						value: option.slug
-					};
-					return <option {...optionProps}>{option.value}</option>;
+					return (
+						<option key={option.slug} value={option.slug}>
+							{option.value}
+						</option>
+					);
 				})}
 			</select>
 		);
@@ -54,6 +54,7 @@ function Field(props) {
 				className="form-control"
 				name={name}
 				value={value}
+				placeholder={label}
 				onChange={handleChange}
 				ref={inputRef}
 			/>
@@ -64,7 +65,7 @@ function Field(props) {
 		return inputEl;
 	}
 	return (
-		<div className="form-group">
+		<div className="form-group" data-form-name={name}>
 			<label className="control-label">{label}</label>
 			<div className="input-container">
 				{inputEl}
