@@ -91,6 +91,7 @@ const initialState = {
 			type: 'number',
 			label: 'Span',
 			name: 'span',
+			hint: 'Number of days the transaction should be spread over',
 			attributes: {
 				min: 0,
 				step: 1,
@@ -100,7 +101,9 @@ const initialState = {
 		{
 			type: 'date',
 			label: 'Effective',
-			name: 'effective'
+			name: 'effective',
+			hint:
+				'The date the transaction should be counted from, default to transaction date'
 		},
 		{
 			type: 'textarea',

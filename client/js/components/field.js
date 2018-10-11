@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Octicon, { Info } from '@githubprimer/octicons-react';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -7,6 +8,7 @@ function Field(props) {
 		type,
 		label,
 		name,
+		hint,
 		attributes,
 		value,
 		options,
@@ -67,7 +69,14 @@ function Field(props) {
 	return (
 		<div className="form-group" data-form-name={name}>
 			<label className="control-label">{label}</label>
-			<div className="input-container">
+			<div className="input-group">
+				{hint && (
+					<div className="input-group-prepend" data-rh={hint}>
+						<div className="input-group-text">
+							<Octicon icon={Info} />
+						</div>
+					</div>
+				)}
 				{inputEl}
 				{datalist && (
 					<datalist id={attributes.list}>
@@ -85,6 +94,7 @@ Field.propTypes = {
 	type: PropTypes.string.isRequired,
 	label: PropTypes.string,
 	name: PropTypes.string,
+	hint: PropTypes.string,
 	attributes: PropTypes.object,
 	value: PropTypes.string,
 	options: PropTypes.array,
