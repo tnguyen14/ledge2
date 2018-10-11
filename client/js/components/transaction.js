@@ -60,19 +60,19 @@ class Transaction extends Component {
 				onClick={this.toggleActive}
 				data-day={displayDate}
 			>
-				<td className="day">{displayDate}</td>
-				<td className="merchant">{merchant}</td>
-				<td className="amount" data-cat={category}>
+				<td data-field="day">{displayDate}</td>
+				<td data-field="merchant">{merchant}</td>
+				<td data-field="amount" data-cat={category}>
 					<Badge pill>{money(amount)}</Badge>
 				</td>
-				<td className="source">
+				<td data-field="source">
 					{getValueFromOptions(config.sources, source)}
 				</td>
-				<td className="description">{description}</td>
-				<td className="category">
+				<td data-field="description">{description}</td>
+				<td data-field="category">
 					{getValueFromOptions(config.categories, category)}
 				</td>
-				<td className="action">
+				<td data-field="action">
 					<a className="edit" onClick={handleEdit(id)}>
 						<Octicon icon={Pencil} />
 					</a>

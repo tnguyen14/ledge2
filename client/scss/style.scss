@@ -201,7 +201,7 @@
 	.table & > td {
 		border-top: none;
 	}
-	&[data-cat=total] {
+	&data-field="category" [data-cat=total] {
 		font-weight: bold;
 	}
 }
@@ -236,7 +236,7 @@
 	.week-title {
 		margin-top: 1rem;
 	}
-	.action {
+	[data-field=action] {
 		.edit, .remove {
 			cursor: pointer;
 			&:hover {
@@ -286,12 +286,33 @@
 		td,
 		th {
 			flex-basis: 25%;
-			&.description {
-				flex-grow: 2;
+			padding: .5rem;
+			@media (min-width: 42.5em) {
+				padding: .75rem;
 			}
 		}
-		.merchant,
-		.source {
+		th {
+			font-size: .9rem;
+		}
+		[data-field=day],
+		[data-field=amount] {
+			flex-basis: 4.5rem;
+			@media (min-width: 42.5em) {
+				flex-basis: 25%;
+			}
+		}
+		[data-field=merchant],
+		[data-field=source] {
+			flex-basis: calc((100% - 9rem) / 2);
+			@media (min-width: 42.5em) {
+				flex-basis: 25%;
+			}
+		}
+		[data-field=description] {
+			flex-grow: 2;
+		}
+		[data-field=merchant],
+		[data-field=source] {
 			word-break: break-word;
 		}
 	}
@@ -345,34 +366,34 @@
 		color: white;
 	}
 
-	.day,
-	.merchant,
-	.amount,
-	.source {
+	[data-field=day],
+	[data-field=merchant],
+	[data-field=amount],
+	[data-field=source] {
 		border-top-width: 2px;
 		@media (min-width: 42.5em) {
 			border-top-width: 1px;
 		}
 	}
-	.description,
-	.category,
-	.action {
+	[data-field=description],
+	[data-field=category],
+	[data-field=action] {
 		display: none;
 	}
 	&.table-active {
-		.description,
-		.category,
-		.action {
+		[data-field=description],
+		[data-field=category],
+		[data-field=action] {
 			display: table-cell;
 		}
 	}
 	@media (min-width: 42.5em) {
-		.description,
-		.category,
-		.action {
+		[data-field=description],
+		[data-field=category],
+		[data-field=action] {
 			display: table-cell;
 		}
-		.action {
+		[data-field=action] {
 			min-width: 6rem;
 		}
 	}
