@@ -26,6 +26,7 @@ function createInitialValues() {
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
 		span: 1,
+		effective: now.format(dateFormat),
 		description: '',
 		status: 'POSTED'
 	};
@@ -95,6 +96,11 @@ const initialState = {
 				step: 1,
 				list: 'spans-list'
 			}
+		},
+		{
+			type: 'date',
+			label: 'Effective',
+			name: 'effective'
 		},
 		{
 			type: 'textarea',
@@ -174,6 +180,15 @@ export default function form(state = initialState, action) {
 				...state.values,
 				[action.data.name]: action.data.value
 			};
+			// update effective when date changed,
+			// but effective hasn't been changed (which is heuristically
+			// determined by comparing old date value against effective value)
+			if (action.data.name === 'date') {
+				if (state.values['effective'] === state.values['date']) {
+					newValues['effective'] = newValues['date'];
+				}
+			}
+
 			return {
 				...state,
 				focus: false,

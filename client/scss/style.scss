@@ -133,18 +133,15 @@
 		@util clearfix();
 	}
 	[data-form-name=date],
-	[data-form-name=time] {
+	[data-form-name=time],
+	[data-form-name=span],
+	[data-form-name=effective] {
 		float: left;
 		width: 48%;
 		margin-right: 4%;
-		/*
-		@media (min-width: 42.5em) {
-			float: none;
-			width: 100%;
-		}
-		*/
 	}
-	[data-form-name=time] {
+	[data-form-name=time],
+	[data-form-name=effective] {
 		margin-right: 0;
 	}
 	label {
