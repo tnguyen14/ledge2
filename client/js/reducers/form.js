@@ -25,6 +25,7 @@ function createInitialValues() {
 		time: now.format(timeFormat),
 		category: config.categories[0].slug,
 		source: config.sources[0].slug,
+		span: 1,
 		description: '',
 		status: 'POSTED'
 	};
@@ -84,6 +85,16 @@ const initialState = {
 			label: 'Source',
 			name: 'source',
 			options: config.sources
+		},
+		{
+			type: 'number',
+			label: 'Span',
+			name: 'span',
+			attributes: {
+				min: 0,
+				step: 1,
+				list: 'spans-list'
+			}
 		},
 		{
 			type: 'textarea',
@@ -185,6 +196,9 @@ export default function form(state = initialState, action) {
 				fields: updateFieldsWithValues(state.fields, newValues)
 			};
 		default:
-			return state;
+			return {
+				...state,
+				fields: updateFieldsWithValues(state.fields, state.values)
+			};
 	}
 }

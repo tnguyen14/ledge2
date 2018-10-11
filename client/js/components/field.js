@@ -12,10 +12,10 @@ function Field(props) {
 		options,
 		placeholder,
 		handleChange,
+		datalist,
 		inputRef
 	} = props;
 	let inputEl;
-	let dataListEl;
 	if (inputTypes.includes(type)) {
 		inputEl = (
 			<input
@@ -69,7 +69,13 @@ function Field(props) {
 			<label className="control-label">{label}</label>
 			<div className="input-container">
 				{inputEl}
-				{dataListEl}
+				{datalist && (
+					<datalist id={attributes.list}>
+						{datalist.map(option => (
+							<option key={option}>{option}</option>
+						))}
+					</datalist>
+				)}
 			</div>
 		</div>
 	);
@@ -82,8 +88,8 @@ Field.propTypes = {
 	attributes: PropTypes.object,
 	value: PropTypes.string,
 	options: PropTypes.array,
-	datalist: PropTypes.object,
 	placeholder: PropTypes.string,
+	datalist: PropTypes.array,
 	handleChange: PropTypes.func.isRequired,
 	inputRef: PropTypes.func
 };

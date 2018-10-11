@@ -27,7 +27,7 @@ class Form extends Component {
 		const {
 			fields,
 			action,
-			merchants,
+			datalists,
 			submitForm,
 			pending,
 			resetForm
@@ -39,6 +39,10 @@ class Form extends Component {
 			<form className="new-transaction" method="POST">
 				<h2>Add a new transaction</h2>
 				{fields.map(field => {
+					let datalist;
+					if (field.attributes && field.attributes.list) {
+						datalist = datalists[field.attributes.list];
+					}
 					return (
 						<Field
 							inputRef={input => {
@@ -46,15 +50,11 @@ class Form extends Component {
 							}}
 							key={field.name}
 							handleChange={this.handleInputChange(field.name)}
+							datalist={datalist}
 							{...field}
 						/>
 					);
 				})}
-				<datalist id="merchants-list">
-					{merchants.map(merchant => {
-						return <option key={merchant}>{merchant}</option>;
-					})}
-				</datalist>
 				<Button
 					variant="primary"
 					className="float-right"
@@ -83,7 +83,10 @@ Form.propTypes = {
 	focus: PropTypes.bool,
 	pending: PropTypes.bool,
 	submitForm: PropTypes.func,
-	merchants: PropTypes.array,
+	datalists: PropTypes.shape({
+		'merchants-list': PropTypes.array,
+		'spans-list': PropTypes.array
+	}),
 	loadAccount: PropTypes.func,
 	inputChange: PropTypes.func,
 	resetForm: PropTypes.func
@@ -92,7 +95,10 @@ Form.propTypes = {
 function mapStateToProps(state) {
 	return {
 		...state.form,
-		merchants: state.account.merchants
+		datalists: {
+			'merchants-list': state.account.merchants,
+			'spans-list': [1, 7, 30, 91, 365]
+		}
 	};
 }
 
