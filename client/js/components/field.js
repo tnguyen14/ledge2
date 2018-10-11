@@ -25,7 +25,7 @@ function Field(props) {
 				value={value}
 				onChange={handleChange}
 				ref={inputRef}
-				placeholder={label}
+				placeholder={placeholder}
 				{...attributes}
 			/>
 		);
@@ -54,7 +54,7 @@ function Field(props) {
 				className="form-control"
 				name={name}
 				value={value}
-				placeholder={label}
+				placeholder={placeholder}
 				onChange={handleChange}
 				ref={inputRef}
 			/>

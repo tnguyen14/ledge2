@@ -26,7 +26,6 @@ class Form extends Component {
 	render() {
 		const {
 			fields,
-			values,
 			action,
 			merchants,
 			submitForm,
@@ -40,17 +39,14 @@ class Form extends Component {
 			<form className="new-transaction" method="POST">
 				<h2>Add a new transaction</h2>
 				{fields.map(field => {
-					const props = Object.assign({}, field, {
-						value: values[field.name],
-						handleChange: this.handleInputChange(field.name)
-					});
 					return (
 						<Field
 							inputRef={input => {
 								this[field.name] = input;
 							}}
 							key={field.name}
-							{...props}
+							handleChange={this.handleInputChange(field.name)}
+							{...field}
 						/>
 					);
 				})}
@@ -83,7 +79,6 @@ class Form extends Component {
 
 Form.propTypes = {
 	fields: PropTypes.array.isRequired,
-	values: PropTypes.object.isRequired,
 	action: PropTypes.string.isRequired,
 	focus: PropTypes.bool,
 	pending: PropTypes.bool,

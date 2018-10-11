@@ -36,19 +36,21 @@ const initialState = {
 	fields: [
 		{
 			type: 'number',
+			label: 'Amount',
+			name: 'amount',
+			placeholder: 'Amount',
 			attributes: {
 				min: 0,
 				step: 'any',
 				required: true,
 				autoFocus: true
-			},
-			label: 'Amount',
-			name: 'amount'
+			}
 		},
 		{
 			type: 'text',
 			label: 'Merchant',
 			name: 'merchant',
+			placeholder: 'Merchant',
 			attributes: {
 				required: true,
 				list: 'merchants-list'
@@ -86,7 +88,8 @@ const initialState = {
 		{
 			type: 'textarea',
 			name: 'description',
-			label: 'Description'
+			label: 'Description',
+			placeholder: 'Description'
 		},
 		{
 			type: 'select',
@@ -106,7 +109,17 @@ const initialState = {
 	]
 };
 
+function updateFieldsWithValues(fields, values) {
+	return fields.map(field => {
+		return {
+			...field,
+			value: values[field.name]
+		};
+	});
+}
+
 export default function form(state = initialState, action) {
+	let newValues;
 	switch (action.type) {
 		case SUBMIT_TRANSACTION:
 			return {
@@ -128,7 +141,10 @@ export default function form(state = initialState, action) {
 			return {
 				...state,
 				pending: false,
-				values: createInitialValues(),
+				fields: updateFieldsWithValues(
+					state.fields,
+					createInitialValues()
+				),
 				action: 'add'
 			};
 		case RESET_FORM:
@@ -136,30 +152,37 @@ export default function form(state = initialState, action) {
 				...state,
 				focus: true,
 				pending: false,
-				values: createInitialValues(),
+				fields: updateFieldsWithValues(
+					state.fields,
+					createInitialValues()
+				),
 				action: 'add'
 			};
 		case INPUT_CHANGE:
+			newValues = {
+				...state.values,
+				[action.data.name]: action.data.value
+			};
 			return {
 				...state,
 				focus: false,
-				values: {
-					...state.values,
-					[action.data.name]: action.data.value
-				}
+				values: newValues,
+				fields: updateFieldsWithValues(state.fields, newValues)
 			};
 		case EDIT_TRANSACTION:
 			const date = moment.tz(action.data.date, timezone);
+			newValues = {
+				...action.data,
+				amount: action.data.amount / 100,
+				date: date.format(dateFormat),
+				time: date.format(timeFormat)
+			};
 			return {
 				...state,
 				action: 'update',
 				focus: true,
-				values: {
-					...action.data,
-					amount: action.data.amount / 100,
-					date: date.format(dateFormat),
-					time: date.format(timeFormat)
-				}
+				values: newValues,
+				fields: updateFieldsWithValues(state.fields, newValues)
 			};
 		default:
 			return state;
