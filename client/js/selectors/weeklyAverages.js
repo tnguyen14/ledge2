@@ -16,18 +16,20 @@ export const getLoadedWeeks = createSelector([getWeeks], weeks => {
 });
 
 const getAverageGroups = createSelector([getLoadedWeeks], loadedWeeks => {
-	const averageGroups = [[], [], []];
+	const averageGroups = [4, 12, 24];
 	const numLoadedWeeks = loadedWeeks.length;
-	if (numLoadedWeeks >= 5) {
-		averageGroups[0] = loadedWeeks.slice(1, 5);
-	}
-	if (numLoadedWeeks >= 13) {
-		averageGroups[1] = loadedWeeks.slice(1, 13);
-	}
-	if (numLoadedWeeks >= 25) {
-		averageGroups[2] = loadedWeeks.slice(1, 25);
-	}
-	return averageGroups;
+	return averageGroups.map((numWeeksInGroup, index) => {
+		const group = {
+			numWeeks: numWeeksInGroup,
+			weeks: []
+		};
+		// only assign weeks array for calculation if all weeks
+		// of the group has already been loaded
+		if (numLoadedWeeks > numWeeksInGroup) {
+			group.weeks = loadedWeeks.slice(1, numWeeksInGroup);
+		}
+		return group;
+	});
 });
 
 export const calculateWeeklyAverages = createSelector(
@@ -35,8 +37,8 @@ export const calculateWeeklyAverages = createSelector(
 	averageGroups => {
 		return averageGroups.map(group => {
 			return {
-				numWeeks: group.length,
-				weeklyAverage: calculateWeeklyAverage(group)
+				...group,
+				weeklyAverage: calculateWeeklyAverage(group.weeks)
 			};
 		});
 	}

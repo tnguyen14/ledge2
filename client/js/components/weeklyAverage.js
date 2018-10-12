@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import money from '../util/money';
 
 function WeeklyAverage(props) {
-	const { numWeeks, weeklyAverage } = props;
+	const { numWeeks, weeks, weeklyAverage } = props;
 	const numMonths = numWeeks / 4;
-	const label = numWeeks
-		? `Last ${numWeeks} weeks (~${numMonths} ${
-				numMonths === 1 ? 'month' : 'months'
-		  })`
-		: 'Calculating average...';
-	const value = weeklyAverage ? money(weeklyAverage) : '';
+	const label = `Last ${numWeeks} weeks (~${numMonths} ${
+		numMonths === 1 ? 'month' : 'months'
+	})`;
+	const value = weeks.length ? money(weeklyAverage) : 'Calculating...';
 	return (
 		<tr className="stat">
 			<td>{label}</td>
@@ -21,6 +19,7 @@ function WeeklyAverage(props) {
 
 WeeklyAverage.propTypes = {
 	numWeeks: PropTypes.number,
+	weeks: PropTypes.array,
 	weeklyAverage: PropTypes.number
 };
 
