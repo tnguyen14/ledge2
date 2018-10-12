@@ -62,7 +62,7 @@ function WeeklyStats(props) {
 	const { label, weekId, transactions } = props;
 	const { stats } = calculateStats(transactions);
 	return (
-		<div className="stats summary">
+		<div className="stats">
 			{label && <h4>{label}</h4>}
 			<table className="table">
 				<tbody>

@@ -16,12 +16,16 @@ class Week extends Component {
 		const {
 			offset,
 			isLoading,
+			visible,
 			transactions,
 			start,
 			end,
 			removeTransaction,
 			editTransaction
 		} = this.props;
+		if (!visible) {
+			return null;
+		}
 		return (
 			<div className="weekly">
 				<h3 className="week-title">
@@ -73,6 +77,7 @@ class Week extends Component {
 Week.propTypes = {
 	offset: PropTypes.number.isRequired,
 	isLoading: PropTypes.bool,
+	visible: PropTypes.bool,
 	transactions: PropTypes.array,
 	start: PropTypes.object,
 	end: PropTypes.object,

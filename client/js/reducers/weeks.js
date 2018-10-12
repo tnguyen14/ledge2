@@ -1,6 +1,7 @@
 import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
 import {
 	ADD_WEEK,
+	SHOW_ONE_MORE_WEEK,
 	LOAD_TRANSACTIONS,
 	LOAD_TRANSACTIONS_SUCCESS
 } from '../actions/weeks';
@@ -12,7 +13,10 @@ import moment from 'moment-timezone';
 
 const weekOffsets = [0, -1, -2, -3];
 const initialState = weekOffsets.reduce((state, offset) => {
-	state[offset] = createDefaultWeek(offset);
+	state[offset] = {
+		...createDefaultWeek(offset),
+		visible: true
+	};
 	return state;
 }, {});
 
@@ -25,7 +29,8 @@ function createDefaultWeek(offset) {
 			.isoWeekday(7 + offset * 7)
 			.endOf('isoWeek'),
 		isLoading: false,
-		transactions: []
+		transactions: [],
+		visible: false
 	};
 }
 
@@ -69,6 +74,7 @@ export default function weeks(state = initialState, action) {
 			return {
 				...state,
 				[offset]: {
+					...state[offset],
 					isLoading: false,
 					hasLoaded: true,
 					transactions: sortTransactions(
@@ -86,6 +92,18 @@ export default function weeks(state = initialState, action) {
 				...state,
 				[newOffset]: createDefaultWeek(newOffset)
 			};
+		case SHOW_ONE_MORE_WEEK:
+			const newState = {
+				...state
+			};
+			for (let i = 0; i < Object.keys(newState).length; i++) {
+				if (!newState[-i].visible) {
+					newState[-i].visible = true;
+					break;
+				}
+			}
+
+			return newState;
 		case ADD_TRANSACTION_SUCCESS:
 			return Object.keys(state).reduce((newState, offset) => {
 				const week = state[offset];

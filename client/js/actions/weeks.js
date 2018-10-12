@@ -8,6 +8,21 @@ export function addWeek() {
 	};
 }
 
+export const SHOW_ONE_MORE_WEEK = 'SHOW_ONE_MORE_WEEK';
+
+export function showMore() {
+	return function(dispatch, getState) {
+		const { weeks } = getState();
+		// ran out of invisible weeks, get more
+		if (weeks[-(Object.keys(weeks).length - 1)].visible) {
+			dispatch(addWeek());
+		}
+		dispatch({
+			type: SHOW_ONE_MORE_WEEK
+		});
+	};
+}
+
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
-import { addWeek } from '../actions/weeks';
+import { showMore } from '../actions/weeks';
 import Week from './week';
 
 function Weeks(props) {
-	const { weeks, addWeek } = props;
+	const { weeks, showMore } = props;
 	return (
 		<div className="transactions">
 			{Object.keys(weeks).map(week => {
@@ -15,7 +15,7 @@ function Weeks(props) {
 				);
 			})}
 			<div className="show-more">
-				<Button variant="success" onClick={addWeek}>
+				<Button variant="success" onClick={showMore}>
 					Show More
 				</Button>
 			</div>
@@ -25,7 +25,7 @@ function Weeks(props) {
 
 Weeks.propTypes = {
 	weeks: PropTypes.object.isRequired,
-	addWeek: PropTypes.func.isRequired
+	showMore: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -37,6 +37,6 @@ function mapStateToProps(state) {
 export default connect(
 	mapStateToProps,
 	{
-		addWeek
+		showMore
 	}
 )(Weeks);
