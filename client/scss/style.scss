@@ -186,6 +186,11 @@
 }
 
 .stats {
+	@media (min-width: 68.75em) {
+		float: left;
+		padding-left: 2rem;
+		width: 35%;
+	}
 	.table {
 		width: 80%;
 		@media (min-width: 42.5em) {
@@ -194,6 +199,9 @@
 		@media (min-width: 68.75em) {
 			width: 100%;
 		}
+	}
+	&.averages {
+		margin-top: 2rem;
 	}
 }
 
@@ -314,13 +322,6 @@
 		[data-field=merchant],
 		[data-field=source] {
 			word-break: break-word;
-		}
-	}
-	.summary {
-		@media (min-width: 68.75em) {
-			float: left;
-			padding-left: 2rem;
-			width: 35%;
 		}
 	}
 	.transactions-loading {

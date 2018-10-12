@@ -19,9 +19,18 @@ class AverageStats extends Component {
 	render() {
 		const { weeklyAverages } = this.props;
 
-		return weeklyAverages.map((average, index) => (
-			<WeeklyAverage key={index} {...average} />
-		));
+		return (
+			<div className="stats averages">
+				<h4>Weekly Averages</h4>
+				<table className="table">
+					<tbody>
+						{weeklyAverages.map((average, index) => (
+							<WeeklyAverage key={index} {...average} />
+						))}
+					</tbody>
+				</table>
+			</div>
+		);
 	}
 	componentDidUpdate() {
 		const { loadedWeeks, addWeek } = this.props;
