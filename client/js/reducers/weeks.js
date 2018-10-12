@@ -70,6 +70,7 @@ export default function weeks(state = initialState, action) {
 				...state,
 				[offset]: {
 					isLoading: false,
+					hasLoaded: true,
 					transactions: sortTransactions(
 						filterTransactions(action.data.transactions, start, end)
 					),

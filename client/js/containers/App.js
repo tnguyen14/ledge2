@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Form from './form';
+import AverageStats from './averageStats';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
 import Login from '../components/login';
@@ -33,6 +34,7 @@ class App extends Component {
 		return (
 			<div className="app">
 				<Form />
+				<AverageStats />
 				<Weeks />
 				<DeleteDialog />
 			</div>
