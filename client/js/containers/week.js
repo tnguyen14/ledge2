@@ -6,6 +6,7 @@ import { removeTransaction, editTransaction } from '../actions/account';
 import { loadTransactions } from '../actions/weeks';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
+import { calculateStats } from '../selectors/weeklyStats';
 
 class Week extends Component {
 	componentDidMount() {
@@ -24,6 +25,7 @@ class Week extends Component {
 			editTransaction,
 			options
 		} = this.props;
+		const stats = calculateStats(this.props);
 		if (!visible) {
 			return null;
 		}
@@ -63,11 +65,7 @@ class Week extends Component {
 						})}
 					</tbody>
 				</table>
-				<WeeklyStats
-					weekId={`week-${offset}`}
-					transactions={transactions}
-					categories={options.categories}
-				/>
+				<WeeklyStats weekId={`week-${offset}`} stats={stats} />
 				<PulseLoader
 					className="transactions-loading"
 					loading={isLoading}
@@ -90,7 +88,8 @@ Week.propTypes = {
 	options: PropTypes.shape({
 		categories: PropTypes.array,
 		sources: PropTypes.array
-	})
+	}),
+	stats: PropTypes.array
 };
 
 function mapStateToProps(state) {

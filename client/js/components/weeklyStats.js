@@ -2,64 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import money from '../util/money';
 
-/**
- * get the total amount for transactions
- * @param {Array} transactions
- * @returns {Number} total
- */
-function getTotal(transactions) {
-	if (!Array.isArray(transactions)) {
-		return 0;
-	}
-	return transactions.reduce(function(total, t) {
-		return total + t.amount / t.span;
-	}, 0);
-}
-
-/**
- * get the total amount of transactions that belong to a specific category
- * @param {Array} transactions
- * @param {Object} category
- * @returns {Number} total
- */
-function getCategoryTotal(transactions, category) {
-	return getTotal(
-		transactions.filter(function(t) {
-			return t.category === category.slug;
-		})
-	);
-}
-
-function calculateStats(transactions, categories) {
-	// calculate total for each category
-	const totals = categories
-		.map(cat => {
-			return {
-				amount: getCategoryTotal(transactions, cat),
-				label: cat.value,
-				slug: cat.slug
-			};
-		})
-		.filter(stat => {
-			return stat.amount > 0;
-		})
-		.sort((a, b) => {
-			return b.amount - a.amount;
-		})
-		// add the total stat as well
-		.concat({
-			amount: getTotal(transactions),
-			label: 'Total',
-			slug: 'total'
-		});
-	return {
-		stats: totals
-	};
-}
-
 function WeeklyStats(props) {
-	const { label, weekId, transactions, categories } = props;
-	const { stats } = calculateStats(transactions, categories);
+	const { label, weekId, stats } = props;
 	return (
 		<div className="stats">
 			{label && <h4>{label}</h4>}
@@ -89,8 +33,7 @@ function WeeklyStats(props) {
 WeeklyStats.propTypes = {
 	label: PropTypes.string,
 	weekId: PropTypes.string.isRequired,
-	transactions: PropTypes.array.isRequired,
-	categories: PropTypes.array.isRequired
+	stats: PropTypes.array
 };
 
 export default WeeklyStats;
