@@ -43,7 +43,9 @@ function showAll(params, callback) {
 		.then(transactionsSnapshot => {
 			callback(
 				null,
-				transactionsSnapshot.docs.map(txnSnapshot => txnSnapshot.data())
+				transactionsSnapshot.docs
+					.map(txnSnapshot => txnSnapshot.data())
+					.map(hydrateTransaction)
 			);
 		}, callback);
 }
@@ -81,7 +83,9 @@ function showWeekly(params, callback) {
 		.then(transactionsSnapshot => {
 			callback(
 				null,
-				transactionsSnapshot.docs.map(txnSnapshot => txnSnapshot.data())
+				transactionsSnapshot.docs
+					.map(txnSnapshot => txnSnapshot.data())
+					.map(hydrateTransaction)
 			);
 		}, callback);
 }
@@ -91,7 +95,7 @@ function showOne(params, callback) {
 		return callback(missingAccountName);
 	}
 	getTransaction(params.userId, params.name, params.id).then(transaction => {
-		callback(null, transaction);
+		callback(null, hydrateTransaction(transaction));
 	}, callback);
 }
 
@@ -307,6 +311,14 @@ function parseTransactionDetails(params) {
 			'source'
 		]),
 		...opts
+	};
+}
+
+// massage transaction data to return
+function hydrateTransaction(transaction) {
+	return {
+		...transaction,
+		span: transaction.span || 1
 	};
 }
 

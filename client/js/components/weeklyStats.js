@@ -12,7 +12,7 @@ function getTotal(transactions) {
 		return 0;
 	}
 	return transactions.reduce(function(total, t) {
-		return total + t.amount;
+		return total + t.amount / t.span;
 	}, 0);
 }
 

@@ -97,7 +97,8 @@ const initialState = {
 			type: 'number',
 			label: 'Span',
 			name: 'span',
-			hint: 'Number of weeks the transaction should be spread over',
+			hint:
+				'Number of weeks the transaction should be spread over, such as 1, 4, 13, 52',
 			attributes: {
 				min: 0,
 				step: 1
@@ -160,14 +161,13 @@ export default function form(state = initialState, action) {
 				action: 'add'
 			};
 		case RESET_FORM:
+			newValues = createInitialValues();
 			return {
 				...state,
 				focus: true,
 				pending: false,
-				fields: updateFieldsWithValues(
-					state.fields,
-					createInitialValues()
-				),
+				fields: updateFieldsWithValues(state.fields, newValues),
+				values: newValues,
 				action: 'add'
 			};
 		case INPUT_CHANGE:
