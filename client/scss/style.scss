@@ -437,6 +437,12 @@
 	[data-cat=misc] & {
 		background-color: var(--color-lime);
 	}
+	[data-cat=donation] & {
+		background-color: var(--color-blue-grey);
+	}
+	[data-cat=residence] & {
+		background-color: var(--color-light-blue-700);
+	}
 }
 
 .delete-dialog {
