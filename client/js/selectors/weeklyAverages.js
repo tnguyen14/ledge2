@@ -26,7 +26,7 @@ const getAverageGroups = createSelector(getLoadedWeeks, loadedWeeks => {
 		// only assign weeks array for calculation if all weeks
 		// of the group has already been loaded
 		if (numLoadedWeeks > numWeeksInGroup) {
-			group.weeks = loadedWeeks.slice(1, numWeeksInGroup);
+			group.weeks = loadedWeeks.slice(1, numWeeksInGroup + 1);
 		}
 		return group;
 	});
