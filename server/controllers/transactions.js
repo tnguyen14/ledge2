@@ -95,6 +95,8 @@ function showOne(params, callback) {
 	}, callback);
 }
 
+// params.date: 2018-10-24
+// params.time: 22:03
 function createTransaction(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
