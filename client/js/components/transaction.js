@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import Badge from 'react-bootstrap/lib/Badge';
 import money from '../util/money';
-import config from 'config';
 import classnames from 'classnames';
 import Octicon, { Pencil, X } from '@githubprimer/octicons-react';
 
@@ -24,7 +23,11 @@ class Transaction extends Component {
 		source: PropTypes.string.isRequired,
 		description: PropTypes.string,
 		handleEdit: PropTypes.func.isRequired,
-		handleRemove: PropTypes.func.isRequired
+		handleRemove: PropTypes.func.isRequired,
+		options: PropTypes.shape({
+			categories: PropTypes.array,
+			sources: PropTypes.array
+		})
 	};
 
 	constructor(props) {
@@ -48,7 +51,8 @@ class Transaction extends Component {
 			source,
 			description,
 			handleEdit,
-			handleRemove
+			handleRemove,
+			options
 		} = this.props;
 		const { active } = this.state;
 		const displayDate = moment(date).format('ddd');
@@ -66,11 +70,11 @@ class Transaction extends Component {
 					<Badge pill>{money(amount)}</Badge>
 				</td>
 				<td data-field="source">
-					{getValueFromOptions(config.sources, source)}
+					{getValueFromOptions(options.sources, source)}
 				</td>
 				<td data-field="description">{description}</td>
 				<td data-field="category">
-					{getValueFromOptions(config.categories, category)}
+					{getValueFromOptions(options.categories, category)}
 				</td>
 				<td data-field="action">
 					<a className="edit" onClick={handleEdit(id)}>

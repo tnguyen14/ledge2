@@ -96,7 +96,7 @@ Field.propTypes = {
 	name: PropTypes.string,
 	hint: PropTypes.string,
 	attributes: PropTypes.object,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	options: PropTypes.array,
 	placeholder: PropTypes.string,
 	datalist: PropTypes.array,

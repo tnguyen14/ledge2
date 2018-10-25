@@ -21,7 +21,8 @@ class Week extends Component {
 			start,
 			end,
 			removeTransaction,
-			editTransaction
+			editTransaction,
+			options
 		} = this.props;
 		if (!visible) {
 			return null;
@@ -55,6 +56,7 @@ class Week extends Component {
 									key={tx.id}
 									handleRemove={removeTransaction}
 									handleEdit={editTransaction}
+									options={options}
 									{...tx}
 								/>
 							);
@@ -64,6 +66,7 @@ class Week extends Component {
 				<WeeklyStats
 					weekId={`week-${offset}`}
 					transactions={transactions}
+					categories={options.categories}
 				/>
 				<PulseLoader
 					className="transactions-loading"
@@ -83,11 +86,24 @@ Week.propTypes = {
 	end: PropTypes.object,
 	loadTransactions: PropTypes.func,
 	removeTransaction: PropTypes.func,
-	editTransaction: PropTypes.func
+	editTransaction: PropTypes.func,
+	options: PropTypes.shape({
+		categories: PropTypes.array,
+		sources: PropTypes.array
+	})
 };
 
+function mapStateToProps(state) {
+	return {
+		options: {
+			categories: state.account.categories,
+			sources: state.account.sources
+		}
+	};
+}
+
 export default connect(
-	null,
+	mapStateToProps,
 	{
 		loadTransactions,
 		removeTransaction,

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import config from 'config';
 import money from '../util/money';
 
 /**
@@ -31,9 +30,9 @@ function getCategoryTotal(transactions, category) {
 	);
 }
 
-function calculateStats(transactions) {
+function calculateStats(transactions, categories) {
 	// calculate total for each category
-	const totals = config.categories
+	const totals = categories
 		.map(cat => {
 			return {
 				amount: getCategoryTotal(transactions, cat),
@@ -59,8 +58,8 @@ function calculateStats(transactions) {
 }
 
 function WeeklyStats(props) {
-	const { label, weekId, transactions } = props;
-	const { stats } = calculateStats(transactions);
+	const { label, weekId, transactions, categories } = props;
+	const { stats } = calculateStats(transactions, categories);
 	return (
 		<div className="stats">
 			{label && <h4>{label}</h4>}
@@ -90,7 +89,8 @@ function WeeklyStats(props) {
 WeeklyStats.propTypes = {
 	label: PropTypes.string,
 	weekId: PropTypes.string.isRequired,
-	transactions: PropTypes.array.isRequired
+	transactions: PropTypes.array.isRequired,
+	categories: PropTypes.array.isRequired
 };
 
 export default WeeklyStats;

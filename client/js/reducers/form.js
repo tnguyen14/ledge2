@@ -1,5 +1,4 @@
 import moment from 'moment-timezone';
-import config from 'config';
 import {
 	INPUT_CHANGE,
 	SUBMIT_TRANSACTION,
@@ -8,12 +7,15 @@ import {
 	UPDATE_TRANSACTION_SUCCESS,
 	RESET_FORM
 } from '../actions/form';
-import { EDIT_TRANSACTION } from '../actions/account';
+import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 import { SHOW_ONE_MORE_WEEK } from '../actions/weeks';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
 const timezone = 'America/New_York';
+
+let defaultCategory = '';
+let defaultSource = '';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -24,8 +26,8 @@ function createInitialValues() {
 		merchant: '',
 		date: now.format(dateFormat),
 		time: now.format(timeFormat),
-		category: config.categories[0].slug,
-		source: config.sources[0].slug,
+		category: defaultCategory,
+		source: defaultSource,
 		span: 1,
 		effective: now.format(dateFormat),
 		description: '',
@@ -79,14 +81,12 @@ const initialState = {
 			type: 'select',
 			label: 'Category',
 			name: 'category',
-			placeholder: 'Select a category',
-			options: config.categories
+			placeholder: 'Select a category'
 		},
 		{
 			type: 'select',
 			label: 'Source',
-			name: 'source',
-			options: config.sources
+			name: 'source'
 		},
 		{
 			type: 'number',
@@ -218,6 +218,21 @@ export default function form(state = initialState, action) {
 			return {
 				...state,
 				focus: false
+			};
+		case LOAD_ACCOUNT_SUCCESS:
+			// when account is loaded, set category and source
+			// with the first value in options
+			defaultCategory = action.data.categories[0].slug;
+			defaultSource = action.data.sources[0].slug;
+			newValues = {
+				...state.values,
+				category: defaultCategory,
+				source: defaultSource
+			};
+			return {
+				...state,
+				values: newValues,
+				fields: updateFieldsWithValues(state.fields, newValues)
 			};
 		default:
 			return {

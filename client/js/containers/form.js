@@ -33,7 +33,8 @@ class Form extends Component {
 			datalists,
 			submitForm,
 			pending,
-			resetForm
+			resetForm,
+			fieldOptions
 		} = this.props;
 		const buttonAttrs = {
 			disabled: Boolean(pending)
@@ -43,9 +44,11 @@ class Form extends Component {
 				<ReactHint autoPosition events={{ click: true }} />
 				<h2>Add a new transaction</h2>
 				{fields.map(field => {
-					let datalist;
 					if (field.attributes && field.attributes.list) {
-						datalist = datalists[field.attributes.list];
+						field.datalist = datalists[field.attributes.list];
+					}
+					if (fieldOptions[field.name]) {
+						field.options = fieldOptions[field.name];
 					}
 					return (
 						<Field
@@ -54,7 +57,6 @@ class Form extends Component {
 							}}
 							key={field.name}
 							handleChange={this.handleInputChange(field.name)}
-							datalist={datalist}
 							{...field}
 						/>
 					);
@@ -93,7 +95,11 @@ Form.propTypes = {
 	}),
 	loadAccount: PropTypes.func,
 	inputChange: PropTypes.func,
-	resetForm: PropTypes.func
+	resetForm: PropTypes.func,
+	fieldOptions: PropTypes.shape({
+		category: PropTypes.array.isRequired,
+		source: PropTypes.array.isRequired
+	})
 };
 
 function mapStateToProps(state) {
@@ -102,6 +108,10 @@ function mapStateToProps(state) {
 		datalists: {
 			'merchants-list': state.account.merchants,
 			'spans-list': [1, 7, 30, 91, 365]
+		},
+		fieldOptions: {
+			category: state.account.categories,
+			source: state.account.sources
 		}
 	};
 }

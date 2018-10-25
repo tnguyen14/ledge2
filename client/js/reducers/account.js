@@ -6,7 +6,9 @@ import {
 } from '../actions/account';
 const initialState = {
 	merchants: [],
-	isRemovingTransaction: false
+	isRemovingTransaction: false,
+	categories: [],
+	sources: []
 };
 
 export default function account(state = initialState, action) {
