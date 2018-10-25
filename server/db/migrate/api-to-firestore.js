@@ -1,5 +1,6 @@
 require('dotenv').config();
 const chunk = require('lodash.chunk');
+const moment = require('moment-timezone');
 
 const { firestore } = require('../');
 const accounts = require('../../controllers/accounts');
@@ -15,10 +16,12 @@ getJson(`${serverUrl}/accounts`, {
 	headers: {
 		Authorization: `Bearer ${authToken}`
 	}
-}).then(
-	accts => {
+})
+	.then(accts => {
+		console.log(`Syncing for user ${user}`);
 		return Promise.all(
 			accts.map(acct => {
+				console.log(`Syncing account ${acct.id}`);
 				return new Promise((resolve, reject) => {
 					accounts.deleteAccount(
 						{
@@ -29,6 +32,7 @@ getJson(`${serverUrl}/accounts`, {
 							if (err) {
 								return reject(err);
 							}
+							console.log(`Deleted old account ${acct.id}`);
 							resolve();
 						}
 					);
@@ -43,12 +47,11 @@ getJson(`${serverUrl}/accounts`, {
 		).then(() => {
 			console.log('Successfully migrated accounts');
 		});
-	},
-	err => {
+	})
+	.then(null, err => {
 		console.error(err);
 		process.exit(1);
-	}
-);
+	});
 
 function writeAccount(acct) {
 	const acctRef = firestore.doc(`accounts/${user}!${acct.id}`);
@@ -59,21 +62,39 @@ function writeAccount(acct) {
 		})
 		.then(() => {
 			console.log(
-				`Successfully wrote account ${acct.id} for user ${user}`
+				`Successfully created account ${acct.id} for user ${user}`
 			);
 		});
 }
 
-function writeTransactionsInChunks(acct, callback) {
-	return getJson(`${serverUrl}/accounts/${acct.id}/transactions`, {
+function writeTransactionsInChunks(acct, before) {
+	let url = `${serverUrl}/accounts/${acct.id}/transactions?limit=1000`;
+	if (before) {
+		url = `${url}&before=${before}`;
+	}
+	return getJson(url, {
 		headers: {
 			Authorization: `Bearer ${authToken}`
 		}
 	}).then(txns => {
-		console.log(`Migrating ${txns.length} transactions...`);
+		if (!txns.length) {
+			return;
+		}
+		console.log(`Writing ${txns.length} transactions...`);
 		const txnChunks = chunk(txns, firestore.batchSize);
 
-		return Promise.all(txnChunks.map(writeTransactions.bind(null, acct)));
+		return Promise.all(
+			txnChunks.map(writeTransactions.bind(null, acct))
+		).then(() => {
+			const lastTransaction = txns[txns.length - 1];
+			// use id instead of date as it guarantees discreetness
+			// id is from .valueOf() in milliseconds, .unix() is in seconds
+			const lastTime = moment
+				.unix(parseInt(lastTransaction.id, 10) / 1000)
+				.toISOString();
+			console.log(`Getting transactions before ${lastTime}`);
+			return writeTransactionsInChunks(acct, lastTime);
+		});
 	});
 }
 
