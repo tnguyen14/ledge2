@@ -151,13 +151,12 @@ export default function form(state = initialState, action) {
 		case ADD_TRANSACTION_SUCCESS:
 		case UPDATE_TRANSACTION_SUCCESS:
 			// after successful save to the server, reset to initial values
+			newValues = createInitialValues();
 			return {
 				...state,
 				pending: false,
-				fields: updateFieldsWithValues(
-					state.fields,
-					createInitialValues()
-				),
+				fields: updateFieldsWithValues(state.fields, newValues),
+				values: newValues,
 				action: 'add'
 			};
 		case RESET_FORM:
