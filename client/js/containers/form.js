@@ -90,8 +90,7 @@ Form.propTypes = {
 	pending: PropTypes.bool,
 	submitForm: PropTypes.func,
 	datalists: PropTypes.shape({
-		'merchants-list': PropTypes.array,
-		'spans-list': PropTypes.array
+		'merchants-list': PropTypes.array
 	}),
 	loadAccount: PropTypes.func,
 	inputChange: PropTypes.func,
@@ -106,8 +105,7 @@ function mapStateToProps(state) {
 	return {
 		...state.form,
 		datalists: {
-			'merchants-list': state.account.merchants,
-			'spans-list': [1, 7, 30, 91, 365]
+			'merchants-list': state.account.merchants
 		},
 		fieldOptions: {
 			category: state.account.categories,

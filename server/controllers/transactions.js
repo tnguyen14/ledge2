@@ -118,8 +118,7 @@ function createTransaction(params, callback) {
 	const defaultProps = {
 		status: 'POSTED',
 		category: 'default',
-		span: 1,
-		effective: transaction.date
+		span: 1
 	};
 
 	getUniqueTransactionId(moment(transaction.date), params.userId, params.name)
@@ -292,9 +291,6 @@ function parseTransactionDetails(params) {
 		opts.date = moment
 			.tz(`${params.date} ${params.time}`, timezone)
 			.toISOString();
-	}
-	if (params.effective) {
-		opts.effective = moment.tz(params.effective, timezone).toISOString();
 	}
 	if (params.amount) {
 		opts.amount = parseInt(params.amount, 10);

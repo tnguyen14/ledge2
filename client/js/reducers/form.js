@@ -29,7 +29,6 @@ function createInitialValues() {
 		category: defaultCategory,
 		source: defaultSource,
 		span: 1,
-		effective: now.format(dateFormat),
 		description: '',
 		status: 'POSTED'
 	};
@@ -89,28 +88,20 @@ const initialState = {
 			name: 'source'
 		},
 		{
-			type: 'number',
-			label: 'Span',
-			name: 'span',
-			hint: 'Number of days the transaction should be spread over',
-			attributes: {
-				min: 0,
-				step: 1,
-				list: 'spans-list'
-			}
-		},
-		{
-			type: 'date',
-			label: 'Effective',
-			name: 'effective',
-			hint:
-				'The date the transaction should be counted from, default to transaction date'
-		},
-		{
 			type: 'textarea',
 			name: 'description',
 			label: 'Description',
 			placeholder: 'Description'
+		},
+		{
+			type: 'number',
+			label: 'Span',
+			name: 'span',
+			hint: 'Number of weeks the transaction should be spread over',
+			attributes: {
+				min: 0,
+				step: 1
+			}
 		},
 		{
 			type: 'select',
@@ -184,14 +175,6 @@ export default function form(state = initialState, action) {
 				...state.values,
 				[action.data.name]: action.data.value
 			};
-			// update effective when date changed,
-			// but effective hasn't been changed (which is heuristically
-			// determined by comparing old date value against effective value)
-			if (action.data.name === 'date') {
-				if (state.values['effective'] === state.values['date']) {
-					newValues['effective'] = newValues['date'];
-				}
-			}
 
 			return {
 				...state,
