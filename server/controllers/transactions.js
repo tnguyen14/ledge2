@@ -337,11 +337,36 @@ function getTransaction(userId, accountName, transactionId) {
 		});
 }
 
+function queryTransaction(userId, accountName, queries) {
+	let transactions = accounts
+		.doc(`${userId}!${accountName}`)
+		.collection('transactions');
+	// see https://firebase.google.com/docs/reference/js/firebase.firestore.Query#where
+	queries.forEach(query => {
+		transactions = transactions.where(
+			query.fieldPath,
+			query.opStr,
+			query.value
+		);
+	});
+	return transactions.get().then(txnSnapshot => {
+		if (txnSnapshot.empty) {
+			throw transactionNotFound;
+		}
+		const results = [];
+		txnSnapshot.forEach(txn => {
+			results.push(txn.data());
+		});
+		return results;
+	});
+}
+
 module.exports = {
 	showAll: showAll,
 	showWeekly: showWeekly,
 	showOne: showOne,
 	createTransaction: createTransaction,
 	updateTransaction: updateTransaction,
-	deleteTransaction: deleteTransaction
+	deleteTransaction: deleteTransaction,
+	queryTransaction: queryTransaction
 };
