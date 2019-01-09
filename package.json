@@ -12,7 +12,7 @@
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "watch": "npm run js:watch & npm run css:watch & npm run serve & npm run server:watch",
-    "serve": "http-server dist -p 14001",
+    "serve": "http-server dist -p 15001",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
     "css": "postcss -o dist/style.css client/scss/style.scss",
