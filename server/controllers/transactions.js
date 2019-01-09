@@ -322,7 +322,7 @@ function hydrateTransaction(transaction) {
 	};
 }
 
-function getTransaction(userId, accountName, transactionId, cb) {
+function getTransaction(userId, accountName, transactionId) {
 	console.log(`getting ${transactionId}`);
 	return accounts
 		.doc(`${userId}!${accountName}`)

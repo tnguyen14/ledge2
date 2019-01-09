@@ -62,7 +62,7 @@ function removeMerchant(merchant, userId, accountName) {
 		const acc = acctSnapshot.data();
 		return acctRef
 			.collection('transactions')
-			.where('merchant', '=', merchant)
+			.where('merchant', '==', merchant)
 			.get()
 			.then(transactionsSnapshot => {
 				return transactionsSnapshot.size;
@@ -120,7 +120,10 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
 		_counts[slug].count--;
 	}
 	if (_counts[slug].count === 0) {
-		delete _counts[slug];
+		// delete _counts[slug];
+		// set it to null because delete (setting it to `undefined`) doesn't
+		// work with merge mode
+		_counts[slug] = null;
 		return _counts;
 	}
 

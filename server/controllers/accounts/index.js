@@ -30,7 +30,14 @@ function showOne(params, callback) {
 			callback(noAccount);
 			return;
 		}
-		callback(null, acctSnapshot.data());
+		const account = acctSnapshot.data();
+		// filter out `null` merchants
+		Object.keys(account.merchants_count).forEach(merchantSlug => {
+			if (account.merchants_count[merchantSlug] == null) {
+				delete account.merchants_count[merchantSlug];
+			}
+		});
+		callback(null, account);
 	}, callback);
 }
 
