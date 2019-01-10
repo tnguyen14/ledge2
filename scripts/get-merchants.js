@@ -27,7 +27,10 @@ accounts.showOne(
 				return merchants[merch].values.length > 1;
 			})
 			.map(merch => merchants[merch]);
-		console.log('Possible Duplicates:');
-		console.log(possibleDuplicates);
+		console.log(`There are ${Object.keys(merchants).length} merchants.`);
+		if (possibleDuplicates.length) {
+			console.log('Possible Duplicates:');
+			console.log(possibleDuplicates);
+		}
 	}
 );
