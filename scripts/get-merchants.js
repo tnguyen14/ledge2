@@ -16,9 +16,18 @@ accounts.showOne(
 			process.exit(1);
 		}
 		let merchants = data.merchants_count;
-		if (argv._) {
-			merchants = merchants[argv._];
+		// if an argument is passed to the script, it means
+		// searching for a specific merchant
+		if (argv._.length) {
+			console.log(merchants[argv._[0]]);
+			process.exit();
 		}
-		console.log(merchants);
+		const possibleDuplicates = Object.keys(merchants)
+			.filter(merch => {
+				return merchants[merch].values.length > 1;
+			})
+			.map(merch => merchants[merch]);
+		console.log('Possible Duplicates:');
+		console.log(possibleDuplicates);
 	}
 );
