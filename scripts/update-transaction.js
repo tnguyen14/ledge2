@@ -2,13 +2,20 @@ require('dotenv').config();
 const transactions = require('../server/controllers/transactions');
 
 const user = process.env.AUTH0_USER;
-const transaction = process.argv.slice(2)[0];
+const argv = require('yargs').argv;
 
-transactions.showOne(
+const newTransaction = { ...argv };
+
+// remove irrelevant args
+delete newTransaction._;
+delete newTransaction.$0;
+
+transactions.updateTransaction(
 	{
 		userId: user,
 		name: 'daily',
-		id: transaction
+		...newTransaction,
+		id: String(newTransaction.id) // stringify ID
 	},
 	(err, data) => {
 		if (err) {

@@ -169,15 +169,15 @@ function updateTransaction(params, callback) {
 	getTransaction(params.userId, params.name, params.id)
 		.then(txn => {
 			oldTransaction = txn;
-			const date = moment(newTransaction.date);
+			const newDate = moment(newTransaction.date);
 			// if date hasn't changed, just update the old transaction
-			if (!date || date.isSame(oldTransaction.date)) {
+			if (!newTransaction.date || newDate.isSame(oldTransaction.date)) {
 				newTransactionId = params.id;
 				return false;
 			}
 			// set the new transaction id to a unique id if date has changed
 			return getUniqueTransactionId(
-				date,
+				newDate,
 				params.userId,
 				params.name
 			).then(uniqueId => {
@@ -323,7 +323,6 @@ function hydrateTransaction(transaction) {
 }
 
 function getTransaction(userId, accountName, transactionId) {
-	console.log(`getting ${transactionId}`);
 	return accounts
 		.doc(`${userId}!${accountName}`)
 		.collection('transactions')
