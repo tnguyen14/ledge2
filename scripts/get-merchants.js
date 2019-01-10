@@ -28,6 +28,9 @@ accounts.showOne(
 		if (possibleDuplicates.length) {
 			console.log('Possible Duplicates:');
 			console.log(possibleDuplicates);
+		} else {
+			console.log('Top 10 merchants:');
+			console.log(data.merchants.slice(0, 10));
 		}
 	}
 );
