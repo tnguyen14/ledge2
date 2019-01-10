@@ -3,6 +3,7 @@
 var { firestore, accounts } = require('../../db');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
+const merchants = require('./merchants');
 
 var noAccount = new Error('No such account was found');
 noAccount.status = 404;
@@ -32,11 +33,7 @@ function showOne(params, callback) {
 		}
 		const account = acctSnapshot.data();
 		// filter out `null` merchants
-		Object.keys(account.merchants_count).forEach(merchantSlug => {
-			if (account.merchants_count[merchantSlug] == null) {
-				delete account.merchants_count[merchantSlug];
-			}
-		});
+		account.merchants = merchants.processMerchants(account.merchants_count);
 		callback(null, account);
 	}, callback);
 }

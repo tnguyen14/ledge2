@@ -136,8 +136,28 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
 	return _counts;
 }
 
+// given a list of merchants, filter out null ones, sort by count
+function processMerchants(merchantsCount) {
+	return Object.keys(merchantsCount)
+		.filter(merch => {
+			return merchantsCount[merch] != null;
+		})
+		.map(merch => {
+			// pass along the slug
+			return {
+				slug: merch,
+				...merchantsCount[merch]
+			};
+		})
+		.sort((a, b) => {
+			// sort by count
+			return b.count - a.count;
+		});
+}
+
 module.exports = {
 	add: addMerchant,
 	update: updateMerchant,
-	remove: removeMerchant
+	remove: removeMerchant,
+	processMerchants: processMerchants
 };
