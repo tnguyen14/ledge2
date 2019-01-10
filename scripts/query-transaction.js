@@ -4,6 +4,10 @@ const transactions = require('../server/controllers/transactions');
 const user = process.env.AUTH0_USER;
 const argv = require('yargs').argv;
 
+if (argv.id) {
+	argv.id = String(argv.id);
+}
+
 const queries = Object.keys(argv).filter(key => !['_', '$0'].includes(key));
 
 transactions
