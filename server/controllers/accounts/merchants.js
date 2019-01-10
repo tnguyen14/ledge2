@@ -116,9 +116,7 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
 	if (!_counts[slug]) {
 		return _counts;
 	}
-	if (merchantCount > 0) {
-		_counts[slug].count--;
-	}
+	_counts[slug].count--;
 	if (_counts[slug].count === 0) {
 		// delete _counts[slug];
 		// set it to null because delete (setting it to `undefined`) doesn't
@@ -128,8 +126,8 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
 	}
 
 	// remove merchant from values array
-	// if it is the last one, or it no longer exists
-	if (merchantCount === 0 || merchantCount === 1) {
+	// if it was the last one (no longer exists)
+	if (merchantCount === 0) {
 		var merchantIndex = _counts[slug].values.indexOf(merchant);
 		if (merchantIndex > -1) {
 			_counts[slug].values.splice(merchantIndex, 1);

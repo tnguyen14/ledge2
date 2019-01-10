@@ -226,9 +226,10 @@ function updateTransaction(params, callback) {
 }
 
 function removeTransaction(params) {
+	let transaction;
 	return getTransaction(params.userId, params.name, params.id)
 		.then(txn => {
-			return merchants.remove(txn.merchant, params.userId, params.name);
+			transaction = txn;
 		})
 		.then(() => {
 			return accounts
@@ -236,6 +237,13 @@ function removeTransaction(params) {
 				.collection('transactions')
 				.doc(params.id)
 				.delete();
+		})
+		.then(() => {
+			return merchants.remove(
+				transaction.merchant,
+				params.userId,
+				params.name
+			);
 		});
 }
 
