@@ -1,9 +1,6 @@
 require('dotenv').config();
 
-// there's an issue where the merchant slug wasn't generated correctly.
-// For example, 'a-m-c': { values: [ 'AMC' ], count: 1 }
-// it should be 'amc', not 'a-m-c'
-
+// specifically set merchant count and values
 const user = process.env.AUTH0_USER;
 const argv = require('yargs').argv;
 
@@ -16,12 +13,13 @@ acctRef
 	.then(acctSnapshot => {
 		const acct = acctSnapshot.data();
 		const counts = acct.merchants_count;
-		const oldCount = counts[argv.bad].count;
-		counts[argv.bad] = null;
-		counts[argv.correct] = {
-			...counts[argv.correct],
-			count: counts[argv.correct].count + oldCount
-		};
+		let merchant = counts[argv.merchant];
+		if (argv.count) {
+			merchant.count = argv.count;
+		}
+		if (argv.name) {
+			merchant.values = argv.name;
+		}
 		return acctRef.set(
 			{
 				merchants_count: counts
