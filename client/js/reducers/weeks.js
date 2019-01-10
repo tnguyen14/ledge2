@@ -39,10 +39,28 @@ function isWithinWeek(date, start, end) {
 	return date >= start.toISOString() && date <= end.toISOString();
 }
 
-function filterTransactions(transactions, start, end) {
-	return transactions.filter(tx => {
-		return isWithinWeek(tx.date, start, end);
+// filter out list of transactions that have span > 1
+function getMultiWeekTransactions(transactions) {
+	return transactions.filter(txn => {
+		return txn.span && txn.span > 1;
 	});
+}
+
+// distribute multiweek transactions across other weeks
+function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
+	for (let i = 1; i < transaction.span; i++) {
+		let nextOffset = currentOffset + i;
+		if (nextOffset <= 0) {
+			weeks[nextOffset].transactions = weeks[
+				nextOffset
+			].transactions.concat([
+				{
+					...transaction,
+					carriedOver: true
+				}
+			]);
+		}
+	}
 }
 
 function sortTransactions(transactions) {
@@ -71,14 +89,24 @@ export default function weeks(state = initialState, action) {
 			if (!start || !end) {
 				throw new Error('Unable to find boundaries for week ' + offset);
 			}
+			getMultiWeekTransactions(action.data.transactions).forEach(txn => {
+				accountForMultiWeekTransaction(txn, offset, state);
+			});
+			// there might be existing transactions that were carried over
+			// by multiweek transactions
+			const existingTransactions = state[offset].transactions || [];
 			return {
 				...state,
 				[offset]: {
 					...state[offset],
 					isLoading: false,
 					hasLoaded: true,
-					transactions: sortTransactions(
-						filterTransactions(action.data.transactions, start, end)
+					transactions: existingTransactions.concat(
+						sortTransactions(
+							// filter seems unnecessary for weekly transactions
+							// filterTransactions(action.data.transactions, start, end)
+							action.data.transactions
+						)
 					),
 					// assign start and end again
 					// as nested object will be overriden

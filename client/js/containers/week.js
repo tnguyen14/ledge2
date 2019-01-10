@@ -52,17 +52,21 @@ class Week extends Component {
 						<tr className="addition" />
 					</thead>
 					<tbody>
-						{transactions.map(tx => {
-							return (
-								<Transaction
-									key={tx.id}
-									handleRemove={removeTransaction}
-									handleEdit={editTransaction}
-									options={options}
-									{...tx}
-								/>
-							);
-						})}
+						{transactions
+							.filter(tx => {
+								return !tx.carriedOver;
+							})
+							.map(tx => {
+								return (
+									<Transaction
+										key={tx.id}
+										handleRemove={removeTransaction}
+										handleEdit={editTransaction}
+										options={options}
+										{...tx}
+									/>
+								);
+							})}
 					</tbody>
 				</table>
 				<WeeklyStats weekId={`week-${offset}`} stats={stats} />
