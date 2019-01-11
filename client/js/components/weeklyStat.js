@@ -4,6 +4,7 @@ import money from '../util/money';
 import Popover from 'react-bootstrap/lib/Popover';
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
 import moment from 'moment-timezone';
+import Octicon, { Clock } from '@githubprimer/octicons-react';
 
 function WeeklyStat(props) {
 	const { slug, label, amount, weekId, carriedOvers } = props;
@@ -26,6 +27,11 @@ function WeeklyStat(props) {
 				<td id={statId} className="stat-label">
 					<span className="legend">&nbsp;</span>
 					{label}
+					{carriedOvers.length ? (
+						<span className="span-hint">
+							<Octicon icon={Clock} />
+						</span>
+					) : null}
 				</td>
 			</OverlayTrigger>
 			<td aria-labelledby={statId}>{money(amount)}</td>
