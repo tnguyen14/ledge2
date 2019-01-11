@@ -170,6 +170,9 @@
 		@media (min-width: 68.75em) {
 			width: calc(100% - 6em);
 		}
+		.hint {
+			cursor: help;
+		}
 	}
 	[data-form-name=description] textarea {
 		height: calc(2.25rem + 2px); /* this is the height of form-control set by bootstrap */
@@ -330,6 +333,11 @@
 		width: 5rem;
 		div {
 			background-color: var(--color-lime);
+		}
+	}
+	.stat {
+		.stat-label {
+			cursor: help;
 		}
 	}
 }

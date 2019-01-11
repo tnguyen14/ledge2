@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import money from '../util/money';
-import Popover from 'react-bootstrap/lib/Popover';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
-import moment from 'moment-timezone';
+import WeeklyStat from './weeklyStat';
 
 function WeeklyStats(props) {
 	const { label, weekId, stats, carriedOvers } = props;
@@ -22,38 +19,15 @@ function WeeklyStats(props) {
 				<tbody>
 					{stats.map(stat => {
 						const { slug, label, amount } = stat;
-						const carriedTxns = carriedOversByCategory[slug] || [];
-						const statId = `${slug}-${weekId}`;
-						const popover = (
-							<Popover
-								id={`carried-${statId}`}
-								title="Carried-over transactions"
-							>
-								{carriedTxns.map(txn => {
-									return (
-										<li key={txn.id}>
-											{moment(txn.date).format('MM/DD')}{' '}
-											{money(txn.amount)} {txn.merchant}
-										</li>
-									);
-								})}
-							</Popover>
-						);
 						return (
-							<tr key={statId} className="stat" data-cat={slug}>
-								<OverlayTrigger
-									trigger="click"
-									overlay={popover}
-								>
-									<td id={statId}>
-										<span className="legend">&nbsp;</span>
-										{label}
-									</td>
-								</OverlayTrigger>
-								<td aria-labelledby={statId}>
-									{money(amount)}
-								</td>
-							</tr>
+							<WeeklyStat
+								key={slug}
+								slug={slug}
+								label={label}
+								amount={amount}
+								weekId={weekId}
+								carriedOvers={carriedOversByCategory[slug]}
+							/>
 						);
 					})}
 				</tbody>

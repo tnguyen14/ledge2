@@ -71,7 +71,7 @@ function Field(props) {
 			<label className="control-label">{label}</label>
 			<div className="input-group">
 				{hint && (
-					<div className="input-group-prepend" data-rh={hint}>
+					<div className="input-group-prepend hint" data-rh={hint}>
 						<div className="input-group-text">
 							<Octicon icon={Info} />
 						</div>
