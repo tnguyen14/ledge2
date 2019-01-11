@@ -69,7 +69,11 @@ class Week extends Component {
 							})}
 					</tbody>
 				</table>
-				<WeeklyStats weekId={`week-${offset}`} stats={stats} />
+				<WeeklyStats
+					weekId={`week-${offset}`}
+					stats={stats}
+					carriedOvers={transactions.filter(tx => tx.carriedOver)}
+				/>
 				<PulseLoader
 					className="transactions-loading"
 					loading={isLoading}

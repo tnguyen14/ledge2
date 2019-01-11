@@ -53,7 +53,9 @@ const calculateWeeklyAverage = weeks => {
 };
 
 const calculateWeeklyTotal = week => {
-	return week.transactions.reduce((subtotal, transaction) => {
-		return subtotal + transaction.amount;
-	}, 0);
+	return week.transactions
+		.filter(txn => !txn.carriedOver)
+		.reduce((subtotal, transaction) => {
+			return subtotal + transaction.amount;
+		}, 0);
 };
