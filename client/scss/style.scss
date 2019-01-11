@@ -298,6 +298,7 @@
 		th {
 			flex-basis: 25%;
 			padding: .5rem;
+			overflow: hidden;
 			@media (min-width: 42.5em) {
 				padding: .75rem;
 			}
