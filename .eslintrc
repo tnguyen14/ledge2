@@ -1,6 +1,5 @@
 {
   "extends": [
-    "happiness",
     "plugin:react/recommended",
     "prettier",
     "prettier/react"
