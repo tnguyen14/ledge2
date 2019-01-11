@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/lib/Button';
-import ReactHintFactory from 'react-hint';
 import Field from '../components/field';
 import { submitForm, inputChange, resetForm } from '../actions/form';
 import { loadAccount } from '../actions/account';
-
-const ReactHint = ReactHintFactory(React);
 
 class Form extends Component {
 	componentDidMount() {
@@ -49,7 +46,6 @@ class Form extends Component {
 		};
 		return (
 			<form className="new-transaction" method="POST">
-				<ReactHint autoPosition events={{ click: true }} />
 				<h2>Add a new transaction</h2>
 				{fields.map(field => {
 					if (field.attributes && field.attributes.list) {

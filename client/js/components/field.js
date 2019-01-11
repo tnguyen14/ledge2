@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Octicon, { Info } from '@githubprimer/octicons-react';
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -71,11 +73,16 @@ function Field(props) {
 			<label className="control-label">{label}</label>
 			<div className="input-group">
 				{hint && (
-					<div className="input-group-prepend hint" data-rh={hint}>
-						<div className="input-group-text">
-							<Octicon icon={Info} />
+					<OverlayTrigger
+						placement="top"
+						overlay={<Tooltip id={`${name}-hint`}>{hint}</Tooltip>}
+					>
+						<div className="input-group-prepend hint">
+							<div className="input-group-text">
+								<Octicon icon={Info} />
+							</div>
 						</div>
-					</div>
+					</OverlayTrigger>
 				)}
 				{inputEl}
 				{datalist && (
