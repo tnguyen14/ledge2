@@ -30,97 +30,10 @@ function createInitialValues() {
 		source: defaultSource,
 		span: 1,
 		description: '',
-		status: 'POSTED'
+		status: 'POSTED',
+		id: ''
 	};
 }
-const initialState = {
-	action: 'add',
-	focus: true,
-	values: createInitialValues(),
-	fields: [
-		{
-			type: 'number',
-			label: 'Amount',
-			name: 'amount',
-			placeholder: 'Amount',
-			attributes: {
-				min: 0,
-				step: 'any',
-				required: true,
-				autoFocus: true
-			}
-		},
-		{
-			type: 'text',
-			label: 'Merchant',
-			name: 'merchant',
-			placeholder: 'Merchant',
-			attributes: {
-				required: true,
-				list: 'merchants-list'
-			}
-		},
-		{
-			type: 'date',
-			label: 'Date',
-			name: 'date',
-			attributes: {
-				required: true
-			}
-		},
-		{
-			type: 'time',
-			label: 'Time',
-			name: 'time',
-			attributes: {
-				required: true
-			}
-		},
-		{
-			type: 'select',
-			label: 'Category',
-			name: 'category',
-			placeholder: 'Select a category'
-		},
-		{
-			type: 'select',
-			label: 'Source',
-			name: 'source'
-		},
-		{
-			type: 'textarea',
-			name: 'description',
-			label: 'Description',
-			placeholder: 'Description'
-		},
-		{
-			type: 'number',
-			label: 'Span',
-			name: 'span',
-			hint:
-				'Number of weeks the transaction should be spread over, such as 1, 4, 13, 52',
-			attributes: {
-				min: 0,
-				step: 1
-			}
-		},
-		{
-			type: 'select',
-			label: 'Status',
-			name: 'status',
-			options: [
-				{
-					slug: 'POSTED',
-					value: 'POSTED'
-				}
-			]
-		},
-		{
-			type: 'hidden',
-			name: 'id'
-		}
-	]
-};
 
 function updateFieldsWithValues(fields, values) {
 	return fields.map(field => {
@@ -130,6 +43,97 @@ function updateFieldsWithValues(fields, values) {
 		};
 	});
 }
+
+const fields = [
+	{
+		type: 'number',
+		label: 'Amount',
+		name: 'amount',
+		placeholder: 'Amount',
+		attributes: {
+			min: 0,
+			step: 'any',
+			required: true,
+			autoFocus: true
+		}
+	},
+	{
+		type: 'text',
+		label: 'Merchant',
+		name: 'merchant',
+		placeholder: 'Merchant',
+		attributes: {
+			required: true,
+			list: 'merchants-list'
+		}
+	},
+	{
+		type: 'date',
+		label: 'Date',
+		name: 'date',
+		attributes: {
+			required: true
+		}
+	},
+	{
+		type: 'time',
+		label: 'Time',
+		name: 'time',
+		attributes: {
+			required: true
+		}
+	},
+	{
+		type: 'select',
+		label: 'Category',
+		name: 'category',
+		placeholder: 'Select a category'
+	},
+	{
+		type: 'select',
+		label: 'Source',
+		name: 'source'
+	},
+	{
+		type: 'textarea',
+		name: 'description',
+		label: 'Description',
+		placeholder: 'Description'
+	},
+	{
+		type: 'number',
+		label: 'Span',
+		name: 'span',
+		hint:
+			'Number of weeks the transaction should be spread over, such as 1, 4, 13, 52',
+		attributes: {
+			min: 0,
+			step: 1
+		}
+	},
+	{
+		type: 'select',
+		label: 'Status',
+		name: 'status',
+		options: [
+			{
+				slug: 'POSTED',
+				value: 'POSTED'
+			}
+		]
+	},
+	{
+		type: 'hidden',
+		name: 'id'
+	}
+];
+
+const initialState = {
+	action: 'add',
+	focus: true,
+	values: createInitialValues(),
+	fields: updateFieldsWithValues(fields, createInitialValues())
+};
 
 export default function form(state = initialState, action) {
 	let newValues;
@@ -217,9 +221,6 @@ export default function form(state = initialState, action) {
 				fields: updateFieldsWithValues(state.fields, newValues)
 			};
 		default:
-			return {
-				...state,
-				fields: updateFieldsWithValues(state.fields, state.values)
-			};
+			return state;
 	}
 }

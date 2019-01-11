@@ -24,7 +24,7 @@ export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 export function editTransaction(transactionId) {
 	return function(dispatch, getState) {
 		// editTransaction is an action-creator creator
-		return function() {
+		return function(e) {
 			const { weeks } = getState();
 			let transaction;
 			// iterate over each week to find the transaction
@@ -45,6 +45,8 @@ export function editTransaction(transactionId) {
 				type: EDIT_TRANSACTION,
 				data: transaction
 			});
+			// avoid toggling the transaction as active
+			e.stopPropagation();
 		};
 	};
 }

@@ -14,8 +14,16 @@ class Form extends Component {
 		this.props.loadAccount();
 	}
 
-	componentDidUpdate() {
-		if (this.props.focus) {
+	componentDidUpdate(prevProps, prevState) {
+		const currentAmount = this.props.fields.find(
+			field => field.name === 'amount'
+		).value;
+		const prevAmount = prevProps.fields.find(
+			field => field.name === 'amount'
+		).value;
+		// only focus if the amount has changed
+		// avoid focusing for cases such as when categories are loaded
+		if (this.props.focus && currentAmount !== prevAmount) {
 			this.amount.focus();
 		}
 	}
