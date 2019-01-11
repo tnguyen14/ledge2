@@ -337,8 +337,11 @@
 		}
 	}
 	.stat {
-		.stat-label {
+		.stat-label.carried-over {
 			cursor: help;
+		}
+		&[data-cat=total] .legend {
+			display: none;
 		}
 	}
 }

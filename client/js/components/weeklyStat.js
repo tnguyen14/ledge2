@@ -23,17 +23,22 @@ function WeeklyStat(props) {
 	);
 	return (
 		<tr key={statId} className="stat" data-cat={slug}>
-			<OverlayTrigger trigger="click" overlay={popover}>
-				<td id={statId} className="stat-label">
-					<span className="legend">&nbsp;</span>
-					{label}
-					{carriedOvers.length ? (
+			{carriedOvers.length ? (
+				<OverlayTrigger trigger="click" overlay={popover}>
+					<td id={statId} className={`stat-label carried-over`}>
+						<span className="legend">&nbsp;</span>
+						{label}
 						<span className="span-hint">
 							<Octicon icon={Clock} />
 						</span>
-					) : null}
+					</td>
+				</OverlayTrigger>
+			) : (
+				<td id={statId} className="stat-label">
+					<span className="legend">&nbsp;</span>
+					{label}
 				</td>
-			</OverlayTrigger>
+			)}
 			<td aria-labelledby={statId}>{money(amount)}</td>
 		</tr>
 	);
