@@ -39,6 +39,7 @@
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
@@ -46,7 +47,7 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^16.2.3",
-    "eslint": "^4.19.1",
+    "eslint": "^5.12.0",
     "eslint-config-happiness": "^10.2.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-import": "^2.13.0",

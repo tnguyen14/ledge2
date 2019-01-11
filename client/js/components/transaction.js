@@ -22,6 +22,7 @@ class Transaction extends Component {
 		amount: PropTypes.number.isRequired,
 		merchant: PropTypes.string.isRequired,
 		category: PropTypes.string.isRequired,
+		span: PropTypes.number.isRequired,
 		source: PropTypes.string.isRequired,
 		description: PropTypes.string,
 		handleEdit: PropTypes.func.isRequired,

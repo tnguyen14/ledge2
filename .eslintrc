@@ -6,9 +6,5 @@
     "prettier/react"
   ],
   "plugins": ["react"],
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  }
+  "parser": "babel-eslint"
 }
