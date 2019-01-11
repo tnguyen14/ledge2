@@ -4,7 +4,9 @@ import moment from 'moment-timezone';
 import Badge from 'react-bootstrap/lib/Badge';
 import money from '../util/money';
 import classnames from 'classnames';
-import Octicon, { Pencil, X } from '@githubprimer/octicons-react';
+import Overlay from 'react-bootstrap/lib/Overlay';
+import Tooltip from 'react-bootstrap/lib/Tooltip';
+import Octicon, { Pencil, X, Clock } from '@githubprimer/octicons-react';
 
 function getValueFromOptions(options, slug) {
 	let option = options.find(opt => opt.slug === slug);
@@ -32,12 +34,29 @@ class Transaction extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { active: false };
+		this.state = { active: false, showSpanHint: false };
 	}
 
 	toggleActive = () => {
 		this.setState({
+			...this.state,
 			active: !this.state.active
+		});
+	};
+
+	toggleSpanHint = e => {
+		this.setState({
+			...this.state,
+			showSpanHint: !this.state.showSpanHint
+		});
+		// click on span hint should not set transaction active
+		e.stopPropagation();
+	};
+
+	attachSpanHintRef = target => {
+		this.setState({
+			...this.state,
+			spanHintTarget: target
 		});
 	};
 
@@ -50,11 +69,12 @@ class Transaction extends Component {
 			category,
 			source,
 			description,
+			span,
 			handleEdit,
 			handleRemove,
 			options
 		} = this.props;
-		const { active } = this.state;
+		const { active, showSpanHint, spanHintTarget } = this.state;
 		const displayDate = moment(date).format('ddd');
 		return (
 			<tr
@@ -68,6 +88,26 @@ class Transaction extends Component {
 				<td data-field="merchant">{merchant}</td>
 				<td data-field="amount" data-cat={category}>
 					<Badge pill>{money(amount)}</Badge>
+					{span > 1 ? (
+						<span>
+							<Overlay
+								target={spanHintTarget}
+								show={showSpanHint}
+								placement="top"
+							>
+								<Tooltip id={`${id}-span-hint`}>
+									Span {span} weeks
+								</Tooltip>
+							</Overlay>
+							<span
+								ref={this.attachSpanHintRef}
+								className="span-hint"
+								onClick={this.toggleSpanHint}
+							>
+								<Octicon icon={Clock} />
+							</span>
+						</span>
+					) : null}
 				</td>
 				<td data-field="source">
 					{getValueFromOptions(options.sources, source)}

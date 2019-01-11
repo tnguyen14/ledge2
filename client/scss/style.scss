@@ -391,6 +391,11 @@
 	[data-field=action] {
 		display: none;
 	}
+	.span-hint {
+		color: #212529; // bootstrap body color
+		cursor: help;
+		margin-left: .5em;
+	}
 	&.table-active {
 		[data-field=description],
 		[data-field=category],
