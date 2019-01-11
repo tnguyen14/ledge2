@@ -14,8 +14,8 @@ function WeeklyStat(props) {
 			{carriedOvers.map(txn => {
 				return (
 					<li key={txn.id}>
-						{moment(txn.date).format('MM/DD')} {txn.merchant}{' '}
-						{money(txn.amount)}{' '}
+						{moment(txn.date).format('MM/DD')} ({txn.span}){' '}
+						{txn.merchant} {money(txn.amount)}{' '}
 					</li>
 				);
 			})}
