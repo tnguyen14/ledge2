@@ -464,6 +464,9 @@
 	[data-cat=investment] & {
 		background-color: var(--color-teal);
 	}
+	[data-cat=utilities] & {
+		background-color: var(--color-light-blue);
+	}
 }
 
 .delete-dialog {
