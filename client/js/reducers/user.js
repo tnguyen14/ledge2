@@ -1,5 +1,10 @@
 /* global localStorage */
-import { AUTHENTICATING, AUTHENTICATED, LOGOUT } from '../actions/user';
+import {
+	AUTHENTICATING,
+	AUTHENTICATED,
+	RENEWED_SESSION,
+	LOGOUT
+} from '../actions/user';
 import getUser from '../util/user';
 
 const initialState = {
@@ -8,7 +13,7 @@ const initialState = {
 };
 
 function isAuthenticated(user) {
-	return new Date().getTime() < user.expiresAt;
+	return Date.now() < user.expiresAt;
 }
 
 function storeSession(user) {
@@ -51,8 +56,9 @@ export default function user(state = initialState, action) {
 				authenticated: false
 			};
 		case AUTHENTICATED:
+		case RENEWED_SESSION:
 			const { accessToken, idToken, expiresIn } = action.data;
-			const expiresAt = expiresIn * 1000 + new Date().getTime();
+			const expiresAt = expiresIn * 1000 + Date.now();
 			const newState = {
 				...state,
 				isAuthenticating: false,

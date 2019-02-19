@@ -46,6 +46,29 @@ export function handleAuthentication() {
 	};
 }
 
+export const RENEWING_SESSION = 'RENEWING_SESSION';
+export const RENEWED_SESSION = 'RENEWED_SESSION';
+
+export function renewSession() {
+	return function(dispatch) {
+		dispatch({
+			type: RENEWING_SESSION
+		});
+		auth.checkSession((err, authResult) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			if (authResult && authResult.accessToken && authResult.idToken) {
+				dispatch({
+					type: RENEWED_SESSION,
+					data: authResult
+				});
+			}
+		});
+	};
+}
+
 export const LOGOUT = 'LOGOUT';
 
 export function logout() {
