@@ -71,7 +71,7 @@
     "redux-devtools-extension": "^2.13.5",
     "uglify-es": "^3.3.9",
     "uglifyify": "^5.0.1",
-    "watchify": "^3.11.0"
+    "watchify": "^3.11.1"
   },
   "dependencies": {
     "@githubprimer/octicons-react": "^8.1.0",
