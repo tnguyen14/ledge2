@@ -1,5 +1,12 @@
 /* global localStorage */
-import { AUTHENTICATING, AUTHENTICATED, LOGOUT } from '../actions/user';
+import {
+	AUTHENTICATING,
+	AUTHENTICATED,
+	RENEWING_SESSION,
+	RENEWED_SESSION,
+	SCHEDULE_RENEWAL,
+	LOGOUT
+} from '../actions/user';
 import getUser from '../util/user';
 
 const initialState = {
@@ -8,7 +15,7 @@ const initialState = {
 };
 
 function isAuthenticated(user) {
-	return new Date().getTime() < user.expiresAt;
+	return Date.now() < user.expiresAt;
 }
 
 function storeSession(user) {
@@ -50,9 +57,15 @@ export default function user(state = initialState, action) {
 				isAuthenticating: true,
 				authenticated: false
 			};
+		case RENEWING_SESSION:
+			return {
+				...state,
+				isAuthenticating: true
+			};
 		case AUTHENTICATED:
+		case RENEWED_SESSION:
 			const { accessToken, idToken, expiresIn } = action.data;
-			const expiresAt = expiresIn * 1000 + new Date().getTime();
+			const expiresAt = expiresIn * 1000 + Date.now();
 			const newState = {
 				...state,
 				isAuthenticating: false,
@@ -62,10 +75,17 @@ export default function user(state = initialState, action) {
 				idToken,
 				profile: getUser(idToken)
 			};
+			delete newState.renewTimeout;
 			storeSession(newState);
 			return newState;
+		case SCHEDULE_RENEWAL:
+			return {
+				...state,
+				renewTimeout: action.data
+			};
 		case LOGOUT:
 			deleteSession();
+			clearTimeout(state.renewTimeout);
 			return initialState;
 		default:
 			return getSession() || state;
