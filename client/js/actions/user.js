@@ -49,7 +49,7 @@ export function handleAuthentication() {
 export const RENEWING_SESSION = 'RENEWING_SESSION';
 export const RENEWED_SESSION = 'RENEWED_SESSION';
 
-export function renewSession() {
+function renewSession() {
 	return function(dispatch) {
 		dispatch({
 			type: RENEWING_SESSION
@@ -66,6 +66,16 @@ export function renewSession() {
 				});
 			}
 		});
+	};
+}
+
+export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
+
+export function scheduleRenewal(renewDelay) {
+	const timeout = setTimeout(renewSession, renewDelay);
+	return {
+		type: SCHEDULE_RENEWAL,
+		data: timeout
 	};
 }
 

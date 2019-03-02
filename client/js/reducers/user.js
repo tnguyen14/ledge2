@@ -2,7 +2,9 @@
 import {
 	AUTHENTICATING,
 	AUTHENTICATED,
+	RENEWING_SESSION,
 	RENEWED_SESSION,
+	SCHEDULE_RENEWAL,
 	LOGOUT
 } from '../actions/user';
 import getUser from '../util/user';
@@ -55,6 +57,11 @@ export default function user(state = initialState, action) {
 				isAuthenticating: true,
 				authenticated: false
 			};
+		case RENEWING_SESSION:
+			return {
+				...state,
+				isAuthenticating: true
+			};
 		case AUTHENTICATED:
 		case RENEWED_SESSION:
 			const { accessToken, idToken, expiresIn } = action.data;
@@ -68,10 +75,17 @@ export default function user(state = initialState, action) {
 				idToken,
 				profile: getUser(idToken)
 			};
+			delete newState.renewTimeout;
 			storeSession(newState);
 			return newState;
+		case SCHEDULE_RENEWAL:
+			return {
+				...state,
+				renewTimeout: action.data
+			};
 		case LOGOUT:
 			deleteSession();
+			clearTimeout(state.renewTimeout);
 			return initialState;
 		default:
 			return getSession() || state;

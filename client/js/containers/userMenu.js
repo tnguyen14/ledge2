@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { logout } from '../actions/user';
+import { logout, scheduleRenewal } from '../actions/user';
 
 class UserMenu extends Component {
 	constructor(props) {
@@ -17,6 +17,24 @@ class UserMenu extends Component {
 		this.setState({ profileActive: !this.state.profileActive });
 	}
 
+	scheduleSessionRenewal() {
+		const { expiresAt, scheduleRenewal, renewTimeout } = this.props;
+		const renewDelay = expiresAt - Date.now();
+		if (!renewTimeout && renewDelay > 0) {
+			scheduleRenewal(renewDelay);
+		}
+	}
+	componentDidUpdate(prevProps) {
+		// only schedule renewal on a new session
+		if (prevProps.isAuthenticating && this.props.authenticated) {
+			this.scheduleSessionRenewal();
+		}
+	}
+	componentDidMount() {
+		if (this.props.authenticated) {
+			this.scheduleSessionRenewal();
+		}
+	}
 	render() {
 		const { authenticated, profile, logout } = this.props;
 		const { profileActive } = this.state;
@@ -47,13 +65,20 @@ UserMenu.propTypes = {
 	profile: PropTypes.shape({
 		picture: PropTypes.string
 	}),
-	logout: PropTypes.func.isRequired
+	logout: PropTypes.func.isRequired,
+	scheduleRenewal: PropTypes.func,
+	expiresAt: PropTypes.number,
+	renewTimeout: PropTypes.number
 };
 
 function mapStateToProps(state) {
 	return state.user;
 }
 
-export default connect(mapStateToProps, {
-	logout
-})(UserMenu);
+export default connect(
+	mapStateToProps,
+	{
+		logout,
+		scheduleRenewal
+	}
+)(UserMenu);
