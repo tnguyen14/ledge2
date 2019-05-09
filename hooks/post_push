@@ -10,6 +10,6 @@ apt-get update && apt-get install -y google-cloud-sdk
 echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
 gcloud config set project $GCLOUD_PROJECT_ID
 gcloud --quiet auth configure-docker
-export GCLOUD_IMAGE_TAG="us.gcr.io/$GCLOUD_PROJECT_ID/$DOCKER_REPO:$DOCKER_TAG"
+export GCLOUD_IMAGE_TAG="us.gcr.io/$GCLOUD_PROJECT_ID/ledge:$DOCKER_TAG"
 docker tag $IMAGE_NAME $GCLOUD_IMAGE_TAG
 docker push $GCLOUD_IMAGE_TAG
