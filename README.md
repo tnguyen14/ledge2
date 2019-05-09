@@ -1,7 +1,8 @@
 # ledge
 
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/tridnguyen/ledge.svg?style=flat-square)
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m777127216-7258bdcfebd2c3759cd2fa85.svg?style=flat-square)
 
 ## Client
 
