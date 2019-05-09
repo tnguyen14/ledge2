@@ -1,6 +1,6 @@
 # ledge
 
-[![Build Status](https://travis-ci.org/tnguyen14/ledge.svg?branch=master)](https://travis-ci.org/tnguyen14/ledge)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/tridnguyen/ledge.svg?style=flat-square)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 ## Client
