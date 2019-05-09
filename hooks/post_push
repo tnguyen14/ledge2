@@ -7,10 +7,7 @@ echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /e
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 apt-get update && apt-get install -y google-cloud-sdk
 
-gcloud --quiet components install beta
-gcloud --quiet components update
-
 echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
 gcloud config set project $GCLOUD_PROJECT_ID
-gcloud auth configure-docker
-docker push gcr.io/$GCLOUD_PROJECT_ID]/ledge:latest
+gcloud --quiet auth configure-docker
+docker push us.gcr.io/$GCLOUD_PROJECT_ID]/ledge:latest
