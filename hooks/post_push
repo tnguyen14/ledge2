@@ -13,3 +13,6 @@ gcloud --quiet auth configure-docker
 export GCLOUD_IMAGE_TAG="us.gcr.io/$GCLOUD_PROJECT_ID/ledge:$DOCKER_TAG"
 docker tag $IMAGE_NAME $GCLOUD_IMAGE_TAG
 docker push $GCLOUD_IMAGE_TAG
+
+gcloud config set run/region us-central1
+gcloud beta run deploy ledge --image $GCLOUD_IMAGE_TAG
