@@ -2,8 +2,7 @@
 
 const Firestore = require('@google-cloud/firestore');
 const firestore = new Firestore({
-	projectId: process.env.FIREBASE_PROJECT_ID,
-	keyFilename: process.env.SERVICE_ACCOUNT_JSON
+	projectId: process.env.FIREBASE_PROJECT_ID
 });
 
 firestore.settings({
