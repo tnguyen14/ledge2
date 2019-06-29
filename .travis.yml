@@ -9,10 +9,6 @@ deploy:
   local_dir: dist
   on:
     branch: master
-- provider: script
-  script: bash server/deploy.sh
-  on:
-    branch: master
 env:
   global:
     secure: UhBj9wKiveuxJZbVKfwtpZvKPnWGAcvq+oCq9C2mjhx6Wa6XtPuxEO/pfNJgcAxwbDwr2Xtpt4HWWIXeFMGPrZ/WaKu3SlFmzQRFIkID5VzGjYt4mh+KaI+336B2aOtEXlIplhjyFzSqhh3v3FNT/8vHo4bYQZW+oQeZdlBBHzw=
