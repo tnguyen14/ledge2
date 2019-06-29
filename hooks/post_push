@@ -11,11 +11,11 @@ printenv
 
 # deploy master branch to dev, tags to prod
 if [ "$SOURCE_BRANCH" = "master" ]; then
-	GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY_DEV"
-	GCLOUD_PROJECT_ID="$GCLOUD_PROJECT_ID_DEV"
-else
 	GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY_PROD"
 	GCLOUD_PROJECT_ID="$GCLOUD_PROJECT_ID_PROD"
+else
+	GCLOUD_SERVICE_KEY="$GCLOUD_SERVICE_KEY_DEV"
+	GCLOUD_PROJECT_ID="$GCLOUD_PROJECT_ID_DEV"
 fi
 
 echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
