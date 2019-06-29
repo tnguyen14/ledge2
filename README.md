@@ -30,6 +30,14 @@ Each account contains a property that keep track of the merchants used in that a
 
 The `values` array contains variations of the same name after slugified.
 
+#### Fix duplicate/ similar merchants
+
+```bash
+:; node scripts/get-merchants.js [<merchant-slug>]
+:; node scripts/query-transaction.js --merchant <merchant-name>
+:; node scripts/update-transaction.js --id <transaction-id> --merchant <new-merchant-name>
+```
+
 ## Local Development
 
 To sync data from production to dev:
