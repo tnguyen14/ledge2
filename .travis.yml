@@ -11,4 +11,4 @@ deploy:
     branch: master
 env:
   global:
-    secure: UhBj9wKiveuxJZbVKfwtpZvKPnWGAcvq+oCq9C2mjhx6Wa6XtPuxEO/pfNJgcAxwbDwr2Xtpt4HWWIXeFMGPrZ/WaKu3SlFmzQRFIkID5VzGjYt4mh+KaI+336B2aOtEXlIplhjyFzSqhh3v3FNT/8vHo4bYQZW+oQeZdlBBHzw=
+    secure: B/kAR3WipDwSJYxAkrX3aBPkpEpeLBdbGXYKY478XBdsPyY16dMnyShWDLCOpniE7iQYXSvaBLLjZHaKsm9ZqHnvSGP3+MrxTjnj4Dus7fV/S3l7virj/fsorZoERpAE7E/KBoPjmU0+cB5szElM4sHxchBh+H9fNg7ap/NWUuM=
