@@ -23,7 +23,7 @@
     "server": "node server",
     "server:watch": "PORT=13040 nodemon --inspect=9223 server --watch server",
     "doc": "apidoc -i server/",
-    "db:migrate:firestore": "node server/db/migrate/api-to-firestore.js"
+    "db:migrate:toFirestore": "node server/db/migrate/api-to-firestore.js"
   },
   "browser": {
     "config": "./config.json"
