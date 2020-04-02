@@ -20,6 +20,6 @@ jobs:
         env:
           SERVER_URL: https://ledge.cloud.tridnguyen.com
         run: |
-          git config user.email "deploy@tridnguyen.com"
-          git config user.name $GITHUB_ACTOR
+          git config --global user.email "deploy@tridnguyen.com"
+          git config --global user.name $GITHUB_ACTOR
           npm run deploy
