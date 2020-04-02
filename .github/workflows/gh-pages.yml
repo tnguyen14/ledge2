@@ -16,11 +16,15 @@ jobs:
       - name: npm install
         run: npm install
 
+      - name: Build
+        run: npm run build
+
       - name: Deploy
         env:
           SERVER_URL: https://ledge.cloud.tridnguyen.com
         run: |
-          npm run build
+          git config --global user.name $GITHUB_ACTOR
+          git config --global user.email "deploy@tridnguyen.com"
           git add -f dist
           git commit -m "Update from commit $GITHUB_SHA"
           git subtree push --prefix dist origin gh-pages
