@@ -19,4 +19,6 @@ jobs:
       - name: Deploy
         env:
           SERVER_URL: https://ledge.cloud.tridnguyen.com
-        run: npm run deploy
+        run: |
+          git remote set-url origin https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git
+          npm run deploy
