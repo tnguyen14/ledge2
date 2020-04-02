@@ -17,22 +17,15 @@ class UserMenu extends Component {
 		this.setState({ profileActive: !this.state.profileActive });
 	}
 
-	scheduleSessionRenewal() {
-		const { expiresAt, scheduleRenewal, renewTimeout } = this.props;
-		const renewDelay = expiresAt - Date.now();
-		if (!renewTimeout && renewDelay > 0) {
-			scheduleRenewal(renewDelay);
-		}
-	}
 	componentDidUpdate(prevProps) {
 		// only schedule renewal on a new session
 		if (prevProps.isAuthenticating && this.props.authenticated) {
-			this.scheduleSessionRenewal();
+			this.props.scheduleRenewal();
 		}
 	}
 	componentDidMount() {
 		if (this.props.authenticated) {
-			this.scheduleSessionRenewal();
+			this.props.scheduleRenewal();
 		}
 	}
 	render() {
