@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: npm install
+      - name: Install deps
         run: npm install
 
       - name: Build
@@ -22,10 +22,12 @@ jobs:
       - name: Deploy
         env:
           SERVER_URL: https://ledge.cloud.tridnguyen.com
+        # subtree instructions from https://gist.github.com/tduarte/eac064b4778711b116bb827f8c9bef7b
         run: |
           git config --global user.name $GITHUB_ACTOR
           git config --global user.email "deploy@tridnguyen.com"
           git add -f dist
           git commit --no-verify -m "Update from commit $GITHUB_SHA"
-          git subtree push --force --prefix dist origin gh-pages
+          git subtree split --prefix dist -b gh-pages
+          git push -f origin gh-pages:gh-pages
 
