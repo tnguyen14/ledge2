@@ -1,0 +1,22 @@
+name: Deploy to GH Pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: npm install
+        run: npm install
+
+      - name: Deploy
+        env:
+          SERVER_URL: https://ledge.cloud.tridnguyen.com
+        run: npm run deploy
