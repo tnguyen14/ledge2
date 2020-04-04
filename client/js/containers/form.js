@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/lib/Button';
+import Button from 'react-bootstrap/Button';
 import Field from '../components/field';
 import { submitForm, inputChange, resetForm } from '../actions/form';
 import { loadAccount } from '../actions/account';
