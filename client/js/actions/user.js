@@ -53,18 +53,23 @@ function renewSession(dispatch) {
 	dispatch({
 		type: RENEWING_SESSION
 	});
-	auth.checkSession({}, (err, authResult) => {
-		if (err) {
-			console.error(err);
-			return;
+	auth.checkSession(
+		{
+			redirect_uri: redirectUrl
+		},
+		(err, authResult) => {
+			if (err) {
+				console.error(err);
+				return;
+			}
+			if (authResult && authResult.accessToken && authResult.idToken) {
+				dispatch({
+					type: RENEWED_SESSION,
+					data: authResult
+				});
+			}
 		}
-		if (authResult && authResult.accessToken && authResult.idToken) {
-			dispatch({
-				type: RENEWED_SESSION,
-				data: authResult
-			});
-		}
-	});
+	);
 }
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
