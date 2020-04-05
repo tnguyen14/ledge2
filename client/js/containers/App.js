@@ -4,6 +4,7 @@ import AverageStats from './averageStats';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
 import Login from '../components/login';
+import Notification from '../components/notification';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, handleAuthentication } from '../actions/user';
@@ -37,6 +38,7 @@ class App extends Component {
 				<AverageStats />
 				<Weeks />
 				<DeleteDialog />
+				<Notification {...notification} />
 			</div>
 		);
 	}
