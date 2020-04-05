@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { logout, scheduleRenewal } from '../actions/user';
+import moment from 'moment-timezone';
 
 class UserMenu extends Component {
 	constructor(props) {
@@ -29,7 +30,7 @@ class UserMenu extends Component {
 		}
 	}
 	render() {
-		const { authenticated, profile, logout } = this.props;
+		const { authenticated, profile, logout, expiresAt } = this.props;
 		const { profileActive } = this.state;
 		const toggleProfile = this.toggleProfile.bind(this);
 		if (!authenticated) {
@@ -44,6 +45,7 @@ class UserMenu extends Component {
 				<img src={profile.picture} onClick={toggleProfile} />
 				<ul className="profile">
 					<li>{profile.name}</li>
+					<li>Logged in until {moment(expiresAt).format('hh:mm:ss A')}</li>
 					<li className="logout" onClick={logout}>
 						Log Out
 					</li>
@@ -54,9 +56,11 @@ class UserMenu extends Component {
 }
 
 UserMenu.propTypes = {
+	isAuthenticating: PropTypes.bool,
 	authenticated: PropTypes.bool,
 	profile: PropTypes.shape({
-		picture: PropTypes.string
+		picture: PropTypes.string,
+		name: PropTypes.string
 	}),
 	logout: PropTypes.func.isRequired,
 	scheduleRenewal: PropTypes.func,
