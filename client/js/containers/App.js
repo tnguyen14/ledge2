@@ -25,7 +25,11 @@ class App extends Component {
 		}
 	}
 	render() {
-		const { login, authenticated, isAuthenticating } = this.props;
+		const { login, authenticated, isAuthenticating, isRenewing } = this.props;
+		const notification = isRenewing ? {
+			title: 'Authentication',
+			content: 'Renewing session..'
+		} : {};
 		if (isAuthenticating) {
 			return <h2 className="auth-loading">Loading...</h2>;
 		}
@@ -49,6 +53,7 @@ App.propTypes = {
 	handleAuthentication: PropTypes.func.isRequired,
 	authenticated: PropTypes.bool.isRequired,
 	isAuthenticating: PropTypes.bool,
+	isRenewing: PropTypes.bool,
 	location: PropTypes.object
 };
 
