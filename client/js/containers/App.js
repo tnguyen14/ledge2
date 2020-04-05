@@ -4,6 +4,7 @@ import AverageStats from './averageStats';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
 import Login from '../components/login';
+import Notification from '../components/notification';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, handleAuthentication } from '../actions/user';
@@ -24,7 +25,11 @@ class App extends Component {
 		}
 	}
 	render() {
-		const { login, authenticated, isAuthenticating } = this.props;
+		const { login, authenticated, isAuthenticating, isRenewing } = this.props;
+		const notification = isRenewing ? {
+			title: 'Authentication',
+			content: 'Renewing session..'
+		} : {};
 		if (isAuthenticating) {
 			return <h2 className="auth-loading">Loading...</h2>;
 		}
@@ -37,6 +42,7 @@ class App extends Component {
 				<AverageStats />
 				<Weeks />
 				<DeleteDialog />
+				<Notification {...notification} />
 			</div>
 		);
 	}
@@ -47,6 +53,7 @@ App.propTypes = {
 	handleAuthentication: PropTypes.func.isRequired,
 	authenticated: PropTypes.bool.isRequired,
 	isAuthenticating: PropTypes.bool,
+	isRenewing: PropTypes.bool,
 	location: PropTypes.object
 };
 

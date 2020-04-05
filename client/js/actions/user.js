@@ -49,12 +49,15 @@ export function handleAuthentication() {
 export const RENEWING_SESSION = 'RENEWING_SESSION';
 export const RENEWED_SESSION = 'RENEWED_SESSION';
 
-function renewSession() {
-	return function(dispatch) {
-		dispatch({
-			type: RENEWING_SESSION
-		});
-		auth.checkSession((err, authResult) => {
+function renewSession(dispatch) {
+	dispatch({
+		type: RENEWING_SESSION
+	});
+	auth.checkSession(
+		{
+			redirect_uri: redirectUrl
+		},
+		(err, authResult) => {
 			if (err) {
 				console.error(err);
 				return;
@@ -65,17 +68,34 @@ function renewSession() {
 					data: authResult
 				});
 			}
-		});
-	};
+		}
+	);
 }
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
 
-export function scheduleRenewal(renewDelay) {
-	const timeout = setTimeout(renewSession, renewDelay);
-	return {
-		type: SCHEDULE_RENEWAL,
-		data: timeout
+export function scheduleRenewal() {
+	return function(dispatch, getState) {
+		const {
+			user: { expiresAt, renewTimeout }
+		} = getState();
+		// only renew if there's no ongoing renewal,
+		// and the session is still valid
+		if (renewTimeout) {
+			console.log('Renew is already scheduled');
+			return;
+		}
+		if (expiresAt > Date.now()) {
+			// renew in an arbitrary 10 seconds
+			const timeout = setTimeout(
+				renewSession.bind(null, dispatch),
+				10000
+			);
+			dispatch({
+				type: SCHEDULE_RENEWAL,
+				data: timeout
+			});
+		}
 	};
 }
 

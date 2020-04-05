@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
-import Badge from 'react-bootstrap/lib/Badge';
+import Badge from 'react-bootstrap/Badge';
 import money from '../util/money';
 import classnames from 'classnames';
-import Overlay from 'react-bootstrap/lib/Overlay';
-import Tooltip from 'react-bootstrap/lib/Tooltip';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 import Octicon, { Pencil, X, Clock } from '@githubprimer/octicons-react';
 
 function getValueFromOptions(options, slug) {

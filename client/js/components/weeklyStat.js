@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import money from '../util/money';
-import Popover from 'react-bootstrap/lib/Popover';
-import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import moment from 'moment-timezone';
 import Octicon, { Clock } from '@githubprimer/octicons-react';
 

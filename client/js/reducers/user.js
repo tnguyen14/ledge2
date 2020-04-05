@@ -11,7 +11,8 @@ import getUser from '../util/user';
 
 const initialState = {
 	authenticated: false,
-	isAuthenticating: false
+	isAuthenticating: false,
+	isRenewing: false
 };
 
 function isAuthenticated(user) {
@@ -60,7 +61,7 @@ export default function user(state = initialState, action) {
 		case RENEWING_SESSION:
 			return {
 				...state,
-				isAuthenticating: true
+				isRenewing: true
 			};
 		case AUTHENTICATED:
 		case RENEWED_SESSION:
@@ -69,6 +70,7 @@ export default function user(state = initialState, action) {
 			const newState = {
 				...state,
 				isAuthenticating: false,
+				isRenewing: false,
 				authenticated: isAuthenticated({ expiresAt }),
 				expiresAt,
 				accessToken,
