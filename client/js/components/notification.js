@@ -7,7 +7,6 @@ function Notification(props) {
 	let show = content != '';
 	return (
 		<div aria-live="polite" aria-atomic="true" className="notification">
-
 			<Toast show={show}>
 				<Toast.Header>
 					{title}

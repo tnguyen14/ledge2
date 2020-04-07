@@ -4,7 +4,7 @@ import money from '../util/money';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import moment from 'moment-timezone';
-import Octicon, { Clock } from '@githubprimer/octicons-react';
+import Octicon, { Clock } from '@primer/octicons-react';
 
 function WeeklyStat(props) {
 	const { slug, label, amount, weekId, carriedOvers } = props;

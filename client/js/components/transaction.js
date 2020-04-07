@@ -6,7 +6,7 @@ import money from '../util/money';
 import classnames from 'classnames';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Octicon, { Pencil, X, Clock } from '@githubprimer/octicons-react';
+import Octicon, { Pencil, X, Clock } from '@primer/octicons-react';
 
 function getValueFromOptions(options, slug) {
 	let option = options.find(opt => opt.slug === slug);
