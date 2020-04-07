@@ -11,3 +11,5 @@ data
 doc
 .travis/muffin
 auth/*.json
+
+.terraform
