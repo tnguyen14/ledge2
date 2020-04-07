@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { logout, scheduleRenewal } from '../actions/user';
+import { logout } from '../actions/user';
 import moment from 'moment-timezone';
 
 class UserMenu extends Component {
@@ -18,17 +18,6 @@ class UserMenu extends Component {
 		this.setState({ profileActive: !this.state.profileActive });
 	}
 
-	componentDidUpdate(prevProps) {
-		// only schedule renewal on a new session
-		if (prevProps.isAuthenticating && this.props.authenticated) {
-			this.props.scheduleRenewal();
-		}
-	}
-	componentDidMount() {
-		if (this.props.authenticated) {
-			this.props.scheduleRenewal();
-		}
-	}
 	render() {
 		const { authenticated, profile, logout, expiresAt } = this.props;
 		const { profileActive } = this.state;
@@ -63,7 +52,6 @@ UserMenu.propTypes = {
 		name: PropTypes.string
 	}),
 	logout: PropTypes.func.isRequired,
-	scheduleRenewal: PropTypes.func,
 	expiresAt: PropTypes.number,
 	renewTimeout: PropTypes.number
 };
@@ -75,7 +63,6 @@ function mapStateToProps(state) {
 export default connect(
 	mapStateToProps,
 	{
-		logout,
-		scheduleRenewal
+		logout
 	}
 )(UserMenu);

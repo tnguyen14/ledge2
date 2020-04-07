@@ -74,7 +74,7 @@ function renewSession(dispatch) {
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
 
-export function scheduleRenewal() {
+export function scheduleRenewal(delay = 1000) {
 	return function(dispatch, getState) {
 		const {
 			user: { expiresAt, renewTimeout }
@@ -86,10 +86,9 @@ export function scheduleRenewal() {
 			return;
 		}
 		if (expiresAt > Date.now()) {
-			// renew in an arbitrary 10 seconds
 			const timeout = setTimeout(
 				renewSession.bind(null, dispatch),
-				10000
+				delay
 			);
 			dispatch({
 				type: SCHEDULE_RENEWAL,

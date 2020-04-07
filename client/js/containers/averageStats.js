@@ -7,6 +7,7 @@ import {
 } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
 import { addWeek } from '../actions/weeks';
+import { scheduleRenewal } from '../actions/user';
 
 class AverageStats extends Component {
 	shouldComponentUpdate(nextProps) {
@@ -33,11 +34,16 @@ class AverageStats extends Component {
 		);
 	}
 	componentDidUpdate() {
-		const { loadedWeeks, addWeek } = this.props;
+		const { loadedWeeks, addWeek, scheduleRenewal } = this.props;
 		// wait until the first 4 weeks are loaded, then keep adding
 		// until 6 months
-		if (loadedWeeks.length >= 4 && loadedWeeks.length < 25) {
-			addWeek();
+		// once loading weeks, renew session
+		if (loadedWeeks.length >= 4) {
+			if (loadedWeeks.length < 25) {
+				addWeek();
+			} else {
+				scheduleRenewal();
+			}
 		}
 	}
 }
@@ -45,7 +51,8 @@ class AverageStats extends Component {
 AverageStats.propTypes = {
 	loadedWeeks: PropTypes.array,
 	weeklyAverages: PropTypes.array,
-	addWeek: PropTypes.func
+	addWeek: PropTypes.func,
+	scheduleRenewal: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -57,5 +64,5 @@ function mapStateToProps(state) {
 
 export default connect(
 	mapStateToProps,
-	{ addWeek }
+	{ addWeek, scheduleRenewal }
 )(AverageStats);
