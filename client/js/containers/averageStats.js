@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { fromJS } from 'immutable';
 import {
-	getLoadedWeeks,
+	getTimeSpans,
+	hasNotFullyLoaded,
 	calculateWeeklyAverages
 } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
@@ -11,11 +13,11 @@ import { scheduleRenewal } from '../actions/user';
 
 class AverageStats extends Component {
 	shouldComponentUpdate(nextProps) {
-		const { loadedWeeks: currentWeeks } = this.props;
-		const { loadedWeeks: newWeeks } = nextProps;
-		// only render (and trigger componentDidUpdate) if a new week
-		// has been loaded
-		return newWeeks.length > currentWeeks.length;
+		const { timeSpans: currentSpans } = this.props;
+		const { timeSpans: newSpans, hasNotFullyLoaded } = nextProps;
+		const hasDiff = !fromJS(currentSpans).equals(fromJS(newSpans));
+		// only render (and trigger componentDidUpdate) if the spans change
+		return !fromJS(currentSpans).equals(fromJS(newSpans));
 	}
 	render() {
 		const { weeklyAverages } = this.props;
@@ -34,22 +36,19 @@ class AverageStats extends Component {
 		);
 	}
 	componentDidUpdate() {
-		const { loadedWeeks, addWeek, scheduleRenewal } = this.props;
-		// wait until the first 4 weeks are loaded, then keep adding
-		// until 6 months
+		const { hasNotFullyLoaded, addWeek, scheduleRenewal } = this.props;
 		// once loading weeks, renew session
-		if (loadedWeeks.length >= 4) {
-			if (loadedWeeks.length < 25) {
-				addWeek();
-			} else {
-				scheduleRenewal();
-			}
+		if (hasNotFullyLoaded) {
+			addWeek();
+		} else {
+			scheduleRenewal();
 		}
 	}
 }
 
 AverageStats.propTypes = {
-	loadedWeeks: PropTypes.array,
+	timeSpans: PropTypes.array,
+	hasNotFullyLoaded: PropTypes.bool,
 	weeklyAverages: PropTypes.array,
 	addWeek: PropTypes.func,
 	scheduleRenewal: PropTypes.func
@@ -57,7 +56,8 @@ AverageStats.propTypes = {
 
 function mapStateToProps(state) {
 	return {
-		loadedWeeks: getLoadedWeeks(state),
+		timeSpans: getTimeSpans(state),
+		hasNotFullyLoaded: hasNotFullyLoaded(state),
 		weeklyAverages: calculateWeeklyAverages(state)
 	};
 }

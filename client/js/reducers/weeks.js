@@ -11,11 +11,14 @@ import {
 } from '../actions/form';
 import moment from 'moment-timezone';
 
-const weekOffsets = [0, -1, -2, -3];
-const initialState = weekOffsets.reduce((state, offset) => {
+const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;
+
+// let 1 past week to kick off, and then
+// let the weeklyAverages diff drive the adding of weeks
+const initialWeeks = [0, -1];
+const initialState = initialWeeks.reduce((state, offset) => {
 	state[offset] = {
-		...createDefaultWeek(offset),
-		visible: true
+		...createDefaultWeek(offset)
 	};
 	return state;
 }, {});
@@ -29,8 +32,9 @@ function createDefaultWeek(offset) {
 			.isoWeekday(7 + offset * 7)
 			.endOf('isoWeek'),
 		isLoading: false,
+		hasLoaded: false,
 		transactions: [],
-		visible: false
+		visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
 	};
 }
 
