@@ -10,7 +10,7 @@ terraform {
 
 provider "google" {
   project = var.gcp_project
-  region  = var.gcp-region
+  region  = var.gcp_region
 }
 
 resource "google_service_account" "github_actions" {
