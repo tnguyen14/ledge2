@@ -115,7 +115,8 @@ export default function weeks(state = initialState, action) {
 				}
 			};
 		case ADD_WEEK:
-			const newOffset = -Object.keys(state).length;
+			const existingWeekIndices = Object.keys(state).sort((a, b) => a - b);
+			const newOffset = existingWeekIndices[0] - 1;
 			return {
 				...state,
 				[newOffset]: createDefaultWeek(newOffset)
@@ -124,11 +125,16 @@ export default function weeks(state = initialState, action) {
 			const newState = {
 				...state
 			};
-			for (let i = 0; i < Object.keys(newState).length; i++) {
-				if (!newState[-i].visible) {
-					newState[-i].visible = true;
-					break;
-				}
+			// indices of all the visible weeks
+			// assume they're in order (oldest one is last)
+			const visibleIndices = Object.keys(state).filter((offset) => {
+				return state[offset].visible;
+			});
+			// set the next one to be visible
+			const lastVisibleIndex = visibleIndices.pop();
+			const nextVisibleIndex = lastVisibleIndex - 1;
+			if (newState[nextVisibleIndex]) {
+				newState[nextVisibleIndex].visible = true;
 			}
 
 			return newState;
