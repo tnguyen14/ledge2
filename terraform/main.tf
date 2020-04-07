@@ -24,8 +24,8 @@ resource "google_service_account_key" "github_actions" {
 }
 
 provider "github" {
-  token      = var.github_token
-  individual = true
+  token        = var.github_token
+  organization = "tnguyen14"
 }
 
 resource "github_actions_secret" "gcp_project" {

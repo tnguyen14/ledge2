@@ -12,4 +12,5 @@ doc
 .travis/muffin
 auth/*.json
 
+.eslintcache
 .terraform
