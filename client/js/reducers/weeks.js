@@ -35,7 +35,8 @@ function createDefaultWeek(offset) {
 		isLoading: false,
 		hasLoaded: false,
 		transactions: [],
-		visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
+		visible:
+			offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
 	};
 }
 
@@ -46,7 +47,7 @@ function isWithinWeek(date, start, end) {
 
 // filter out list of transactions that have span > 1
 function getMultiWeekTransactions(transactions) {
-	return transactions.filter(txn => {
+	return transactions.filter((txn) => {
 		return txn.span && txn.span > 1;
 	});
 }
@@ -61,11 +62,9 @@ function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
 			weeks[nextOffset] = {
 				transactions: [],
 				shouldLoad: false // don't load these at this point
-			}
+			};
 		}
-		weeks[nextOffset].transactions = weeks[
-			nextOffset
-		].transactions.concat([
+		weeks[nextOffset].transactions = weeks[nextOffset].transactions.concat([
 			{
 				...transaction,
 				carriedOver: true
@@ -101,9 +100,11 @@ export default function weeks(state = initialState, action) {
 			if (!start || !end) {
 				throw new Error('Unable to find boundaries for week ' + offset);
 			}
-			getMultiWeekTransactions(action.data.transactions).forEach(txn => {
-				accountForMultiWeekTransaction(txn, offset, state);
-			});
+			getMultiWeekTransactions(action.data.transactions).forEach(
+				(txn) => {
+					accountForMultiWeekTransaction(txn, offset, state);
+				}
+			);
 			// there might be existing transactions that were carried over
 			// by multiweek transactions
 			const existingTransactions = state[offset].transactions || [];
@@ -130,9 +131,11 @@ export default function weeks(state = initialState, action) {
 			newState = {
 				...state
 			};
-			const loadedWeekIndices = Object.keys(state).filter((weekIndex) => {
-				return state[weekIndex].hasLoaded;
-			}).sort((a, b) => a - b);
+			const loadedWeekIndices = Object.keys(state)
+				.filter((weekIndex) => {
+					return state[weekIndex].hasLoaded;
+				})
+				.sort((a, b) => a - b);
 			let newOffset = action.data.index;
 			// if not specified, load one more week in the past
 			if (!newOffset) {
@@ -181,7 +184,7 @@ export default function weeks(state = initialState, action) {
 				newState[offset] = {
 					...week,
 					transactions: week.transactions.filter(
-						tx => tx.id !== action.data
+						(tx) => tx.id !== action.data
 					)
 				};
 				return newState;
@@ -192,11 +195,10 @@ export default function weeks(state = initialState, action) {
 				newState[offset] = {
 					...week,
 					transactions: sortTransactions(
-						week.transactions.map(
-							tx =>
-								tx.id === action.data.oldId
-									? { ...action.data }
-									: tx
+						week.transactions.map((tx) =>
+							tx.id === action.data.oldId
+								? { ...action.data }
+								: tx
 						)
 					)
 				};

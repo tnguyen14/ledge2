@@ -9,7 +9,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import Octicon, { Pencil, X, Clock } from '@primer/octicons-react';
 
 function getValueFromOptions(options, slug) {
-	let option = options.find(opt => opt.slug === slug);
+	let option = options.find((opt) => opt.slug === slug);
 	if (option) {
 		return option.value;
 	}
@@ -45,7 +45,7 @@ class Transaction extends Component {
 		});
 	};
 
-	toggleSpanHint = e => {
+	toggleSpanHint = (e) => {
 		this.setState({
 			...this.state,
 			showSpanHint: !this.state.showSpanHint
@@ -54,7 +54,7 @@ class Transaction extends Component {
 		e.stopPropagation();
 	};
 
-	attachSpanHintRef = target => {
+	attachSpanHintRef = (target) => {
 		this.setState({
 			...this.state,
 			spanHintTarget: target

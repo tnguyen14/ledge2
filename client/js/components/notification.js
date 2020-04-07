@@ -8,12 +8,8 @@ function Notification(props) {
 	return (
 		<div aria-live="polite" aria-atomic="true" className="notification">
 			<Toast show={show}>
-				<Toast.Header>
-					{title}
-				</Toast.Header>
-				<Toast.Body>
-					{content}
-				</Toast.Body>
+				<Toast.Header>{title}</Toast.Header>
+				<Toast.Body>{content}</Toast.Body>
 			</Toast>
 		</div>
 	);
@@ -27,6 +23,6 @@ Notification.propTypes = {
 Notification.defaultProps = {
 	title: '',
 	content: ''
-}
+};
 
 export default Notification;

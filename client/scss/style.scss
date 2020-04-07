@@ -1,29 +1,29 @@
-@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
 :root {
-	--color-amber: #FFC107;
+	--color-amber: #ffc107;
 	--color-blue-grey: #607d8b;
-	--color-cyan: #00BCD4;
-	--color-deep-orange: #FF5722;
-	--color-deep-purple: #673AB7;
+	--color-cyan: #00bcd4;
+	--color-deep-orange: #ff5722;
+	--color-deep-purple: #673ab7;
 	--color-gainsboro: #dcdcdc;
-	--color-green: #4CAF50;
-	--color-indigo: #3F51B5;
-	--color-light-blue: #03A9F4;
-	--color-light-blue-100: #B3E5FC;
-	--color-light-blue-300: #4FC3F7;
-	--color-light-blue-600: #039BE5;
-	--color-light-blue-700: #0288D1;
-	--color-light-blue-800: #0277BD;
-	--color-light-blue-900: #01579B;
-	--color-light-green: #8BC34A;
-	--color-lime: #CDDC39;
-	--color-orange: #FF9800;
-	--color-purple: #9C27B0;
-	--color-red: #F44336;
+	--color-green: #4caf50;
+	--color-indigo: #3f51b5;
+	--color-light-blue: #03a9f4;
+	--color-light-blue-100: #b3e5fc;
+	--color-light-blue-300: #4fc3f7;
+	--color-light-blue-600: #039be5;
+	--color-light-blue-700: #0288d1;
+	--color-light-blue-800: #0277bd;
+	--color-light-blue-900: #01579b;
+	--color-light-green: #8bc34a;
+	--color-lime: #cddc39;
+	--color-orange: #ff9800;
+	--color-purple: #9c27b0;
+	--color-red: #f44336;
 	--color-teal: #009688;
 	--color-white-smoke: #f5f5f5;
-	--color-yellow: #FFEB3B;
+	--color-yellow: #ffeb3b;
 }
 
 .main {
@@ -40,11 +40,11 @@
 		font-family: 'Shadows Into Light Two', cursive;
 		text-align: center;
 		margin: 0;
-		padding: .25em 0;
+		padding: 0.25em 0;
 	}
 	.user {
 		position: absolute;
-		top: .5rem;
+		top: 0.5rem;
 		right: 2.5%;
 		z-index: 1; // float above the form
 		@media (min-width: 42.5em) {
@@ -58,7 +58,7 @@
 		.profile {
 			background-color: white;
 			border-radius: 2px;
-			box-shadow: 0 2px 10px rgba(0,0,0,.2);
+			box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 			display: none;
 			list-style: none;
 			margin: 0;
@@ -106,7 +106,7 @@
 }
 
 .app {
-	margin: .5rem auto;
+	margin: 0.5rem auto;
 	width: 95%;
 	@media (min-width: 42.5em) {
 		width: 90%;
@@ -133,29 +133,29 @@
 	.form-group {
 		@util clearfix();
 	}
-	[data-form-name=date],
-	[data-form-name=time],
-	[data-form-name=span],
-	[data-form-name=status] {
+	[data-form-name='date'],
+	[data-form-name='time'],
+	[data-form-name='span'],
+	[data-form-name='status'] {
 		float: left;
 		width: 48%;
 		margin-right: 4%;
 	}
-	[data-form-name=time],
-	[data-form-name=status] {
+	[data-form-name='time'],
+	[data-form-name='status'] {
 		margin-right: 0;
 	}
 	label {
 		float: left;
-		margin-right: .5em;
-		margin-top: .3rem;
+		margin-right: 0.5em;
+		margin-top: 0.3rem;
 		text-align: right;
 		width: 5em;
 		@media (max-width: 42.4em) {
 			@util hide-visually;
 		}
 		@media (min-width: 42.5em) {
-			margin-right: .5em;
+			margin-right: 0.5em;
 		}
 		@media (min-width: 68.75em) {
 			margin-right: 1em;
@@ -174,17 +174,19 @@
 			cursor: help;
 		}
 	}
-	[data-form-name=description] textarea {
-		height: calc(2.25rem + 2px); /* this is the height of form-control set by bootstrap */
+	[data-form-name='description'] textarea {
+		height: calc(
+			2.25rem + 2px
+		); /* this is the height of form-control set by bootstrap */
 	}
 	button + button {
-		margin-right: .7rem;
+		margin-right: 0.7rem;
 	}
-	button[type=submit] {
+	button[type='submit'] {
 		text-transform: capitalize;
 	}
 	.react-hint__content {
-		font-size: .8rem;
+		font-size: 0.8rem;
 	}
 }
 
@@ -212,7 +214,7 @@
 	.table & > td {
 		border-top: none;
 	}
-	&data-field="category" [data-cat=total] {
+	&data-field='category' [data-cat='total'] {
 		font-weight: bold;
 	}
 }
@@ -247,8 +249,9 @@
 	.week-title {
 		margin-top: 1rem;
 	}
-	[data-field=action] {
-		.edit, .remove {
+	[data-field='action'] {
+		.edit,
+		.remove {
 			cursor: pointer;
 			&:hover {
 				color: var(--color-light-blue);
@@ -290,41 +293,43 @@
 			}
 			&.active {
 				td {
-					background-color: color(var(--color-white-smoke, shade(3%))) !important;
+					background-color: color(
+						var(--color-white-smoke, shade(3%))
+					) !important;
 				}
 			}
 		}
 		td,
 		th {
 			flex-basis: 25%;
-			padding: .5rem;
+			padding: 0.5rem;
 			overflow: hidden;
 			@media (min-width: 42.5em) {
-				padding: .75rem;
+				padding: 0.75rem;
 			}
 		}
 		th {
-			font-size: .9rem;
+			font-size: 0.9rem;
 		}
-		[data-field=day],
-		[data-field=amount] {
+		[data-field='day'],
+		[data-field='amount'] {
 			flex-basis: 4.5rem;
 			@media (min-width: 42.5em) {
 				flex-basis: 25%;
 			}
 		}
-		[data-field=merchant],
-		[data-field=source] {
+		[data-field='merchant'],
+		[data-field='source'] {
 			flex-basis: calc((100% - 9rem) / 2);
 			@media (min-width: 42.5em) {
 				flex-basis: 25%;
 			}
 		}
-		[data-field=description] {
+		[data-field='description'] {
 			flex-grow: 2;
 		}
-		[data-field=merchant],
-		[data-field=source] {
+		[data-field='merchant'],
+		[data-field='source'] {
 			word-break: break-word;
 		}
 	}
@@ -340,7 +345,7 @@
 		.stat-label.carried-over {
 			cursor: help;
 		}
-		&[data-cat=total] .legend {
+		&[data-cat='total'] .legend {
 			display: none;
 		}
 	}
@@ -353,60 +358,60 @@
 	@media (min-width: 42.5em) {
 		cursor: default;
 	}
-	&[data-day=Mon] {
+	&[data-day='Mon'] {
 		border-left-color: var(--color-light-blue-100);
 	}
-	&[data-day=Tue] {
+	&[data-day='Tue'] {
 		border-left-color: var(--color-light-blue-300);
 	}
-	&[data-day=Wed] {
+	&[data-day='Wed'] {
 		border-left-color: var(--color-light-blue);
 	}
-	&[data-day=Thu] {
+	&[data-day='Thu'] {
 		border-left-color: var(--color-light-blue-600);
 	}
-	&[data-day=Fri] {
+	&[data-day='Fri'] {
 		border-left-color: var(--color-light-blue-700);
 	}
-	&[data-day=Sat] {
+	&[data-day='Sat'] {
 		border-left-color: var(--color-light-blue-800);
 	}
-	&[data-day=Sun] {
+	&[data-day='Sun'] {
 		border-left-color: var(--color-light-blue-900);
 	}
 
-	[data-field=amount] {
+	[data-field='amount'] {
 		color: white;
 	}
 
-	[data-field=day],
-	[data-field=merchant],
-	[data-field=amount],
-	[data-field=source] {
+	[data-field='day'],
+	[data-field='merchant'],
+	[data-field='amount'],
+	[data-field='source'] {
 		border-top-width: 2px;
 		@media (min-width: 42.5em) {
 			border-top-width: 1px;
 		}
 	}
-	[data-field=description],
-	[data-field=category],
-	[data-field=action] {
+	[data-field='description'],
+	[data-field='category'],
+	[data-field='action'] {
 		display: none;
 	}
 	&.table-active {
-		[data-field=description],
-		[data-field=category],
-		[data-field=action] {
+		[data-field='description'],
+		[data-field='category'],
+		[data-field='action'] {
 			display: table-cell;
 		}
 	}
 	@media (min-width: 42.5em) {
-		[data-field=description],
-		[data-field=category],
-		[data-field=action] {
+		[data-field='description'],
+		[data-field='category'],
+		[data-field='action'] {
 			display: table-cell;
 		}
-		[data-field=action] {
+		[data-field='action'] {
 			min-width: 6rem;
 		}
 	}
@@ -415,56 +420,56 @@
 .span-hint {
 	color: #212529; // bootstrap body color
 	cursor: help;
-	margin-left: .5em;
+	margin-left: 0.5em;
 }
 
 .legend {
 	border-radius: 3px;
 	display: inline-block;
-	margin-right: .7rem;
-	width: .7rem;
+	margin-right: 0.7rem;
+	width: 0.7rem;
 	height: 1.3rem;
 }
 
 .badge,
 .legend {
-	[data-cat=dineout] & {
+	[data-cat='dineout'] & {
 		background-color: var(--color-purple);
 	}
-	[data-cat=groceries] & {
+	[data-cat='groceries'] & {
 		background-color: var(--color-deep-orange);
 	}
-	[data-cat=gas] & {
+	[data-cat='gas'] & {
 		background-color: var(--color-green);
 	}
-	[data-cat=household] & {
+	[data-cat='household'] & {
 		background-color: var(--color-cyan);
 	}
-	[data-cat=entertainment] & {
+	[data-cat='entertainment'] & {
 		background-color: var(--color-light-green);
 	}
-	[data-cat=health] & {
+	[data-cat='health'] & {
 		background-color: var(--color-red);
 	}
-	[data-cat=transportation] & {
+	[data-cat='transportation'] & {
 		background-color: var(--color-amber);
 	}
-	[data-cat=shopping] & {
+	[data-cat='shopping'] & {
 		background-color: var(--color-orange);
 	}
-	[data-cat=misc] & {
+	[data-cat='misc'] & {
 		background-color: var(--color-lime);
 	}
-	[data-cat=donation] & {
+	[data-cat='donation'] & {
 		background-color: var(--color-blue-grey);
 	}
-	[data-cat=residence] & {
+	[data-cat='residence'] & {
 		background-color: var(--color-light-blue-700);
 	}
-	[data-cat=investment] & {
+	[data-cat='investment'] & {
 		background-color: var(--color-teal);
 	}
-	[data-cat=utilities] & {
+	[data-cat='utilities'] & {
 		background-color: var(--color-light-blue);
 	}
 }

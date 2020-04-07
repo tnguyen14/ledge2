@@ -17,10 +17,10 @@ getJson(`${serverUrl}/accounts`, {
 		Authorization: `Bearer ${authToken}`
 	}
 })
-	.then(accts => {
+	.then((accts) => {
 		console.log(`Syncing for user ${user}`);
 		return Promise.all(
-			accts.map(acct => {
+			accts.map((acct) => {
 				console.log(`Syncing account ${acct.id}`);
 				return new Promise((resolve, reject) => {
 					accounts.deleteAccount(
@@ -28,7 +28,7 @@ getJson(`${serverUrl}/accounts`, {
 							userId: user,
 							name: acct.id
 						},
-						err => {
+						(err) => {
 							if (err) {
 								return reject(err);
 							}
@@ -48,7 +48,7 @@ getJson(`${serverUrl}/accounts`, {
 			console.log('Successfully migrated accounts');
 		});
 	})
-	.then(null, err => {
+	.then(null, (err) => {
 		console.error(err);
 		process.exit(1);
 	});
@@ -76,7 +76,7 @@ function writeTransactionsInChunks(acct, before) {
 		headers: {
 			Authorization: `Bearer ${authToken}`
 		}
-	}).then(txns => {
+	}).then((txns) => {
 		if (!txns.length) {
 			return;
 		}
@@ -102,7 +102,7 @@ function writeTransactions(acct, txns) {
 	const writeBatch = firestore.batch();
 
 	// create write for each transaction
-	txns.forEach(txn => {
+	txns.forEach((txn) => {
 		const txnRef = firestore.doc(
 			`accounts/${user}!${acct.id}/transactions/${txn.id}`
 		);

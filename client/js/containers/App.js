@@ -25,11 +25,18 @@ class App extends Component {
 		}
 	}
 	render() {
-		const { login, authenticated, isAuthenticating, isRenewing } = this.props;
-		const notification = isRenewing ? {
-			title: 'Authentication',
-			content: 'Renewing session..'
-		} : {};
+		const {
+			login,
+			authenticated,
+			isAuthenticating,
+			isRenewing
+		} = this.props;
+		const notification = isRenewing
+			? {
+					title: 'Authentication',
+					content: 'Renewing session..'
+			  }
+			: {};
 		if (isAuthenticating) {
 			return <h2 className="auth-loading">Loading...</h2>;
 		}
@@ -62,10 +69,7 @@ function mapStateToProps(state) {
 		...state.user
 	};
 }
-export default connect(
-	mapStateToProps,
-	{
-		login,
-		handleAuthentication
-	}
-)(App);
+export default connect(mapStateToProps, {
+	login,
+	handleAuthentication
+})(App);

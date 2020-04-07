@@ -17,7 +17,7 @@ function WeeklyStats(props) {
 			{label && <h4>{label}</h4>}
 			<table className="table">
 				<tbody>
-					{stats.map(stat => {
+					{stats.map((stat) => {
 						const { slug, label, amount } = stat;
 						return (
 							<WeeklyStat

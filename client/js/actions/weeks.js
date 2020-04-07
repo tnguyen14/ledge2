@@ -14,11 +14,15 @@ export function addWeek(index) {
 export const SHOW_WEEK = 'SHOW_WEEK';
 
 export function showMore(ahead) {
-	return function(dispatch, getState) {
+	return function (dispatch, getState) {
 		const { weeks } = getState();
 		// get all the visible weeks' indices, sort from high to low
-		const visibleWeeksIndices = Object.keys(weeks).filter(weekIndex => weeks[weekIndex].visible).sort((a, b) => b - a);
-		const nextIndex = ahead ? Number(visibleWeeksIndices[0]) + 1 : Number(visibleWeeksIndices.pop()) - 1;
+		const visibleWeeksIndices = Object.keys(weeks)
+			.filter((weekIndex) => weeks[weekIndex].visible)
+			.sort((a, b) => b - a);
+		const nextIndex = ahead
+			? Number(visibleWeeksIndices[0]) + 1
+			: Number(visibleWeeksIndices.pop()) - 1;
 		// the next week doesn't exist
 		if (!weeks[nextIndex] || !weeks[nextIndex].hasLoaded) {
 			dispatch(addWeek(nextIndex));
@@ -38,7 +42,7 @@ export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 const serverUrl = process.env.SERVER_URL;
 
 export function loadTransactions(offset) {
-	return function(dispatch, getState) {
+	return function (dispatch, getState) {
 		dispatch({
 			type: LOAD_TRANSACTIONS,
 			data: {
@@ -46,10 +50,12 @@ export function loadTransactions(offset) {
 			}
 		});
 		getJson
-			.bind(null, dispatch, getState)(
-				`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`
-			)
-			.then(transactions => {
+			.bind(
+				null,
+				dispatch,
+				getState
+			)(`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`)
+			.then((transactions) => {
 				dispatch({
 					type: LOAD_TRANSACTIONS_SUCCESS,
 					data: {

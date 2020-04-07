@@ -21,7 +21,7 @@ accounts.showOne(
 			console.log(data.merchants_count[argv._[0]]);
 			process.exit();
 		}
-		const possibleDuplicates = data.merchants.filter(merch => {
+		const possibleDuplicates = data.merchants.filter((merch) => {
 			return merch.values.length > 1;
 		});
 		console.log(`There are ${data.merchants.length} merchants.`);

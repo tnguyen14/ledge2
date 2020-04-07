@@ -16,8 +16,11 @@ function showAll(params, callback) {
 	accounts
 		.where('user', '==', params.userId)
 		.get()
-		.then(acctSnapshot => {
-			callback(null, acctSnapshot.docs.map(acctDoc => acctDoc.data()));
+		.then((acctSnapshot) => {
+			callback(
+				null,
+				acctSnapshot.docs.map((acctDoc) => acctDoc.data())
+			);
 		}, callback);
 }
 
@@ -26,7 +29,7 @@ function showOne(params, callback) {
 		return callback(missingAccountName);
 	}
 	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
-	acctRef.get().then(acctSnapshot => {
+	acctRef.get().then((acctSnapshot) => {
 		if (!acctSnapshot.exists) {
 			callback(noAccount);
 			return;
@@ -46,7 +49,7 @@ function newAccount(params, callback) {
 	}
 
 	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
-	acctRef.get().then(acctSnapshot => {
+	acctRef.get().then((acctSnapshot) => {
 		if (acctSnapshot.exists) {
 			return callback(conflictAccountName);
 		}
@@ -78,7 +81,7 @@ function updateAccount(params, callback) {
 		return callback(missingAccountName);
 	}
 	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
-	acctRef.get().then(acctSnapshot => {
+	acctRef.get().then((acctSnapshot) => {
 		if (!acctSnapshot.exists) {
 			return callback(noAccount);
 		}
@@ -125,7 +128,7 @@ function deleteAccount(params, callback) {
 	}
 
 	const acctRef = accounts.doc(`${params.userId}!${params.name}`);
-	acctRef.get().then(acctSnapshot => {
+	acctRef.get().then((acctSnapshot) => {
 		if (!acctSnapshot.exists) {
 			return callback(noAccount);
 		}

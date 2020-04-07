@@ -21,7 +21,7 @@ export const AUTHENTICATING = 'AUTHENTICATING';
 export const AUTHENTICATED = 'AUTHENTICATED';
 
 export function handleAuthentication() {
-	return function(dispatch) {
+	return function (dispatch) {
 		dispatch({
 			type: AUTHENTICATING
 		});
@@ -75,7 +75,7 @@ function renewSession(dispatch) {
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
 
 export function scheduleRenewal(delay = 1000) {
-	return function(dispatch, getState) {
+	return function (dispatch, getState) {
 		const {
 			user: { expiresAt, renewTimeout }
 		} = getState();

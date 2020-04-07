@@ -10,7 +10,7 @@ const acctRef = accounts.doc(`${user}!daily`);
 
 acctRef
 	.get()
-	.then(acctSnapshot => {
+	.then((acctSnapshot) => {
 		const acct = acctSnapshot.data();
 		const counts = acct.merchants_count;
 		let merchant = counts[argv.merchant];

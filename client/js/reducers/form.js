@@ -36,7 +36,7 @@ function createInitialValues() {
 }
 
 function updateFieldsWithValues(fields, values) {
-	return fields.map(field => {
+	return fields.map((field) => {
 		return {
 			...field,
 			value: values[field.name]

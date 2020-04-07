@@ -13,6 +13,7 @@ React app, with redux.
 See <https://api.tridnguyen.com/ledge/docs/>
 
 ### Merchant count
+
 Each account contains a property that keep track of the merchants used in that account and the number of times each merchant is used.
 
 ```json
@@ -42,11 +43,6 @@ The `values` array contains variations of the same name after slugified.
 
 To sync data from production to dev:
 
-- Sign into the site, copy the auth token from `localStorage.getItem('id_token')`
-- Set environment variables (could be done in `.env`):
-	- `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge`
-	- `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge`
-	- `AUTH0_USER`: User ID
-	- `FIREBASE_PROJECT_ID`
-	- `SERVICE_ACCOUNT_JSON`
-- Run `npm run db:migrate:firestore`
+-   Sign into the site, copy the auth token from `localStorage.getItem('id_token')`
+-   Set environment variables (could be done in `.env`): - `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge` - `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge` - `AUTH0_USER`: User ID - `FIREBASE_PROJECT_ID` - `SERVICE_ACCOUNT_JSON`
+-   Run `npm run db:migrate:firestore`

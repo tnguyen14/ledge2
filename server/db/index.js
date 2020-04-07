@@ -36,7 +36,7 @@ function deleteQueryBatch(query, resolve, reject) {
 	query
 		.limit(FIRESTORE_BATCH_SIZE)
 		.get()
-		.then(snapshot => {
+		.then((snapshot) => {
 			// When there are no documents left, we are done
 			if (snapshot.size === 0) {
 				return 0;
@@ -44,7 +44,7 @@ function deleteQueryBatch(query, resolve, reject) {
 
 			// Delete documents in a batch
 			var batch = firestore.batch();
-			snapshot.docs.forEach(doc => {
+			snapshot.docs.forEach((doc) => {
 				batch.delete(doc.ref);
 			});
 
@@ -52,7 +52,7 @@ function deleteQueryBatch(query, resolve, reject) {
 				return snapshot.size;
 			});
 		})
-		.then(numDeleted => {
+		.then((numDeleted) => {
 			if (numDeleted === 0) {
 				resolve();
 				return;

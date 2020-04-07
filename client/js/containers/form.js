@@ -13,10 +13,10 @@ class Form extends Component {
 
 	componentDidUpdate(prevProps, prevState) {
 		const currentAmount = this.props.fields.find(
-			field => field.name === 'amount'
+			(field) => field.name === 'amount'
 		).value;
 		const prevAmount = prevProps.fields.find(
-			field => field.name === 'amount'
+			(field) => field.name === 'amount'
 		).value;
 		// only focus if the amount has changed
 		// avoid focusing for cases such as when categories are loaded
@@ -26,7 +26,7 @@ class Form extends Component {
 	}
 
 	handleInputChange(fieldName) {
-		return event => {
+		return (event) => {
 			return this.props.inputChange(fieldName, event.target.value);
 		};
 	}
@@ -47,7 +47,7 @@ class Form extends Component {
 		return (
 			<form className="new-transaction" method="POST">
 				<h2>Add a new transaction</h2>
-				{fields.map(field => {
+				{fields.map((field) => {
 					if (field.attributes && field.attributes.list) {
 						field.datalist = datalists[field.attributes.list];
 					}
@@ -56,7 +56,7 @@ class Form extends Component {
 					}
 					return (
 						<Field
-							inputRef={input => {
+							inputRef={(input) => {
 								this[field.name] = input;
 							}}
 							key={field.name}
@@ -118,12 +118,9 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	{
-		submitForm,
-		loadAccount,
-		inputChange,
-		resetForm
-	}
-)(Form);
+export default connect(mapStateToProps, {
+	submitForm,
+	loadAccount,
+	inputChange,
+	resetForm
+})(Form);

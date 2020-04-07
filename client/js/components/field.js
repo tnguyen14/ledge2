@@ -43,7 +43,7 @@ function Field(props) {
 				ref={inputRef}
 			>
 				<option value="">{placeholder || `Select ${label}`}</option>
-				{options.map(option => {
+				{options.map((option) => {
 					return (
 						<option key={option.slug} value={option.slug}>
 							{option.value}
@@ -87,7 +87,7 @@ function Field(props) {
 				{inputEl}
 				{datalist && (
 					<datalist id={attributes.list}>
-						{datalist.map(option => (
+						{datalist.map((option) => (
 							<option key={option}>{option}</option>
 						))}
 					</datalist>

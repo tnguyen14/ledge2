@@ -11,7 +11,7 @@ function handleUnauthorizedError(dispatch, err) {
 }
 
 function createFetchMethod(method) {
-	return function(dispatch, getState, url, data, opts) {
+	return function (dispatch, getState, url, data, opts) {
 		const {
 			user: { idToken }
 		} = getState();

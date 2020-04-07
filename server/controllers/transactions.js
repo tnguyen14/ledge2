@@ -40,11 +40,11 @@ function showAll(params, callback) {
 		.orderBy('date', order)
 		.limit(limit)
 		.get()
-		.then(transactionsSnapshot => {
+		.then((transactionsSnapshot) => {
 			callback(
 				null,
 				transactionsSnapshot.docs
-					.map(txnSnapshot => txnSnapshot.data())
+					.map((txnSnapshot) => txnSnapshot.data())
 					.map(hydrateTransaction)
 			);
 		}, callback);
@@ -80,11 +80,11 @@ function showWeekly(params, callback) {
 		.orderBy('date', 'desc')
 		.limit(1000) // heuristically set limit to 1000 transactions per week
 		.get()
-		.then(transactionsSnapshot => {
+		.then((transactionsSnapshot) => {
 			callback(
 				null,
 				transactionsSnapshot.docs
-					.map(txnSnapshot => txnSnapshot.data())
+					.map((txnSnapshot) => txnSnapshot.data())
 					.map(hydrateTransaction)
 			);
 		}, callback);
@@ -94,9 +94,12 @@ function showOne(params, callback) {
 	if (!params.name) {
 		return callback(missingAccountName);
 	}
-	getTransaction(params.userId, params.name, params.id).then(transaction => {
-		callback(null, hydrateTransaction(transaction));
-	}, callback);
+	getTransaction(params.userId, params.name, params.id).then(
+		(transaction) => {
+			callback(null, hydrateTransaction(transaction));
+		},
+		callback
+	);
 }
 
 // params.date: 2018-10-24
@@ -126,7 +129,7 @@ function createTransaction(params, callback) {
 	};
 
 	getUniqueTransactionId(moment(transaction.date), params.userId, params.name)
-		.then(uniqueId => {
+		.then((uniqueId) => {
 			return accounts
 				.doc(`${params.userId}!${params.name}`)
 				.collection('transactions')
@@ -167,7 +170,7 @@ function updateTransaction(params, callback) {
 	const newTransaction = parseTransactionDetails(params);
 
 	getTransaction(params.userId, params.name, params.id)
-		.then(txn => {
+		.then((txn) => {
 			oldTransaction = txn;
 			const newDate = moment(newTransaction.date);
 			// if date hasn't changed, just update the old transaction
@@ -180,12 +183,12 @@ function updateTransaction(params, callback) {
 				newDate,
 				params.userId,
 				params.name
-			).then(uniqueId => {
+			).then((uniqueId) => {
 				newTransactionId = uniqueId;
 				return true;
 			});
 		})
-		.then(hasDateChange => {
+		.then((hasDateChange) => {
 			return (
 				accounts
 					.doc(`${params.userId}!${params.name}`)
@@ -194,9 +197,7 @@ function updateTransaction(params, callback) {
 					.set(
 						{
 							...newTransaction,
-							updatedOn: moment()
-								.tz(timezone)
-								.toISOString(),
+							updatedOn: moment().tz(timezone).toISOString(),
 							id: newTransactionId
 						},
 						{ merge: true }
@@ -228,7 +229,7 @@ function updateTransaction(params, callback) {
 function removeTransaction(params) {
 	let transaction;
 	return getTransaction(params.userId, params.name, params.id)
-		.then(txn => {
+		.then((txn) => {
 			transaction = txn;
 		})
 		.then(() => {
@@ -269,16 +270,16 @@ function getUniqueTransactionId(date, userId, accountName) {
 	var notFound = false;
 	return new Promise((resolve, reject) => {
 		async.until(
-			function() {
+			function () {
 				return notFound;
 			},
-			function(cb) {
+			function (cb) {
 				getTransaction(userId, accountName, String(id)).then(
 					() => {
 						id++;
 						cb(null);
 					},
-					err => {
+					(err) => {
 						if (err !== transactionNotFound) {
 							return cb(err);
 						}
@@ -287,7 +288,7 @@ function getUniqueTransactionId(date, userId, accountName) {
 					}
 				);
 			},
-			function(err, id) {
+			function (err, id) {
 				if (err) {
 					return reject(err);
 				}
@@ -336,7 +337,7 @@ function getTransaction(userId, accountName, transactionId) {
 		.collection('transactions')
 		.doc(transactionId)
 		.get()
-		.then(txnSnapshot => {
+		.then((txnSnapshot) => {
 			if (!txnSnapshot.exists) {
 				throw transactionNotFound;
 			}
@@ -349,19 +350,19 @@ function queryTransaction(userId, accountName, queries) {
 		.doc(`${userId}!${accountName}`)
 		.collection('transactions');
 	// see https://firebase.google.com/docs/reference/js/firebase.firestore.Query#where
-	queries.forEach(query => {
+	queries.forEach((query) => {
 		transactions = transactions.where(
 			query.fieldPath,
 			query.opStr,
 			query.value
 		);
 	});
-	return transactions.get().then(txnSnapshot => {
+	return transactions.get().then((txnSnapshot) => {
 		if (txnSnapshot.empty) {
 			throw transactionNotFound;
 		}
 		const results = [];
-		txnSnapshot.forEach(txn => {
+		txnSnapshot.forEach((txn) => {
 			results.push(txn.data());
 		});
 		return results;

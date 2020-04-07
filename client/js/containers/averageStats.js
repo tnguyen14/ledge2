@@ -62,7 +62,6 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	{ addWeek, scheduleRenewal }
-)(AverageStats);
+export default connect(mapStateToProps, { addWeek, scheduleRenewal })(
+	AverageStats
+);

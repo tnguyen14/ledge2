@@ -36,9 +36,13 @@ export function submitForm(event) {
 		});
 
 		serverAction
-			.bind(null, dispatch, getState)(actionUrl, entry)
+			.bind(
+				null,
+				dispatch,
+				getState
+			)(actionUrl, entry)
 			.then(
-				json => {
+				(json) => {
 					dispatch({
 						type: successActionType,
 						data: {
@@ -55,7 +59,7 @@ export function submitForm(event) {
 						}
 					});
 				},
-				err => {
+				(err) => {
 					dispatch({
 						type: SUBMIT_TRANSACTION_FAILURE,
 						data: err

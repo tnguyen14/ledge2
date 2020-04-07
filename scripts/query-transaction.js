@@ -8,22 +8,22 @@ if (argv.id) {
 	argv.id = String(argv.id);
 }
 
-const queries = Object.keys(argv).filter(key => !['_', '$0'].includes(key));
+const queries = Object.keys(argv).filter((key) => !['_', '$0'].includes(key));
 
 transactions
 	.queryTransaction(
 		user,
 		'daily',
-		queries.map(q => ({
+		queries.map((q) => ({
 			fieldPath: q,
 			opStr: '==',
 			value: argv[q]
 		}))
 	)
-	.then(data => {
+	.then((data) => {
 		console.log(`Found ${data.length} results`);
 		console.log(data);
 	})
-	.then(null, err => {
+	.then(null, (err) => {
 		console.error(err);
 	});

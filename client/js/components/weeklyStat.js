@@ -11,7 +11,7 @@ function WeeklyStat(props) {
 	const statId = `${slug}-${weekId}`;
 	const popover = (
 		<Popover id={`carried-${statId}`} title="Carried-over transactions">
-			{carriedOvers.map(txn => {
+			{carriedOvers.map((txn) => {
 				return (
 					<li key={txn.id}>
 						{moment(txn.date).format('MM/DD')} ({txn.span}){' '}

@@ -56,10 +56,7 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	{
-		confirmRemoveTransaction,
-		cancelRemoveTransaction
-	}
-)(DeleteDialog);
+export default connect(mapStateToProps, {
+	confirmRemoveTransaction,
+	cancelRemoveTransaction
+})(DeleteDialog);

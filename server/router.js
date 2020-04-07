@@ -4,7 +4,7 @@ var accounts = require('./controllers/accounts');
 var transactions = require('./controllers/transactions');
 
 function route(controller) {
-	return function(req, res, next) {
+	return function (req, res, next) {
 		if (!controller) {
 			res.json();
 			return next();

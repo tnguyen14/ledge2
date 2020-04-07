@@ -19,7 +19,6 @@
     "css:watch": "npm run css -- -w",
     "js": "node -r dotenv/config ./node_modules/.bin/browserify client/js/index.js -t babelify -g [ loose-envify --NODE_ENV production ] -g uglifyify | uglifyjs --compress --mangle > dist/index.js",
     "js:watch": "node -r dotenv/config ./node_modules/.bin/watchify client/js/index.js -t babelify -g loose-envify -o dist/index.js -dv",
-    "precommit": "lint-staged",
     "server": "node server",
     "server:watch": "PORT=13040 nodemon --inspect=9223 server --watch server",
     "doc": "apidoc -i server/",
@@ -67,7 +66,7 @@
     "postcss-scss": "^2.0.0",
     "postcss-strip-inline-comments": "^0.1.5",
     "postcss-utilities": "^0.8.0",
-    "prettier": "^1.14.2",
+    "prettier": "^2.0.4",
     "redux-devtools-extension": "^2.13.5",
     "uglify-es": "^3.3.9",
     "uglifyify": "^5.0.2",
@@ -112,13 +111,20 @@
     "yargs": "^12.0.5"
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write --use-tabs --single-quote",
-      "git add"
-    ]
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   },
   "apidoc": {
     "title": "Ledge API",
     "url": "https://api.tridnguyen.com/ledge"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "singleQuote": true
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }

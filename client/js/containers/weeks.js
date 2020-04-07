@@ -9,14 +9,18 @@ function Weeks(props) {
 	const { weeks, showMore } = props;
 	return (
 		<div className="transactions">
-			<Button onClick={showMore.bind(null, true)}>
-				Look Ahead
-			</Button>
-			{Object.keys(weeks).sort((a, b) => b - a).map(week => {
-				return (
-					<Week key={week} offset={Number(week)} {...weeks[week]} />
-				);
-			})}
+			<Button onClick={showMore.bind(null, true)}>Look Ahead</Button>
+			{Object.keys(weeks)
+				.sort((a, b) => b - a)
+				.map((week) => {
+					return (
+						<Week
+							key={week}
+							offset={Number(week)}
+							{...weeks[week]}
+						/>
+					);
+				})}
 			<Button variant="success" onClick={showMore}>
 				Show More
 			</Button>
@@ -35,9 +39,6 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	{
-		showMore
-	}
-)(Weeks);
+export default connect(mapStateToProps, {
+	showMore
+})(Weeks);

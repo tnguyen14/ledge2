@@ -34,7 +34,9 @@ class UserMenu extends Component {
 				<img src={profile.picture} onClick={toggleProfile} />
 				<ul className="profile">
 					<li>{profile.name}</li>
-					<li>Logged in until {moment(expiresAt).format('hh:mm:ss A')}</li>
+					<li>
+						Logged in until {moment(expiresAt).format('hh:mm:ss A')}
+					</li>
 					<li className="logout" onClick={logout}>
 						Log Out
 					</li>
@@ -60,9 +62,6 @@ function mapStateToProps(state) {
 	return state.user;
 }
 
-export default connect(
-	mapStateToProps,
-	{
-		logout
-	}
-)(UserMenu);
+export default connect(mapStateToProps, {
+	logout
+})(UserMenu);

@@ -12,7 +12,7 @@ const { noAccount } = require('./');
  */
 function addMerchant(merchant, userId, accountName) {
 	const acctRef = accounts.doc(`${userId}!${accountName}`);
-	return acctRef.get().then(acctSnapshot => {
+	return acctRef.get().then((acctSnapshot) => {
 		if (!acctSnapshot.exists) {
 			throw noAccount;
 		}
@@ -55,7 +55,7 @@ function updateMerchant(newMerchant, oldMerchant, userId, accountName) {
  */
 function removeMerchant(merchant, userId, accountName) {
 	const acctRef = accounts.doc(`${userId}!${accountName}`);
-	return acctRef.get().then(acctSnapshot => {
+	return acctRef.get().then((acctSnapshot) => {
 		if (!acctSnapshot.exists) {
 			throw noAccount;
 		}
@@ -64,10 +64,10 @@ function removeMerchant(merchant, userId, accountName) {
 			.collection('transactions')
 			.where('merchant', '==', merchant)
 			.get()
-			.then(transactionsSnapshot => {
+			.then((transactionsSnapshot) => {
 				return transactionsSnapshot.size;
 			})
-			.then(merchantCount => {
+			.then((merchantCount) => {
 				return acctRef.set(
 					{
 						merchants_count: removeMerchantFromCounts(
@@ -139,10 +139,10 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
 // given a list of merchants, filter out null ones, sort by count
 function processMerchants(merchantsCount) {
 	return Object.keys(merchantsCount)
-		.filter(merch => {
+		.filter((merch) => {
 			return merchantsCount[merch] != null;
 		})
-		.map(merch => {
+		.map((merch) => {
 			// pass along the slug
 			return {
 				slug: merch,

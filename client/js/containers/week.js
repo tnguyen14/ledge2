@@ -19,7 +19,13 @@ class Week extends Component {
 	// call loadTransactions again in componentDidUpdate
 	// in case the week gets triggered after it exists (for eg. look ahead)
 	componentDidUpdate() {
-		const { loadTransactions, shouldLoad, isLoading, offset, hasLoaded } = this.props;
+		const {
+			loadTransactions,
+			shouldLoad,
+			isLoading,
+			offset,
+			hasLoaded
+		} = this.props;
 		if (shouldLoad && !isLoading && !hasLoaded) {
 			loadTransactions(offset);
 		}
@@ -64,10 +70,10 @@ class Week extends Component {
 					</thead>
 					<tbody>
 						{transactions
-							.filter(tx => {
+							.filter((tx) => {
 								return !tx.carriedOver;
 							})
-							.map(tx => {
+							.map((tx) => {
 								return (
 									<Transaction
 										key={tx.id}
@@ -83,7 +89,7 @@ class Week extends Component {
 				<WeeklyStats
 					weekId={`week-${offset}`}
 					stats={stats}
-					carriedOvers={transactions.filter(tx => tx.carriedOver)}
+					carriedOvers={transactions.filter((tx) => tx.carriedOver)}
 				/>
 				<PulseLoader
 					className="transactions-loading"
@@ -122,11 +128,8 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(
-	mapStateToProps,
-	{
-		loadTransactions,
-		removeTransaction,
-		editTransaction
-	}
-)(Week);
+export default connect(mapStateToProps, {
+	loadTransactions,
+	removeTransaction,
+	editTransaction
+})(Week);
