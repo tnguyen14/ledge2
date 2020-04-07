@@ -10,8 +10,19 @@ import { calculateStats } from '../selectors/weeklyStats';
 
 class Week extends Component {
 	componentDidMount() {
+		const { loadTransactions, shouldLoad, offset } = this.props;
 		// load transactions
-		this.props.loadTransactions(this.props.offset);
+		if (shouldLoad) {
+			loadTransactions(offset);
+		}
+	}
+	// call loadTransactions again in componentDidUpdate
+	// in case the week gets triggered after it exists (for eg. look ahead)
+	componentDidUpdate() {
+		const { loadTransactions, shouldLoad, isLoading, offset, hasLoaded } = this.props;
+		if (shouldLoad && !isLoading && !hasLoaded) {
+			loadTransactions(offset);
+		}
 	}
 	render() {
 		const {
@@ -85,7 +96,9 @@ class Week extends Component {
 
 Week.propTypes = {
 	offset: PropTypes.number.isRequired,
+	shouldLoad: PropTypes.bool,
 	isLoading: PropTypes.bool,
+	hasLoaded: PropTypes.bool,
 	visible: PropTypes.bool,
 	transactions: PropTypes.array,
 	start: PropTypes.object,

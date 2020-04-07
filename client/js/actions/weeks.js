@@ -2,23 +2,32 @@ import { getJson } from '../util/fetch';
 import config from 'config';
 export const ADD_WEEK = 'ADD_WEEK';
 
-export function addWeek() {
+export function addWeek(index) {
 	return {
-		type: ADD_WEEK
+		type: ADD_WEEK,
+		data: {
+			index
+		}
 	};
 }
 
-export const SHOW_ONE_MORE_WEEK = 'SHOW_ONE_MORE_WEEK';
+export const SHOW_WEEK = 'SHOW_WEEK';
 
-export function showMore() {
+export function showMore(ahead) {
 	return function(dispatch, getState) {
 		const { weeks } = getState();
-		// ran out of invisible weeks, get more
-		if (weeks[-(Object.keys(weeks).length - 1)].visible) {
-			dispatch(addWeek());
+		// get all the visible weeks' indices, sort from high to low
+		const visibleWeeksIndices = Object.keys(weeks).filter(weekIndex => weeks[weekIndex].visible).sort((a, b) => b - a);
+		const nextIndex = ahead ? Number(visibleWeeksIndices[0]) + 1 : Number(visibleWeeksIndices.pop()) - 1;
+		// the next week doesn't exist
+		if (!weeks[nextIndex] || !weeks[nextIndex].hasLoaded) {
+			dispatch(addWeek(nextIndex));
 		}
 		dispatch({
-			type: SHOW_ONE_MORE_WEEK
+			type: SHOW_WEEK,
+			data: {
+				index: nextIndex
+			}
 		});
 	};
 }

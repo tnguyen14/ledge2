@@ -9,16 +9,17 @@ function Weeks(props) {
 	const { weeks, showMore } = props;
 	return (
 		<div className="transactions">
-			{Object.keys(weeks).map(week => {
+			<Button onClick={showMore.bind(null, true)}>
+				Look Ahead
+			</Button>
+			{Object.keys(weeks).sort((a, b) => b - a).map(week => {
 				return (
 					<Week key={week} offset={Number(week)} {...weeks[week]} />
 				);
 			})}
-			<div className="show-more">
-				<Button variant="success" onClick={showMore}>
-					Show More
-				</Button>
-			</div>
+			<Button variant="success" onClick={showMore}>
+				Show More
+			</Button>
 		</div>
 	);
 }
