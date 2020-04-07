@@ -8,11 +8,11 @@ const auth = new auth0.WebAuth({
 	scope: 'openid profile'
 });
 
-const redirectUrl = `${window.location.href}callback.html`;
+const redirectUri = `${window.location.href}callback.html`;
 
 export function login() {
 	auth.authorize({
-		redirect_uri: redirectUrl,
+		redirectUri,
 		prompt: 'none'
 	});
 }
@@ -29,7 +29,7 @@ export function handleAuthentication() {
 			if (err) {
 				if (err.error === 'login_required') {
 					auth.authorize({
-						redirect_uri: redirectUrl
+						redirectUri
 					});
 				} else {
 					console.error(err);
@@ -55,7 +55,7 @@ function renewSession(dispatch) {
 	});
 	auth.checkSession(
 		{
-			redirect_uri: redirectUrl
+			redirectUri
 		},
 		(err, authResult) => {
 			if (err) {
