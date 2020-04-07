@@ -27,7 +27,6 @@ provider "github" {
   token        = var.github_token
   organization = "tnguyen14"
   individual   = false
-  version      = "2.4.0"
 }
 
 resource "github_actions_secret" "gcp_project" {
