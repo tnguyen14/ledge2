@@ -41,6 +41,9 @@ function createDefaultWeek(offset) {
 }
 
 function isWithinWeek(date, start, end) {
+	if (!date || !start || !end) {
+		return false;
+	}
 	// date string comparison
 	return date >= start.toISOString() && date <= end.toISOString();
 }
