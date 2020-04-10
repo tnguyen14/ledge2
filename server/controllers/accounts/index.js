@@ -1,6 +1,7 @@
 'use strict';
 
-var { firestore, accounts } = require('../../db');
+var firestore = require('@tridnguyen/firestore');
+var accounts = firestore.collection('accounts');
 var union = require('lodash.union');
 var pick = require('lodash.pick');
 const merchants = require('./merchants');

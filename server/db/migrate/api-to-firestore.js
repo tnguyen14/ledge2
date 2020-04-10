@@ -2,7 +2,7 @@ require('dotenv').config();
 const chunk = require('lodash.chunk');
 const moment = require('moment-timezone');
 
-const { firestore } = require('../');
+const firestore = require('@tridnguyen/firestore');
 const accounts = require('../../controllers/accounts');
 
 const { getJson } = require('simple-fetch');

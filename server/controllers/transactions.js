@@ -1,11 +1,10 @@
-'use strict';
+const moment = require('moment-timezone');
+const pick = require('lodash.pick');
+const async = require('async');
+const timezone = 'America/New_York';
 
-var moment = require('moment-timezone');
-var pick = require('lodash.pick');
-var async = require('async');
-var timezone = 'America/New_York';
-
-const { accounts } = require('../db');
+const firestore = require('@tridnguyen/firestore');
+const accounts = firestore.collection('accounts');
 const merchants = require('./accounts/merchants');
 
 const missingAccountName = new Error('Account name is required.');

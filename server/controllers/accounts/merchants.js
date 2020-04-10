@@ -1,7 +1,8 @@
 const cloneDeep = require('lodash.clonedeep');
 const slugify = require('underscore.string/slugify');
 
-const { accounts } = require('../../db');
+const firestore = require('@tridnguyen/firestore');
+const accounts = firestore.collection('accounts');
 const { noAccount } = require('./');
 
 /**

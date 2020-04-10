@@ -73,7 +73,7 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
-    "@google-cloud/firestore": "^3.7.2",
+    "@tridnguyen/firestore": "^2.0.0",
     "@primer/octicons-react": "^9.6.0",
     "apidoc": "^0.17.6",
     "async": "^1.5.2",
