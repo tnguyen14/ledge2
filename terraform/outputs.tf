@@ -3,5 +3,5 @@ output "sa_email" {
 }
 
 output "sa_creds" {
-  value = google_service_account.github_actions.private_key
+  value = google_service_account_key.github_actions.private_key
 }

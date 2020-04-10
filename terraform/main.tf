@@ -26,31 +26,31 @@ resource "google_service_account_key" "github_actions" {
 resource "google_project_iam_member" "cloud_run_admin" {
   project = var.gcp_project
   role    = "roles/run.admin"
-  member  = google_service_account.github_actions.email
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 resource "google_project_iam_member" "cloud_build_editor" {
   project = var.gcp_project
   role    = "roles/cloudbuild.builds.editor"
-  member  = google_service_account.github_actions.email
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 resource "google_project_iam_member" "cloud_build_service_account" {
   project = var.gcp_project
   role    = "roles/cloudbuild.builds.builder"
-  member  = google_service_account.github_actions.email
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 resource "google_project_iam_member" "viewer" {
   project = var.gcp_project
   role    = "roles/viewer"
-  member  = google_service_account.github_actions.email
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 
 resource "google_project_iam_member" "service_account_user" {
   project = var.gcp_project
   role    = "roles/iam.serviceAccountUser"
-  member  = google_service_account.github_actions.email
+  member  = "serviceAccount:${google_service_account.github_actions.email}"
 }
 /*
 * github provider is not supporting individual accounts currently
