@@ -2,7 +2,7 @@
 
 ![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/tridnguyen/ledge.svg?style=flat-square)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m777127216-7258bdcfebd2c3759cd2fa85.svg?style=flat-square)
+![Uptime Robot ratio (30 days)](https://img.shields.io/uptimerobot/ratio/m783022626-59e5f02bc4047cc0d49d005e.svg?style=flat-square)
 
 ## Client
 
@@ -19,13 +19,13 @@ Each account contains a property that keep track of the merchants used in that a
 ```json
 // account
 {
-	"name": "foo",
-	"merchants_count": {
-		"slugified-merchant-name": {
-			"count": 5,
-			"values": ["Slugified merchant name", "slugified Merchant Name"]
-		}
-	}
+  "name": "foo",
+  "merchants_count": {
+    "slugified-merchant-name": {
+      "count": 5,
+      "values": ["Slugified merchant name", "slugified Merchant Name"]
+    }
+  }
 }
 ```
 
@@ -43,6 +43,6 @@ The `values` array contains variations of the same name after slugified.
 
 To sync data from production to dev:
 
--   Sign into the site, copy the auth token from `localStorage.getItem('id_token')`
--   Set environment variables (could be done in `.env`): - `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge` - `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge` - `AUTH0_USER`: User ID - `FIREBASE_PROJECT_ID` - `SERVICE_ACCOUNT_JSON`
--   Run `npm run db:migrate:firestore`
+- Sign into the site, copy the auth token from `localStorage.getItem('id_token')`
+- Set environment variables (could be done in `.env`): - `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge` - `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge` - `AUTH0_USER`: User ID - `FIREBASE_PROJECT_ID` - `SERVICE_ACCOUNT_JSON`
+- Run `npm run db:migrate:firestore`
