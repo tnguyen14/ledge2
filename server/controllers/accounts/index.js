@@ -1,16 +1,14 @@
-'use strict';
-
-var firestore = require('@tridnguyen/firestore');
-var accounts = firestore.collection('accounts');
-var union = require('lodash.union');
-var pick = require('lodash.pick');
+const firestore = require('@tridnguyen/firestore');
+const accounts = firestore.collection('accounts');
+const union = require('lodash.union');
+const pick = require('lodash.pick');
 const merchants = require('./merchants');
 
-var noAccount = new Error('No such account was found');
+const noAccount = new Error('No such account was found');
 noAccount.status = 404;
-var missingAccountName = new Error('Account name is required.');
+const missingAccountName = new Error('Account name is required.');
 missingAccountName.status = 404;
-var conflictAccountName = new Error('Account already exists');
+const conflictAccountName = new Error('Account already exists');
 conflictAccountName.status = 409;
 
 function showAll(params, callback) {

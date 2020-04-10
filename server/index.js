@@ -20,7 +20,7 @@ app.use(
     issuer: process.env.AUTH0_SERVER,
     algorithms: ['RS256']
   }).unless({
-    path: [/\/docs*/]
+    path: [/\/docs*/, '/healthcheck']
   })
 );
 

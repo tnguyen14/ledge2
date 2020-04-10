@@ -1,7 +1,6 @@
-'use strict';
-
-var accounts = require('./controllers/accounts');
-var transactions = require('./controllers/transactions');
+const accounts = require('./controllers/accounts');
+const transactions = require('./controllers/transactions');
+const health = require('./controllers/health');
 
 function route(controller) {
   return function (req, res, next) {
@@ -16,7 +15,7 @@ function route(controller) {
         ...req.params,
         ...req.body,
         ...req.query,
-        userId: req.user.sub
+        userId: req.user && req.user.sub
       },
       (err, result) => {
         if (err) {
@@ -34,6 +33,8 @@ function route(controller) {
 }
 
 module.exports = function router(app) {
+  // healthcheck
+  app.get('/healthcheck', route(health.check));
   // account
   /**
    * @api {get} /accounts Get all accounts
