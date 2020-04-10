@@ -12,22 +12,19 @@ const { noAccount } = require('./');
  * @param {String} accountName name of account
  */
 function addMerchant(merchant, userId, accountName) {
-	const acctRef = accounts.doc(`${userId}!${accountName}`);
-	return acctRef.get().then((acctSnapshot) => {
-		if (!acctSnapshot.exists) {
-			throw noAccount;
-		}
-		const acc = acctSnapshot.data();
-		return acctRef.set(
-			{
-				merchants_count: addMerchantToCounts(
-					merchant,
-					acc.merchants_count
-				)
-			},
-			{ merge: true }
-		);
-	});
+  const acctRef = accounts.doc(`${userId}!${accountName}`);
+  return acctRef.get().then((acctSnapshot) => {
+    if (!acctSnapshot.exists) {
+      throw noAccount;
+    }
+    const acc = acctSnapshot.data();
+    return acctRef.set(
+      {
+        merchants_count: addMerchantToCounts(merchant, acc.merchants_count)
+      },
+      { merge: true }
+    );
+  });
 }
 
 /**
@@ -38,14 +35,14 @@ function addMerchant(merchant, userId, accountName) {
  * @param {String} accountName name of account
  */
 function updateMerchant(newMerchant, oldMerchant, userId, accountName) {
-	// if the new merchant is same as old, do nothing
-	if (!newMerchant || newMerchant === oldMerchant) {
-		return Promise.resolve();
-	}
+  // if the new merchant is same as old, do nothing
+  if (!newMerchant || newMerchant === oldMerchant) {
+    return Promise.resolve();
+  }
 
-	return removeMerchant(oldMerchant, userId, accountName).then(() => {
-		return addMerchant(newMerchant, userId, accountName);
-	});
+  return removeMerchant(oldMerchant, userId, accountName).then(() => {
+    return addMerchant(newMerchant, userId, accountName);
+  });
 }
 
 /**
@@ -55,32 +52,32 @@ function updateMerchant(newMerchant, oldMerchant, userId, accountName) {
  * @param {String} account name of account
  */
 function removeMerchant(merchant, userId, accountName) {
-	const acctRef = accounts.doc(`${userId}!${accountName}`);
-	return acctRef.get().then((acctSnapshot) => {
-		if (!acctSnapshot.exists) {
-			throw noAccount;
-		}
-		const acc = acctSnapshot.data();
-		return acctRef
-			.collection('transactions')
-			.where('merchant', '==', merchant)
-			.get()
-			.then((transactionsSnapshot) => {
-				return transactionsSnapshot.size;
-			})
-			.then((merchantCount) => {
-				return acctRef.set(
-					{
-						merchants_count: removeMerchantFromCounts(
-							merchant,
-							acc.merchants_count,
-							merchantCount
-						)
-					},
-					{ merge: true }
-				);
-			});
-	});
+  const acctRef = accounts.doc(`${userId}!${accountName}`);
+  return acctRef.get().then((acctSnapshot) => {
+    if (!acctSnapshot.exists) {
+      throw noAccount;
+    }
+    const acc = acctSnapshot.data();
+    return acctRef
+      .collection('transactions')
+      .where('merchant', '==', merchant)
+      .get()
+      .then((transactionsSnapshot) => {
+        return transactionsSnapshot.size;
+      })
+      .then((merchantCount) => {
+        return acctRef.set(
+          {
+            merchants_count: removeMerchantFromCounts(
+              merchant,
+              acc.merchants_count,
+              merchantCount
+            )
+          },
+          { merge: true }
+        );
+      });
+  });
 }
 
 /**
@@ -88,21 +85,21 @@ function removeMerchant(merchant, userId, accountName) {
  * @param {Object} counts the counts object
  */
 function addMerchantToCounts(merchant, counts) {
-	var slug = slugify(merchant);
-	var _counts = counts || {};
-	if (_counts[slug]) {
-		_counts[slug].count++;
-		// store the merchant name in an array, in case of variations of the same name
-		if (_counts[slug].values.indexOf(merchant) === -1) {
-			_counts[slug].values.push(merchant);
-		}
-	} else {
-		_counts[slug] = {
-			count: 1,
-			values: [merchant]
-		};
-	}
-	return _counts;
+  var slug = slugify(merchant);
+  var _counts = counts || {};
+  if (_counts[slug]) {
+    _counts[slug].count++;
+    // store the merchant name in an array, in case of variations of the same name
+    if (_counts[slug].values.indexOf(merchant) === -1) {
+      _counts[slug].values.push(merchant);
+    }
+  } else {
+    _counts[slug] = {
+      count: 1,
+      values: [merchant]
+    };
+  }
+  return _counts;
 }
 
 /**
@@ -111,54 +108,54 @@ function addMerchantToCounts(merchant, counts) {
  * @param {Boolean} merchantCount the count of transaction with the exact merchant
  */
 function removeMerchantFromCounts(merchant, counts, merchantCount) {
-	const slug = slugify(merchant);
-	let _counts = cloneDeep(counts);
-	// if the count doesn't exist, bail early
-	if (!_counts[slug]) {
-		return _counts;
-	}
-	_counts[slug].count--;
-	if (_counts[slug].count === 0) {
-		// delete _counts[slug];
-		// set it to null because delete (setting it to `undefined`) doesn't
-		// work with merge mode
-		_counts[slug] = null;
-		return _counts;
-	}
+  const slug = slugify(merchant);
+  let _counts = cloneDeep(counts);
+  // if the count doesn't exist, bail early
+  if (!_counts[slug]) {
+    return _counts;
+  }
+  _counts[slug].count--;
+  if (_counts[slug].count === 0) {
+    // delete _counts[slug];
+    // set it to null because delete (setting it to `undefined`) doesn't
+    // work with merge mode
+    _counts[slug] = null;
+    return _counts;
+  }
 
-	// remove merchant from values array
-	// if it was the last one (no longer exists)
-	if (merchantCount === 0) {
-		var merchantIndex = _counts[slug].values.indexOf(merchant);
-		if (merchantIndex > -1) {
-			_counts[slug].values.splice(merchantIndex, 1);
-		}
-	}
-	return _counts;
+  // remove merchant from values array
+  // if it was the last one (no longer exists)
+  if (merchantCount === 0) {
+    var merchantIndex = _counts[slug].values.indexOf(merchant);
+    if (merchantIndex > -1) {
+      _counts[slug].values.splice(merchantIndex, 1);
+    }
+  }
+  return _counts;
 }
 
 // given a list of merchants, filter out null ones, sort by count
 function processMerchants(merchantsCount) {
-	return Object.keys(merchantsCount)
-		.filter((merch) => {
-			return merchantsCount[merch] != null;
-		})
-		.map((merch) => {
-			// pass along the slug
-			return {
-				slug: merch,
-				...merchantsCount[merch]
-			};
-		})
-		.sort((a, b) => {
-			// sort by count
-			return b.count - a.count;
-		});
+  return Object.keys(merchantsCount)
+    .filter((merch) => {
+      return merchantsCount[merch] != null;
+    })
+    .map((merch) => {
+      // pass along the slug
+      return {
+        slug: merch,
+        ...merchantsCount[merch]
+      };
+    })
+    .sort((a, b) => {
+      // sort by count
+      return b.count - a.count;
+    });
 }
 
 module.exports = {
-	add: addMerchant,
-	update: updateMerchant,
-	remove: removeMerchant,
-	processMerchants: processMerchants
+  add: addMerchant,
+  update: updateMerchant,
+  remove: removeMerchant,
+  processMerchants: processMerchants
 };
