@@ -71,8 +71,8 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
-    "@tridnguyen/firestore": "^2.0.0",
     "@primer/octicons-react": "^9.6.0",
+    "@tridnguyen/firestore": "^2.0.0",
     "apidoc": "^0.17.6",
     "async": "^1.5.2",
     "auth0-js": "^9.7.3",
@@ -95,7 +95,7 @@
     "lodash.union": "^4.6.0",
     "moment-timezone": "^0.5.21",
     "prop-types": "^15.6.2",
-    "react": "^16.5.2",
+    "react": "^16.13.1",
     "react-bootstrap": "1.0.0-beta.10",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
