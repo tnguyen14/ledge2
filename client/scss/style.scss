@@ -1,5 +1,6 @@
 @import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 
+// consult https://materializecss.com/color.html
 :root {
 	--color-amber: #ffc107;
 	--color-blue-grey: #607d8b;
@@ -24,6 +25,7 @@
 	--color-teal: #009688;
 	--color-white-smoke: #f5f5f5;
 	--color-yellow: #ffeb3b;
+	--color-grey: #9c9e9e;
 }
 
 .main {
@@ -471,6 +473,9 @@
 	}
 	[data-cat='utilities'] & {
 		background-color: var(--color-light-blue);
+	}
+	[data-cat='mark'] & {
+		background-color: var(--color-grey);
 	}
 }
 
