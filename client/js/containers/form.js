@@ -13,8 +13,6 @@ function Form(props) {
   let amountFieldRef = useRef();
 
   useEffect(() => {
-    console.log(amountFieldRef);
-    console.log(amountFieldRef.current);
     if (amountFieldRef) {
       amountFieldRef.focus();
     }
