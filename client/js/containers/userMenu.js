@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 function UserMenu(props) {
   const [profileActive, setProfileActive] = useState(false);
 
-  const { authenticated, profile, logout, expiresAt } = props;
+  const { authenticated, profile, logout, expiresAt, idToken } = props;
   if (!authenticated) {
     return null;
   }
@@ -27,6 +27,7 @@ function UserMenu(props) {
       <ul className="profile">
         <li>{profile.name}</li>
         <li>Logged in until {moment(expiresAt).format('hh:mm:ss A')}</li>
+        <li className="jwt-token">{idToken}</li>
         <li className="logout" onClick={logout}>
           Log Out
         </li>
@@ -44,7 +45,8 @@ UserMenu.propTypes = {
   }),
   logout: PropTypes.func.isRequired,
   expiresAt: PropTypes.number,
-  renewTimeout: PropTypes.number
+  renewTimeout: PropTypes.number,
+  idToken: PropTypes.string
 };
 
 function mapStateToProps(state) {
