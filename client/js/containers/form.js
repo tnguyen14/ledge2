@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Field from '../components/field';
-import { submitForm, inputChange, resetForm } from '../actions/form';
+import {
+  submitForm,
+  inputChange,
+  resetForm,
+  calculateAmount
+} from '../actions/form';
 import { loadAccount } from '../actions/account';
 
 function Form(props) {
@@ -27,6 +32,7 @@ function Form(props) {
     submitForm,
     pending,
     resetForm,
+    calculateAmount,
     fieldOptions
   } = props;
   const buttonAttrs = {
@@ -53,6 +59,11 @@ function Form(props) {
             key={field.name}
             handleChange={(event) => {
               props.inputChange(field.name, event.target.value);
+            }}
+            afterButtonAction={(name) => {
+              if (name == 'amount') {
+                calculateAmount();
+              }
             }}
             {...field}
           />
@@ -91,6 +102,7 @@ Form.propTypes = {
   loadAccount: PropTypes.func,
   inputChange: PropTypes.func,
   resetForm: PropTypes.func,
+  calculateAmount: PropTypes.func,
   fieldOptions: PropTypes.shape({
     category: PropTypes.array.isRequired,
     source: PropTypes.array.isRequired
@@ -114,5 +126,6 @@ export default connect(mapStateToProps, {
   submitForm,
   loadAccount,
   inputChange,
-  resetForm
+  resetForm,
+  calculateAmount
 })(Form);

@@ -89,3 +89,22 @@ export function resetForm() {
     type: RESET_FORM
   };
 }
+
+function calculateString(str) {
+  return Function(`"use strict"; return(${str})`)();
+}
+
+export function calculateAmount() {
+  return function (dispatch, getState) {
+    const {
+      form: {
+        values: { amount }
+      }
+    } = getState();
+    const newAmount = calculateString(amount);
+
+    console.log(amount);
+    console.log(newAmount);
+    dispatch(inputChange('amount', newAmount));
+  };
+}
