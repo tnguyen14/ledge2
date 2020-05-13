@@ -34,9 +34,9 @@ function App(props) {
     }
 
     if (authenticated) {
-      loadInitialWeeks(25);
+      loadInitialWeeks();
     }
-  }, []);
+  }, [authenticated]);
 
   const notification = isRenewing
     ? {

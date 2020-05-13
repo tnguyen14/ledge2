@@ -6,12 +6,13 @@ export const ADD_WEEK = 'ADD_WEEK';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
 const serverUrl = process.env.SERVER_URL;
+const numInitialWeeks = 25;
 
-export function loadInitialWeeks(numWeeks) {
+export function loadInitialWeeks() {
   return async function (dispatch, getState) {
     await Promise.all(
-      [...Array(numWeeks)].map((_, index) => {
-        return addWeek(-index)(dispatch, getState);
+      [...Array(numInitialWeeks)].map((_, index) => {
+        return dispatch(addWeek(-index));
       })
     );
   };
