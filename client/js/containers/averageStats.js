@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
-import {
-  getTimeSpans,
-  hasNotFullyLoaded,
-  calculateWeeklyAverages
-} from '../selectors/weeklyAverages';
+import { calculateWeeklyAverages } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
 
 function AverageStats(props) {
@@ -27,15 +23,11 @@ function AverageStats(props) {
 }
 
 AverageStats.propTypes = {
-  timeSpans: PropTypes.array,
-  hasNotFullyLoaded: PropTypes.bool,
   weeklyAverages: PropTypes.array
 };
 
 function mapStateToProps(state) {
   return {
-    timeSpans: getTimeSpans(state),
-    hasNotFullyLoaded: hasNotFullyLoaded(state),
     weeklyAverages: calculateWeeklyAverages(state)
   };
 }
