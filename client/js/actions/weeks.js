@@ -50,11 +50,14 @@ export function loadTransactions(offset) {
         offset
       }
     });
+    const {
+      user: { idToken }
+    } = getState();
     getJson
       .bind(
         null,
         dispatch,
-        getState
+        idToken
       )(`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`)
       .then((transactions) => {
         dispatch({
