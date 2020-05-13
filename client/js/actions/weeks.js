@@ -1,4 +1,5 @@
 import { getJson } from '../util/fetch';
+import { LOGOUT } from './user';
 import config from 'config';
 export const ADD_WEEK = 'ADD_WEEK';
 
@@ -56,17 +57,27 @@ export function loadTransactions(offset) {
     getJson
       .bind(
         null,
-        dispatch,
         idToken
       )(`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`)
-      .then((transactions) => {
-        dispatch({
-          type: LOAD_TRANSACTIONS_SUCCESS,
-          data: {
-            offset,
-            transactions
+      .then(
+        (transactions) => {
+          dispatch({
+            type: LOAD_TRANSACTIONS_SUCCESS,
+            data: {
+              offset,
+              transactions
+            }
+          });
+        },
+        (err) => {
+          if (err.message == 'Unauthorized') {
+            dispatch({
+              type: LOGOUT
+            });
+            return;
           }
-        });
-      });
+          throw err;
+        }
+      );
   };
 }

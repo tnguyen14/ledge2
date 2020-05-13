@@ -1,4 +1,5 @@
 import { getJson, deleteJson } from '../util/fetch';
+import { LOGOUT } from './user';
 import config from 'config';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
@@ -12,15 +13,25 @@ export function loadAccount() {
     getJson
       .bind(
         null,
-        dispatch,
         idToken
       )(`${serverUrl}/accounts/${config.account_name}`)
-      .then((account) => {
-        dispatch({
-          type: LOAD_ACCOUNT_SUCCESS,
-          data: account
-        });
-      });
+      .then(
+        (account) => {
+          dispatch({
+            type: LOAD_ACCOUNT_SUCCESS,
+            data: account
+          });
+        },
+        (err) => {
+          if (err.message == 'Unauthorized') {
+            dispatch({
+              type: LOGOUT
+            });
+            return;
+          }
+          throw err;
+        }
+      );
   };
 }
 
