@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
@@ -9,23 +9,21 @@ import {
 } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
 
-class AverageStats extends Component {
-  render() {
-    const { weeklyAverages } = this.props;
+function AverageStats(props) {
+  const { weeklyAverages } = props;
 
-    return (
-      <div className="stats averages">
-        <h4>Weekly Averages</h4>
-        <table className="table">
-          <tbody>
-            {weeklyAverages.map((average, index) => (
-              <WeeklyAverage key={index} {...average} />
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+  return (
+    <div className="stats averages">
+      <h4>Weekly Averages</h4>
+      <table className="table">
+        <tbody>
+          {weeklyAverages.map((average, index) => (
+            <WeeklyAverage key={index} {...average} />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
 AverageStats.propTypes = {
