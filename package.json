@@ -76,7 +76,7 @@
     "@tridnguyen/firestore": "^2.0.0",
     "apidoc": "^0.17.6",
     "async": "^1.5.2",
-    "auth0-js": "^9.7.3",
+    "auth0-js": "^9.13.2",
     "body-parser": "^1.17.1",
     "bootstrap": "^4.4.1",
     "bootstrap-sass": "^3.3.6",
