@@ -8,7 +8,9 @@ import { loadAccount } from '../actions/account';
 
 function Form(props) {
   const amount = props.fields.find((field) => field.name == 'amount').value;
-  useEffect(props.loadAccount, []);
+  useEffect(() => {
+    props.loadAccount();
+  }, []);
 
   let amountFieldRef = useRef();
 

@@ -8,17 +8,8 @@ import {
   calculateWeeklyAverages
 } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
-import { addWeek } from '../actions/weeks';
-import { scheduleRenewal } from '../actions/user';
 
 class AverageStats extends Component {
-  shouldComponentUpdate(nextProps) {
-    const { timeSpans: currentSpans } = this.props;
-    const { timeSpans: newSpans } = nextProps;
-    // trigger componentDidUpdate to load the next week when a week
-    // has been loaded
-    return !fromJS(currentSpans).equals(fromJS(newSpans));
-  }
   render() {
     const { weeklyAverages } = this.props;
 
@@ -35,23 +26,12 @@ class AverageStats extends Component {
       </div>
     );
   }
-  componentDidUpdate() {
-    const { hasNotFullyLoaded, addWeek, scheduleRenewal } = this.props;
-    // once loading weeks, renew session
-    if (hasNotFullyLoaded) {
-      addWeek();
-    } else {
-      scheduleRenewal();
-    }
-  }
 }
 
 AverageStats.propTypes = {
   timeSpans: PropTypes.array,
   hasNotFullyLoaded: PropTypes.bool,
-  weeklyAverages: PropTypes.array,
-  addWeek: PropTypes.func,
-  scheduleRenewal: PropTypes.func
+  weeklyAverages: PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -62,6 +42,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { addWeek, scheduleRenewal })(
-  AverageStats
-);
+export default connect(mapStateToProps)(AverageStats);

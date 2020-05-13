@@ -6,32 +6,28 @@ export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 const serverUrl = process.env.SERVER_URL;
 export function loadAccount() {
-  return function (dispatch, getState) {
+  return async function (dispatch, getState) {
     const {
       user: { idToken }
     } = getState();
-    getJson
-      .bind(
-        null,
-        idToken
-      )(`${serverUrl}/accounts/${config.account_name}`)
-      .then(
-        (account) => {
-          dispatch({
-            type: LOAD_ACCOUNT_SUCCESS,
-            data: account
-          });
-        },
-        (err) => {
-          if (err.message == 'Unauthorized') {
-            dispatch({
-              type: LOGOUT
-            });
-            return;
-          }
-          throw err;
-        }
+    try {
+      const account = await getJson(
+        idToken,
+        `${serverUrl}/accounts/${config.account_name}`
       );
+      dispatch({
+        type: LOAD_ACCOUNT_SUCCESS,
+        data: account
+      });
+    } catch (err) {
+      if (err.message == 'Unauthorized') {
+        dispatch({
+          type: LOGOUT
+        });
+        return;
+      }
+      throw err;
+    }
   };
 }
 
@@ -85,21 +81,28 @@ export function removeTransaction(transactionId) {
 
 export function confirmRemoveTransaction(transactionId) {
   return function (dispatch, getState) {
-    return function () {
-      deleteJson
-        .bind(
-          null,
-          dispatch,
-          getState
-        )(
+    const {
+      user: { idToken }
+    } = getState();
+    return async function (e) {
+      try {
+        await deleteJson(
+          idToken,
           `${serverUrl}/accounts/${config.account_name}/transactions/${transactionId}`
-        )
-        .then((json) => {
-          dispatch({
-            type: REMOVE_TRANSACTION_SUCCESS,
-            data: transactionId
-          });
+        );
+        dispatch({
+          type: REMOVE_TRANSACTION_SUCCESS,
+          data: transactionId
         });
+      } catch (err) {
+        if (err.message == 'Unauthorized') {
+          dispatch({
+            type: LOGOUT
+          });
+          return;
+        }
+        throw err;
+      }
     };
   };
 }

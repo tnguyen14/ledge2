@@ -8,6 +8,7 @@ import Notification from '../components/notification';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { login, handleAuthentication } from '../actions/user';
+import { loadInitialWeeks } from '../actions/weeks';
 import history from '../history';
 
 function App(props) {
@@ -17,7 +18,8 @@ function App(props) {
     isAuthenticating,
     isRenewing,
     location,
-    handleAuthentication
+    handleAuthentication,
+    loadInitialWeeks
   } = props;
 
   useEffect(() => {
@@ -29,6 +31,10 @@ function App(props) {
         handleAuthentication();
       }
       history.replace(basePath);
+    }
+
+    if (authenticated) {
+      loadInitialWeeks(25);
     }
   }, []);
 
@@ -59,6 +65,7 @@ App.propTypes = {
   login: PropTypes.func.isRequired,
   handleAuthentication: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
   isRenewing: PropTypes.bool,
   location: PropTypes.object
@@ -71,5 +78,6 @@ function mapStateToProps(state) {
 }
 export default connect(mapStateToProps, {
   login,
-  handleAuthentication
+  handleAuthentication,
+  loadInitialWeeks
 })(App);

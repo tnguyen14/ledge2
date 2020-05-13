@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
 import { removeTransaction, editTransaction } from '../actions/account';
-import { loadTransactions } from '../actions/weeks';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
 import { calculateStats } from '../selectors/weeklyStats';
@@ -18,17 +17,9 @@ function Week(props) {
     end,
     removeTransaction,
     editTransaction,
-    options,
-    loadTransactions,
-    shouldLoad,
-    hasLoaded
+    options
   } = props;
 
-  useEffect(() => {
-    if (shouldLoad && !isLoading && !hasLoaded) {
-      loadTransactions(offset);
-    }
-  }, [shouldLoad, isLoading, hasLoaded, offset]);
   const stats = calculateStats(props);
   if (!visible) {
     return null;
@@ -85,14 +76,11 @@ function Week(props) {
 
 Week.propTypes = {
   offset: PropTypes.number.isRequired,
-  shouldLoad: PropTypes.bool,
   isLoading: PropTypes.bool,
-  hasLoaded: PropTypes.bool,
   visible: PropTypes.bool,
   transactions: PropTypes.array,
   start: PropTypes.object,
   end: PropTypes.object,
-  loadTransactions: PropTypes.func,
   removeTransaction: PropTypes.func,
   editTransaction: PropTypes.func,
   options: PropTypes.shape({
@@ -112,7 +100,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  loadTransactions,
   removeTransaction,
   editTransaction
 })(Week);

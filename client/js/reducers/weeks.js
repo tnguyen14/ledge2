@@ -2,7 +2,6 @@ import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
 import {
   ADD_WEEK,
   SHOW_WEEK,
-  LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS
 } from '../actions/weeks';
 import {
@@ -13,17 +12,10 @@ import moment from 'moment-timezone';
 
 const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;
 
-// let 1 past week to kick off, and then
-// let the weeklyAverages diff drive the adding of weeks
-const initialWeeks = [0, -1];
-const initialState = initialWeeks.reduce((state, offset) => {
-  state[offset] = {
-    ...createDefaultWeek(offset)
-  };
-  return state;
-}, {});
-
 function createDefaultWeek(offset) {
+  if (!Number.isInteger(offset)) {
+    throw new Error(`Offset ${offset} is not an integer`);
+  }
   return {
     start: moment()
       .isoWeekday(1 + offset * 7)
@@ -31,7 +23,6 @@ function createDefaultWeek(offset) {
     end: moment()
       .isoWeekday(7 + offset * 7)
       .endOf('isoWeek'),
-    shouldLoad: true,
     isLoading: false,
     hasLoaded: false,
     transactions: [],
@@ -61,10 +52,7 @@ function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
   for (let i = 1; i < transaction.span; i++) {
     let nextOffset = currentOffset + i;
     if (!weeks[nextOffset]) {
-      weeks[nextOffset] = {
-        ...createDefaultWeek(nextOffset),
-        shouldLoad: false // don't load these at this point
-      };
+      weeks[nextOffset] = createDefaultWeek(nextOffset);
     }
     weeks[nextOffset].transactions = weeks[nextOffset].transactions.concat([
       {
@@ -82,19 +70,31 @@ function sortTransactions(transactions) {
   });
 }
 
-export default function weeks(state = initialState, action) {
+export default function weeks(state = {}, action) {
   let offset;
   let newState;
   switch (action.type) {
-    case LOAD_TRANSACTIONS:
-      offset = action.data.offset;
-      return {
-        ...state,
-        [offset]: {
-          ...state[offset],
-          isLoading: true
-        }
+    case ADD_WEEK:
+      newState = {
+        ...state
       };
+      let newOffset = action.data.offset;
+      // week might already exist as loaded by carriedover transactions
+      if (!newState[newOffset]) {
+        newState[newOffset] = createDefaultWeek(newOffset);
+      }
+      newState[newOffset].isLoading = true;
+      return newState;
+    case SHOW_WEEK:
+      newState = {
+        ...state
+      };
+
+      if (newState[action.data.index]) {
+        newState[action.data.index].visible = true;
+      }
+
+      return newState;
     case LOAD_TRANSACTIONS_SUCCESS:
       offset = action.data.offset;
       const start = state[offset].start;
@@ -127,43 +127,6 @@ export default function weeks(state = initialState, action) {
           end
         }
       };
-    case ADD_WEEK:
-      newState = {
-        ...state
-      };
-      const loadedWeekIndices = Object.keys(state)
-        .filter((weekIndex) => {
-          return state[weekIndex].hasLoaded;
-        })
-        .sort((a, b) => a - b);
-      let newOffset = action.data.index;
-      // if not specified, load one more week in the past
-      if (!newOffset) {
-        newOffset = Number(loadedWeekIndices[0]) - 1;
-      }
-      // for some reason, week already exists
-      // likely loaded by carriedover transactions
-      if (newState[newOffset]) {
-        newState[newOffset] = {
-          ...state[newOffset],
-          // override shouldLoad, as it was likely set to false
-          // by accountForMultiWeekTransaction
-          shouldLoad: true
-        };
-      } else {
-        newState[newOffset] = createDefaultWeek(newOffset);
-      }
-      return newState;
-    case SHOW_WEEK:
-      newState = {
-        ...state
-      };
-
-      if (newState[action.data.index]) {
-        newState[action.data.index].visible = true;
-      }
-
-      return newState;
     case ADD_TRANSACTION_SUCCESS:
       return Object.keys(state).reduce((newState, offset) => {
         const week = state[offset];

@@ -3,11 +3,51 @@ import { LOGOUT } from './user';
 import config from 'config';
 export const ADD_WEEK = 'ADD_WEEK';
 
-export function addWeek(index) {
-  return {
-    type: ADD_WEEK,
-    data: {
-      index
+export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
+
+const serverUrl = process.env.SERVER_URL;
+
+export function loadInitialWeeks(numWeeks) {
+  return async function (dispatch, getState) {
+    await Promise.all(
+      [...Array(numWeeks)].map((_, index) => {
+        return addWeek(-index)(dispatch, getState);
+      })
+    );
+  };
+}
+
+function addWeek(offset) {
+  return async function (dispatch, getState) {
+    dispatch({
+      type: ADD_WEEK,
+      data: {
+        offset
+      }
+    });
+    const {
+      user: { idToken }
+    } = getState();
+    try {
+      const transactions = await getJson(
+        idToken,
+        `${serverUrl}/accounts/${config.account_name}/weekly/${offset}`
+      );
+      dispatch({
+        type: LOAD_TRANSACTIONS_SUCCESS,
+        data: {
+          offset,
+          transactions
+        }
+      });
+    } catch (err) {
+      if (err.message == 'Unauthorized') {
+        dispatch({
+          type: LOGOUT
+        });
+        return;
+      }
+      throw err;
     }
   };
 }
@@ -35,49 +75,5 @@ export function showMore(ahead) {
         index: nextIndex
       }
     });
-  };
-}
-
-export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-
-const serverUrl = process.env.SERVER_URL;
-
-export function loadTransactions(offset) {
-  return function (dispatch, getState) {
-    dispatch({
-      type: LOAD_TRANSACTIONS,
-      data: {
-        offset
-      }
-    });
-    const {
-      user: { idToken }
-    } = getState();
-    getJson
-      .bind(
-        null,
-        idToken
-      )(`${serverUrl}/accounts/${config.account_name}/weekly/${offset}`)
-      .then(
-        (transactions) => {
-          dispatch({
-            type: LOAD_TRANSACTIONS_SUCCESS,
-            data: {
-              offset,
-              transactions
-            }
-          });
-        },
-        (err) => {
-          if (err.message == 'Unauthorized') {
-            dispatch({
-              type: LOGOUT
-            });
-            return;
-          }
-          throw err;
-        }
-      );
   };
 }
