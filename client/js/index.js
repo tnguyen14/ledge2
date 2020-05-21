@@ -12,14 +12,17 @@ import history from './history';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
+window.SERVER_URL = process.env.SERVER_URL;
+window.ACCOUNT_NAME = 'daily';
+
 render(
-	<Provider store={store}>
-		<Router history={history}>
-			<div>
-				<Header />
-				<Route path="/" component={App} />
-			</div>
-		</Router>
-	</Provider>,
-	document.querySelector('.main')
+  <Provider store={store}>
+    <Router history={history}>
+      <div>
+        <Header />
+        <Route path="/" component={App} />
+      </div>
+    </Router>
+  </Provider>,
+  document.querySelector('.main')
 );

@@ -1,10 +1,8 @@
 import { getJson, deleteJson } from '../util/fetch';
 import { LOGOUT } from './user';
-import config from 'config';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
-const serverUrl = process.env.SERVER_URL;
 export function loadAccount() {
   return async function (dispatch, getState) {
     const {
@@ -13,7 +11,7 @@ export function loadAccount() {
     try {
       const account = await getJson(
         idToken,
-        `${serverUrl}/accounts/${config.account_name}`
+        `${SERVER_URL}/accounts/${ACCOUNT_NAME}`
       );
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
@@ -88,7 +86,7 @@ export function confirmRemoveTransaction(transactionId) {
       try {
         await deleteJson(
           idToken,
-          `${serverUrl}/accounts/${config.account_name}/transactions/${transactionId}`
+          `${SERVER_URL}/accounts/${ACCOUNT_NAME}/transactions/${transactionId}`
         );
         dispatch({
           type: REMOVE_TRANSACTION_SUCCESS,

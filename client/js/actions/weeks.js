@@ -1,11 +1,9 @@
 import { getJson } from '../util/fetch';
 import { LOGOUT } from './user';
-import config from 'config';
 export const ADD_WEEK = 'ADD_WEEK';
 
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
-const serverUrl = process.env.SERVER_URL;
 const numInitialWeeks = 25;
 
 export function loadInitialWeeks() {
@@ -32,7 +30,7 @@ function addWeek(offset) {
     try {
       const transactions = await getJson(
         idToken,
-        `${serverUrl}/accounts/${config.account_name}/weekly/${offset}`
+        `${SERVER_URL}/accounts/${ACCOUNT_NAME}/weekly/${offset}`
       );
       dispatch({
         type: LOAD_TRANSACTIONS_SUCCESS,

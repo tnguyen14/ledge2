@@ -1,7 +1,6 @@
 import { postJson, patchJson } from '../util/fetch';
 import { LOGOUT, scheduleRenewal } from './user';
 import moment from 'moment-timezone';
-import config from 'config';
 
 const timezone = 'America/New_York';
 
@@ -9,8 +8,6 @@ export const SUBMIT_TRANSACTION = 'SUBMIT_TRANSACTION';
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
-
-const serverUrl = process.env.SERVER_URL;
 
 export function submitForm(event) {
   event.preventDefault();
@@ -25,9 +22,9 @@ export function submitForm(event) {
 
     const isUpdating = action === 'update';
     const serverAction = isUpdating ? patchJson : postJson;
-    const actionUrl = `${serverUrl}/accounts/${
-      config.account_name
-    }/transactions/${isUpdating ? entry.id : ''}`;
+    const actionUrl = `${SERVER_URL}/accounts/${ACCOUNT_NAME}/transactions/${
+      isUpdating ? entry.id : ''
+    }`;
     const successActionType = isUpdating
       ? UPDATE_TRANSACTION_SUCCESS
       : ADD_TRANSACTION_SUCCESS;
