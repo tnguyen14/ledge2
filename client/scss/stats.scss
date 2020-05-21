@@ -1,0 +1,28 @@
+.stats {
+  @media (min-width: 68.75em) {
+    float: left;
+    padding-left: 2rem;
+    width: 35%;
+  }
+  .table {
+    width: 80%;
+    @media (min-width: 42.5em) {
+      width: 50%;
+    }
+    @media (min-width: 68.75em) {
+      width: 100%;
+    }
+  }
+  &.averages {
+    margin-top: 2rem;
+  }
+}
+
+.stat {
+  .table & > td {
+    border-top: none;
+  }
+  &data-field='category' [data-cat='total'] {
+    font-weight: bold;
+  }
+}

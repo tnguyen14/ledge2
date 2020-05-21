@@ -1,0 +1,13 @@
+.auth-loading {
+  text-align: center;
+  font-size: 1.5em;
+  margin-top: 2em;
+}
+
+.app {
+  margin: 0.5rem auto;
+  width: 95%;
+  @media (min-width: 42.5em) {
+    width: 90%;
+  }
+}

@@ -1,0 +1,65 @@
+.transaction {
+  border-left: 5px solid var(--color-gainsboro);
+  clear: left;
+  cursor: pointer;
+  @media (min-width: 42.5em) {
+    cursor: default;
+  }
+  &[data-day='Mon'] {
+    border-left-color: var(--color-light-blue-100);
+  }
+  &[data-day='Tue'] {
+    border-left-color: var(--color-light-blue-300);
+  }
+  &[data-day='Wed'] {
+    border-left-color: var(--color-light-blue);
+  }
+  &[data-day='Thu'] {
+    border-left-color: var(--color-light-blue-600);
+  }
+  &[data-day='Fri'] {
+    border-left-color: var(--color-light-blue-700);
+  }
+  &[data-day='Sat'] {
+    border-left-color: var(--color-light-blue-800);
+  }
+  &[data-day='Sun'] {
+    border-left-color: var(--color-light-blue-900);
+  }
+
+  [data-field='amount'] {
+    color: white;
+  }
+
+  [data-field='day'],
+  [data-field='merchant'],
+  [data-field='amount'],
+  [data-field='source'] {
+    border-top-width: 2px;
+    @media (min-width: 42.5em) {
+      border-top-width: 1px;
+    }
+  }
+  [data-field='description'],
+  [data-field='category'],
+  [data-field='action'] {
+    display: none;
+  }
+  &.table-active {
+    [data-field='description'],
+    [data-field='category'],
+    [data-field='action'] {
+      display: table-cell;
+    }
+  }
+  @media (min-width: 42.5em) {
+    [data-field='description'],
+    [data-field='category'],
+    [data-field='action'] {
+      display: table-cell;
+    }
+    [data-field='action'] {
+      min-width: 6rem;
+    }
+  }
+}

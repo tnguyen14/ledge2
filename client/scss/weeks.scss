@@ -1,0 +1,11 @@
+.transactions {
+  /* needed to clear float left form at wide screen */
+  clear: left;
+  margin-bottom: 2em;
+  .show-more {
+    text-align: right;
+    @media (min-width: 68.75em) {
+      text-align: left;
+    }
+  }
+}

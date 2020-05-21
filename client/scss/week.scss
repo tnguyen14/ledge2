@@ -1,0 +1,110 @@
+.weekly {
+  @util clearfix();
+  border-top: 1px solid var(--color-gainsboro);
+  &:first-of-type {
+    border-top: none;
+  }
+  .week-title {
+    margin-top: 1rem;
+  }
+  [data-field='action'] {
+    .edit,
+    .remove {
+      cursor: pointer;
+      &:hover {
+        color: var(--color-light-blue);
+      }
+    }
+    .remove {
+      margin-left: 1em;
+    }
+  }
+  .weekly-transactions {
+    @media (min-width: 68.75em) {
+      float: left;
+      width: 65%;
+    }
+    thead {
+      th {
+        border: none;
+      }
+      .secondary {
+        display: none;
+        @media (min-width: 42.5em) {
+          display: table-cell;
+        }
+      }
+      .addition {
+        .two-col {
+          flex-grow: 2;
+        }
+        @media (min-width: 42.5em) {
+          display: none;
+        }
+      }
+    }
+    tr {
+      display: flex;
+      flex-flow: row wrap;
+      @media (min-width: 42.5em) {
+        display: table-row;
+      }
+      &.active {
+        td {
+          background-color: color(
+            var(--color-white-smoke, shade(3%))
+          ) !important;
+        }
+      }
+    }
+    td,
+    th {
+      flex-basis: 25%;
+      padding: 0.5rem;
+      overflow: hidden;
+      @media (min-width: 42.5em) {
+        padding: 0.75rem;
+      }
+    }
+    th {
+      font-size: 0.9rem;
+    }
+    [data-field='day'],
+    [data-field='amount'] {
+      flex-basis: 4.5rem;
+      @media (min-width: 42.5em) {
+        flex-basis: 25%;
+      }
+    }
+    [data-field='merchant'],
+    [data-field='source'] {
+      flex-basis: calc((100% - 9rem) / 2);
+      @media (min-width: 42.5em) {
+        flex-basis: 25%;
+      }
+    }
+    [data-field='description'] {
+      flex-grow: 2;
+    }
+    [data-field='merchant'],
+    [data-field='source'] {
+      word-break: break-word;
+    }
+  }
+  .transactions-loading {
+    @util clearfix();
+    margin: 1rem auto;
+    width: 5rem;
+    div {
+      background-color: var(--color-lime);
+    }
+  }
+  .stat {
+    .stat-label.carried-over {
+      cursor: help;
+    }
+    &[data-cat='total'] .legend {
+      display: none;
+    }
+  }
+}

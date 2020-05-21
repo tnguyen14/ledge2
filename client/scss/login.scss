@@ -1,0 +1,13 @@
+.login {
+  padding-top: 5em;
+  text-align: center;
+  .btn {
+    background-color: var(--color-light-blue-600);
+    border-color: var(--color-light-blue-900);
+    color: var(--color-white-smoke);
+    font-size: 1.5em;
+    &:hover {
+      background-color: var(--color-light-blue-800);
+    }
+  }
+}
