@@ -8,7 +8,6 @@ import {
   RESET_FORM
 } from '../actions/form';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
-import { SHOW_ONE_MORE_WEEK } from '../actions/weeks';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -200,11 +199,6 @@ export default function form(state = initialState, action) {
         focus: true,
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
-      };
-    case SHOW_ONE_MORE_WEEK:
-      return {
-        ...state,
-        focus: false
       };
     case LOAD_ACCOUNT_SUCCESS:
       // when account is loaded, set category and source
