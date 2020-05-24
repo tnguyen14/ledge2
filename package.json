@@ -60,8 +60,6 @@
     "prettier": "^2.0.4",
     "redux-devtools-extension": "^2.13.5",
     "tinyify": "^2.5.2",
-    "uglify-es": "^3.3.9",
-    "uglifyify": "^5.0.2",
     "watchify": "^3.11.1"
   },
   "dependencies": {
