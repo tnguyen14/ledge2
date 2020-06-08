@@ -60,8 +60,8 @@ function Form(props) {
             handleChange={(event) => {
               props.inputChange(field.name, event.target.value);
             }}
-            afterButtonAction={(name) => {
-              if (name == 'amount') {
+            afterButtonAction={() => {
+              if (field.name == 'calculate') {
                 calculateAmount();
               }
             }}

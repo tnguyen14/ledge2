@@ -22,6 +22,7 @@ function createInitialValues() {
   const now = moment.tz(timezone);
   return {
     amount: '',
+    calculate: '',
     merchant: '',
     date: now.format(dateFormat),
     time: now.format(timeFormat),
@@ -45,7 +46,7 @@ function updateFieldsWithValues(fields, values) {
 
 const fields = [
   {
-    type: 'text',
+    type: 'number',
     label: 'Amount',
     name: 'amount',
     placeholder: 'Amount',
@@ -54,7 +55,13 @@ const fields = [
       step: 'any',
       required: true,
       autoFocus: true
-    },
+    }
+  },
+  {
+    type: 'text',
+    label: 'Calculate',
+    name: 'calculate',
+    placeholder: 'Expression to calculate',
     afterButton: 'Calculate'
   },
   {

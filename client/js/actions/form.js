@@ -95,13 +95,11 @@ export function calculateAmount() {
   return function (dispatch, getState) {
     const {
       form: {
-        values: { amount }
+        values: { calculate }
       }
     } = getState();
-    const newAmount = calculateString(amount);
+    const newAmount = calculateString(calculate).toFixed(2);
 
-    console.log(amount);
-    console.log(newAmount);
     dispatch(inputChange('amount', newAmount));
   };
 }

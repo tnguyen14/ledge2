@@ -94,7 +94,7 @@ function Field(props) {
               variant="outline-secondary"
               onClick={() => {
                 if (afterButtonAction) {
-                  afterButtonAction(name);
+                  afterButtonAction();
                 }
               }}
             >
