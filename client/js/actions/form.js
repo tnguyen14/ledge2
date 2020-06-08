@@ -17,6 +17,7 @@ export function submitForm(event) {
     } = getState();
     let entry = {
       ...values,
+      calculate, // filter out calculate field
       amount: values.amount * 100
     };
 

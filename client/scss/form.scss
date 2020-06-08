@@ -30,6 +30,20 @@
   [data-form-name='status'] {
     margin-right: 0;
   }
+  // only make amount and calculate half width on non-phone widths
+  [data-form-name='amount'],
+  [data-form-name='calculate'] {
+    @media (min-width: 42.5em) {
+      float: left;
+      width: 48%;
+      margin-right: 4%;
+    }
+  }
+  [data-form-name='calculate'] {
+    @media (min-width: 42.5em) {
+      margin-right: 0;
+    }
+  }
   label {
     float: left;
     margin-right: 0.5em;
