@@ -62,7 +62,8 @@ const fields = [
     label: 'Calculate',
     name: 'calculate',
     placeholder: 'Expression to calculate',
-    afterButton: 'Calculate'
+    afterButton: 'Calculate',
+    tabindex: -1
   },
   {
     type: 'text',

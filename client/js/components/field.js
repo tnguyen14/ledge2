@@ -20,7 +20,8 @@ function Field(props) {
     datalist,
     inputRef,
     afterButton,
-    afterButtonAction
+    afterButtonAction,
+    tabindex = 0
   } = props;
   let inputEl;
   if (inputTypes.includes(type)) {
@@ -33,6 +34,7 @@ function Field(props) {
         onChange={handleChange}
         ref={inputRef}
         placeholder={placeholder}
+        tabIndex={tabindex}
         {...attributes}
       />
     );
@@ -44,6 +46,7 @@ function Field(props) {
         value={value}
         onChange={handleChange}
         ref={inputRef}
+        tabIndex={tabindex}
       >
         <option value="">{placeholder || `Select ${label}`}</option>
         {options.map((option) => {
@@ -64,6 +67,7 @@ function Field(props) {
         placeholder={placeholder}
         onChange={handleChange}
         ref={inputRef}
+        tabIndex={tabindex}
       />
     );
   }
@@ -92,6 +96,7 @@ function Field(props) {
           <div className="input-group-append">
             <Button
               variant="outline-secondary"
+              tabIndex={tabindex}
               onClick={() => {
                 if (afterButtonAction) {
                   afterButtonAction();
