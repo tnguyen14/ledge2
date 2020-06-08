@@ -17,9 +17,10 @@ export function submitForm(event) {
     } = getState();
     let entry = {
       ...values,
-      calculate, // filter out calculate field
       amount: values.amount * 100
     };
+    // remove calculate
+    delete entry.calculate;
 
     const isUpdating = action === 'update';
     const serverAction = isUpdating ? patchJson : postJson;
