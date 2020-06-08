@@ -23,7 +23,7 @@
   [data-form-name='date'],
   [data-form-name='time'],
   [data-form-name='span'],
-  [data-form-name='status'],
+  [data-form-name='source'],
   [data-form-name='merchant'],
   [data-form-name='category'] {
     float: left;
@@ -31,9 +31,9 @@
     margin-right: 4%;
   }
   [data-form-name='calculate'],
+  [data-form-name='category'],
   [data-form-name='time'],
-  [data-form-name='status'],
-  [data-form-name='category'] {
+  [data-form-name='span'] {
     margin-right: 0;
   }
   label {

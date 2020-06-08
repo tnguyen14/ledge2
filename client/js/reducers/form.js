@@ -32,7 +32,6 @@ function createInitialValues() {
     source: defaultSource,
     span: 1,
     description: '',
-    status: 'POSTED',
     id: ''
   };
 }
@@ -63,7 +62,7 @@ const fields = [
     type: 'text',
     label: 'Calculate',
     name: 'calculate',
-    placeholder: 'Or calculate',
+    placeholder: 'Calculate amount',
     afterButton: <Octicon icon={Zap} />,
     tabindex: -1
   },
@@ -105,12 +104,6 @@ const fields = [
     name: 'source'
   },
   {
-    type: 'textarea',
-    name: 'description',
-    label: 'Description',
-    placeholder: 'Description'
-  },
-  {
     type: 'number',
     label: 'Span',
     name: 'span',
@@ -122,15 +115,10 @@ const fields = [
     }
   },
   {
-    type: 'select',
-    label: 'Status',
-    name: 'status',
-    options: [
-      {
-        slug: 'POSTED',
-        value: 'POSTED'
-      }
-    ]
+    type: 'textarea',
+    name: 'description',
+    label: 'Description',
+    placeholder: 'Description'
   },
   {
     type: 'hidden',
