@@ -18,31 +18,23 @@
   .form-group {
     @util clearfix();
   }
+  [data-form-name='amount'],
+  [data-form-name='calculate'],
   [data-form-name='date'],
   [data-form-name='time'],
   [data-form-name='span'],
-  [data-form-name='status'] {
+  [data-form-name='status'],
+  [data-form-name='merchant'],
+  [data-form-name='category'] {
     float: left;
     width: 48%;
     margin-right: 4%;
   }
+  [data-form-name='calculate'],
   [data-form-name='time'],
-  [data-form-name='status'] {
+  [data-form-name='status'],
+  [data-form-name='category'] {
     margin-right: 0;
-  }
-  // only make amount and calculate half width on non-phone widths
-  [data-form-name='amount'],
-  [data-form-name='calculate'] {
-    @media (min-width: 42.5em) {
-      float: left;
-      width: 48%;
-      margin-right: 4%;
-    }
-  }
-  [data-form-name='calculate'] {
-    @media (min-width: 42.5em) {
-      margin-right: 0;
-    }
   }
   label {
     float: left;

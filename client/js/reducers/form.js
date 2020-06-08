@@ -1,3 +1,4 @@
+import React from 'react';
 import moment from 'moment-timezone';
 import {
   INPUT_CHANGE,
@@ -8,6 +9,7 @@ import {
   RESET_FORM
 } from '../actions/form';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
+import Octicon, { Zap } from '@primer/octicons-react';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -24,9 +26,9 @@ function createInitialValues() {
     amount: '',
     calculate: '',
     merchant: '',
+    category: defaultCategory,
     date: now.format(dateFormat),
     time: now.format(timeFormat),
-    category: defaultCategory,
     source: defaultSource,
     span: 1,
     description: '',
@@ -61,8 +63,8 @@ const fields = [
     type: 'text',
     label: 'Calculate',
     name: 'calculate',
-    placeholder: 'Expression to calculate',
-    afterButton: 'Calculate',
+    placeholder: 'Or calculate',
+    afterButton: <Octicon icon={Zap} />,
     tabindex: -1
   },
   {
@@ -74,6 +76,12 @@ const fields = [
       required: true,
       list: 'merchants-list'
     }
+  },
+  {
+    type: 'select',
+    label: 'Category',
+    name: 'category',
+    placeholder: 'Select a category'
   },
   {
     type: 'date',
@@ -90,12 +98,6 @@ const fields = [
     attributes: {
       required: true
     }
-  },
-  {
-    type: 'select',
-    label: 'Category',
-    name: 'category',
-    placeholder: 'Select a category'
   },
   {
     type: 'select',

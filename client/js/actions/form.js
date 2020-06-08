@@ -99,6 +99,9 @@ export function calculateAmount() {
         values: { calculate }
       }
     } = getState();
+    if (!calculate) {
+      return;
+    }
     const newAmount = calculateString(calculate).toFixed(2);
 
     dispatch(inputChange('amount', newAmount));

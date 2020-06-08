@@ -131,7 +131,8 @@ Field.propTypes = {
   datalist: PropTypes.array,
   handleChange: PropTypes.func.isRequired,
   inputRef: PropTypes.func,
-  afterButton: PropTypes.string,
+  // allow either a text or a react component to be passed as afterButton
+  afterButton: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   afterButtonAction: PropTypes.func
 };
 
