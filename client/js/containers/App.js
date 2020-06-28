@@ -7,6 +7,7 @@ import Login from '../components/login';
 import Notification from '../components/notification';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
 import history from '../history';
@@ -22,10 +23,15 @@ function App(props) {
     loadInitialWeeks
   } = props;
 
+  const isVisible = usePageVisibility();
+
   useEffect(() => {
     const callbackRegex = /callback\.html/;
     const isCallback = callbackRegex.test(location.pathname);
     const basePath = location.pathname.replace(callbackRegex, '');
+    if (!isVisible) {
+      return;
+    }
     if (isCallback) {
       if (location.hash) {
         handleAuthentication();
@@ -36,7 +42,7 @@ function App(props) {
     if (authenticated) {
       loadInitialWeeks();
     }
-  }, [authenticated]);
+  }, [authenticated, isVisible]);
 
   const notification = isRenewing
     ? {
