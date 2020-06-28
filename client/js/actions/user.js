@@ -1,12 +1,4 @@
-import auth0 from 'auth0-js';
-
-const auth = new auth0.WebAuth({
-  domain: 'tridnguyen.auth0.com',
-  clientID: 'IxcfVZqCVF9b5FS2NVVnElOeBnoNG02Z',
-  audience: 'https://tridnguyen.auth0.com/userinfo',
-  responseType: 'token id_token',
-  scope: 'openid profile'
-});
+import auth from '@tridnguyen/auth';
 
 const redirectUri = `${window.location.href}callback.html`;
 

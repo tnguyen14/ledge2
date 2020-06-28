@@ -64,11 +64,10 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^9.6.0",
-    "@tridnguyen/auth": "^3.0.2",
+    "@tridnguyen/auth": "^3.1.0",
     "@tridnguyen/firestore": "^2.0.0",
     "apidoc": "^0.17.6",
     "async": "^1.5.2",
-    "auth0-js": "^9.13.2",
     "body-parser": "^1.17.1",
     "bootstrap": "^4.4.1",
     "bootstrap-sass": "^3.3.6",
