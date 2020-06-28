@@ -38,6 +38,18 @@ function isWithinWeek(date, start, end) {
   return date >= start.toISOString() && date <= end.toISOString();
 }
 
+// add a newTransactions array to an existing ones,
+// with checking for duplicate id
+function addTransactionsToExisting(existingTransactions, newTransactions) {
+  // create a new array
+  const transactions = existingTransactions.concat();
+  newTransactions.forEach((tx) => {
+    if (!existingTransactions.some((existingTx) => existingTx.id == tx.id)) {
+      transactions.push(tx);
+    }
+  });
+  return transactions;
+}
 // filter out list of transactions that have span > 1
 function getMultiWeekTransactions(transactions) {
   return transactions.filter((txn) => {
@@ -54,12 +66,16 @@ function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
     if (!weeks[nextOffset]) {
       weeks[nextOffset] = createDefaultWeek(nextOffset);
     }
-    weeks[nextOffset].transactions = weeks[nextOffset].transactions.concat([
-      {
-        ...transaction,
-        carriedOver: true
-      }
-    ]);
+
+    weeks[nextOffset].transactions = addTransactionsToExisting(
+      weeks[nextOffset].transactions,
+      [
+        {
+          ...transaction,
+          carriedOver: true
+        }
+      ]
+    );
   }
 }
 
@@ -108,13 +124,16 @@ export default function weeks(state = {}, action) {
       // there might be existing transactions that were carried over
       // by multiweek transactions
       const existingTransactions = state[offset].transactions || [];
+      const carriedOverTransactions = existingTransactions.filter(
+        (tx) => tx.carriedOver
+      );
       return {
         ...state,
         [offset]: {
           ...state[offset],
           isLoading: false,
           hasLoaded: true,
-          transactions: existingTransactions.concat(
+          transactions: carriedOverTransactions.concat(
             sortTransactions(
               // filter seems unnecessary for weekly transactions
               // filterTransactions(action.data.transactions, start, end)

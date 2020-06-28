@@ -43,5 +43,11 @@ The `values` array contains variations of the same name after slugified.
 To sync data from production to dev:
 
 - Sign into the site, copy the auth token from `localStorage.getItem('id_token')`
-- Set environment variables (could be done in `.env`): - `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge` - `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge` - `AUTH0_USER`: User ID - `FIREBASE_PROJECT_ID` - `SERVICE_ACCOUNT_JSON`
+- Set `export AUTH_TOKEN=<copy token value>`
+- Set environment variables (could be done in `.env`):
+  - `SYNC_FROM_SERVER_URL`: Production server, such as `https://api.tridnguyen.com/ledge`
+  - `SERVER_URL`: Dev server, such as `https://api.home.tridnguyen.com/ledge`
+  - `AUTH0_USER`: User ID
+  - `FIREBASE_PROJECT_ID`
+  - `GOOGLE_APPLICATION_CREDENTIALS`
 - Run `npm run db:migrate:firestore`
