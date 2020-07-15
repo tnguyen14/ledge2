@@ -5,11 +5,11 @@ import { fromJS } from 'immutable';
 import { calculateWeeklyAverages } from '../selectors/weeklyAverages';
 import WeeklyAverage from '../components/weeklyAverage';
 
-function AverageStats(props) {
+function WeeklyAverages(props) {
   const { weeklyAverages } = props;
 
   return (
-    <div className="stats averages">
+    <div className="averages">
       <h4>Weekly Averages</h4>
       <table className="table">
         <tbody>
@@ -22,7 +22,7 @@ function AverageStats(props) {
   );
 }
 
-AverageStats.propTypes = {
+WeeklyAverages.propTypes = {
   weeklyAverages: PropTypes.array
 };
 
@@ -32,4 +32,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(AverageStats);
+export default connect(mapStateToProps)(WeeklyAverages);

@@ -13,8 +13,11 @@
       width: 100%;
     }
   }
-  &.averages {
+  &.account-stats {
     margin-top: 2rem;
+  }
+  &.carousel {
+    padding-bottom: 1.5rem; // carousel indicators is an ol with margin-bottom of 1rem (set in _reboot.scss)
   }
 }
 
@@ -25,4 +28,8 @@
   &data-field='category' [data-cat='total'] {
     font-weight: bold;
   }
+}
+
+.carousel-indicators li {
+  background-color: #000;
 }

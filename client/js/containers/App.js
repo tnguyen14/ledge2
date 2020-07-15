@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Form from './form';
-import AverageStats from './averageStats';
+import AccountStats from './AccountStats';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
 import Login from '../components/login';
@@ -59,7 +59,7 @@ function App(props) {
   return (
     <div className="app">
       <Form />
-      <AverageStats />
+      <AccountStats />
       <Weeks />
       <DeleteDialog />
       <Notification {...notification} />
