@@ -5,7 +5,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import { removeTransaction, editTransaction } from '../actions/account';
 import Transaction from '../components/transaction';
 import WeeklyStats from '../components/weeklyStats';
-import { calculateStats } from '../selectors/weeklyStats';
+import { getCategoriesStats, getTotalStat } from '../selectors/weeklyStats';
 
 function Week(props) {
   const {
@@ -20,7 +20,14 @@ function Week(props) {
     options
   } = props;
 
-  const stats = calculateStats(props);
+  const stats = getCategoriesStats({
+    transactions,
+    categories: options.categories
+  }).concat(
+    getTotalStat({
+      transactions
+    })
+  );
   if (!visible) {
     return null;
   }

@@ -2,36 +2,38 @@ import { createSelector } from 'reselect';
 
 const getTransactions = (state) => state.transactions;
 
-const getCategories = (state) => state.options.categories;
+const getCategories = (state) => state.categories;
 
-export const calculateStats = createSelector(
-	getTransactions,
-	getCategories,
-	(transactions, categories) => {
-		// calculate total for each category
-		const totals = categories
-			.map((cat) => {
-				return {
-					amount: getCategoryTotal(transactions, cat),
-					label: cat.value,
-					slug: cat.slug
-				};
-			})
-			.filter((stat) => {
-				return stat.amount > 0;
-			})
-			.sort((a, b) => {
-				return b.amount - a.amount;
-			})
-			// add the total stat as well
-			.concat({
-				amount: getTotal(transactions),
-				label: 'Total',
-				slug: 'total'
-			});
-		return totals;
-	}
+export const getCategoriesStats = createSelector(
+  getTransactions,
+  getCategories,
+  (transactions, categories) => {
+    // calculate total for each category
+    const totals = categories
+      .map((cat) => {
+        return {
+          amount: getCategoryTotal(transactions, cat),
+          label: cat.value,
+          slug: cat.slug
+        };
+      })
+      .filter((stat) => {
+        return stat.amount > 0;
+      })
+      .sort((a, b) => {
+        return b.amount - a.amount;
+      });
+    return totals;
+  }
 );
+
+export const getTotalStat = createSelector(getTransactions, (transactions) => {
+  return {
+    label: 'Total',
+    slug: 'total',
+    amount: getTotal(transactions)
+  };
+});
 
 /**
  * get the total amount for transactions
@@ -39,12 +41,12 @@ export const calculateStats = createSelector(
  * @returns {Number} total
  */
 function getTotal(transactions) {
-	if (!Array.isArray(transactions)) {
-		return 0;
-	}
-	return transactions.reduce(function (total, t) {
-		return total + t.amount / t.span;
-	}, 0);
+  if (!Array.isArray(transactions)) {
+    return 0;
+  }
+  return transactions.reduce(function (total, t) {
+    return total + t.amount / t.span;
+  }, 0);
 }
 
 /**
@@ -54,9 +56,9 @@ function getTotal(transactions) {
  * @returns {Number} total
  */
 function getCategoryTotal(transactions, category) {
-	return getTotal(
-		transactions.filter(function (t) {
-			return t.category === category.slug;
-		})
-	);
+  return getTotal(
+    transactions.filter(function (t) {
+      return t.category === category.slug;
+    })
+  );
 }
