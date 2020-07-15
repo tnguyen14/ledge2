@@ -55,7 +55,7 @@ function CategoriesChart(props) {
   return (
     <div className="chart categories">
       <h4>Past {numWeeks} weeks</h4>
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={500}>
         <BarChart width={400} height={400} data={weeksData}>
           <XAxis dataKey="weekStart" />
           <YAxis />
