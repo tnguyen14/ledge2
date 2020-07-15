@@ -1,7 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { BarChart, XAxis, YAxis, Bar, Tooltip, Legend } from 'recharts';
+import {
+  BarChart,
+  XAxis,
+  YAxis,
+  Bar,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 import { getCategoriesStats } from '../selectors/weeklyStats';
 
 // duplicate the badge and legend styles in style.scss
@@ -47,23 +55,25 @@ function CategoriesChart(props) {
   return (
     <div className="chart categories">
       <h4>Past {numWeeks} weeks</h4>
-      <BarChart width={400} height={400} data={weeksData}>
-        <XAxis dataKey="weekStart" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        {categories.map((cat) => {
-          return (
-            <Bar
-              key={cat.slug}
-              dataKey={cat.slug}
-              name={cat.value}
-              stackId="a"
-              fill={`var(--color-${colorMaps[cat.slug]})`}
-            />
-          );
-        })}
-      </BarChart>
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart width={400} height={400} data={weeksData}>
+          <XAxis dataKey="weekStart" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          {categories.map((cat) => {
+            return (
+              <Bar
+                key={cat.slug}
+                dataKey={cat.slug}
+                name={cat.value}
+                stackId="a"
+                fill={`var(--color-${colorMaps[cat.slug]})`}
+              />
+            );
+          })}
+        </BarChart>
+      </ResponsiveContainer>
     </div>
   );
 }
