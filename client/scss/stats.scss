@@ -1,8 +1,18 @@
+.weekly-stats {
+  @media (min-width: 68.75em) {
+    width: 35%;
+  }
+}
+
+.account-stats {
+  @media (min-width: 68.75em) {
+    width: 50%;
+  }
+}
 .stats {
   @media (min-width: 68.75em) {
     float: left;
     padding-left: 2rem;
-    width: 35%;
   }
   .table {
     width: 80%;
