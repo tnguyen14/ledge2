@@ -8,7 +8,7 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "npm run build && npm run watch",
+    "start": "npm run server:watch & npm run client:watch",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "client:watch": "npm run js:watch & npm run css:watch",
