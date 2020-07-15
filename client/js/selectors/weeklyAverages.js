@@ -19,21 +19,40 @@ const calculateWeeklyAverage = (weeks) => {
 };
 
 export const calculateWeeklyAverages = createSelector(getWeeks, (weeks) => {
-  const timeSpans = [4, 12, 24];
-  return timeSpans.map((numWeeksInSpan, index) => {
+  const timeSpans = [
+    {
+      start: 1,
+      end: -3
+    },
+    {
+      start: 0,
+      end: -4
+    },
+    {
+      start: -1,
+      end: -5
+    },
+    {
+      start: -1,
+      end: -13
+    },
+    {
+      start: -1,
+      end: -25
+    }
+  ];
+  return timeSpans.map((timespan, index) => {
+    const numWeeksInSpan = timespan.start - timespan.end;
     const span = {
+      ...timespan,
       numWeeks: numWeeksInSpan,
       loaded: false,
       weeks: []
     };
-    const pastWeeksIndices = Object.keys(weeks).filter((x) => x < 0);
 
-    // loaded weeks of the span so far
-    span.weeks = pastWeeksIndices
+    span.weeks = Object.keys(weeks)
       .filter((weekIndex) => {
-        return (
-          Math.abs(weekIndex) <= numWeeksInSpan && weeks[weekIndex].hasLoaded
-        );
+        return weekIndex <= timespan.start && weekIndex > timespan.end;
       })
       .map((weekIndex) => weeks[weekIndex]);
 
