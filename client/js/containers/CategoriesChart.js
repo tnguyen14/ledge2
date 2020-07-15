@@ -59,7 +59,11 @@ function CategoriesChart(props) {
         <BarChart width={400} height={400} data={weeksData}>
           <XAxis dataKey="weekStart" />
           <YAxis />
-          <Tooltip />
+          {/* use itemSorter to reverser orderbecause by default,
+           * the order of items in tooltip is the opposite (visually)
+           * of the stacked bars
+           */}
+          <Tooltip itemSorter={(item, index) => -index} />
           <Legend />
           {categories.map((cat) => {
             return (
