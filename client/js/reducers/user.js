@@ -30,13 +30,6 @@ export default function user(state = initialState, action) {
       };
     case AUTHENTICATED:
     case RENEWED_SESSION:
-      const { accessToken, idToken, expiresIn } = action.data;
-      const expiresAt = expiresIn * 1000 + Date.now();
-      storeSession({
-        accessToken,
-        idToken,
-        expiresAt
-      });
       const newSession = getSession();
       const newState = {
         ...state,

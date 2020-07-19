@@ -1,13 +1,14 @@
-import auth from '@tridnguyen/auth';
+import { createAuth } from '@tridnguyen/auth';
 
 const redirectUri = `${window.location.href}callback.html`;
 
+const auth = createAuth({
+  redirectUri
+});
+
 export function login() {
   return function (dispatch) {
-    auth.authorize({
-      redirectUri,
-      prompt: 'none'
-    });
+    auth.silentAuth();
   };
 }
 
@@ -19,23 +20,14 @@ export function handleAuthentication() {
     dispatch({
       type: AUTHENTICATING
     });
-    auth.parseHash((err, authResult) => {
+    auth.handleCallback((err) => {
       if (err) {
-        if (err.error === 'login_required') {
-          auth.authorize({
-            redirectUri
-          });
-        } else {
-          console.error(err);
-        }
+        console.error(err);
         return;
       }
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        dispatch({
-          type: AUTHENTICATED,
-          data: authResult
-        });
-      }
+      dispatch({
+        type: AUTHENTICATED
+      });
     });
   };
 }
@@ -47,23 +39,15 @@ function renewSession(dispatch) {
   dispatch({
     type: RENEWING_SESSION
   });
-  auth.checkSession(
-    {
-      redirectUri
-    },
-    (err, authResult) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        dispatch({
-          type: RENEWED_SESSION,
-          data: authResult
-        });
-      }
+  auth.renewSession((err) => {
+    if (err) {
+      console.error(err);
+      return;
     }
-  );
+    dispatch({
+      type: RENEWED_SESSION
+    });
+  });
 }
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
