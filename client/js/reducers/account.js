@@ -14,10 +14,6 @@ const initialState = {
     averages: {
       timespans: [
         {
-          start: 1,
-          end: -3
-        },
-        {
           start: 0,
           end: -4
         },
