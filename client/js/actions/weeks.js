@@ -18,15 +18,20 @@ export function loadInitialWeeks() {
 
 function addWeek(offset) {
   return async function (dispatch, getState) {
+    const {
+      user: { idToken },
+      weeks
+    } = getState();
+    // week has already been loaded
+    if (weeks[offset] && weeks[offset].hasLoaded) {
+      return;
+    }
     dispatch({
       type: ADD_WEEK,
       data: {
         offset
       }
     });
-    const {
-      user: { idToken }
-    } = getState();
     try {
       const transactions = await getJson(
         idToken,
@@ -64,10 +69,15 @@ export function showMore(ahead) {
       ahead == true
         ? Number(visibleWeeksIndices[0]) + 1
         : Number(visibleWeeksIndices.pop()) - 1;
-    // the next week doesn't exist
-    if (!weeks[nextIndex] || !weeks[nextIndex].hasLoaded) {
-      dispatch(addWeek(nextIndex));
-    }
+
+    dispatch(addWeek(nextIndex));
+    // also load the 3 weeks before that, because each week needs to calculate
+    // a 4 week average (see weekStats.js)
+    dispatch(addWeek(nextIndex - 1));
+    dispatch(addWeek(nextIndex - 2));
+    dispatch(addWeek(nextIndex - 3));
+
+    // show the week in UI
     dispatch({
       type: SHOW_WEEK,
       data: {

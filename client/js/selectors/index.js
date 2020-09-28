@@ -6,6 +6,9 @@ const getWeeks = (state) => state.weeks;
 const getTimeSpans = (state) => state.account.stats.averages.timespans;
 
 const calculateWeeklyTotal = (week) => {
+  if (!week || !week.transactions) {
+    return 0;
+  }
   return sum(
     week.transactions.filter((txn) => !txn.carriedOver).map((t) => t.amount)
   );
