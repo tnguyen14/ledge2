@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Octicon, { Info } from '@primer/octicons-react';
+import { InfoIcon } from '@primer/octicons-react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
@@ -86,7 +86,7 @@ function Field(props) {
           >
             <div className="input-group-prepend hint">
               <div className="input-group-text">
-                <Octicon icon={Info} />
+                <InfoIcon />
               </div>
             </div>
           </OverlayTrigger>

@@ -7,7 +7,7 @@ import useToggle from '../hooks/useToggle';
 import classnames from 'classnames';
 import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
-import Octicon, { Pencil, X, Clock } from '@primer/octicons-react';
+import { PencilIcon, XIcon, ClockIcon } from '@primer/octicons-react';
 
 function getValueFromOptions(options, slug) {
   let option = options.find((opt) => opt.slug === slug);
@@ -64,7 +64,7 @@ function Transaction(props) {
                 e.stopPropagation();
               }}
             >
-              <Octicon icon={Clock} />
+              <ClockIcon />
             </span>
           </span>
         ) : null}
@@ -78,10 +78,10 @@ function Transaction(props) {
       </td>
       <td data-field="action">
         <a className="edit" onClick={handleEdit(id)}>
-          <Octicon icon={Pencil} />
+          <PencilIcon />
         </a>
         <a className="remove" onClick={handleRemove(id)}>
-          <Octicon icon={X} />
+          <XIcon />
         </a>
       </td>
     </tr>

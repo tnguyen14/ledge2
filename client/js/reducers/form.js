@@ -9,7 +9,7 @@ import {
   RESET_FORM
 } from '../actions/form';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
-import Octicon, { Zap } from '@primer/octicons-react';
+import { ZapIcon } from '@primer/octicons-react';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -63,7 +63,7 @@ const fields = [
     label: 'Calculate',
     name: 'calculate',
     placeholder: 'Calculate amount',
-    afterButton: <Octicon icon={Zap} />,
+    afterButton: <ZapIcon />,
     tabindex: -1
   },
   {

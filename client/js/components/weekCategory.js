@@ -4,7 +4,7 @@ import { usd } from '@tridnguyen/money';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import moment from 'moment-timezone';
-import Octicon, { Clock } from '@primer/octicons-react';
+import { ClockIcon } from '@primer/octicons-react';
 
 function WeekCategory(props) {
   const { slug, label, amount, weekId, carriedOvers = [] } = props;
@@ -33,7 +33,7 @@ function WeekCategory(props) {
             <span className="legend">&nbsp;</span>
             {label}
             <span className="span-hint">
-              <Octicon icon={Clock} />
+              <ClockIcon />
             </span>
           </td>
         </OverlayTrigger>

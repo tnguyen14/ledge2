@@ -64,7 +64,7 @@
     "watchify": "^3.11.1"
   },
   "dependencies": {
-    "@primer/octicons-react": "^9.6.0",
+    "@primer/octicons-react": "^11.0.0",
     "@tridnguyen/auth": "^4.0.3",
     "@tridnguyen/firestore": "^2.0.0",
     "@tridnguyen/money": "^1.5.9",
