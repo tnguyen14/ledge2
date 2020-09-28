@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import money from '../util/money';
+import { usd } from '@tridnguyen/money';
 
 function WeeklyAverage(props) {
   const { numWeeks, loaded, weeklyAverage, start } = props;
@@ -30,7 +30,7 @@ function WeeklyAverage(props) {
     relative = 'Previous';
   }
   const label = `${relative} ${duration}`;
-  const value = loaded ? money(weeklyAverage) : 'Calculating...';
+  const value = loaded ? usd(weeklyAverage) : 'Calculating...';
   return (
     <tr className="stat">
       <td>

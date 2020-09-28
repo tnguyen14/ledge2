@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment-timezone';
 import Badge from 'react-bootstrap/Badge';
-import money from '../util/money';
+import { usd } from '@tridnguyen/money';
 import useToggle from '../hooks/useToggle';
 import classnames from 'classnames';
 import Overlay from 'react-bootstrap/Overlay';
@@ -46,7 +46,7 @@ function Transaction(props) {
       <td data-field="day">{displayDate}</td>
       <td data-field="merchant">{merchant}</td>
       <td data-field="amount" data-cat={category}>
-        <Badge pill>{money(amount)}</Badge>
+        <Badge pill>{usd(amount)}</Badge>
         {span > 1 ? (
           <span>
             <Overlay

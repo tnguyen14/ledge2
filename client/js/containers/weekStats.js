@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import WeekCategory from '../components/weekCategory';
 import { getCategoriesTotalsStats, getTotalStat } from '../selectors/totals';
 import { connect } from 'react-redux';
-import money from '../util/money';
+import { usd } from '@tridnguyen/money';
 
 function WeekStats(props) {
   const { label, offset, transactions, categories } = props;
@@ -48,7 +48,7 @@ function WeekStats(props) {
             <td id={totalStatId} className="stat-label">
               {totalStat.label}
             </td>
-            <td aria-labelledby={totalStatId}>{money(totalStat.amount)}</td>
+            <td aria-labelledby={totalStatId}>{usd(totalStat.amount)}</td>
           </tr>
         </tbody>
       </table>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import money from '../util/money';
+import { usd } from '@tridnguyen/money';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import moment from 'moment-timezone';
@@ -19,7 +19,7 @@ function WeekCategory(props) {
         return (
           <li key={txn.id}>
             {moment(txn.date).format('MM/DD')} ({txn.span}) {txn.merchant}{' '}
-            {money(txn.amount)}{' '}
+            {usd(txn.amount)}{' '}
           </li>
         );
       })}
@@ -43,7 +43,7 @@ function WeekCategory(props) {
           {label}
         </td>
       )}
-      <td aria-labelledby={statId}>{money(amount)}</td>
+      <td aria-labelledby={statId}>{usd(amount)}</td>
     </tr>
   );
 }
