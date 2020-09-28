@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WeekCategory from '../components/weekCategory';
-import { getCategoriesTotalsStats, getTotalStat } from '../selectors/totals';
+import { calculateWeeklyAverage, getCategoriesTotalsStats } from '../selectors';
 import { connect } from 'react-redux';
 import { usd } from '@tridnguyen/money';
+import { sum } from '../util/calculate';
 
 function WeekStats(props) {
   const { label, offset, transactions, categories } = props;
@@ -23,8 +24,8 @@ function WeekStats(props) {
     categories
   });
 
-  const totalStat = getTotalStat({ transactions });
-  const totalStatId = `${totalStat.slug}-${weekId}`;
+  const total = sum(categoriesStats.map((s) => s.amount));
+  const totalStatId = `total-${weekId}`;
 
   return (
     <div className="stats week-stats">
@@ -46,9 +47,9 @@ function WeekStats(props) {
           })}
           <tr key={totalStatId} className="stat">
             <td id={totalStatId} className="stat-label">
-              {totalStat.label}
+              Total
             </td>
-            <td aria-labelledby={totalStatId}>{usd(totalStat.amount)}</td>
+            <td aria-labelledby={totalStatId}>{usd(total)}</td>
           </tr>
         </tbody>
       </table>

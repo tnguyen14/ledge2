@@ -9,7 +9,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-import { getCategoriesTotalsStats } from '../selectors/totals';
+import { getCategoriesTotalsStats } from '../selectors';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {
