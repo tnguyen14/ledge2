@@ -10,7 +10,11 @@ function WeekCategory(props) {
   const { slug, label, amount, weekId, carriedOvers = [] } = props;
   const statId = `${slug}-${weekId}`;
   const popover = (
-    <Popover id={`carried-${statId}`} title="Carried-over transactions">
+    <Popover
+      id={`carried-${statId}`}
+      className="carriedover-transactions"
+      title="Carried-over transactions"
+    >
       {carriedOvers.map((txn) => {
         return (
           <li key={txn.id}>

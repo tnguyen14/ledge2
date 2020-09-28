@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import WeekCategory from '../components/weekCategory';
 import { getCategoriesTotalsStats, getTotalStat } from '../selectors/totals';
 import { connect } from 'react-redux';
+import money from '../util/money';
 
 function WeekStats(props) {
   const { label, offset, transactions, categories } = props;
@@ -17,21 +18,20 @@ function WeekStats(props) {
     return txnsByCat;
   }, {});
 
-  const stats = getCategoriesTotalsStats({
+  const categoriesStats = getCategoriesTotalsStats({
     transactions,
     categories
-  }).concat(
-    getTotalStat({
-      transactions
-    })
-  );
+  });
+
+  const totalStat = getTotalStat({ transactions });
+  const totalStatId = `${totalStat.slug}-${weekId}`;
 
   return (
     <div className="stats week-stats">
       {label && <h4>{label}</h4>}
       <table className="table">
         <tbody>
-          {stats.map((stat) => {
+          {categoriesStats.map((stat) => {
             const { slug, label, amount } = stat;
             return (
               <WeekCategory
@@ -44,6 +44,12 @@ function WeekStats(props) {
               />
             );
           })}
+          <tr key={totalStatId} className="stat">
+            <td id={totalStatId} className="stat-label">
+              {totalStat.label}
+            </td>
+            <td aria-labelledby={totalStatId}>{money(totalStat.amount)}</td>
+          </tr>
         </tbody>
       </table>
     </div>

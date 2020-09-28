@@ -20,7 +20,7 @@ const calculateWeeklyAverage = (weeks) => {
   );
 };
 
-export const calculateWeeklyAverages = createSelector(
+export const getWeeklyAverages = createSelector(
   getWeeks,
   getTimeSpans,
   (weeks, timespans) => {
