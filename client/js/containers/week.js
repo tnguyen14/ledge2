@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
 import { removeTransaction, editTransaction } from '../actions/account';
 import Transaction from '../components/transaction';
-import WeeklyStats from '../components/weeklyStats';
-import { getCategoriesStats, getTotalStat } from '../selectors/weeklyStats';
+import WeekStats from '../containers/weekStats';
 
 function Week(props) {
   const {
@@ -17,17 +16,10 @@ function Week(props) {
     end,
     removeTransaction,
     editTransaction,
-    options
+    categories,
+    sources
   } = props;
 
-  const stats = getCategoriesStats({
-    transactions,
-    categories: options.categories
-  }).concat(
-    getTotalStat({
-      transactions
-    })
-  );
   if (!visible) {
     return null;
   }
@@ -64,18 +56,17 @@ function Week(props) {
                   key={tx.id}
                   handleRemove={removeTransaction}
                   handleEdit={editTransaction}
-                  options={options}
+                  options={{
+                    categories,
+                    sources
+                  }}
                   {...tx}
                 />
               );
             })}
         </tbody>
       </table>
-      <WeeklyStats
-        weekId={`week-${offset}`}
-        stats={stats}
-        carriedOvers={transactions.filter((tx) => tx.carriedOver)}
-      />
+      <WeekStats offset={offset} />
       <PulseLoader className="transactions-loading" loading={isLoading} />
     </div>
   );
@@ -90,19 +81,16 @@ Week.propTypes = {
   end: PropTypes.object,
   removeTransaction: PropTypes.func,
   editTransaction: PropTypes.func,
-  options: PropTypes.shape({
-    categories: PropTypes.array,
-    sources: PropTypes.array
-  }),
-  stats: PropTypes.array
+  stats: PropTypes.array,
+  categories: PropTypes.array,
+  sources: PropTypes.array
 };
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    options: {
-      categories: state.account.categories,
-      sources: state.account.sources
-    }
+    ...state.weeks[ownProps.offset],
+    categories: state.account.categories,
+    sources: state.account.sources
   };
 }
 

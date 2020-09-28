@@ -4,7 +4,7 @@ const getTransactions = (state) => state.transactions;
 
 const getCategories = (state) => state.categories;
 
-export const getCategoriesStats = createSelector(
+export const getCategoriesTotalsStats = createSelector(
   getTransactions,
   getCategories,
   (transactions, categories) => {
@@ -31,7 +31,7 @@ export const getTotalStat = createSelector(getTransactions, (transactions) => {
   return {
     label: 'Total',
     slug: 'total',
-    amount: getTotal(transactions)
+    amount: calculateTotal(transactions)
   };
 });
 
@@ -40,7 +40,7 @@ export const getTotalStat = createSelector(getTransactions, (transactions) => {
  * @param {Array} transactions
  * @returns {Number} total
  */
-function getTotal(transactions) {
+function calculateTotal(transactions) {
   if (!Array.isArray(transactions)) {
     return 0;
   }
@@ -56,7 +56,7 @@ function getTotal(transactions) {
  * @returns {Number} total
  */
 function getCategoryTotal(transactions, category) {
-  return getTotal(
+  return calculateTotal(
     transactions.filter(function (t) {
       return t.category === category.slug;
     })

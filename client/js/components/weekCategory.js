@@ -6,7 +6,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import moment from 'moment-timezone';
 import Octicon, { Clock } from '@primer/octicons-react';
 
-function WeeklyStat(props) {
+function WeekCategory(props) {
   const { slug, label, amount, weekId, carriedOvers = [] } = props;
   const statId = `${slug}-${weekId}`;
   const popover = (
@@ -44,7 +44,7 @@ function WeeklyStat(props) {
   );
 }
 
-WeeklyStat.propTypes = {
+WeekCategory.propTypes = {
   slug: PropTypes.string,
   label: PropTypes.string,
   amount: PropTypes.number,
@@ -52,4 +52,4 @@ WeeklyStat.propTypes = {
   carriedOvers: PropTypes.array
 };
 
-export default WeeklyStat;
+export default WeekCategory;

@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-import { getCategoriesStats } from '../selectors/weeklyStats';
+import { getCategoriesTotalsStats } from '../selectors/totals';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {
@@ -37,7 +37,7 @@ function CategoriesChart(props) {
     .filter((weekIndex) => weekIndex <= 0 && weekIndex > -numWeeks)
     .map((weekIndex) => weeks[weekIndex])
     .map((week) => {
-      const stats = getCategoriesStats({
+      const stats = getCategoriesTotalsStats({
         transactions: week.transactions,
         categories
       });

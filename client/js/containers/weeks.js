@@ -13,7 +13,7 @@ function Weeks(props) {
       {Object.keys(weeks)
         .sort((a, b) => b - a)
         .map((week) => {
-          return <Week key={week} offset={Number(week)} {...weeks[week]} />;
+          return <Week key={week} offset={Number(week)} />;
         })}
       <Button variant="success" onClick={showMore.bind(null, false)}>
         Show More
