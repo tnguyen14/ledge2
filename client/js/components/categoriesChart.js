@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
   BarChart,
   XAxis,
@@ -31,11 +30,8 @@ const colorMaps = {
 };
 
 function CategoriesChart(props) {
-  const numWeeks = 8;
   const { categories, weeks } = props;
-  const weeksData = Object.keys(weeks)
-    .filter((weekIndex) => weekIndex <= 0 && weekIndex > -numWeeks)
-    .map((weekIndex) => weeks[weekIndex])
+  const weeksData = weeks
     .map((week) => {
       const stats = getCategoriesTotalsStats({
         transactions: week.transactions,
@@ -54,7 +50,7 @@ function CategoriesChart(props) {
 
   return (
     <div className="chart categories">
-      <h4>Past {numWeeks} weeks</h4>
+      <h4>Past {weeks.length} weeks</h4>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart width={400} height={400} data={weeksData}>
           <XAxis dataKey="weekStart" />
@@ -84,14 +80,7 @@ function CategoriesChart(props) {
 
 CategoriesChart.propTypes = {
   categories: PropTypes.array,
-  weeks: PropTypes.object
+  weeks: PropTypes.array
 };
 
-function mapStateToProps(state) {
-  return {
-    categories: state.account.categories,
-    weeks: state.weeks
-  };
-}
-
-export default connect(mapStateToProps, null)(CategoriesChart);
+export default CategoriesChart;
