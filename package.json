@@ -84,6 +84,7 @@
     "lodash.chunk": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.pick": "^4.4.0",
+    "lodash.times": "^4.3.2",
     "lodash.union": "^4.6.0",
     "moment-timezone": "^0.5.21",
     "prop-types": "^15.6.2",

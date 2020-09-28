@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import times from 'lodash.times';
 import {
   BarChart,
   XAxis,
@@ -9,6 +10,8 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+import Button from 'react-bootstrap/Button';
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import { getCategoriesTotalsStats } from '../selectors';
 
 // duplicate the badge and legend styles in style.scss
@@ -31,11 +34,11 @@ const colorMaps = {
 
 function CategoriesChart(props) {
   const { categories, weeks } = props;
+  const [start, setStart] = useState(0);
   const numWeeks = 12;
-  const startWeek = 0;
 
   const weeksData = Object.keys(weeks)
-    .filter((weekIndex) => weekIndex <= startWeek && weekIndex > -numWeeks)
+    .filter((weekIndex) => weekIndex <= start && weekIndex > -numWeeks + start)
     .map((weekIndex) => weeks[weekIndex])
     .map((week) => {
       const stats = getCategoriesTotalsStats({
@@ -56,6 +59,18 @@ function CategoriesChart(props) {
   return (
     <div className="chart categories">
       <h4>Past {numWeeks} weeks</h4>
+      <div className="nav">
+        <Button variant="light" onClick={() => setStart(start - 1)}>
+          <ChevronLeftIcon />
+        </Button>
+        <Button
+          variant="light"
+          disabled={start == 0}
+          onClick={() => setStart(start + 1)}
+        >
+          <ChevronRightIcon />
+        </Button>
+      </div>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart width={400} height={400} data={weeksData}>
           <XAxis dataKey="weekStart" />
@@ -90,7 +105,7 @@ function CategoriesChart(props) {
 
 CategoriesChart.propTypes = {
   categories: PropTypes.array,
-  weeks: PropTypes.array
+  weeks: PropTypes.object
 };
 
 export default CategoriesChart;
