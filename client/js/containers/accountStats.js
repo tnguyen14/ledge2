@@ -8,16 +8,13 @@ import { getWeeklyAverages } from '../selectors';
 
 function AccountStats(props) {
   const { averages, categories, weeks } = props;
-  const weeksForChart = Object.keys(weeks)
-    .filter((weekIndex) => weekIndex <= 0 && weekIndex > -8)
-    .map((weekIndex) => weeks[weekIndex]);
   return (
     <Carousel className="stats account-stats" controls={false} interval={null}>
       <Carousel.Item>
         <Averages averages={averages} />
       </Carousel.Item>
       <Carousel.Item>
-        <CategoriesChart categories={categories} weeks={weeksForChart} />
+        <CategoriesChart categories={categories} weeks={weeks} />
       </Carousel.Item>
     </Carousel>
   );

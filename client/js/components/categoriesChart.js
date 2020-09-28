@@ -31,7 +31,12 @@ const colorMaps = {
 
 function CategoriesChart(props) {
   const { categories, weeks } = props;
-  const weeksData = weeks
+  const numWeeks = 12;
+  const startWeek = 0;
+
+  const weeksData = Object.keys(weeks)
+    .filter((weekIndex) => weekIndex <= startWeek && weekIndex > -numWeeks)
+    .map((weekIndex) => weeks[weekIndex])
     .map((week) => {
       const stats = getCategoriesTotalsStats({
         transactions: week.transactions,
@@ -50,7 +55,7 @@ function CategoriesChart(props) {
 
   return (
     <div className="chart categories">
-      <h4>Past {weeks.length} weeks</h4>
+      <h4>Past {numWeeks} weeks</h4>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart width={400} height={400} data={weeksData}>
           <XAxis dataKey="weekStart" />
