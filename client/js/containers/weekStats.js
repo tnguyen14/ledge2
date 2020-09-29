@@ -47,7 +47,7 @@ function WeekStats(props) {
               />
             );
           })}
-          <tr key={totalStatId} className="stat">
+          <tr key={totalStatId} className="stat total">
             <td id={totalStatId} className="stat-label">
               Total
             </td>
