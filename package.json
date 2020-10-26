@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@primer/octicons-react": "^11.0.0",
-    "@tridnguyen/auth": "^4.0.3",
+    "@tridnguyen/auth": "^5.4.0",
     "@tridnguyen/firestore": "^2.1.0",
     "@tridnguyen/money": "^1.5.9",
     "apidoc": "^0.17.6",
