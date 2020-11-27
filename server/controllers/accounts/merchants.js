@@ -3,7 +3,6 @@ const slugify = require('underscore.string/slugify');
 
 const firestore = require('@tridnguyen/firestore');
 const accounts = firestore.collection('accounts');
-const { noAccount } = require('./');
 
 /**
  * @description add a merchant to an account
@@ -14,9 +13,6 @@ const { noAccount } = require('./');
 function addMerchant(merchant, userId, accountName) {
   const acctRef = accounts.doc(`${userId}!${accountName}`);
   return acctRef.get().then((acctSnapshot) => {
-    if (!acctSnapshot.exists) {
-      throw noAccount;
-    }
     const acc = acctSnapshot.data();
     return acctRef.set(
       {
@@ -54,9 +50,6 @@ function updateMerchant(newMerchant, oldMerchant, userId, accountName) {
 function removeMerchant(merchant, userId, accountName) {
   const acctRef = accounts.doc(`${userId}!${accountName}`);
   return acctRef.get().then((acctSnapshot) => {
-    if (!acctSnapshot.exists) {
-      throw noAccount;
-    }
     const acc = acctSnapshot.data();
     return acctRef
       .collection('transactions')
