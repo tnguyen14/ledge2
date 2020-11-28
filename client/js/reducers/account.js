@@ -8,8 +8,11 @@ import {
 const initialState = {
   merchants: [],
   isRemovingTransaction: false,
-  categories: [],
-  sources: [],
+  meta: {
+    categories: [],
+    sources: [],
+    merchants_count: {}
+  },
   stats: {
     averages: {
       timespans: [
@@ -37,15 +40,15 @@ const initialState = {
 export default function account(state = initialState, action) {
   switch (action.type) {
     case LOAD_ACCOUNT_SUCCESS:
-      const merchants = Object.keys(action.data.merchants_count)
+      const merchants = Object.keys(action.data.meta.merchants_count)
         .filter((merchant) => {
-          return action.data.merchants_count[merchant] != null;
+          return action.data.meta.merchants_count[merchant] != null;
         })
         .map((merchant) => {
           return {
             // pass along slug
             slug: merchant,
-            ...action.data.merchants_count[merchant]
+            ...action.data.meta.merchants_count[merchant]
           };
         })
         .sort((a, b) => {

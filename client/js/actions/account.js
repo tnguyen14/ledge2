@@ -12,7 +12,7 @@ export function loadAccount() {
       const account = await getJson(idToken, `${SERVER_URL}`);
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
-        data: account.meta
+        data: account
       });
     } catch (err) {
       if (err.message == 'Unauthorized') {

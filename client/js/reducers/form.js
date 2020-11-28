@@ -201,8 +201,8 @@ export default function form(state = initialState, action) {
     case LOAD_ACCOUNT_SUCCESS:
       // when account is loaded, set category and source
       // with the first value in options
-      defaultCategory = action.data.categories[0].slug;
-      defaultSource = action.data.sources[0].slug;
+      defaultCategory = action.data.meta.categories[0].slug;
+      defaultSource = action.data.meta.sources[0].slug;
       newValues = {
         ...state.values,
         category: defaultCategory,

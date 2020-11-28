@@ -28,7 +28,7 @@ AccountStats.propTypes = {
 function mapStateToProps(state) {
   return {
     averages: getWeeklyAverages(state),
-    categories: state.account.categories,
+    categories: state.account.meta.categories,
     weeks: state.weeks
   };
 }
