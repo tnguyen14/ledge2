@@ -9,13 +9,10 @@ export function loadAccount() {
       user: { idToken }
     } = getState();
     try {
-      const account = await getJson(
-        idToken,
-        `${SERVER_URL}/accounts/${ACCOUNT_NAME}`
-      );
+      const account = await getJson(idToken, `${SERVER_URL}`);
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
-        data: account
+        data: account.meta
       });
     } catch (err) {
       if (err.message == 'Unauthorized') {

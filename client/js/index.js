@@ -12,7 +12,8 @@ import history from './history';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
-window.SERVER_URL = process.env.SERVER_URL;
+// window.SERVER_URL = process.env.SERVER_URL;
+window.SERVER_URL = 'https://lists.cloud.tridnguyen.com/ledge/tri';
 window.ACCOUNT_NAME = 'daily';
 
 render(
