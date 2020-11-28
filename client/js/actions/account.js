@@ -1,5 +1,7 @@
-import { getJson, deleteJson } from '../util/fetch';
+import { getJson, deleteJson, patchJson } from '../util/fetch';
 import { LOGOUT } from './user';
+import { removeMerchantFromCounts } from '../util/merchants';
+import qs from 'qs';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
@@ -62,32 +64,55 @@ export const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
 
 export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 
-export function removeTransaction(transactionId) {
+export function removeTransaction(transaction) {
   return function (dispatch) {
     // removeTransaction is an action-creator creator
     return function () {
       dispatch({
         type: REMOVE_TRANSACTION,
-        data: transactionId
+        data: transaction
       });
     };
   };
 }
 
-export function confirmRemoveTransaction(transactionId) {
+export function confirmedRemoveTransaction(transaction) {
   return function (dispatch, getState) {
     const {
-      user: { idToken }
+      user: { idToken },
+      account: {
+        meta: { merchants_count }
+      }
     } = getState();
     return async function (e) {
       try {
-        await deleteJson(
+        await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
+        const transactionsWithMerchantName = await getJson(
           idToken,
-          `${SERVER_URL}/accounts/${ACCOUNT_NAME}/transactions/${transactionId}`
+          `${SERVER_URL}/items?${qs.stringify({
+            where: [
+              {
+                field: 'merchant',
+                op: '==',
+                value: transaction.merchant
+              }
+            ]
+          })}`
         );
+        const updatedMerchantsCount = removeMerchantFromCounts(
+          transaction.merchant,
+          merchants_count,
+          transactionsWithMerchantName.length
+        );
+        await patchJson(idToken, `${SERVER_URL}`, {
+          meta: {
+            ...meta,
+            merchants_count: updatedMerchantsCount
+          }
+        });
         dispatch({
           type: REMOVE_TRANSACTION_SUCCESS,
-          data: transactionId
+          data: transaction.id
         });
       } catch (err) {
         if (err.message == 'Unauthorized') {

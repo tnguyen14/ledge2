@@ -80,7 +80,7 @@ function Transaction(props) {
         <a className="edit" onClick={handleEdit(id)}>
           <PencilIcon />
         </a>
-        <a className="remove" onClick={handleRemove(id)}>
+        <a className="remove" onClick={handleRemove({ id, merchant })}>
           <XIcon />
         </a>
       </td>
