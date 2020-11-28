@@ -89,8 +89,8 @@ Week.propTypes = {
 function mapStateToProps(state, ownProps) {
   return {
     ...state.weeks[ownProps.offset],
-    categories: state.account.meta.categories,
-    sources: state.account.meta.sources
+    categories: state.account.categories,
+    sources: state.account.sources
   };
 }
 

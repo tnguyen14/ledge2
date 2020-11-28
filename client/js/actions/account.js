@@ -11,7 +11,7 @@ export function loadAccount() {
       user: { idToken }
     } = getState();
     try {
-      const account = await getJson(idToken, `${SERVER_URL}`);
+      const account = await getJson(idToken, `${SERVER_URL}/meta`);
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
         data: account
@@ -80,9 +80,7 @@ export function confirmedRemoveTransaction(transaction) {
   return function (dispatch, getState) {
     const {
       user: { idToken },
-      account: {
-        meta: { merchants_count }
-      }
+      account: { merchants_count }
     } = getState();
     return async function (e) {
       try {
@@ -104,11 +102,8 @@ export function confirmedRemoveTransaction(transaction) {
           merchants_count,
           transactionsWithMerchantName.length
         );
-        await patchJson(idToken, `${SERVER_URL}`, {
-          meta: {
-            ...meta,
-            merchants_count: updatedMerchantsCount
-          }
+        await patchJson(idToken, `${SERVER_URL}/meta`, {
+          merchants_count: updatedMerchantsCount
         });
         dispatch({
           type: REMOVE_TRANSACTION_SUCCESS,

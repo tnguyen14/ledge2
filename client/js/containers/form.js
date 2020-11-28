@@ -116,8 +116,8 @@ function mapStateToProps(state) {
       'merchants-list': state.account.merchants
     },
     fieldOptions: {
-      category: state.account.meta.categories,
-      source: state.account.meta.sources
+      category: state.account.categories,
+      source: state.account.sources
     }
   };
 }
