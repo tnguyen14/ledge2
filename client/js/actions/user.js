@@ -1,6 +1,7 @@
 import { createAuth } from '@tridnguyen/auth';
 
-const redirectUri = `${window.location.href}callback.html`;
+// check if already on callback.html page. Not sure why that's needed.
+const redirectUri = window.location.href.includes('callback.html') ? window.location.href : `${window.location.href}callback.html`;
 
 const auth = createAuth({
   redirectUri
