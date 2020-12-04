@@ -1,4 +1,5 @@
 import { postJson, patchJson } from '../util/fetch';
+import { decorateTransaction } from '../util/transaction';
 import { LOGOUT, scheduleRenewal } from './user';
 import moment from 'moment-timezone';
 
@@ -9,6 +10,20 @@ export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
 
+async function addTransaction(idToken, transaction) {
+  const response = await postJson(idToken, `${SERVER_URL}/items`, transaction);
+  return ADD_TRANSACTION_SUCCESS;
+}
+
+async function updateTransaction(idToken, transaction) {
+  const response = await patchJson(
+    idToken,
+    `${SERVER_URL}/items/${transaction.id}`,
+    transaction
+  );
+  return UPDATE_TRANSACTION_SUCCESS;
+}
+
 export function submitForm(event) {
   event.preventDefault();
   return async (dispatch, getState) => {
@@ -16,20 +31,13 @@ export function submitForm(event) {
       form: { action, values }
     } = getState();
     let entry = {
-      ...values,
-      amount: values.amount * 100
+      ...values
     };
     // remove calculate
     delete entry.calculate;
 
-    const isUpdating = action === 'update';
-    const serverAction = isUpdating ? patchJson : postJson;
-    const actionUrl = `${SERVER_URL}/accounts/${ACCOUNT_NAME}/transactions/${
-      isUpdating ? entry.id : ''
-    }`;
-    const successActionType = isUpdating
-      ? UPDATE_TRANSACTION_SUCCESS
-      : ADD_TRANSACTION_SUCCESS;
+    const serverAction =
+      action == 'update' ? updateTransaction : addTransaction;
 
     dispatch({
       type: SUBMIT_TRANSACTION
@@ -39,19 +47,11 @@ export function submitForm(event) {
       user: { idToken }
     } = getState();
     try {
-      const response = await serverAction(idToken, actionUrl, entry);
+      const transaction = await decorateTransaction(idToken, entry);
+      const action = await serverAction(idToken, transaction);
       dispatch({
-        type: successActionType,
-        data: {
-          ...entry,
-          // pass back the old ID in case the transaction's ID
-          // has been changed due to changed time
-          oldId: entry.id,
-          id: String(response.id),
-          // replicate the conversion done on the server as the
-          // date value is not returned
-          date: moment.tz(entry.date + ' ' + entry.time, timezone).toISOString()
-        }
+        type: action,
+        data: transaction
       });
       scheduleRenewal()(dispatch, getState);
     } catch (err) {

@@ -4,6 +4,8 @@
 
 import async from 'async';
 import { getJson } from '../util/fetch';
+import moment from 'moment-timezone';
+import pick from 'lodash.pick';
 
 async function getTransaction(idToken, id) {
   return await getJson(idToken, `${SERVER_URL}/items/${id}`);
@@ -15,7 +17,7 @@ async function getTransaction(idToken, id) {
  * @param {string} idToken JWT token
  * @param {Object} date moment object that represents the date and time of transaction
  */
-export function getUniqueTransactionId(idToken, date) {
+async function getUniqueTransactionId(idToken, date) {
   let id = date.valueOf();
   let notFound = false;
   return new Promise((resolve, reject) => {
@@ -50,4 +52,38 @@ export function getUniqueTransactionId(idToken, date) {
       }
     );
   });
+}
+
+export async function decorateTransaction(idToken, params) {
+  const opts = {};
+  if (!(params.date && params.time)) {
+    throw new Error('Date and time are required for a transaction');
+  }
+  if (!params.amount) {
+    throw new Error('Amount is required for transaction');
+  }
+  if (!params.span) {
+    throw new Error('Span is required for transaction');
+  }
+  opts.date = moment
+    .tz(`${params.date} ${params.time}`, TIMEZONE)
+    .toISOString();
+  opts.amount = parseInt(params.amount, 10) * 100;
+  opts.span = parseInt(params.span, 10);
+  if (!params.id) {
+    opts.id = await getUniqueTransactionId(idToken, opts.date);
+  } else {
+    opts.id = params.id;
+  }
+
+  return {
+    ...pick(params, [
+      'description',
+      'merchant',
+      'status',
+      'category',
+      'source'
+    ]),
+    ...opts
+  };
 }
