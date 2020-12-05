@@ -76,43 +76,41 @@ export function intendToRemoveTransaction(transaction) {
 
 // this function is supposed to be called after a transaction has been deleted
 export function decrementMerchantCounts(merchant) {
-  return function (dispatch, getState) {
+  return async function (dispatch, getState) {
     const {
       user: { idToken },
       account: { merchants_count }
     } = getState();
-    return async function (e) {
-      try {
-        const transactionsWithMerchantName = await getJson(
-          idToken,
-          `${SERVER_URL}/items?${qs.stringify({
-            where: [
-              {
-                field: 'merchant',
-                op: '==',
-                value: merchant
-              }
-            ]
-          })}`
-        );
-        const updatedMerchantsCount = removeMerchantFromCounts(
-          merchant,
-          merchants_count,
-          transactionsWithMerchantName.length
-        );
-        await patchJson(idToken, `${SERVER_URL}/meta`, {
-          merchants_count: updatedMerchantsCount
+    try {
+      const transactionsWithMerchantName = await getJson(
+        idToken,
+        `${SERVER_URL}/items?${qs.stringify({
+          where: [
+            {
+              field: 'merchant',
+              op: '==',
+              value: merchant
+            }
+          ]
+        })}`
+      );
+      const updatedMerchantsCount = removeMerchantFromCounts(
+        merchant,
+        merchants_count,
+        transactionsWithMerchantName.length
+      );
+      await patchJson(idToken, `${SERVER_URL}/meta`, {
+        merchants_count: updatedMerchantsCount
+      });
+    } catch (err) {
+      if (err.message == 'Unauthorized') {
+        dispatch({
+          type: LOGOUT
         });
-      } catch (err) {
-        if (err.message == 'Unauthorized') {
-          dispatch({
-            type: LOGOUT
-          });
-          return;
-        }
-        throw err;
+        return;
       }
-    };
+      throw err;
+    }
   };
 }
 

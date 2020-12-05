@@ -53,11 +53,13 @@ export function removeTransaction(transaction) {
       user: { idToken }
     } = getState();
 
-    await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
-    dispatch({
-      type: REMOVE_TRANSACTION_SUCCESS,
-      data: id
-    });
-    dispatch(decrementMerchantCounts(transaction.merchant));
+    return async function (e) {
+      await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
+      dispatch({
+        type: REMOVE_TRANSACTION_SUCCESS,
+        data: id
+      });
+      dispatch(decrementMerchantCounts(transaction.merchant));
+    };
   };
 }
