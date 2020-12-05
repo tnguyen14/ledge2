@@ -1,6 +1,6 @@
 import {
   LOAD_ACCOUNT_SUCCESS,
-  REMOVE_TRANSACTION,
+  INTEND_TO_REMOVE_TRANSACTION,
   CANCEL_REMOVE_TRANSACTION
 } from '../actions/account';
 
@@ -59,7 +59,7 @@ export default function account(state = initialState, action) {
         return merchants.concat(merchant.values);
       }, []);
       return { ...state, ...action.data, merchants: merchantsNames };
-    case REMOVE_TRANSACTION:
+    case INTEND_TO_REMOVE_TRANSACTION:
       return {
         ...state,
         isRemovingTransaction: true,

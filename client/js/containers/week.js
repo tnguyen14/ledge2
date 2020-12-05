@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
-import { removeTransaction, editTransaction } from '../actions/account';
+import { intendToRemoveTransaction, editTransaction } from '../actions/account';
 import Transaction from '../components/transaction';
 import WeekStats from '../containers/weekStats';
 
@@ -14,7 +14,7 @@ function Week(props) {
     transactions,
     start,
     end,
-    removeTransaction,
+    intendToRemoveTransaction,
     editTransaction,
     categories,
     sources
@@ -54,7 +54,7 @@ function Week(props) {
               return (
                 <Transaction
                   key={tx.id}
-                  handleRemove={removeTransaction}
+                  handleRemove={intendToRemoveTransaction}
                   handleEdit={editTransaction}
                   options={{
                     categories,
@@ -79,7 +79,7 @@ Week.propTypes = {
   transactions: PropTypes.array,
   start: PropTypes.object,
   end: PropTypes.object,
-  removeTransaction: PropTypes.func,
+  intendToRemoveTransaction: PropTypes.func,
   editTransaction: PropTypes.func,
   stats: PropTypes.array,
   categories: PropTypes.array,
@@ -95,6 +95,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  removeTransaction,
+  intendToRemoveTransaction,
   editTransaction
 })(Week);

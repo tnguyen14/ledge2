@@ -60,14 +60,14 @@ export function editTransaction(transactionId) {
   };
 }
 
-export const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
+export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
 
-export function removeTransaction(transaction) {
+export function intendToRemoveTransaction(transaction) {
   return function (dispatch) {
     // removeTransaction is an action-creator creator
     return function () {
       dispatch({
-        type: REMOVE_TRANSACTION,
+        type: INTEND_TO_REMOVE_TRANSACTION,
         data: transaction
       });
     };
