@@ -4,10 +4,12 @@ import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
   SUBMIT_TRANSACTION_FAILURE,
-  ADD_TRANSACTION_SUCCESS,
-  UPDATE_TRANSACTION_SUCCESS,
   RESET_FORM
 } from '../actions/form';
+import {
+  ADD_TRANSACTION_SUCCESS,
+  UPDATE_TRANSACTION_SUCCESS
+} from '../actions/transaction';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 import { ZapIcon } from '@primer/octicons-react';
 

@@ -7,7 +7,7 @@ import {
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS
-} from '../actions/form';
+} from '../actions/transaction';
 import moment from 'moment-timezone';
 
 const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;

@@ -1,7 +1,5 @@
 // @ts-check
 
-// import("../../@types/global.d.ts")
-
 import async from 'async';
 import { getJson } from '../util/fetch';
 import moment from 'moment-timezone';
@@ -54,7 +52,7 @@ async function getUniqueTransactionId(idToken, date) {
   });
 }
 
-export async function decorateTransaction(idToken, params) {
+export async function decorateTransaction(params) {
   const opts = {};
   if (!(params.date && params.time)) {
     throw new Error('Date and time are required for a transaction');
@@ -70,11 +68,6 @@ export async function decorateTransaction(idToken, params) {
     .toISOString();
   opts.amount = parseInt(params.amount, 10) * 100;
   opts.span = parseInt(params.span, 10);
-  if (!params.id) {
-    opts.id = await getUniqueTransactionId(idToken, opts.date);
-  } else {
-    opts.id = params.id;
-  }
 
   return {
     ...pick(params, [
