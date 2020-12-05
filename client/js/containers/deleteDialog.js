@@ -3,18 +3,17 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import {
-  confirmedRemoveTransaction,
-  cancelRemoveTransaction
-} from '../actions/account';
+import { cancelRemoveTransaction } from '../actions/account';
+import { removeTransaction } from '../actions/transaction';
 
 function DeleteDialog(props) {
   const {
     isRemovingTransaction,
     transactionToBeRemoved,
-    confirmedRemoveTransaction,
-    cancelRemoveTransaction
+    cancelRemoveTransaction,
+    removeTransaction
   } = props;
+
   return (
     <Modal
       show={isRemovingTransaction}
@@ -31,7 +30,7 @@ function DeleteDialog(props) {
         </Button>
         <Button
           variant="danger"
-          onClick={confirmedRemoveTransaction(transactionToBeRemoved)}
+          onClick={removeTransaction(transactionToBeRemoved)}
         >
           Delete
         </Button>
@@ -43,8 +42,8 @@ function DeleteDialog(props) {
 DeleteDialog.propTypes = {
   isRemovingTransaction: PropTypes.bool.isRequired,
   transactionToBeRemoved: PropTypes.object,
-  confirmedRemoveTransaction: PropTypes.func.isRequired,
-  cancelRemoveTransaction: PropTypes.func.isRequired
+  cancelRemoveTransaction: PropTypes.func.isRequired,
+  removeTransaction: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -55,6 +54,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  confirmedRemoveTransaction,
-  cancelRemoveTransaction
+  cancelRemoveTransaction,
+  removeTransaction
 })(DeleteDialog);

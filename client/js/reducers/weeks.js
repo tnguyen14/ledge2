@@ -1,4 +1,3 @@
-import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
 import {
   ADD_WEEK,
   SHOW_WEEK,
@@ -6,7 +5,8 @@ import {
 } from '../actions/weeks';
 import {
   ADD_TRANSACTION_SUCCESS,
-  UPDATE_TRANSACTION_SUCCESS
+  UPDATE_TRANSACTION_SUCCESS,
+  REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
 import moment from 'moment-timezone';
 

@@ -1,11 +1,13 @@
-import { getJson, postJson, patchJson } from '../util/fetch';
+import { postJson, patchJson, deleteJson } from '../util/fetch';
 import {
   getUniqueTransactionId,
   decorateTransaction
 } from '../util/transaction';
+import { decrementMerchantCounts } from './account';
 
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
+export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 
 export function addTransaction(transaction) {
   return async function (dispatch, getState) {
@@ -42,5 +44,20 @@ export function updateTransaction(transaction) {
       type: UPDATE_TRANSACTION_SUCCESS,
       data: transaction
     });
+  };
+}
+
+export function removeTransaction(transaction) {
+  return async function (dispatch, getState) {
+    const {
+      user: { idToken }
+    } = getState();
+
+    await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
+    dispatch({
+      type: REMOVE_TRANSACTION_SUCCESS,
+      data: id
+    });
+    dispatch(decrementMerchantCounts(transaction.merchant));
   };
 }

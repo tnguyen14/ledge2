@@ -62,8 +62,6 @@ export function editTransaction(transactionId) {
 
 export const REMOVE_TRANSACTION = 'REMOVE_TRANSACTION';
 
-export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
-
 export function removeTransaction(transaction) {
   return function (dispatch) {
     // removeTransaction is an action-creator creator
@@ -76,7 +74,8 @@ export function removeTransaction(transaction) {
   };
 }
 
-export function confirmedRemoveTransaction(transaction) {
+// this function is supposed to be called after a transaction has been deleted
+export function decrementMerchantCounts(merchant) {
   return function (dispatch, getState) {
     const {
       user: { idToken },
@@ -84,7 +83,6 @@ export function confirmedRemoveTransaction(transaction) {
     } = getState();
     return async function (e) {
       try {
-        await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
         const transactionsWithMerchantName = await getJson(
           idToken,
           `${SERVER_URL}/items?${qs.stringify({
@@ -92,22 +90,18 @@ export function confirmedRemoveTransaction(transaction) {
               {
                 field: 'merchant',
                 op: '==',
-                value: transaction.merchant
+                value: merchant
               }
             ]
           })}`
         );
         const updatedMerchantsCount = removeMerchantFromCounts(
-          transaction.merchant,
+          merchant,
           merchants_count,
           transactionsWithMerchantName.length
         );
         await patchJson(idToken, `${SERVER_URL}/meta`, {
           merchants_count: updatedMerchantsCount
-        });
-        dispatch({
-          type: REMOVE_TRANSACTION_SUCCESS,
-          data: transaction.id
         });
       } catch (err) {
         if (err.message == 'Unauthorized') {
