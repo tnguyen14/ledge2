@@ -3,16 +3,37 @@ import {
   getUniqueTransactionId,
   decorateTransaction
 } from '../util/transaction';
-import { decrementMerchantCounts } from './account';
+import {
+  addMerchantToCounts,
+  removeMerchantFromCounts
+} from '../util/merchants';
+import { updateMerchantCounts } from './account';
+import qs from 'qs';
 
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 
+async function getTransactionsWithMerchantName(idToken, merchant) {
+  return await getJson(
+    idToken,
+    `${SERVER_URL}/items?${qs.stringify({
+      where: [
+        {
+          field: 'merchant',
+          op: '==',
+          value: merchant
+        }
+      ]
+    })}`
+  );
+}
+
 export function addTransaction(transaction) {
   return async function (dispatch, getState) {
     const {
-      user: { idToken }
+      user: { idToken },
+      account: { merchants_count }
     } = getState();
 
     const id = await getUniqueTransactionId(idToken, transaction.date);
@@ -25,10 +46,15 @@ export function addTransaction(transaction) {
       type: ADD_TRANSACTION_SUCCESS,
       data: transaction
     });
+    dispatch(
+      updatedMerchantsCount(
+        addMerchantToCounts(transaction.merchant, merchants_count)
+      )
+    );
   };
 }
 
-export function updateTransaction(transaction) {
+export function updateTransaction(transaction, oldMerchant) {
   return async function (dispatch, getState) {
     const {
       user: { idToken }
@@ -44,13 +70,28 @@ export function updateTransaction(transaction) {
       type: UPDATE_TRANSACTION_SUCCESS,
       data: transaction
     });
+    if (transaction.merchant != oldMerchant) {
+      const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
+        oldMerchant
+      );
+      const updatedMerchantsCount = addMerchantToCounts(
+        transaction.merchant,
+        removeMerchantFromCounts(
+          oldMerchant,
+          merchants_count,
+          transactionsWithOldMerchantName.length
+        )
+      );
+      dispatch(updateMerchantCounts(updatedMerchantsCount));
+    }
   };
 }
 
 export function removeTransaction(transaction) {
   return async function (dispatch, getState) {
     const {
-      user: { idToken }
+      user: { idToken },
+      account: { merchants_count }
     } = getState();
 
     return async function (e) {
@@ -59,7 +100,15 @@ export function removeTransaction(transaction) {
         type: REMOVE_TRANSACTION_SUCCESS,
         data: id
       });
-      dispatch(decrementMerchantCounts(transaction.merchant));
+      const transactionsWithMerchantName = await getTransactionsWithMerchantName(
+        transaction.merchant
+      );
+      const updatedMerchantsCount = removeMerchantFromCounts(
+        merchant,
+        merchants_count,
+        transactionsWithMerchantName.length
+      );
+      dispatch(updateMerchantCounts(updatedMerchantsCount));
     };
   };
 }

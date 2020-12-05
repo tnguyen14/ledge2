@@ -24,6 +24,7 @@ function Form(props) {
     inputChange
   } = props;
   const amount = fields.find((field) => field.name == 'amount').value;
+  const merchant = fields.find((field) => field.name == 'merchant').value;
 
   useEffect(loadAccount, []);
 
@@ -44,7 +45,7 @@ function Form(props) {
     submit();
     try {
       if (action == 'update') {
-        updateTransaction(values);
+        updateTransaction(values, merchant);
       } else {
         addTransaction(values);
       }

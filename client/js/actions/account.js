@@ -1,7 +1,5 @@
 import { getJson, deleteJson, patchJson } from '../util/fetch';
 import { LOGOUT } from './user';
-import { removeMerchantFromCounts } from '../util/merchants';
-import qs from 'qs';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
@@ -74,43 +72,21 @@ export function intendToRemoveTransaction(transaction) {
   };
 }
 
-// this function is supposed to be called after a transaction has been deleted
-export function decrementMerchantCounts(merchant) {
+// TODO update merchant counts in account reducer
+const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
+
+export function updateMerchantCounts(merchants_count) {
   return async function (dispatch, getState) {
     const {
-      user: { idToken },
-      account: { merchants_count }
+      user: { idToken }
     } = getState();
-    try {
-      const transactionsWithMerchantName = await getJson(
-        idToken,
-        `${SERVER_URL}/items?${qs.stringify({
-          where: [
-            {
-              field: 'merchant',
-              op: '==',
-              value: merchant
-            }
-          ]
-        })}`
-      );
-      const updatedMerchantsCount = removeMerchantFromCounts(
-        merchant,
-        merchants_count,
-        transactionsWithMerchantName.length
-      );
-      await patchJson(idToken, `${SERVER_URL}/meta`, {
-        merchants_count: updatedMerchantsCount
-      });
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        dispatch({
-          type: LOGOUT
-        });
-        return;
-      }
-      throw err;
-    }
+    await patchJson(idToken, `${SERVER_URL}/meta`, {
+      merchants_count
+    });
+    dispatch({
+      type: UPDATE_MERCHANT_COUNTS_SUCCESS,
+      data: merchants_count
+    });
   };
 }
 
