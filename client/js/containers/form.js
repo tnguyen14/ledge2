@@ -10,7 +10,6 @@ import {
   SUBMIT_TRANSACTION
 } from '../actions/form';
 import { addTransaction, updateTransaction } from '../actions/transaction';
-import { loadAccount } from '../actions/account';
 import { logout } from '../actions/user';
 
 function submit() {
@@ -55,7 +54,6 @@ function Form(props) {
     pending,
     resetForm,
     fieldOptions,
-    loadAccount,
     addTransaction,
     updateTransaction,
     logout,
@@ -99,8 +97,6 @@ function Form(props) {
     },
     [action, values, updateTransaction, addTransaction, logout, submitFailure]
   );
-
-  useEffect(loadAccount, []);
 
   return (
     <form className="new-transaction" method="POST">
@@ -172,7 +168,6 @@ Form.propTypes = {
   datalists: PropTypes.shape({
     'merchants-list': PropTypes.array
   }),
-  loadAccount: PropTypes.func,
   inputChange: PropTypes.func,
   resetForm: PropTypes.func,
   fieldOptions: PropTypes.shape({
@@ -195,7 +190,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-  loadAccount,
   inputChange,
   resetForm,
   addTransaction,

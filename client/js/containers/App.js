@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
+import { loadAccount } from '../actions/account';
 import history from '../history';
 
 function App(props) {
@@ -20,6 +21,7 @@ function App(props) {
     isRenewing,
     location,
     handleAuthentication,
+    loadAccount,
     loadInitialWeeks
   } = props;
 
@@ -40,6 +42,7 @@ function App(props) {
     }
 
     if (authenticated) {
+      loadAccount();
       loadInitialWeeks();
     }
   }, [authenticated, isVisible]);
@@ -71,6 +74,7 @@ App.propTypes = {
   login: PropTypes.func.isRequired,
   handleAuthentication: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  loadAccount: PropTypes.func,
   loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
   isRenewing: PropTypes.bool,
@@ -85,5 +89,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   login,
   handleAuthentication,
+  loadAccount,
   loadInitialWeeks
 })(App);
