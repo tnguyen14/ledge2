@@ -8,33 +8,10 @@ import Notification from '../components/notification';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
-import { login, handleAuthentication, LOGOUT } from '../actions/user';
+import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
-import { LOAD_ACCOUNT_SUCCESS } from '../actions/account';
+import { loadAccount } from '../actions/account';
 import history from '../history';
-
-function loadAccount() {
-  return async function (dispatch, getState) {
-    const {
-      user: { idToken }
-    } = getState();
-    try {
-      const account = await getJson(idToken, `${SERVER_URL}/meta`);
-      dispatch({
-        type: LOAD_ACCOUNT_SUCCESS,
-        data: account
-      });
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        dispatch({
-          type: LOGOUT
-        });
-        return;
-      }
-      throw err;
-    }
-  };
-}
 
 function App(props) {
   const {

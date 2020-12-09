@@ -1,6 +1,30 @@
-import { patchJson } from '../util/fetch';
+import { getJson, patchJson } from '../util/fetch';
+import { LOGOUT } from './user';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
+
+export function loadAccount() {
+  return async function (dispatch, getState) {
+    const {
+      user: { idToken }
+    } = getState();
+    try {
+      const account = await getJson(idToken, `${SERVER_URL}/meta`);
+      dispatch({
+        type: LOAD_ACCOUNT_SUCCESS,
+        data: account
+      });
+    } catch (err) {
+      if (err.message == 'Unauthorized') {
+        dispatch({
+          type: LOGOUT
+        });
+        return;
+      }
+      throw err;
+    }
+  };
+}
 
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 
