@@ -10,7 +10,7 @@ import {
   SUBMIT_TRANSACTION
 } from '../actions/form';
 import { addTransaction, updateTransaction } from '../actions/transaction';
-import { logout } from '../actions/user';
+import { logout, scheduleRenewal } from '../actions/user';
 
 function submit() {
   return {
@@ -57,6 +57,7 @@ function Form(props) {
     addTransaction,
     updateTransaction,
     logout,
+    scheduleRenewal,
     inputChange
   } = props;
 
@@ -94,6 +95,7 @@ function Form(props) {
         }
         submitFailure(err);
       }
+      scheduleRenewal();
     },
     [action, values, updateTransaction, addTransaction, logout, submitFailure]
   );
@@ -163,6 +165,7 @@ Form.propTypes = {
   addTransaction: PropTypes.func,
   updateTransaction: PropTypes.func,
   logout: PropTypes.func,
+  scheduleRenewal: PropTypes.func,
   submitFailure: PropTypes.func,
   submit: PropTypes.func,
   datalists: PropTypes.shape({
@@ -195,6 +198,7 @@ export default connect(mapStateToProps, {
   addTransaction,
   updateTransaction,
   logout,
+  scheduleRenewal,
   submitFailure,
   submit
 })(Form);

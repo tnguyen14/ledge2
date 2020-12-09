@@ -36,19 +36,21 @@ export function handleAuthentication() {
 export const RENEWING_SESSION = 'RENEWING_SESSION';
 export const RENEWED_SESSION = 'RENEWED_SESSION';
 
-function renewSession(dispatch) {
-  dispatch({
-    type: RENEWING_SESSION
-  });
-  auth.renewSession((err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+function renewSession() {
+  return function (dispatch) {
     dispatch({
-      type: RENEWED_SESSION
+      type: RENEWING_SESSION
     });
-  });
+    auth.renewSession((err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      dispatch({
+        type: RENEWED_SESSION
+      });
+    });
+  };
 }
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
@@ -65,7 +67,9 @@ export function scheduleRenewal(delay = 1000) {
       return;
     }
     if (expiresAt > Date.now()) {
-      const timeout = setTimeout(renewSession.bind(null, dispatch), delay);
+      const timeout = setTimeout(() => {
+        dispatch(renewSession());
+      }, delay);
       dispatch({
         type: SCHEDULE_RENEWAL,
         data: timeout
