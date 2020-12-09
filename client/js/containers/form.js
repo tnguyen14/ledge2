@@ -1,12 +1,50 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Field from '../components/field';
-import { inputChange, resetForm, submitFailure, submit } from '../actions/form';
+import {
+  INPUT_CHANGE,
+  RESET_FORM,
+  SUBMIT_TRANSACTION_FAILURE,
+  SUBMIT_TRANSACTION
+} from '../actions/form';
 import { addTransaction, updateTransaction } from '../actions/transaction';
 import { loadAccount } from '../actions/account';
 import { logout } from '../actions/user';
+
+function submit() {
+  return {
+    type: SUBMIT_TRANSACTION
+  };
+}
+
+function submitFailure(err) {
+  return {
+    type: SUBMIT_TRANSACTION_FAILURE,
+    data: err
+  };
+}
+
+function inputChange(name, value) {
+  return {
+    type: INPUT_CHANGE,
+    data: {
+      name,
+      value
+    }
+  };
+}
+
+function resetForm() {
+  return {
+    type: RESET_FORM
+  };
+}
+
+function calculateString(str) {
+  return Function(`"use strict"; return(${str})`)();
+}
 
 function Form(props) {
   const {
@@ -23,53 +61,46 @@ function Form(props) {
     logout,
     inputChange
   } = props;
-  const amount = fields.find((field) => field.name == 'amount').value;
-  const merchant = fields.find((field) => field.name == 'merchant').value;
 
-  useEffect(loadAccount, []);
+  const prevMerchantRef = useRef();
+  useEffect(() => {
+    prevMerchantRef.current = values.merchant;
+  });
 
-  let amountFieldRef = useRef();
+  let amountFieldRef = null;
 
   useEffect(() => {
     if (amountFieldRef) {
       amountFieldRef.focus();
     }
-  }, [amount]);
+  }, [values.amount]);
 
   const buttonAttrs = {
     disabled: Boolean(pending)
   };
 
-  function submitForm(event) {
-    event.preventDefault();
-    submit();
-    try {
-      if (action == 'update') {
-        updateTransaction(values, merchant);
-      } else {
-        addTransaction(values);
+  const submitForm = useCallback(
+    (event) => {
+      event.preventDefault();
+      submit();
+      try {
+        if (action == 'update') {
+          updateTransaction(values, prevMerchantRef.current);
+        } else {
+          addTransaction(values);
+        }
+      } catch (err) {
+        if (err.message == 'Unauthorized') {
+          logout();
+          return;
+        }
+        submitFailure(err);
       }
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        logout();
-        return;
-      }
-      submitFailure(err);
-    }
-  }
+    },
+    [action, values, updateTransaction, addTransaction, logout, submitFailure]
+  );
 
-  function calculateString(str) {
-    return Function(`"use strict"; return(${str})`)();
-  }
-
-  function calculateAmount() {
-    if (!values.calculate) {
-      return;
-    }
-    const newAmount = calculateString(values.calculate).toFixed(2);
-
-    inputChange('amount', newAmount);
-  }
+  useEffect(loadAccount, []);
 
   return (
     <form className="new-transaction" method="POST">
@@ -94,7 +125,12 @@ function Form(props) {
             }}
             afterButtonAction={() => {
               if (field.name == 'calculate') {
-                calculateAmount();
+                if (!values.calculate) {
+                  return;
+                }
+                const newAmount = calculateString(values.calculate).toFixed(2);
+
+                inputChange('amount', newAmount);
               }
             }}
             {...field}

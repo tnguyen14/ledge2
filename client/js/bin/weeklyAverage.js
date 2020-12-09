@@ -64,3 +64,4 @@ async function year(y) {
 
 year('2019').then(console.log, console.error);
 year('2020').then(console.log, console.error);
+// getWeeklyAverage(moment('2020-03-16').tz(TIMEZONE), moment().tz(TIMEZONE)).then(console.log, console.error);
