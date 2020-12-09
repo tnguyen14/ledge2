@@ -2,9 +2,27 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
-import { intendToRemoveTransaction, editTransaction } from '../actions/account';
+import {
+  INTEND_TO_REMOVE_TRANSACTION,
+  EDIT_TRANSACTION
+} from '../actions/account';
 import Transaction from '../components/transaction';
 import WeekStats from '../containers/weekStats';
+
+function editTransaction(transaction, event) {
+  event.stopPropagation(); // avoid toggling the transaction as active
+  return {
+    type: EDIT_TRANSACTION,
+    data: transaction
+  };
+}
+
+function intendToRemoveTransaction(transaction) {
+  return {
+    type: INTEND_TO_REMOVE_TRANSACTION,
+    data: transaction
+  };
+}
 
 function Week(props) {
   const {
@@ -14,8 +32,8 @@ function Week(props) {
     transactions,
     start,
     end,
-    intendToRemoveTransaction,
     editTransaction,
+    intendToRemoveTransaction,
     categories,
     sources
   } = props;
@@ -23,6 +41,7 @@ function Week(props) {
   if (!visible) {
     return null;
   }
+
   return (
     <div className="weekly">
       <h3 className="week-title">
@@ -54,8 +73,8 @@ function Week(props) {
               return (
                 <Transaction
                   key={tx.id}
-                  handleRemove={intendToRemoveTransaction}
-                  handleEdit={editTransaction}
+                  handleRemove={intendToRemoveTransaction.bind(null, tx)}
+                  handleEdit={editTransaction.bind(null, tx)}
                   options={{
                     categories,
                     sources
@@ -79,8 +98,8 @@ Week.propTypes = {
   transactions: PropTypes.array,
   start: PropTypes.object,
   end: PropTypes.object,
-  intendToRemoveTransaction: PropTypes.func,
   editTransaction: PropTypes.func,
+  intendToRemoveTransaction: PropTypes.func,
   stats: PropTypes.array,
   categories: PropTypes.array,
   sources: PropTypes.array
@@ -95,6 +114,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default connect(mapStateToProps, {
-  intendToRemoveTransaction,
-  editTransaction
+  editTransaction,
+  intendToRemoveTransaction
 })(Week);

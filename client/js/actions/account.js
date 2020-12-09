@@ -28,49 +28,7 @@ export function loadAccount() {
 
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 
-export function editTransaction(transactionId) {
-  return function (dispatch, getState) {
-    // editTransaction is an action-creator creator
-    return function (e) {
-      const { weeks } = getState();
-      let transaction;
-      // iterate over each week to find the transaction
-      // if it's already found, move on (short-circuiting by using
-      // Array.prototype.some)
-      Object.keys(weeks).some((offset) => {
-        if (transaction) {
-          return true;
-        }
-        weeks[offset].transactions.some((tx) => {
-          if (tx.id === transactionId) {
-            transaction = tx;
-            return true;
-          }
-        });
-      });
-      dispatch({
-        type: EDIT_TRANSACTION,
-        data: transaction
-      });
-      // avoid toggling the transaction as active
-      e.stopPropagation();
-    };
-  };
-}
-
 export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
-
-export function intendToRemoveTransaction(transaction) {
-  return function (dispatch) {
-    // removeTransaction is an action-creator creator
-    return function () {
-      dispatch({
-        type: INTEND_TO_REMOVE_TRANSACTION,
-        data: transaction
-      });
-    };
-  };
-}
 
 // TODO update merchant counts in account reducer
 const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
@@ -91,9 +49,3 @@ export function updateMerchantCounts(merchants_count) {
 }
 
 export const CANCEL_REMOVE_TRANSACTION = 'CANCEL_REMOVE_TRANSACTION';
-
-export function cancelRemoveTransaction() {
-  return {
-    type: CANCEL_REMOVE_TRANSACTION
-  };
-}

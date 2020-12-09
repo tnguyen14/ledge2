@@ -77,10 +77,10 @@ function Transaction(props) {
         {getValueFromOptions(options.categories, category)}
       </td>
       <td data-field="action">
-        <a className="edit" onClick={handleEdit(id)}>
+        <a className="edit" onClick={handleEdit}>
           <PencilIcon />
         </a>
-        <a className="remove" onClick={handleRemove({ id, merchant })}>
+        <a className="remove" onClick={handleRemove}>
           <XIcon />
         </a>
       </td>

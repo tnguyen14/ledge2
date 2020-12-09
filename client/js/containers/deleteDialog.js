@@ -3,8 +3,14 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { cancelRemoveTransaction } from '../actions/account';
+import { CANCEL_REMOVE_TRANSACTION } from '../actions/account';
 import { removeTransaction } from '../actions/transaction';
+
+function cancelRemoveTransaction() {
+  return {
+    type: CANCEL_REMOVE_TRANSACTION
+  };
+}
 
 function DeleteDialog(props) {
   const {
