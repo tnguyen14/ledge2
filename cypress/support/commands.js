@@ -9,9 +9,22 @@
 // ***********************************************
 //
 //
+import 'cypress-localstorage-commands';
+
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
-  console.log(process.env);
+  cy.request('POST', `https://${Cypress.env('AUTH0_DOMAIN')}/oauth/token`, {
+    client_id: Cypress.env('SERVER_APP_AUTH0_CLIENT_ID'),
+    client_secret: Cypress.env('SERVER_APP_AUTH0_CLIENT_SECRET'),
+    audience: 'https://lists.cloud.tridnguyen.com',
+    grant_type: 'client_credentials'
+  }).then((response) => {
+    cy.setLocalStorage('id_token', response.body.access_token);
+    cy.setLocalStorage(
+      'expires_at',
+      JSON.stringify(response.body.expires_in * 1000 + Date.now())
+    );
+  });
 });
 
 //

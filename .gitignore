@@ -1,9 +1,6 @@
-.DS_Store
 node_modules
-bower_components
 dist
 .publish
-*.swp
 .env
 
 # server side
@@ -14,3 +11,4 @@ auth/*.json
 
 .eslintcache
 .terraform
+cypress.env.json
