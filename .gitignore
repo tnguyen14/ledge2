@@ -11,4 +11,6 @@ auth/*.json
 
 .eslintcache
 .terraform
+
 cypress.env.json
+cypress/videos/
