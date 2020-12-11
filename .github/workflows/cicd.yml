@@ -34,6 +34,7 @@ jobs:
         with:
           start: npx http-server dist -p 4003
           browser: chrome
+          headless: true
 
   deploy:
     name: Deploy to GH Pages
