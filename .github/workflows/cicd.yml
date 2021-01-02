@@ -32,7 +32,9 @@ jobs:
           CYPRESS_SERVER_APP_AUTH0_CLIENT_ID: ${{ secrets.SERVER_APP_AUTH0_CLIENT_ID }}
           CYPRESS_SERVER_APP_AUTH0_CLIENT_SECRET: ${{ secrets.SERVER_APP_AUTH0_CLIENT_SECRET }}
           CYPRESS_BASE_URL: 'http://localhost:4003'
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
+          record: true
           start: npx http-server dist -p 4003
           browser: chrome
           headless: true
