@@ -19,10 +19,13 @@ describe('Open app', () => {
     cy.contains('Add a new transaction');
     cy.contains('Weekly Averages');
 
-    // account meta is loaded on the form
-    cy.wait('@accountMeta');
-    cy.get('select[name=category]').should('have.value', 'dineout');
-    cy.get('select[name=source]').should('have.value', 'chase-sapphire');
+    // use .contains to wait for the select values to be populated
+    cy.get('select[name=category]')
+      .contains('Dine Out')
+      .should('have.value', 'dineout');
+    cy.get('select[name=source]')
+      .contains('Chase Sapphire')
+      .should('have.value', 'chase-sapphire');
 
     // weekly averages are loaded and match
     cy.wait('@weeks');
