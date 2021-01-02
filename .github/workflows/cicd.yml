@@ -31,6 +31,7 @@ jobs:
           CYPRESS_AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
           CYPRESS_SERVER_APP_AUTH0_CLIENT_ID: ${{ secrets.SERVER_APP_AUTH0_CLIENT_ID }}
           CYPRESS_SERVER_APP_AUTH0_CLIENT_SECRET: ${{ secrets.SERVER_APP_AUTH0_CLIENT_SECRET }}
+          CYPRESS_BASE_URL: 'http//localhost:4003'
         with:
           start: npx http-server dist -p 4003
           browser: chrome

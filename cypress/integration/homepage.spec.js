@@ -1,8 +1,7 @@
 describe('Open app', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    // cy.visit('https://lab.tridnguyen.com/ledge/');
-    cy.visit('http://localhost:4003');
+    cy.visit('/');
   });
   it('Show login button, perform login', () => {
     cy.contains('Log In');
