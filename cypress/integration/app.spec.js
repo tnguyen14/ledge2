@@ -2,6 +2,8 @@ const SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
 describe('Open app', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
+    cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
+    cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
     cy.visit('/');
   });
   it('Show login button, perform login', () => {
@@ -10,12 +12,6 @@ describe('Open app', () => {
     cy.saveLocalStorage();
   });
   it('Display logged in content', () => {
-    cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
-    cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
-
-    // reload the page to capture network requests
-    cy.visit('/');
-
     cy.contains('Add a new transaction');
     cy.contains('Weekly Averages');
 
