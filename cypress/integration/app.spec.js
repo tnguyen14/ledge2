@@ -16,13 +16,9 @@ describe('Open app', () => {
     cy.contains('Weekly Averages');
 
     // account meta is loaded on the form
-    // cy.wait('@accountMeta');
-    cy.get('select[name=category]')
-      .contains('Dine Out')
-      .should('have.value', 'dineout');
-    cy.get('select[name=source]')
-      .contains('Chase Sapphire')
-      .should('have.value', 'chase-sapphire');
+    cy.wait('@accountMeta');
+    cy.get('select[name=category]').should('have.value', 'dineout');
+    cy.get('select[name=source]').should('have.value', 'chase-sapphire');
 
     // weekly averages are loaded and match
     cy.wait('@weeks');
