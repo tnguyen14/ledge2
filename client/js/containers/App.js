@@ -11,7 +11,7 @@ import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
 import { loadAccount } from '../actions/account';
-import history from '../history';
+import { useHistory, useLocation } from 'react-router-dom';
 
 function App(props) {
   const {
@@ -19,7 +19,6 @@ function App(props) {
     authenticated,
     isAuthenticating,
     isRenewing,
-    location,
     handleAuthentication,
     loadAccount,
     loadInitialWeeks
@@ -27,19 +26,14 @@ function App(props) {
 
   const isVisible = usePageVisibility();
 
+  const history = useHistory();
+  const location = useLocation();
+
   useEffect(() => {
-    const callbackRegex = /callback\.html/;
-    const isCallback = callbackRegex.test(location.pathname);
-    const basePath = location.pathname.replace(callbackRegex, '');
     if (!isVisible) {
       return;
     }
-    if (isCallback) {
-      if (location.hash) {
-        handleAuthentication();
-      }
-      history.replace(basePath);
-    }
+    handleAuthentication();
 
     if (authenticated) {
       loadAccount();
@@ -77,8 +71,7 @@ App.propTypes = {
   loadAccount: PropTypes.func,
   loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
-  isRenewing: PropTypes.bool,
-  location: PropTypes.object
+  isRenewing: PropTypes.bool
 };
 
 function mapStateToProps(state) {

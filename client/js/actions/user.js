@@ -1,14 +1,12 @@
 import { createAuth } from '@tridnguyen/auth';
 
-// check if already on callback.html page. Not sure why that's needed.
-const redirectUri = window.location.href.includes('callback.html') ? window.location.href : `${window.location.href}callback.html`;
-
-const auth = createAuth({
-  redirectUri
-});
+const auth = createAuth();
 
 export function login() {
   return function (dispatch) {
+    dispatch({
+      type: AUTHENTICATING
+    });
     auth.silentAuth();
   };
 }
@@ -18,17 +16,16 @@ export const AUTHENTICATED = 'AUTHENTICATED';
 
 export function handleAuthentication() {
   return function (dispatch) {
-    dispatch({
-      type: AUTHENTICATING
-    });
-    auth.handleCallback((err) => {
+    auth.handleCallback((err, result) => {
       if (err) {
         console.error(err);
         return;
       }
-      dispatch({
-        type: AUTHENTICATED
-      });
+      if (result) {
+        dispatch({
+          type: AUTHENTICATED
+        });
+      }
     });
   };
 }

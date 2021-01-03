@@ -15,7 +15,7 @@ async function getTransaction(idToken, id) {
  * @param {string} idToken JWT token
  * @param {Object} date moment object that represents the date and time of transaction
  */
-async function getUniqueTransactionId(idToken, date) {
+export async function getUniqueTransactionId(idToken, date) {
   let id = date.valueOf();
   let notFound = false;
   return new Promise((resolve, reject) => {
