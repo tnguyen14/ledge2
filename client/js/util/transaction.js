@@ -13,10 +13,10 @@ async function getTransaction(idToken, id) {
  * Generate a unique transaction ID based on current timestamp
  * If that value already exists, keep incrementing it until it is unique
  * @param {string} idToken JWT token
- * @param {Object} date moment object that represents the date and time of transaction
+ * @param {string} date transaction date and time
  */
 export async function getUniqueTransactionId(idToken, date) {
-  let id = date.valueOf();
+  let id = moment(date).valueOf();
   let notFound = false;
   return new Promise((resolve, reject) => {
     async.until(
