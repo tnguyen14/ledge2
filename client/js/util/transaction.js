@@ -6,7 +6,7 @@ import moment from 'moment-timezone';
 import pick from 'lodash.pick';
 
 async function getTransaction(idToken, id) {
-  return await getJson(idToken, `${SERVER_URL}/items/${id}`);
+  return await getJson(idToken, `${window.SERVER_URL}/items/${id}`);
 }
 
 /**
@@ -52,7 +52,7 @@ export async function getUniqueTransactionId(idToken, date) {
   });
 }
 
-export async function decorateTransaction(params) {
+export function decorateTransaction(params) {
   const opts = {};
   if (!(params.date && params.time)) {
     throw new Error('Date and time are required for a transaction');
@@ -64,7 +64,7 @@ export async function decorateTransaction(params) {
     throw new Error('Span is required for transaction');
   }
   opts.date = moment
-    .tz(`${params.date} ${params.time}`, TIMEZONE)
+    .tz(`${params.date} ${params.time}`, window.TIMEZONE)
     .toISOString();
   opts.amount = parseInt(params.amount, 10) * 100;
   opts.span = parseInt(params.span, 10);

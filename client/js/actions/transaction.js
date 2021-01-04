@@ -1,4 +1,6 @@
-import { postJson, patchJson, deleteJson } from '../util/fetch';
+// @ts-check
+
+import { getJson, postJson, patchJson, deleteJson } from '../util/fetch';
 import {
   getUniqueTransactionId,
   decorateTransaction
@@ -17,7 +19,7 @@ export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 async function getTransactionsWithMerchantName(idToken, merchant) {
   return await getJson(
     idToken,
-    `${SERVER_URL}/items?${qs.stringify({
+    `${window.SERVER_URL}/items?${qs.stringify({
       where: [
         {
           field: 'merchant',
@@ -36,18 +38,22 @@ export function addTransaction(transaction) {
       account: { merchants_count }
     } = getState();
 
-    const id = await getUniqueTransactionId(idToken, transaction.date);
+    const decoratedTransaction = decorateTransaction(transaction);
+    const id = await getUniqueTransactionId(idToken, decoratedTransaction.date);
     // TODO handle error
-    await postJson(idToken, `${SERVER_URL}/items`, {
-      ...decorateTransaction(transaction),
+    await postJson(idToken, `${window.SERVER_URL}/items`, {
+      ...decoratedTransaction,
       id
     });
     dispatch({
       type: ADD_TRANSACTION_SUCCESS,
-      data: transaction
+      data: {
+        ...decoratedTransaction,
+        id
+      }
     });
     dispatch(
-      updatedMerchantsCount(
+      updateMerchantCounts(
         addMerchantToCounts(transaction.merchant, merchants_count)
       )
     );
@@ -57,13 +63,14 @@ export function addTransaction(transaction) {
 export function updateTransaction(transaction, oldMerchant) {
   return async function (dispatch, getState) {
     const {
-      user: { idToken }
+      user: { idToken },
+      account: { merchants_count }
     } = getState();
 
     // TODO handle error
     await patchJson(
       idToken,
-      `${SERVER_URL}/items/${transaction.id}`,
+      `${window.SERVER_URL}/items/${transaction.id}`,
       decorateTransaction(transaction)
     );
     dispatch({
@@ -95,16 +102,16 @@ export function removeTransaction(transaction) {
     } = getState();
 
     return async function (e) {
-      await deleteJson(idToken, `${SERVER_URL}/items/${transaction.id}`);
+      await deleteJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`);
       dispatch({
         type: REMOVE_TRANSACTION_SUCCESS,
-        data: id
+        data: transaction.id
       });
       const transactionsWithMerchantName = await getTransactionsWithMerchantName(
         transaction.merchant
       );
       const updatedMerchantsCount = removeMerchantFromCounts(
-        merchant,
+        transaction.merchant,
         merchants_count,
         transactionsWithMerchantName.length
       );
