@@ -79,6 +79,7 @@ export function updateTransaction(transaction, oldMerchant) {
     });
     if (transaction.merchant != oldMerchant) {
       const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
+        idToken,
         oldMerchant
       );
       const updatedMerchantsCount = addMerchantToCounts(
@@ -101,21 +102,20 @@ export function removeTransaction(transaction) {
       account: { merchants_count }
     } = getState();
 
-    return async function (e) {
-      await deleteJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`);
-      dispatch({
-        type: REMOVE_TRANSACTION_SUCCESS,
-        data: transaction.id
-      });
-      const transactionsWithMerchantName = await getTransactionsWithMerchantName(
-        transaction.merchant
-      );
-      const updatedMerchantsCount = removeMerchantFromCounts(
-        transaction.merchant,
-        merchants_count,
-        transactionsWithMerchantName.length
-      );
-      dispatch(updateMerchantCounts(updatedMerchantsCount));
-    };
+    await deleteJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`);
+    dispatch({
+      type: REMOVE_TRANSACTION_SUCCESS,
+      data: transaction.id
+    });
+    const transactionsWithMerchantName = await getTransactionsWithMerchantName(
+      idToken,
+      transaction.merchant
+    );
+    const updatedMerchantsCount = removeMerchantFromCounts(
+      transaction.merchant,
+      merchants_count,
+      transactionsWithMerchantName.length
+    );
+    dispatch(updateMerchantCounts(updatedMerchantsCount));
   };
 }

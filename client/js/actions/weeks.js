@@ -64,7 +64,7 @@ function addWeek(offset) {
       });
       const transactions = await getJson(
         idToken,
-        `${SERVER_URL}/items?${query}`
+        `${window.SERVER_URL}/items?${query}`
       );
       dispatch({
         type: LOAD_TRANSACTIONS_SUCCESS,

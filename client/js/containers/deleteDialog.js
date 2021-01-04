@@ -36,7 +36,7 @@ function DeleteDialog(props) {
         </Button>
         <Button
           variant="danger"
-          onClick={removeTransaction(transactionToBeRemoved)}
+          onClick={removeTransaction.bind(null, transactionToBeRemoved)}
         >
           Delete
         </Button>
