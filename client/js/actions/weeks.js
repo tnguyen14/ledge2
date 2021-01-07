@@ -2,13 +2,11 @@ import moment from 'moment-timezone';
 import qs from 'qs';
 import { getJson } from '../util/fetch';
 import { LOGOUT } from './user';
-export const ADD_WEEK = 'ADD_WEEK';
-
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
 const timezone = 'America/New_York';
 const numInitialWeeks = 25;
 
+export const LOAD_INITIAL_WEEKS_SUCCESS = 'LOAD_INITIAL_WEEKS_SUCCESS';
 export function loadInitialWeeks() {
   return async function (dispatch, getState) {
     await Promise.all(
@@ -16,8 +14,15 @@ export function loadInitialWeeks() {
         return dispatch(addWeek(-index));
       })
     );
+    dispatch({
+      type: LOAD_INITIAL_WEEKS_SUCCESS,
+      data: numInitialWeeks
+    });
   };
 }
+
+export const ADD_WEEK = 'ADD_WEEK';
+export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
 function addWeek(offset) {
   return async function (dispatch, getState) {
