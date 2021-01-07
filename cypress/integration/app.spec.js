@@ -1,3 +1,5 @@
+import { fromUsd } from '@tridnguyen/money';
+
 const SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
 describe('Ledge', () => {
   beforeEach(() => {
@@ -71,61 +73,77 @@ describe('Ledge', () => {
   it('Add a transaction', () => {
     cy.wait('@accountMeta').then((interception) => {
       const merchantCount = interception.response.body.merchants_count.amazon;
-      // wait for form the be ready
-      cy.get('select[name=category]').contains('Dine Out');
+      cy.contains('Finished loading 25 weeks', { timeout: 10000 });
 
-      cy.get('input[name=amount]').type('50');
-      cy.get('input[name=merchant]').type('Amazon');
-      cy.get('select[name=category]').select('shopping');
-      cy.get('select[name=source]').select('visa-0162');
-      cy.get('button[type=submit]').click();
-      cy.wait('@addTransaction').then((interception) => {
-        expect(interception.request.body).to.have.property(
-          'merchant',
-          'Amazon'
-        );
-        expect(interception.request.body).to.have.property('amount', 5000);
-        expect(interception.request.body).to.have.property(
-          'category',
-          'shopping'
-        );
-        expect(interception.request.body).to.have.property(
-          'source',
-          'visa-0162'
-        );
-        expect(interception.request.body).to.have.property('span', 1);
-        expect(interception.request.body).to.have.property('id');
-        expect(interception.request.body).to.have.property('date');
-      });
-      cy.wait('@updateAccountMeta').then((interception) => {
-        expect(interception.request.body.merchants_count.amazon).to.deep.equal({
-          ...merchantCount,
-          count: merchantCount.count + 1
-        });
-      });
       cy.get(
-        '.transactions .weekly:first-of-type tbody .transaction:first-of-type'
-      ).as('firstTransaction');
-      cy.get('@firstTransaction')
-        .find('[data-field=merchant]')
-        .should(($merchant) => {
-          expect($merchant.text()).to.equal('Amazon');
-        });
-      cy.get('@firstTransaction')
-        .find('[data-field=amount]')
-        .should(($amount) => {
-          expect($amount.text()).to.equal('$50.00');
-        });
-      cy.get('@firstTransaction')
-        .find('[data-field=source]')
-        .should(($source) => {
-          expect($source.text()).to.equal('Amazon');
-        });
-      cy.get('@firstTransaction')
-        .find('[data-field=category]')
-        .should(($category) => {
-          expect($category.text()).to.equal('Shopping');
-        });
+        '.account-stats .averages .stat:first-of-type td:nth-of-type(2)'
+      ).as('currentMonthAverageValue');
+
+      cy.get('@currentMonthAverageValue').then(($stat) => {
+        cy.log($stat);
+        cy.log($stat.text());
+        const average = fromUsd($stat.text());
+
+        cy.get('input[name=amount]').type('50');
+        cy.get('input[name=merchant]').type('Amazon');
+        cy.get('select[name=category]').select('shopping');
+        cy.get('select[name=source]').select('visa-0162');
+        cy.get('button[type=submit]').click();
+        cy.wait(['@addTransaction', '@updateAccountMeta']).then(
+          (interceptions) => {
+            const addTransactionRequest = interceptions[0].request.body;
+            expect(addTransactionRequest).to.have.property(
+              'merchant',
+              'Amazon'
+            );
+            expect(addTransactionRequest).to.have.property('amount', 5000);
+            expect(addTransactionRequest).to.have.property(
+              'category',
+              'shopping'
+            );
+            expect(addTransactionRequest).to.have.property(
+              'source',
+              'visa-0162'
+            );
+            expect(addTransactionRequest).to.have.property('span', 1);
+            expect(addTransactionRequest).to.have.property('id');
+            expect(addTransactionRequest).to.have.property('date');
+
+            const updateAccountRequest = interceptions[1].request.body;
+            expect(updateAccountRequest.merchants_count.amazon).to.deep.equal({
+              ...merchantCount,
+              count: merchantCount.count + 1
+            });
+            cy.get(
+              '.transactions .weekly:first-of-type tbody .transaction:first-of-type'
+            ).as('firstTransaction');
+            cy.get('@firstTransaction')
+              .find('[data-field=merchant]')
+              .should(($merchant) => {
+                expect($merchant.text()).to.equal('Amazon');
+              });
+            cy.get('@firstTransaction')
+              .find('[data-field=amount]')
+              .should(($amount) => {
+                expect($amount.text()).to.equal('$50.00');
+              });
+            cy.get('@firstTransaction')
+              .find('[data-field=source]')
+              .should(($source) => {
+                expect($source.text()).to.equal('Amazon');
+              });
+            cy.get('@firstTransaction')
+              .find('[data-field=category]')
+              .should(($category) => {
+                expect($category.text()).to.equal('Shopping');
+              });
+            cy.get('@currentMonthAverageValue').should(($newStat) => {
+              const newAverage = fromUsd($newStat.text());
+              expect(newAverage).to.equal(average + 5000 / 4);
+            });
+          }
+        );
+      });
     });
   });
 });
