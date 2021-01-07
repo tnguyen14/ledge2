@@ -18,10 +18,10 @@ function App(props) {
     login,
     authenticated,
     isAuthenticating,
-    isRenewing,
     handleAuthentication,
     loadAccount,
-    loadInitialWeeks
+    loadInitialWeeks,
+    notification
   } = props;
 
   const isVisible = usePageVisibility();
@@ -41,12 +41,6 @@ function App(props) {
     }
   }, [authenticated, isVisible]);
 
-  const notification = isRenewing
-    ? {
-        title: 'Authentication',
-        content: 'Renewing session..'
-      }
-    : {};
   if (isAuthenticating) {
     return <h2 className="auth-loading">Loading...</h2>;
   }
@@ -71,12 +65,13 @@ App.propTypes = {
   loadAccount: PropTypes.func,
   loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
-  isRenewing: PropTypes.bool
+  notification: PropTypes.object
 };
 
 function mapStateToProps(state) {
   return {
-    ...state.user
+    ...state.user,
+    notification: state.notification
   };
 }
 export default connect(mapStateToProps, {
