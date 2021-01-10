@@ -82,7 +82,7 @@ function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
 function sortTransactions(transactions) {
   return transactions.sort((a, b) => {
     // sort by id, which is the transaction timestamp
-    return Number(b.id) - Number(a.id);
+    return moment(b.date).valueOf() - moment(a.date).valueOf();
   });
 }
 
