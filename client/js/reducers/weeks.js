@@ -174,7 +174,7 @@ export default function weeks(state = {}, action) {
           ...week,
           transactions: sortTransactions(
             week.transactions.map((tx) =>
-              tx.id === action.data.oldId ? { ...action.data } : tx
+              tx.id === action.data.id ? { ...action.data } : tx
             )
           )
         };

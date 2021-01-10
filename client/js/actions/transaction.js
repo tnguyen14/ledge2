@@ -67,15 +67,20 @@ export function updateTransaction(transaction, oldMerchant) {
       account: { merchants_count }
     } = getState();
 
+    const decoratedTransaction = decorateTransaction(transaction);
+    const id = transaction.id;
+
     // TODO handle error
-    await patchJson(
-      idToken,
-      `${window.SERVER_URL}/items/${transaction.id}`,
-      decorateTransaction(transaction)
-    );
+    await patchJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`, {
+      ...decoratedTransaction,
+      id
+    });
     dispatch({
       type: UPDATE_TRANSACTION_SUCCESS,
-      data: transaction
+      data: {
+        ...decoratedTransaction,
+        id
+      }
     });
     if (transaction.merchant != oldMerchant) {
       const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
