@@ -191,7 +191,8 @@ export default function form(state = initialState, action) {
         ...action.data,
         amount: action.data.amount / 100,
         date: date.format(dateFormat),
-        time: date.format(timeFormat)
+        time: date.format(timeFormat),
+        calculate: ''
       };
       return {
         ...state,
