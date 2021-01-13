@@ -47,14 +47,14 @@ function WeekStats(props) {
               />
             );
           })}
-          <tr key={totalStatId} className="stat total">
+          <tr key={totalStatId} className="stat" data-cat="total">
             <td id={totalStatId} className="stat-label">
               Total
             </td>
             <td aria-labelledby={totalStatId}>{usd(total)}</td>
           </tr>
-          <tr key={past4WeeksId} className="stat">
-            <td id={past4WeeksId} className="stat-label">
+          <tr key={past4WeeksId} className="stat" data-cat={past4WeeksId}>
+            <td className={past4WeeksId} className="stat-label">
               4-week average
             </td>
             <td>{usd(calculateWeeklyAverage(past4Weeks))}</td>

@@ -1,4 +1,19 @@
-import { fromUsd } from '@tridnguyen/money';
+import { usd, fromUsd } from '@tridnguyen/money';
+
+const accountStats = '.account-stats';
+const accountStatsAverages = `${accountStats} .averages`;
+const currentMonthAverage = `${accountStatsAverages} .stat:first-of-type`;
+const currentMonthAverageValue = `${currentMonthAverage} td:nth-of-type(2)`;
+
+const firstWeek = '.transactions .weekly:first-of-type';
+const secondWeek = '.transactions .weekly:nth-of-type(2)';
+const firstTransaction = '.weekly-transactions .transaction:first-of-type';
+const weekStats = '.week-stats';
+const weekStats4WeekAverage = `${weekStats} .stat[data-cat=average-past-4-weeks]`;
+const weekStats4WeekAverageValue = `${weekStats4WeekAverage} td:nth-of-type(2)`;
+
+const amountField = 'input[name=amount]';
+const submitButton = 'button[type=submit]';
 
 const SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
 describe('Ledge', () => {
@@ -21,6 +36,10 @@ describe('Ledge', () => {
     */
     cy.intercept('POST', `${SERVER_URL}/items`, '{"success": true}').as(
       'addTransaction'
+    );
+
+    cy.intercept('PATCH', `${SERVER_URL}/items/*`, '{"success": true}').as(
+      'updateTransaction'
     );
 
     // request payload
@@ -58,16 +77,14 @@ describe('Ledge', () => {
 
     // weekly averages are loaded and match
     cy.wait('@weeks');
-    cy.get('.stats .averages .stat:first-of-type td:nth-of-type(2)').then(
-      ($currentMonth) => {
-        const currentMonthAverage = $currentMonth.text();
-        cy.get(
-          '.transactions .weekly:first-of-type .stats .stat:last-of-type td:nth-of-type(2)'
-        ).should(($4weekAverage) => {
-          expect($4weekAverage.text()).to.equal(currentMonthAverage);
-        });
-      }
-    );
+    cy.get(currentMonthAverageValue).then(($currentMonth) => {
+      const currentMonthAverage = $currentMonth.text();
+      cy.get(
+        '.transactions .weekly:first-of-type .stats .stat:last-of-type td:nth-of-type(2)'
+      ).should(($4weekAverage) => {
+        expect($4weekAverage.text()).to.equal(currentMonthAverage);
+      });
+    });
   });
 
   it('Add a transaction', () => {
@@ -75,20 +92,14 @@ describe('Ledge', () => {
       const merchantCount = interception.response.body.merchants_count.amazon;
       cy.contains('Finished loading 25 weeks', { timeout: 10000 });
 
-      cy.get(
-        '.account-stats .averages .stat:first-of-type td:nth-of-type(2)'
-      ).as('currentMonthAverageValue');
-
-      cy.get('@currentMonthAverageValue').then(($stat) => {
-        cy.log($stat);
-        cy.log($stat.text());
+      cy.get(currentMonthAverageValue).then(($stat) => {
         const average = fromUsd($stat.text());
 
-        cy.get('input[name=amount]').type('50');
+        cy.get(amountField).type('50');
         cy.get('input[name=merchant]').type('Amazon');
         cy.get('select[name=category]').select('shopping');
         cy.get('select[name=source]').select('visa-0162');
-        cy.get('button[type=submit]').click();
+        cy.get(submitButton).click();
         cy.wait(['@addTransaction', '@updateAccountMeta']).then(
           (interceptions) => {
             const addTransactionRequest = interceptions[0].request.body;
@@ -114,9 +125,7 @@ describe('Ledge', () => {
               ...merchantCount,
               count: merchantCount.count + 1
             });
-            cy.get(
-              '.transactions .weekly:first-of-type tbody .transaction:first-of-type'
-            ).as('firstTransaction');
+            cy.get(`${firstWeek} ${firstTransaction}`).as('firstTransaction');
             cy.get('@firstTransaction')
               .find('[data-field=merchant]')
               .should(($merchant) => {
@@ -137,7 +146,7 @@ describe('Ledge', () => {
               .should(($category) => {
                 expect($category.text()).to.equal('Shopping');
               });
-            cy.get('@currentMonthAverageValue').should(($newStat) => {
+            cy.get(currentMonthAverageValue).should(($newStat) => {
               const newAverage = fromUsd($newStat.text());
               expect(newAverage).to.equal(average + 5000 / 4);
             });
@@ -145,5 +154,45 @@ describe('Ledge', () => {
         );
       });
     });
+  });
+
+  it('Update a transaction', () => {
+    cy.contains('Finished loading 25 weeks', { timeout: 10000 });
+    cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
+      ($amount) => {
+        const amount = fromUsd($amount.text());
+        cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
+          ($average) => {
+            const average = fromUsd($average.text());
+            cy.get(
+              `${secondWeek} ${firstTransaction} [data-field=action] .edit`
+            ).click();
+            cy.get(submitButton).contains('update');
+            cy.get(amountField)
+              .clear()
+              .type((amount + 4000) / 100);
+            cy.get(submitButton).click();
+            cy.wait('@updateTransaction').then((interception) => {
+              const updateTransactionRequest = interception.request.body;
+              expect(updateTransactionRequest).to.have.property(
+                'amount',
+                amount + 4000
+              );
+
+              cy.get(
+                `${secondWeek} ${firstTransaction} [data-field=amount]`
+              ).should(($amount) => {
+                expect($amount.text()).to.equal(usd(amount + 4000));
+              });
+              cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
+                ($average) => {
+                  expect($average.text()).to.equal(usd(average + 1000));
+                }
+              );
+            });
+          }
+        );
+      }
+    );
   });
 });
