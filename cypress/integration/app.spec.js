@@ -1,5 +1,6 @@
 import { usd, fromUsd } from '@tridnguyen/money';
 
+// selectors
 const accountStats = '.account-stats';
 const accountStatsAverages = `${accountStats} .averages`;
 const currentMonthAverage = `${accountStatsAverages} .stat:first-of-type`;
@@ -79,11 +80,11 @@ describe('Ledge', () => {
     cy.wait('@weeks');
     cy.get(currentMonthAverageValue).then(($currentMonth) => {
       const currentMonthAverage = $currentMonth.text();
-      cy.get(
-        '.transactions .weekly:first-of-type .stats .stat:last-of-type td:nth-of-type(2)'
-      ).should(($4weekAverage) => {
-        expect($4weekAverage.text()).to.equal(currentMonthAverage);
-      });
+      cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(
+        ($4weekAverage) => {
+          expect($4weekAverage.text()).to.equal(currentMonthAverage);
+        }
+      );
     });
   });
 
