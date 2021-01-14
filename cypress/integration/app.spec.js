@@ -213,7 +213,7 @@ describe('Ledge', () => {
               `${secondWeek} ${firstTransaction} [data-field=action] .remove`
             ).click();
             cy.get('.delete-dialog').should('be.visible');
-            cy.get('.delete-dialog').contains('Delete').click();
+            cy.get('.delete-dialog button').contains('Delete').click();
             cy.wait('@deleteTransaction');
             cy.get(secondWeek).should('not.contain', $amount.text());
             cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
