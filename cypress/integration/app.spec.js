@@ -20,7 +20,7 @@ const amountField = 'input[name=amount]';
 const merchantField = 'input[name=merchant]';
 const submitButton = 'button[type=submit]';
 
-const SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
+const SERVER_URL = Cypress.env('SERVER_URL');
 describe('Ledge', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();

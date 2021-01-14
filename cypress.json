@@ -1,4 +1,7 @@
 {
   "projectId": "hj1qjs",
-  "baseUrl": "https://lab.tridnguyen.com/ledge"
+  "baseUrl": "https://lab.tridnguyen.com/ledge",
+  "env": {
+    "SERVER_URL": "https://api.tridnguyen.com/lists/ledge/tri"
+  }
 }
