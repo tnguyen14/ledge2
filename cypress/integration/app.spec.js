@@ -26,6 +26,7 @@ describe('Ledge', () => {
     cy.restoreLocalStorage();
     cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
     cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
+
     // request payload
     /*
     {
@@ -65,6 +66,11 @@ describe('Ledge', () => {
     cy.intercept('PATCH', `${SERVER_URL}/meta`, '{"success": true}').as(
       'updateAccountMeta'
     );
+
+    // block all potentially destructive requests
+    cy.intercept('POST', '*', '{"success": true}');
+    cy.intercept('PATCH', '*', '{"success": true}');
+    cy.intercept('DELETE', '*', '{"success": true}');
 
     cy.visit('/');
   });
