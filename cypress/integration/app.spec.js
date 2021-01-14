@@ -43,6 +43,10 @@ describe('Ledge', () => {
       'updateTransaction'
     );
 
+    cy.intercept('DELETE', `${SERVER_URL}/items/*`, '{"success": true}').as(
+      'deleteTransaction'
+    );
+
     // request payload
     /*
     {
@@ -191,6 +195,32 @@ describe('Ledge', () => {
                 }
               );
             });
+          }
+        );
+      }
+    );
+  });
+
+  it('Delete a transaction', () => {
+    cy.contains('Finished loading 25 weeks', { timeout: 10000 });
+    cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
+      ($amount) => {
+        const amount = fromUsd($amount.text());
+        cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
+          ($average) => {
+            const average = fromUsd($average.text());
+            cy.get(
+              `${secondWeek} ${firstTransaction} [data-field=action] .remove`
+            ).click();
+            cy.get('.delete-dialog').should('be.visible');
+            cy.get('.delete-dialog').contains('Delete').click();
+            cy.wait('@deleteTransaction');
+            cy.get(secondWeek).should('not.contain', $amount.text());
+            cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
+              ($average) => {
+                expect($average.text()).to.equal(usd(average - amount / 4));
+              }
+            );
           }
         );
       }
