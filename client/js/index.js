@@ -1,5 +1,3 @@
-// @ts-check
-
 import React from 'react';
 import { render } from 'react-dom';
 import thunk from 'redux-thunk';
@@ -13,9 +11,8 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
-// window.SERVER_URL = process.env.SERVER_URL;
-// window.SERVER_URL = 'https://lists.cloud.tridnguyen.com/ledge/tri';
-window.SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
+window.SERVER_URL = process.env.SERVER_URL;
+window.AUTH_TOKEN = process.env.AUTH_TOKEN;
 window.ACCOUNT_NAME = 'daily';
 window.TIMEZONE = 'America/New_York';
 

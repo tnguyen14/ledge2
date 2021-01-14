@@ -54,7 +54,7 @@ jobs:
 
       - name: Build
         env:
-          SERVER_URL: https://ledge.cloud.tridnguyen.com
+          SERVER_URL: https://lists.cloud.tridnguyen.com/ledge/tri
         run: npm run build
 
       - name: Deploy

@@ -5,8 +5,6 @@ const { getJson } = require('simple-fetch');
 const qs = require('qs');
 const { usd } = require('@tridnguyen/money');
 
-const AUTH_TOKEN = process.env.AUTH_TOKEN;
-const SERVER_URL = 'https://lists.cloud.tridnguyen.com/ledge/tri';
 const TIMEZONE = 'America/New_York';
 
 function sum(nums) {
@@ -39,9 +37,9 @@ async function getWeeklyAverage(start, end) {
     ]
   });
 
-  const transactions = await getJson(`${SERVER_URL}/items?${query}`, {
+  const transactions = await getJson(`${window.SERVER_URL}/items?${query}`, {
     headers: {
-      Authorization: `Bearer ${AUTH_TOKEN}`
+      Authorization: `Bearer ${window.AUTH_TOKEN}`
     }
   });
   const total = sum(transactions.map((t) => t.amount));
