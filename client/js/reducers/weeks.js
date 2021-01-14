@@ -1,4 +1,3 @@
-import { REMOVE_TRANSACTION_SUCCESS } from '../actions/account';
 import {
   ADD_WEEK,
   SHOW_WEEK,
@@ -6,8 +5,9 @@ import {
 } from '../actions/weeks';
 import {
   ADD_TRANSACTION_SUCCESS,
-  UPDATE_TRANSACTION_SUCCESS
-} from '../actions/form';
+  UPDATE_TRANSACTION_SUCCESS,
+  REMOVE_TRANSACTION_SUCCESS
+} from '../actions/transaction';
 import moment from 'moment-timezone';
 
 const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;
@@ -82,7 +82,7 @@ function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
 function sortTransactions(transactions) {
   return transactions.sort((a, b) => {
     // sort by id, which is the transaction timestamp
-    return Number(b.id) - Number(a.id);
+    return moment(b.date).valueOf() - moment(a.date).valueOf();
   });
 }
 
@@ -174,7 +174,7 @@ export default function weeks(state = {}, action) {
           ...week,
           transactions: sortTransactions(
             week.transactions.map((tx) =>
-              tx.id === action.data.oldId ? { ...action.data } : tx
+              tx.id === action.data.id ? { ...action.data } : tx
             )
           )
         };

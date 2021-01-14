@@ -1,11 +1,12 @@
+import moment from 'moment-timezone';
+import qs from 'qs';
 import { getJson } from '../util/fetch';
 import { LOGOUT } from './user';
-export const ADD_WEEK = 'ADD_WEEK';
 
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-
+const timezone = 'America/New_York';
 const numInitialWeeks = 25;
 
+export const LOAD_INITIAL_WEEKS_SUCCESS = 'LOAD_INITIAL_WEEKS_SUCCESS';
 export function loadInitialWeeks() {
   return async function (dispatch, getState) {
     await Promise.all(
@@ -13,8 +14,15 @@ export function loadInitialWeeks() {
         return dispatch(addWeek(-index));
       })
     );
+    dispatch({
+      type: LOAD_INITIAL_WEEKS_SUCCESS,
+      data: numInitialWeeks
+    });
   };
 }
+
+export const ADD_WEEK = 'ADD_WEEK';
+export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 
 function addWeek(offset) {
   return async function (dispatch, getState) {
@@ -33,9 +41,35 @@ function addWeek(offset) {
       }
     });
     try {
+      const dayOffset = Number(offset) * 7;
+      // Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/
+      const thisMonday = moment()
+        .tz(timezone)
+        .isoWeekday(1 + dayOffset)
+        .startOf('day')
+        .toISOString();
+      const nextMonday = moment()
+        .tz(timezone)
+        .isoWeekday(8 + dayOffset)
+        .startOf('day')
+        .toISOString();
+      const query = qs.stringify({
+        where: [
+          {
+            field: 'date',
+            op: '>=',
+            value: thisMonday
+          },
+          {
+            field: 'date',
+            op: '<',
+            value: nextMonday
+          }
+        ]
+      });
       const transactions = await getJson(
         idToken,
-        `${SERVER_URL}/accounts/${ACCOUNT_NAME}/weekly/${offset}`
+        `${window.SERVER_URL}/items?${query}`
       );
       dispatch({
         type: LOAD_TRANSACTIONS_SUCCESS,

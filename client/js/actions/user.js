@@ -1,14 +1,12 @@
 import { createAuth } from '@tridnguyen/auth';
 
-// check if already on callback.html page. Not sure why that's needed.
-const redirectUri = window.location.href.includes('callback.html') ? window.location.href : `${window.location.href}callback.html`;
-
-const auth = createAuth({
-  redirectUri
-});
+const auth = createAuth();
 
 export function login() {
   return function (dispatch) {
+    dispatch({
+      type: AUTHENTICATING
+    });
     auth.silentAuth();
   };
 }
@@ -18,17 +16,16 @@ export const AUTHENTICATED = 'AUTHENTICATED';
 
 export function handleAuthentication() {
   return function (dispatch) {
-    dispatch({
-      type: AUTHENTICATING
-    });
-    auth.handleCallback((err) => {
+    auth.handleCallback((err, result) => {
       if (err) {
         console.error(err);
         return;
       }
-      dispatch({
-        type: AUTHENTICATED
-      });
+      if (result) {
+        dispatch({
+          type: AUTHENTICATED
+        });
+      }
     });
   };
 }
@@ -36,19 +33,21 @@ export function handleAuthentication() {
 export const RENEWING_SESSION = 'RENEWING_SESSION';
 export const RENEWED_SESSION = 'RENEWED_SESSION';
 
-function renewSession(dispatch) {
-  dispatch({
-    type: RENEWING_SESSION
-  });
-  auth.renewSession((err) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
+function renewSession() {
+  return function (dispatch) {
     dispatch({
-      type: RENEWED_SESSION
+      type: RENEWING_SESSION
     });
-  });
+    auth.renewSession((err) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      dispatch({
+        type: RENEWED_SESSION
+      });
+    });
+  };
 }
 
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
@@ -65,7 +64,9 @@ export function scheduleRenewal(delay = 1000) {
       return;
     }
     if (expiresAt > Date.now()) {
-      const timeout = setTimeout(renewSession.bind(null, dispatch), delay);
+      const timeout = setTimeout(() => {
+        dispatch(renewSession());
+      }, delay);
       dispatch({
         type: SCHEDULE_RENEWAL,
         data: timeout

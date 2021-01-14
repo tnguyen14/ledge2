@@ -10,46 +10,37 @@ import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
-import history from '../history';
+import { loadAccount } from '../actions/account';
+import { useHistory, useLocation } from 'react-router-dom';
 
 function App(props) {
   const {
     login,
     authenticated,
     isAuthenticating,
-    isRenewing,
-    location,
     handleAuthentication,
-    loadInitialWeeks
+    loadAccount,
+    loadInitialWeeks,
+    notification
   } = props;
 
   const isVisible = usePageVisibility();
 
+  const history = useHistory();
+  const location = useLocation();
+
   useEffect(() => {
-    const callbackRegex = /callback\.html/;
-    const isCallback = callbackRegex.test(location.pathname);
-    const basePath = location.pathname.replace(callbackRegex, '');
     if (!isVisible) {
       return;
     }
-    if (isCallback) {
-      if (location.hash) {
-        handleAuthentication();
-      }
-      history.replace(basePath);
-    }
+    handleAuthentication();
 
     if (authenticated) {
+      loadAccount();
       loadInitialWeeks();
     }
   }, [authenticated, isVisible]);
 
-  const notification = isRenewing
-    ? {
-        title: 'Authentication',
-        content: 'Renewing session..'
-      }
-    : {};
   if (isAuthenticating) {
     return <h2 className="auth-loading">Loading...</h2>;
   }
@@ -71,19 +62,21 @@ App.propTypes = {
   login: PropTypes.func.isRequired,
   handleAuthentication: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
+  loadAccount: PropTypes.func,
   loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
-  isRenewing: PropTypes.bool,
-  location: PropTypes.object
+  notification: PropTypes.object
 };
 
 function mapStateToProps(state) {
   return {
-    ...state.user
+    ...state.user,
+    notification: state.notification
   };
 }
 export default connect(mapStateToProps, {
   login,
   handleAuthentication,
+  loadAccount,
   loadInitialWeeks
 })(App);

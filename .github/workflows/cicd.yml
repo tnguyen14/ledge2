@@ -1,0 +1,68 @@
+name: CI & CD
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: npm install
+
+      - name: Build
+        env:
+          SERVER_URL: https://api.tridnguyen.com/lists/ledge/tri
+        run: npm run build
+
+      - name: Cypress
+        uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
+          CYPRESS_SERVER_APP_AUTH0_CLIENT_ID: ${{ secrets.SERVER_APP_AUTH0_CLIENT_ID }}
+          CYPRESS_SERVER_APP_AUTH0_CLIENT_SECRET: ${{ secrets.SERVER_APP_AUTH0_CLIENT_SECRET }}
+          CYPRESS_BASE_URL: 'http://localhost:4003'
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        with:
+          record: true
+          start: npx http-server dist -p 4003
+          browser: chrome
+          headless: true
+
+  deploy:
+    name: Deploy to GH Pages
+    needs: test
+    if: github.ref == 'refs/heads/master' && !contains(github.event.head_commit.message, '[skip-ci]')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: npm install
+
+      - name: Build
+        env:
+          SERVER_URL: https://lists.cloud.tridnguyen.com/ledge/tri
+        run: npm run build
+
+      - name: Deploy
+        # subtree instructions from https://gist.github.com/tduarte/eac064b4778711b116bb827f8c9bef7b
+        run: |
+          git config --global user.name $GITHUB_ACTOR
+          git config --global user.email "deploy@tridnguyen.com"
+          git add -f dist
+          git commit --no-verify -m "Update from commit $GITHUB_SHA"
+          git subtree split --prefix dist -b gh-pages
+          git push -f origin gh-pages:gh-pages

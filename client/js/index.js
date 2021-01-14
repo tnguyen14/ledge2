@@ -7,22 +7,23 @@ import { Provider } from 'react-redux';
 import App from './containers/App';
 import Header from './containers/header';
 import reducer from './reducers';
-import { Router, Route } from 'react-router-dom';
-import history from './history';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
 window.SERVER_URL = process.env.SERVER_URL;
+window.AUTH_TOKEN = process.env.AUTH_TOKEN;
 window.ACCOUNT_NAME = 'daily';
+window.TIMEZONE = 'America/New_York';
 
 render(
   <Provider store={store}>
-    <Router history={history}>
+    <BrowserRouter>
       <div>
         <Header />
         <Route path="/" component={App} />
       </div>
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.querySelector('.main')
 );

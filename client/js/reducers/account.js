@@ -1,15 +1,17 @@
 import {
   LOAD_ACCOUNT_SUCCESS,
-  REMOVE_TRANSACTION,
-  REMOVE_TRANSACTION_SUCCESS,
+  INTEND_TO_REMOVE_TRANSACTION,
   CANCEL_REMOVE_TRANSACTION
 } from '../actions/account';
+
+import { REMOVE_TRANSACTION_SUCCESS } from '../actions/transaction';
 
 const initialState = {
   merchants: [],
   isRemovingTransaction: false,
   categories: [],
   sources: [],
+  merchants_count: {},
   stats: {
     averages: {
       timespans: [
@@ -37,12 +39,27 @@ const initialState = {
 export default function account(state = initialState, action) {
   switch (action.type) {
     case LOAD_ACCOUNT_SUCCESS:
-      // flatten merchant values
-      const merchants = action.data.merchants.reduce((merchants, merchant) => {
+      const merchants = Object.keys(action.data.merchants_count)
+        .filter((merchant) => {
+          return action.data.merchants_count[merchant] != null;
+        })
+        .map((merchant) => {
+          return {
+            // pass along slug
+            slug: merchant,
+            ...action.data.merchants_count[merchant]
+          };
+        })
+        .sort((a, b) => {
+          // sort by count
+          return b.count - a.count;
+        });
+      // create an array of all merchant names
+      const merchantsNames = merchants.reduce((merchants, merchant) => {
         return merchants.concat(merchant.values);
       }, []);
-      return { ...state, ...action.data, merchants: merchants };
-    case REMOVE_TRANSACTION:
+      return { ...state, ...action.data, merchants: merchantsNames };
+    case INTEND_TO_REMOVE_TRANSACTION:
       return {
         ...state,
         isRemovingTransaction: true,
