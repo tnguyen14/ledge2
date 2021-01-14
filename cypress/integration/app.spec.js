@@ -10,11 +10,14 @@ const currentMonthAverageValue = `${currentMonthAverage} td:nth-of-type(2)`;
 const firstWeek = '.transactions .weekly:first-of-type';
 const secondWeek = '.transactions .weekly:nth-of-type(2)';
 const firstTransaction = '.weekly-transactions .transaction:first-of-type';
+const secondTransaction = '.weekly-transactions .transaction:nth-of-type(2)';
+
 const weekStats = '.week-stats';
 const weekStats4WeekAverage = `${weekStats} .stat[data-cat=average-past-4-weeks]`;
 const weekStats4WeekAverageValue = `${weekStats4WeekAverage} td:nth-of-type(2)`;
 
 const amountField = 'input[name=amount]';
+const merchantField = 'input[name=merchant]';
 const submitButton = 'button[type=submit]';
 
 const SERVER_URL = 'https://api.tridnguyen.com/lists/ledge/tri';
@@ -102,7 +105,7 @@ describe('Ledge', () => {
         const average = fromUsd($stat.text());
 
         cy.get(amountField).type('50');
-        cy.get('input[name=merchant]').type('Amazon');
+        cy.get(merchantField).type('Amazon');
         cy.get('select[name=category]').select('shopping');
         cy.get('select[name=source]').select('visa-0162');
         cy.get(submitButton).click();
@@ -162,7 +165,7 @@ describe('Ledge', () => {
     });
   });
 
-  it('Update a transaction', () => {
+  it('Update a transaction - amount', () => {
     cy.contains('Finished loading 25 weeks', { timeout: 10000 });
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
@@ -200,6 +203,57 @@ describe('Ledge', () => {
         );
       }
     );
+  });
+
+  it('Update a transaction - merchant', () => {
+    cy.wait('@accountMeta').then((interception) => {
+      const merchantsCount = interception.response.body.merchants_count;
+      const newMerchant = 'Test Merchant';
+      cy.contains('Finished loading 25 weeks', { timeout: 10000 });
+      cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
+        ($merchant) => {
+          const oldMerchant = $merchant.text();
+          cy.get(
+            `${secondWeek} ${secondTransaction} [data-field=action] .edit`
+          ).click();
+          cy.get(submitButton).contains('update');
+          cy.get(merchantField).clear().type(newMerchant);
+          cy.get(submitButton).click();
+          cy.wait(['@updateTransaction', '@updateAccountMeta'], {
+            timeout: 10000
+          }).then((interceptions) => {
+            const updateTransactionRequest = interceptions[0].request.body;
+            expect(updateTransactionRequest).to.have.property(
+              'merchant',
+              newMerchant
+            );
+
+            cy.get(
+              `${secondWeek} ${secondTransaction} [data-field=merchant]`
+            ).should(($merchant) => {
+              expect($merchant.text()).to.equal(newMerchant);
+            });
+            const updateAccountRequest = interceptions[1].request.body;
+            const oldMerch = slugify(oldMerchant);
+            const newMerch = slugify(newMerchant);
+            const oldMerchantCount = merchantsCount[oldMerch];
+
+            expect(
+              updateAccountRequest.merchants_count[oldMerch]
+            ).to.deep.equal({
+              ...oldMerchantCount,
+              count: oldMerchantCount.count - 1
+            });
+            expect(
+              updateAccountRequest.merchants_count[newMerch]
+            ).to.deep.equal({
+              count: 1,
+              values: [newMerchant]
+            });
+          });
+        }
+      );
+    });
   });
 
   it('Delete a transaction', () => {

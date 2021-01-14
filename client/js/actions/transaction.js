@@ -1,5 +1,3 @@
-// @ts-check
-
 import { getJson, postJson, patchJson, deleteJson } from '../util/fetch';
 import {
   getUniqueTransactionId,

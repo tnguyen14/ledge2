@@ -64,7 +64,7 @@ function Form(props) {
   const prevMerchantRef = useRef();
   useEffect(() => {
     prevMerchantRef.current = values.merchant;
-  });
+  }, [action]);
 
   let amountFieldRef = null;
 
