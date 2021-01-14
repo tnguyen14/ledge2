@@ -1,4 +1,5 @@
 import { usd, fromUsd } from '@tridnguyen/money';
+import slugify from '@tridnguyen/slugify';
 
 // selectors
 const accountStats = '.account-stats';
@@ -202,28 +203,49 @@ describe('Ledge', () => {
   });
 
   it('Delete a transaction', () => {
-    cy.contains('Finished loading 25 weeks', { timeout: 10000 });
-    cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
-      ($amount) => {
-        const amount = fromUsd($amount.text());
-        cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
-          ($average) => {
-            const average = fromUsd($average.text());
-            cy.get(
-              `${secondWeek} ${firstTransaction} [data-field=action] .remove`
-            ).click();
-            cy.get('.delete-dialog').should('be.visible');
-            cy.get('.delete-dialog button').contains('Delete').click();
-            cy.wait('@deleteTransaction');
-            cy.get(secondWeek).should('not.contain', $amount.text());
-            cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
+    cy.wait('@accountMeta').then((interception) => {
+      const merchantsCount = interception.response.body.merchants_count;
+      cy.contains('Finished loading 25 weeks', { timeout: 10000 });
+      cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
+        ($amount) => {
+          const amount = fromUsd($amount.text());
+          cy.get(
+            `${secondWeek} ${firstTransaction} [data-field=merchant]`
+          ).then(($merchant) => {
+            const merchant = slugify($merchant.text());
+            const merchantCount = merchantsCount[merchant];
+            cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
               ($average) => {
-                expect($average.text()).to.equal(usd(average - amount / 4));
+                const average = fromUsd($average.text());
+                cy.get(
+                  `${secondWeek} ${firstTransaction} [data-field=action] .remove`
+                ).click();
+                cy.get('.delete-dialog').should('be.visible');
+                cy.get('.delete-dialog button').contains('Delete').click();
+                cy.wait(['@deleteTransaction', '@updateAccountMeta']).then(
+                  (interceptions) => {
+                    cy.get(secondWeek).should('not.contain', $amount.text());
+                    cy.get(
+                      `${secondWeek} ${weekStats4WeekAverageValue}`
+                    ).should(($average) => {
+                      expect($average.text()).to.equal(
+                        usd(average - amount / 4)
+                      );
+                    });
+                    const updateAccountRequest = interceptions[1].request.body;
+                    expect(
+                      updateAccountRequest.merchants_count[merchant]
+                    ).to.deep.equal({
+                      ...merchantCount,
+                      count: merchantCount.count - 1
+                    });
+                  }
+                );
               }
             );
-          }
-        );
-      }
-    );
+          });
+        }
+      );
+    });
   });
 });
