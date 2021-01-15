@@ -31,10 +31,7 @@ export async function getUniqueTransactionId(idToken, date) {
             cb(null);
           },
           (err) => {
-            if (
-              err.response.status == 404 &&
-              err.response.statusText == 'Not Found'
-            ) {
+            if (err.response.status == 404) {
               notFound = true;
               return cb(null, id);
             }
