@@ -30,9 +30,8 @@ jobs:
           CYPRESS_SERVER_APP_AUTH0_CLIENT_ID: ${{ secrets.SERVER_APP_AUTH0_CLIENT_ID }}
           CYPRESS_SERVER_APP_AUTH0_CLIENT_SECRET: ${{ secrets.SERVER_APP_AUTH0_CLIENT_SECRET }}
           CYPRESS_BASE_URL: "https://tridnguyen.com/ledge"
-          CYPRESS_SERVER_URL: "https://lists.coud.tridnguyen.com/ledge/tri"
+          CYPRESS_SERVER_URL: "https://lists.cloud.tridnguyen.com/ledge/tri"
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
-          record: true
           browser: chrome
           headless: true
