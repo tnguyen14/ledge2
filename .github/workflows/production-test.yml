@@ -33,5 +33,6 @@ jobs:
           CYPRESS_SERVER_URL: "https://lists.coud.tridnguyen.com/ledge/tri"
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:
+          record: true
           browser: chrome
           headless: true
