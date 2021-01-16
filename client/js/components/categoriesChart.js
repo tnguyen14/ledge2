@@ -29,7 +29,8 @@ const colorMaps = {
   residence: 'light-blue-700',
   investment: 'teal',
   utilities: 'light-blue',
-  mark: 'grey'
+  mark: 'grey',
+  travel: 'indigo'
 };
 
 function CategoriesChart(props) {
