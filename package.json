@@ -8,17 +8,16 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "npm run client:watch",
+    "start": "npm run js:watch & npm run css:watch",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
-    "client:watch": "npm run js:watch & npm run css:watch",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
-    "css": "postcss -o dist/style.css client/scss/style.scss",
+    "css": "postcss -o dist/style.css src/scss/style.scss",
     "css:watch": "npm run css -- --watch --poll --verbose",
-    "js": "node -r dotenv/config ./node_modules/.bin/browserify client/js/index.js -t babelify -p tinyify > dist/index.js",
-    "js:dev": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri node -r dotenv/config ./node_modules/.bin/browserify client/js/index.js -t babelify -g loose-envify --debug > dist/index.js",
-    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri node -r dotenv/config ./node_modules/.bin/watchify client/js/index.js -t babelify -g loose-envify -o dist/index.js -dv",
+    "js": "node -r dotenv/config ./node_modules/.bin/browserify src/js/index.js -t babelify -p tinyify > dist/index.js",
+    "js:dev": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri node -r dotenv/config ./node_modules/.bin/browserify src/js/index.js -t babelify -g loose-envify --debug > dist/index.js",
+    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri node -r dotenv/config ./node_modules/.bin/watchify src/js/index.js -t babelify -g loose-envify -o dist/index.js -dv",
     "test": "cypress run",
     "test:open": "cypress open"
   },
