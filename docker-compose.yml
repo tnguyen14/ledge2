@@ -1,8 +1,0 @@
-version: '2'
-services:
-    ledge:
-        build: .
-        ports:
-            - '13040:3000'
-        volumes:
-            - ./data:/src/data
