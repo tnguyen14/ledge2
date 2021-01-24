@@ -110,7 +110,7 @@ describe('Ledge', () => {
       cy.get(currentMonthAverageValue).then(($stat) => {
         const average = fromUsd($stat.text());
 
-        cy.get(amountField).type('50');
+        cy.get(amountField).type('50.80');
         cy.get(merchantField).type('Amazon');
         cy.get('select[name=category]').select('shopping');
         cy.get('select[name=source]').select('visa-0162');
@@ -122,7 +122,7 @@ describe('Ledge', () => {
               'merchant',
               'Amazon'
             );
-            expect(addTransactionRequest).to.have.property('amount', 5000);
+            expect(addTransactionRequest).to.have.property('amount', 5080);
             expect(addTransactionRequest).to.have.property(
               'category',
               'shopping'
@@ -149,7 +149,7 @@ describe('Ledge', () => {
             cy.get('@firstTransaction')
               .find('[data-field=amount]')
               .should(($amount) => {
-                expect($amount.text()).to.equal('$50.00');
+                expect($amount.text()).to.equal('$50.80');
               });
             cy.get('@firstTransaction')
               .find('[data-field=source]')
@@ -163,7 +163,7 @@ describe('Ledge', () => {
               });
             cy.get(currentMonthAverageValue).should(($newStat) => {
               const newAverage = fromUsd($newStat.text());
-              expect(newAverage).to.equal(average + 5000 / 4);
+              expect(newAverage).to.equal(average + 5080 / 4);
             });
           }
         );
@@ -185,19 +185,19 @@ describe('Ledge', () => {
             cy.get(submitButton).contains('update');
             cy.get(amountField)
               .clear()
-              .type((amount + 4000) / 100);
+              .type((amount + 4020) / 100);
             cy.get(submitButton).click();
             cy.wait('@updateTransaction').then((interception) => {
               const updateTransactionRequest = interception.request.body;
               expect(updateTransactionRequest).to.have.property(
                 'amount',
-                amount + 4000
+                amount + 4020
               );
 
               cy.get(
                 `${secondWeek} ${firstTransaction} [data-field=amount]`
               ).should(($amount) => {
-                expect($amount.text()).to.equal(usd(amount + 4000));
+                expect($amount.text()).to.equal(usd(amount + 4020));
               });
               cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
                 ($average) => {
