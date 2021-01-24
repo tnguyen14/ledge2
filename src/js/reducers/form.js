@@ -12,6 +12,7 @@ import {
 } from '../actions/transaction';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 import { ZapIcon } from '@primer/octicons-react';
+import { fromCents } from '@tridnguyen/money';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
@@ -189,7 +190,7 @@ export default function form(state = initialState, action) {
       const date = moment.tz(action.data.date, timezone);
       newValues = {
         ...action.data,
-        amount: action.data.amount / 100,
+        amount: fromCents(action.data.amount),
         date: date.format(dateFormat),
         time: date.format(timeFormat),
         calculate: ''

@@ -1,4 +1,4 @@
-import { usd, fromUsd } from '@tridnguyen/money';
+import { usd, fromUsd, fromCents } from '@tridnguyen/money';
 import slugify from '@tridnguyen/slugify';
 
 // selectors
@@ -185,7 +185,7 @@ describe('Ledge', () => {
             cy.get(submitButton).contains('update');
             cy.get(amountField)
               .clear()
-              .type((amount + 4020) / 100);
+              .type(fromCents(amount + 4020));
             cy.get(submitButton).click();
             cy.wait('@updateTransaction').then((interception) => {
               const updateTransactionRequest = interception.request.body;

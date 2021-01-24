@@ -4,6 +4,7 @@ import async from 'async';
 import { getJson } from '../util/fetch';
 import moment from 'moment-timezone';
 import pick from 'lodash.pick';
+import { toCents } from '@tridnguyen/money';
 
 async function getTransaction(idToken, id) {
   return await getJson(idToken, `${window.SERVER_URL}/items/${id}`);
@@ -63,7 +64,7 @@ export function decorateTransaction(params) {
   opts.date = moment
     .tz(`${params.date} ${params.time}`, window.TIMEZONE)
     .toISOString();
-  opts.amount = parseInt((parseFloat(params.amount) * 100).toFixed());
+  opts.amount = toCents(params.amount);
   opts.span = parseInt(params.span, 10);
 
   return {
