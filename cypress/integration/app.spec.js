@@ -201,7 +201,7 @@ describe('Ledge', () => {
               });
               cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
                 ($average) => {
-                  expect($average.text()).to.equal(usd(average + 1000));
+                  expect($average.text()).to.equal(usd(average + 1005));
                 }
               );
             });
