@@ -63,7 +63,7 @@ export function decorateTransaction(params) {
   opts.date = moment
     .tz(`${params.date} ${params.time}`, window.TIMEZONE)
     .toISOString();
-  opts.amount = parseInt(params.amount, 10) * 100;
+  opts.amount = parseFloat(params.amount) * 100;
   opts.span = parseInt(params.span, 10);
 
   return {
