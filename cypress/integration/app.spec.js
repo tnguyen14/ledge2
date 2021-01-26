@@ -1,5 +1,6 @@
 import { usd, fromUsd, fromCents } from '@tridnguyen/money';
 import slugify from '@tridnguyen/slugify';
+import moment from 'moment-timezone';
 
 // selectors
 const accountStats = '.account-stats';
@@ -140,26 +141,29 @@ describe('Ledge', () => {
               ...merchantCount,
               count: merchantCount.count + 1
             });
-            cy.get(`${firstWeek} ${firstTransaction}`).as('firstTransaction');
-            cy.get('@firstTransaction')
+            const displayDate = moment().format('ddd');
+            cy.get(
+              `${firstWeek} .weekly-transactions .transaction[data-day=${displayDate}]`
+            ).as('transaction');
+            cy.get('@transaction')
               .find('[data-field=merchant]')
               .should(($merchant) => {
-                expect($merchant.text()).to.equal('Amazon');
+                expect($merchant.text()).to.contains('Amazon');
               });
-            cy.get('@firstTransaction')
+            cy.get('@transaction')
               .find('[data-field=amount]')
               .should(($amount) => {
-                expect($amount.text()).to.equal('$50.80');
+                expect($amount.text()).to.contains('$50.80');
               });
-            cy.get('@firstTransaction')
+            cy.get('@transaction')
               .find('[data-field=source]')
               .should(($source) => {
-                expect($source.text()).to.equal('Amazon');
+                expect($source.text()).to.contains('Amazon');
               });
-            cy.get('@firstTransaction')
+            cy.get('@transaction')
               .find('[data-field=category]')
               .should(($category) => {
-                expect($category.text()).to.equal('Shopping');
+                expect($category.text()).to.contains('Shopping');
               });
             cy.get(currentMonthAverageValue).should(($newStat) => {
               const newAverage = fromUsd($newStat.text());
@@ -266,11 +270,11 @@ describe('Ledge', () => {
     cy.wait('@accountMeta').then((interception) => {
       const merchantsCount = interception.response.body.merchants_count;
       cy.contains('Finished loading 25 weeks', { timeout: 10000 });
-      cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
+      cy.get(`${secondWeek} ${secondTransaction} [data-field=amount]`).then(
         ($amount) => {
           const amount = fromUsd($amount.text());
           cy.get(
-            `${secondWeek} ${firstTransaction} [data-field=merchant]`
+            `${secondWeek} ${secondTransaction} [data-field=merchant]`
           ).then(($merchant) => {
             const merchant = slugify($merchant.text());
             const merchantCount = merchantsCount[merchant];
@@ -278,7 +282,7 @@ describe('Ledge', () => {
               ($average) => {
                 const average = fromUsd($average.text());
                 cy.get(
-                  `${secondWeek} ${firstTransaction} [data-field=action] .remove`
+                  `${secondWeek} ${secondTransaction} [data-field=action] .remove`
                 ).click();
                 cy.get('.delete-dialog').should('be.visible');
                 cy.get('.delete-dialog button').contains('Delete').click();
