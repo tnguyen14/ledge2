@@ -61,7 +61,7 @@
     "prettier": "^2.0.4",
     "redux-devtools-extension": "^2.13.5",
     "tinyify": "^2.5.2",
-    "watchify": "^3.11.1"
+    "watchify": "^4.0.0"
   },
   "dependencies": {
     "@primer/octicons-react": "^11.0.0",
