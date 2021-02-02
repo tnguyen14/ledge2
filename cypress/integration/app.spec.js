@@ -182,7 +182,7 @@ describe('Ledge', () => {
         const amount = fromUsd($amount.text());
         cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
           ($average) => {
-            const average = fromUsd($average.text());
+            const sum = Number($average.data('sum'));
             cy.get(
               `${secondWeek} ${firstTransaction} [data-field=action] .edit`
             ).click();
@@ -205,7 +205,7 @@ describe('Ledge', () => {
               });
               cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
                 ($average) => {
-                  expect($average.text()).to.equal(usd(average + 4020 / 4));
+                  expect($average.text()).to.equal(usd((sum + 4020) / 4));
                 }
               );
             });
@@ -280,7 +280,7 @@ describe('Ledge', () => {
             const merchantCount = merchantsCount[merchant];
             cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
               ($average) => {
-                const average = fromUsd($average.text());
+                const sum = Number($average.data('sum'));
                 cy.get(
                   `${secondWeek} ${secondTransaction} [data-field=action] .remove`
                 ).click();
@@ -292,9 +292,7 @@ describe('Ledge', () => {
                     cy.get(
                       `${secondWeek} ${weekStats4WeekAverageValue}`
                     ).should(($average) => {
-                      expect($average.text()).to.equal(
-                        usd(average - amount / 4)
-                      );
+                      expect($average.text()).to.equal(usd((sum - amount) / 4));
                     });
                     const updateAccountRequest = interceptions[1].request.body;
                     expect(

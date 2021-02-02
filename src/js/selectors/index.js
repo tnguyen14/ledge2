@@ -5,7 +5,7 @@ const getWeeks = (state) => state.weeks;
 
 const getTimeSpans = (state) => state.account.stats.averages.timespans;
 
-const calculateWeeklyTotal = (week) => {
+export const calculateWeeklyTotal = (week) => {
   if (!week || !week.transactions) {
     return 0;
   }
@@ -15,7 +15,7 @@ const calculateWeeklyTotal = (week) => {
 };
 
 export const calculateWeeklyAverage = (weeks) => {
-  return average(weeks.map((week) => calculateWeeklyTotal(week)));
+  return average(weeks.map(calculateWeeklyTotal));
 };
 
 export const getWeeklyAverages = createSelector(

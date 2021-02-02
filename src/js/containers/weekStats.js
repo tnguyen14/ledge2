@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WeekCategory from '../components/weekCategory';
-import { calculateWeeklyAverage, getCategoriesTotalsStats } from '../selectors';
+import {
+  calculateWeeklyAverage,
+  calculateWeeklyTotal,
+  getCategoriesTotalsStats
+} from '../selectors';
 import { connect } from 'react-redux';
 import { usd } from '@tridnguyen/money';
 import { sum } from '../util/calculate';
@@ -57,7 +61,9 @@ function WeekStats(props) {
             <td className={past4WeeksId} className="stat-label">
               4-week average
             </td>
-            <td>{usd(calculateWeeklyAverage(past4Weeks))}</td>
+            <td data-sum={sum(past4Weeks.map(calculateWeeklyTotal))}>
+              {usd(calculateWeeklyAverage(past4Weeks))}
+            </td>
           </tr>
         </tbody>
       </table>
