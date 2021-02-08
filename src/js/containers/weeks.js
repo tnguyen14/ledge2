@@ -17,6 +17,7 @@ function Weeks(props) {
           type="text"
           value={filter}
           label="Search"
+          placeholder="Search"
           handleChange={(event) => {
             setFilter(event.target.value);
           }}

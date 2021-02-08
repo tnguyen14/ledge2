@@ -14,10 +14,15 @@
       text-align: right;
       margin-top: 0.3rem;
       width: 5em;
+      @media (max-width: 42.4em) {
+        @util hide-visually;
+      }
     }
     .input-group {
       float: left;
-      width: calc(100% - 5.5em);
+      @media (min-width: 42.5em) {
+        width: calc(100% - 5.5em);
+      }
     }
   }
 }
