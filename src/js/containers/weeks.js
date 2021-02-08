@@ -23,11 +23,13 @@ function Weeks(props) {
           }}
         />
       </div>
-      {Object.keys(weeks)
-        .sort((a, b) => b - a)
-        .map((week) => {
-          return <Week key={week} offset={Number(week)} filter={filter} />;
-        })}
+      <div className="weeks">
+        {Object.keys(weeks)
+          .sort((a, b) => b - a)
+          .map((week) => {
+            return <Week key={week} offset={Number(week)} filter={filter} />;
+          })}
+      </div>
       <Button variant="success" onClick={showMore.bind(null, false)}>
         Show More
       </Button>

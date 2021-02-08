@@ -8,8 +8,8 @@ const accountStatsAverages = `${accountStats} .averages`;
 const currentMonthAverage = `${accountStatsAverages} .stat:first-of-type`;
 const currentMonthAverageValue = `${currentMonthAverage} td:nth-of-type(2)`;
 
-const firstWeek = '.transactions .weekly:first-of-type';
-const secondWeek = '.transactions .weekly:nth-of-type(2)';
+const firstWeek = '.transactions .weeks .weekly:first-of-type';
+const secondWeek = '.transactions .weeks .weekly:nth-of-type(2)';
 const firstTransaction = '.weekly-transactions .transaction:first-of-type';
 const secondTransaction = '.weekly-transactions .transaction:nth-of-type(2)';
 
