@@ -35,12 +35,25 @@ function Week(props) {
     editTransaction,
     intendToRemoveTransaction,
     categories,
-    sources
+    sources,
+    filter
   } = props;
 
   if (!visible) {
     return null;
   }
+
+  const displayTransactions = transactions
+    .filter((tx) => {
+      // don't show carried over transactions
+      return !tx.carriedOver;
+    })
+    .filter((tx) => {
+      if (filter.merchant) {
+        return tx.merchant.toLowerCase().includes(filter.merchant);
+      }
+      return true;
+    });
 
   return (
     <div className="weekly">
@@ -65,24 +78,18 @@ function Week(props) {
           <tr className="addition" />
         </thead>
         <tbody>
-          {transactions
-            .filter((tx) => {
-              return !tx.carriedOver;
-            })
-            .map((tx) => {
-              return (
-                <Transaction
-                  key={tx.id}
-                  handleRemove={intendToRemoveTransaction.bind(null, tx)}
-                  handleEdit={editTransaction.bind(null, tx)}
-                  options={{
-                    categories,
-                    sources
-                  }}
-                  {...tx}
-                />
-              );
-            })}
+          {displayTransactions.map((tx) => (
+            <Transaction
+              key={tx.id}
+              handleRemove={intendToRemoveTransaction.bind(null, tx)}
+              handleEdit={editTransaction.bind(null, tx)}
+              options={{
+                categories,
+                sources
+              }}
+              {...tx}
+            />
+          ))}
         </tbody>
       </table>
       <WeekStats offset={offset} />
@@ -102,7 +109,8 @@ Week.propTypes = {
   intendToRemoveTransaction: PropTypes.func,
   stats: PropTypes.array,
   categories: PropTypes.array,
-  sources: PropTypes.array
+  sources: PropTypes.array,
+  filter: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {

@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { showMore } from '../actions/weeks';
 import Week from './week';
+import Field from '../components/field';
 
 function Weeks(props) {
   const { weeks, showMore } = props;
+  const [filter, setFilter] = useState({ merchant: '' });
   return (
     <div className="transactions">
-      <Button onClick={showMore.bind(null, true)}>Look Ahead</Button>
+      <div className="top-actions">
+        <Button onClick={showMore.bind(null, true)}>Look Ahead</Button>
+        <Field
+          type="text"
+          value={filter.merchant}
+          label="Merchant"
+          handleChange={(event) => {
+            setFilter({
+              ...filter,
+              merchant: event.target.value
+            });
+          }}
+        />
+      </div>
       {Object.keys(weeks)
         .sort((a, b) => b - a)
         .map((week) => {
-          return <Week key={week} offset={Number(week)} />;
+          return <Week key={week} offset={Number(week)} filter={filter} />;
         })}
       <Button variant="success" onClick={showMore.bind(null, false)}>
         Show More

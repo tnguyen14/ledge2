@@ -1,8 +1,8 @@
 .weekly {
   @util clearfix();
-  border-top: 1px solid var(--color-gainsboro);
-  &:first-of-type {
-    border-top: none;
+  border-bottom: 1px solid var(--color-gainsboro);
+  &:last-of-type {
+    border-bottom: none;
   }
   .week-title {
     margin-top: 1rem;

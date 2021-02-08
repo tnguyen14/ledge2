@@ -2,10 +2,22 @@
   /* needed to clear float left form at wide screen */
   clear: left;
   margin-bottom: 2em;
-  .show-more {
-    text-align: right;
-    @media (min-width: 68.75em) {
-      text-align: left;
+  .top-actions {
+    display: flex;
+    justify-content: space-between;
+    .form-group {
+      margin-bottom: 0;
+    }
+    label {
+      float: left;
+      margin-right: 0.5em;
+      text-align: right;
+      margin-top: 0.3rem;
+      width: 5em;
+    }
+    .input-group {
+      float: left;
+      width: calc(100% - 5.5em);
     }
   }
 }
