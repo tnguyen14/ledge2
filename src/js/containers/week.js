@@ -49,8 +49,20 @@ function Week(props) {
       return !tx.carriedOver;
     })
     .filter((tx) => {
-      if (filter.merchant) {
-        return tx.merchant.toLowerCase().includes(filter.merchant);
+      if (filter) {
+        if (tx.merchant.toLowerCase().includes(filter)) {
+          return true;
+        }
+        if (String(tx.amount).includes(filter)) {
+          return true;
+        }
+        if (tx.category.includes(filter)) {
+          return true;
+        }
+        if (tx.source.includes(filter)) {
+          return true;
+        }
+        return false;
       }
       return true;
     });
@@ -110,7 +122,7 @@ Week.propTypes = {
   stats: PropTypes.array,
   categories: PropTypes.array,
   sources: PropTypes.array,
-  filter: PropTypes.object
+  filter: PropTypes.string
 };
 
 function mapStateToProps(state, ownProps) {

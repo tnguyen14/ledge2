@@ -8,20 +8,17 @@ import Field from '../components/field';
 
 function Weeks(props) {
   const { weeks, showMore } = props;
-  const [filter, setFilter] = useState({ merchant: '' });
+  const [filter, setFilter] = useState('');
   return (
     <div className="transactions">
       <div className="top-actions">
         <Button onClick={showMore.bind(null, true)}>Look Ahead</Button>
         <Field
           type="text"
-          value={filter.merchant}
-          label="Merchant"
+          value={filter}
+          label="Search"
           handleChange={(event) => {
-            setFilter({
-              ...filter,
-              merchant: event.target.value
-            });
+            setFilter(event.target.value);
           }}
         />
       </div>
