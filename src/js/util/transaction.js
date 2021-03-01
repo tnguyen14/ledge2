@@ -1,13 +1,30 @@
-// @ts-check
-
 import async from 'async';
 import { getJson } from '../util/fetch';
 import moment from 'moment-timezone';
 import pick from 'lodash.pick';
 import { toCents } from '@tridnguyen/money';
+import qs from 'qs';
 
 async function getTransaction(idToken, id) {
   return await getJson(idToken, `${window.SERVER_URL}/items/${id}`);
+}
+
+export async function getTransactions(idToken, start, end) {
+  const query = qs.stringify({
+    where: [
+      {
+        field: 'date',
+        op: '>=',
+        value: start.startOf('day').toISOString()
+      },
+      {
+        field: 'date',
+        op: '<',
+        value: end.startOf('day').toISOString()
+      }
+    ]
+  });
+  return await getJson(idToken, `${window.SERVER_URL}/items?${query}`);
 }
 
 /**
