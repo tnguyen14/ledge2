@@ -248,12 +248,16 @@ describe('Ledge', () => {
             const newMerch = slugify(newMerchant);
             const oldMerchantCount = merchantsCount[oldMerch];
 
-            expect(
-              updateAccountRequest.merchants_count[oldMerch]
-            ).to.deep.equal({
-              ...oldMerchantCount,
-              count: oldMerchantCount.count - 1
-            });
+            if (oldMerchantCount.count == 1) {
+              expect(updateAccountRequest.merchants_count[oldMerch]).to.be.null;
+            } else {
+              expect(
+                updateAccountRequest.merchants_count[oldMerch]
+              ).to.deep.equal({
+                ...oldMerchantCount,
+                count: oldMerchantCount.count - 1
+              });
+            }
             expect(
               updateAccountRequest.merchants_count[newMerch]
             ).to.deep.equal({
@@ -295,12 +299,17 @@ describe('Ledge', () => {
                       expect($average.text()).to.equal(usd((sum - amount) / 4));
                     });
                     const updateAccountRequest = interceptions[1].request.body;
-                    expect(
-                      updateAccountRequest.merchants_count[merchant]
-                    ).to.deep.equal({
-                      ...merchantCount,
-                      count: merchantCount.count - 1
-                    });
+                    if (merchantCount.count == 1) {
+                      expect(updateAccountRequest.merchants_count[merchant]).to
+                        .be.null;
+                    } else {
+                      expect(
+                        updateAccountRequest.merchants_count[merchant]
+                      ).to.deep.equal({
+                        ...merchantCount,
+                        count: merchantCount.count - 1
+                      });
+                    }
                   }
                 );
               }
