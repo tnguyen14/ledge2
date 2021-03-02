@@ -1,7 +1,7 @@
 import React from 'react';
 import Averages from '../components/averages';
 import CategoriesChart from '../components/categoriesChart';
-import YearAverages from '../components/yearAverages';
+import YearAverages from './yearAverages';
 import Carousel from 'react-bootstrap/Carousel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
