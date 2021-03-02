@@ -78,6 +78,7 @@ export const getCategoriesTotalsStats = createSelector(
 );
 
 const getYears = (state) => state.years;
+
 export const getYearAverages = createSelector(getYears, (years) => {
   return Object.keys(years).map((year) => {
     const y = years[year];
