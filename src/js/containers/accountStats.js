@@ -1,6 +1,7 @@
 import React from 'react';
 import Averages from '../components/averages';
 import CategoriesChart from '../components/categoriesChart';
+import YearAverages from '../components/yearAverages';
 import Carousel from 'react-bootstrap/Carousel';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -15,6 +16,9 @@ function AccountStats(props) {
       </Carousel.Item>
       <Carousel.Item>
         <CategoriesChart categories={categories} weeks={weeks} />
+      </Carousel.Item>
+      <Carousel.Item>
+        <YearAverages />
       </Carousel.Item>
     </Carousel>
   );

@@ -1,9 +1,7 @@
 import moment from 'moment-timezone';
-import { getJson } from '../util/fetch';
 import { LOGOUT } from './user';
 import { getTransactions } from '../util/transaction';
 
-const timezone = 'America/New_York';
 const numInitialWeeks = 25;
 
 export const LOAD_INITIAL_WEEKS_SUCCESS = 'LOAD_INITIAL_WEEKS_SUCCESS';
@@ -44,10 +42,10 @@ function addWeek(offset) {
       const dayOffset = Number(offset) * 7;
       // Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/
       const thisMonday = moment()
-        .tz(timezone)
+        .tz(TIMEZONE)
         .isoWeekday(1 + dayOffset);
       const nextMonday = moment()
-        .tz(timezone)
+        .tz(TIMEZONE)
         .isoWeekday(8 + dayOffset);
       const transactions = await getTransactions(
         idToken,
