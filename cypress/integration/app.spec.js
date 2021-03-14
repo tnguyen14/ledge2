@@ -106,7 +106,7 @@ describe('Ledge', () => {
   it('Add a transaction', () => {
     cy.wait('@accountMeta').then((interception) => {
       const merchantCount = interception.response.body.merchants_count.amazon;
-      cy.contains('Finished loading transactions', { timeout: 10000 });
+      cy.contains('Finished loading transactions', { timeout: 15000 });
 
       cy.get(currentMonthAverageValue).then(($stat) => {
         const average = fromUsd($stat.text());
@@ -176,7 +176,7 @@ describe('Ledge', () => {
   });
 
   it('Update a transaction - amount', () => {
-    cy.contains('Finished loading transactions', { timeout: 10000 });
+    cy.contains('Finished loading transactions', { timeout: 15000 });
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
         const amount = fromUsd($amount.text());
@@ -219,7 +219,7 @@ describe('Ledge', () => {
     cy.wait('@accountMeta').then((interception) => {
       const merchantsCount = interception.response.body.merchants_count;
       const newMerchant = 'Test Merchant';
-      cy.contains('Finished loading transactions', { timeout: 10000 });
+      cy.contains('Finished loading transactions', { timeout: 15000 });
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
@@ -273,7 +273,7 @@ describe('Ledge', () => {
   it('Delete a transaction', () => {
     cy.wait('@accountMeta').then((interception) => {
       const merchantsCount = interception.response.body.merchants_count;
-      cy.contains('Finished loading transactions', { timeout: 10000 });
+      cy.contains('Finished loading transactions', { timeout: 15000 });
       cy.get(`${secondWeek} ${secondTransaction} [data-field=amount]`).then(
         ($amount) => {
           const amount = fromUsd($amount.text());
