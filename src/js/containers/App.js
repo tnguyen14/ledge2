@@ -72,7 +72,7 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     ...state.user,
-    notification: state.notification
+    notification: state.app.notification
   };
 }
 export default connect(mapStateToProps, {

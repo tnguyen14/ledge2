@@ -4,7 +4,6 @@ import account from './account';
 import weeks from './weeks';
 import years from './years';
 import user from './user';
-import notification from './notification';
 import app from './app';
 
 const rootReducer = combineReducers({
@@ -13,8 +12,7 @@ const rootReducer = combineReducers({
   account,
   weeks,
   years,
-  user,
-  notification
+  user
 });
 
 export default rootReducer;
