@@ -18,7 +18,7 @@ function WeekCategory(props) {
       {carriedOvers.map((txn) => {
         return (
           <li key={txn.id}>
-            {moment(txn.date).format('MM/DD')} ({txn.span}) {txn.merchant}{' '}
+            {moment(txn.date).format('MM/DD/YY')} ({txn.span}) {txn.merchant}{' '}
             {usd(txn.amount)}{' '}
           </li>
         );

@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
-import { loadInitialWeeks } from '../actions/weeks';
 import { loadAccount } from '../actions/account';
+import { loadTransactions } from '../actions/app';
 import { useHistory, useLocation } from 'react-router-dom';
 
 function App(props) {
@@ -20,9 +20,11 @@ function App(props) {
     isAuthenticating,
     handleAuthentication,
     loadAccount,
-    loadInitialWeeks,
+    loadTransactions,
     notification
   } = props;
+
+  const yearsToLoad = [2021, 2020, 2019];
 
   const isVisible = usePageVisibility();
 
@@ -37,7 +39,7 @@ function App(props) {
 
     if (authenticated) {
       loadAccount();
-      loadInitialWeeks();
+      loadTransactions(yearsToLoad);
     }
   }, [authenticated, isVisible]);
 
@@ -63,7 +65,6 @@ App.propTypes = {
   handleAuthentication: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   loadAccount: PropTypes.func,
-  loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
   notification: PropTypes.object
 };
@@ -71,12 +72,12 @@ App.propTypes = {
 function mapStateToProps(state) {
   return {
     ...state.user,
-    notification: state.notification
+    notification: state.app.notification
   };
 }
 export default connect(mapStateToProps, {
   login,
   handleAuthentication,
   loadAccount,
-  loadInitialWeeks
+  loadTransactions
 })(App);

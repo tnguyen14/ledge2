@@ -1,39 +1,27 @@
 import moment from 'moment-timezone';
-import { LOGOUT } from './user';
 import { getTransactions } from '../util/transaction';
+import { LOGOUT } from './user';
 
-const numInitialWeeks = 25;
-
-export const LOAD_INITIAL_WEEKS_SUCCESS = 'LOAD_INITIAL_WEEKS_SUCCESS';
-export function loadInitialWeeks() {
-  return async function (dispatch, getState) {
-    await Promise.all(
-      [...Array(numInitialWeeks)].map((_, index) => {
-        return dispatch(addWeek(-index));
-      })
-    );
-    dispatch({
-      type: LOAD_INITIAL_WEEKS_SUCCESS,
-      data: numInitialWeeks
-    });
-  };
-}
-
-export const ADD_WEEK = 'ADD_WEEK';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-
-function addWeek(offset) {
+export const LOAD_WEEK = 'LOAD_WEEK';
+export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
+function loadWeek(offset) {
   return async function (dispatch, getState) {
     const {
       user: { idToken },
       weeks
     } = getState();
-    // week has already been loaded
-    if (weeks[offset] && weeks[offset].hasLoaded) {
-      return;
+    // if there are non-carriedOver transactions, assume it's been loaded
+    if (weeks[offset]) {
+      let existingTransactions = weeks[offset].transactions.filter(
+        (t) => !t.carriedOver
+      );
+      if (existingTransactions.length > 0) {
+        return;
+      }
     }
+
     dispatch({
-      type: ADD_WEEK,
+      type: LOAD_WEEK,
       data: {
         offset
       }
@@ -53,7 +41,7 @@ function addWeek(offset) {
         nextMonday
       );
       dispatch({
-        type: LOAD_TRANSACTIONS_SUCCESS,
+        type: LOAD_WEEK_SUCCESS,
         data: {
           offset,
           transactions
@@ -85,13 +73,7 @@ export function showMore(ahead) {
         ? Number(visibleWeeksIndices[0]) + 1
         : Number(visibleWeeksIndices.pop()) - 1;
 
-    dispatch(addWeek(nextIndex));
-    // also load the 3 weeks before that, because each week needs to calculate
-    // a 4 week average (see weekStats.js)
-    dispatch(addWeek(nextIndex - 1));
-    dispatch(addWeek(nextIndex - 2));
-    dispatch(addWeek(nextIndex - 3));
-
+    dispatch(loadWeek(nextIndex));
     // show the week in UI
     dispatch({
       type: SHOW_WEEK,

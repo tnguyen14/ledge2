@@ -34,16 +34,19 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
-  const displayDate = moment(date).format('ddd');
+  const displayDate = moment(date).format('MM/DD/YY');
+  const displayDay = moment(date).format('ddd');
   return (
     <tr
       className={classnames('transaction', {
         'table-active': active
       })}
       onClick={toggleActive}
-      data-day={displayDate}
+      data-day={displayDay}
     >
-      <td data-field="day">{displayDate}</td>
+      <td data-field="day" title={displayDate}>
+        {displayDay}
+      </td>
       <td data-field="merchant">{merchant}</td>
       <td data-field="amount" data-cat={category}>
         <Badge pill>{usd(amount)}</Badge>

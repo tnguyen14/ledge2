@@ -1,6 +1,6 @@
+import moment from 'moment-timezone';
 import { getTransactions } from '../util/transaction';
 import { LOGOUT } from './user';
-import moment from 'moment-timezone';
 
 export const LOAD_YEAR_SUCCESS = 'LOAD_YEAR_SUCCESS';
 export function loadYear(year) {
@@ -11,8 +11,8 @@ export function loadYear(year) {
     end = now;
   }
 
-  const startMonday = start.isoWeekday(1);
-  const endMonday = end.isoWeekday(8);
+  const startMonday = start.isoWeekday(1).startOf('day');
+  const endMonday = end.isoWeekday(8).startOf('day');
   return async function (dispatch, getState) {
     const {
       user: { idToken }
@@ -33,7 +33,7 @@ export function loadYear(year) {
         }
       });
     } catch (e) {
-      if (err.message == 'Unauthorized') {
+      if (e.message == 'Unauthorized') {
         dispatch({
           type: LOGOUT
         });

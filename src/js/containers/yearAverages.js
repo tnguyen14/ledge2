@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getTransactions } from '../util/transaction';
 import { usd } from '@tridnguyen/money';
-import { loadYear } from '../actions/years';
 import { getYearAverages } from '../selectors';
 
 function YearAverages(props) {
-  const yearsToLoad = [2021, 2020, 2019];
-  const { averages, loadYear } = props;
-  useEffect(() => {
-    yearsToLoad.forEach(loadYear);
-  }, []);
+  const { averages } = props;
   return (
     <div>
       <h4>Weekly Averages - Years</h4>
@@ -32,8 +27,7 @@ function YearAverages(props) {
 }
 
 YearAverages.propTypes = {
-  averages: PropTypes.array,
-  loadYear: PropTypes.func
+  averages: PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -41,6 +35,4 @@ function mapStateToProps(state) {
     averages: getYearAverages(state)
   };
 }
-export default connect(mapStateToProps, {
-  loadYear
-})(YearAverages);
+export default connect(mapStateToProps)(YearAverages);
