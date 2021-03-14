@@ -1,9 +1,6 @@
-import {
-  ADD_WEEK,
-  SHOW_WEEK,
-  LOAD_TRANSACTIONS_SUCCESS,
-  LOAD_TRANSACTION
-} from '../actions/weeks';
+import { SHOW_WEEK } from '../actions/weeks';
+import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/years';
+
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
@@ -24,8 +21,6 @@ function createDefaultWeek(offset) {
     end: moment()
       .isoWeekday(7 + offset * 7)
       .endOf('day'),
-    isLoading: false,
-    hasLoaded: false,
     transactions: [],
     offset,
     visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
@@ -98,17 +93,6 @@ export default function weeks(state = {}, action) {
   let newState;
   let transaction;
   switch (action.type) {
-    case ADD_WEEK:
-      newState = {
-        ...state
-      };
-      let newOffset = action.data.offset;
-      // week might already exist as loaded by carriedover transactions
-      if (!newState[newOffset]) {
-        newState[newOffset] = createDefaultWeek(newOffset);
-      }
-      newState[newOffset].isLoading = true;
-      return newState;
     case SHOW_WEEK:
       newState = {
         ...state
@@ -119,37 +103,11 @@ export default function weeks(state = {}, action) {
       }
 
       return newState;
-    case 'LOAD_TRANSACTIONS':
+    case LOAD_TRANSACTIONS_SUCCESS:
       newState = action.data.reduce((weeks, t) => {
         return addTransaction(t, weeks);
       }, state);
       return newState;
-    case LOAD_TRANSACTIONS_SUCCESS:
-      offset = action.data.offset;
-      const start = state[offset].start;
-      const end = state[offset].end;
-      if (!start || !end) {
-        throw new Error('Unable to find boundaries for week ' + offset);
-      }
-      const existingTransactions = state[offset].transactions || [];
-      const carriedOverTransactions = existingTransactions.filter(
-        (tx) => tx.carriedOver
-      );
-      const weekOnlyTransactions = existingTransactions.filter(
-        (tx) => !tx.carriedOver
-      );
-      return {
-        ...state,
-        [offset]: {
-          ...state[offset],
-          isLoading: false,
-          hasLoaded: true,
-          // assign start and end again
-          // as nested object will be overriden
-          start,
-          end
-        }
-      };
     case ADD_TRANSACTION_SUCCESS:
       return Object.keys(state).reduce((newState, offset) => {
         const week = state[offset];

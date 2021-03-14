@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
-import { loadInitialWeeks } from '../actions/weeks';
 import { loadAccount } from '../actions/account';
 import { loadYear } from '../actions/years';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -22,7 +21,6 @@ function App(props) {
     handleAuthentication,
     loadAccount,
     loadYear,
-    loadInitialWeeks,
     notification
   } = props;
 
@@ -42,7 +40,6 @@ function App(props) {
     if (authenticated) {
       loadAccount();
       yearsToLoad.forEach(loadYear);
-      // loadInitialWeeks();
     }
   }, [authenticated, isVisible]);
 
@@ -68,7 +65,6 @@ App.propTypes = {
   handleAuthentication: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired,
   loadAccount: PropTypes.func,
-  loadInitialWeeks: PropTypes.func,
   isAuthenticating: PropTypes.bool,
   notification: PropTypes.object
 };
@@ -83,6 +79,5 @@ export default connect(mapStateToProps, {
   login,
   handleAuthentication,
   loadAccount,
-  loadYear,
-  loadInitialWeeks
+  loadYear
 })(App);
