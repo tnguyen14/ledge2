@@ -21,6 +21,7 @@ export function loadInitialWeeks() {
 
 export const ADD_WEEK = 'ADD_WEEK';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
+export const LOAD_TRANSACTION = 'LOAD_TRANSACTION';
 
 function addWeek(offset) {
   return async function (dispatch, getState) {
@@ -43,14 +44,23 @@ function addWeek(offset) {
       // Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/
       const thisMonday = moment()
         .tz(TIMEZONE)
-        .isoWeekday(1 + dayOffset);
+        .isoWeekday(1 + dayOffset)
+        .startOf('day');
       const nextMonday = moment()
         .tz(TIMEZONE)
-        .isoWeekday(8 + dayOffset);
-      const transactions = await getTransactions(
-        idToken,
-        thisMonday,
-        nextMonday
+        .isoWeekday(8 + dayOffset)
+        .startOf('day');
+      // const transactions = await getTransactions(
+      //   idToken,
+      //   thisMonday,
+      //   nextMonday
+      // );
+      const transactions = [];
+      transactions.forEach((t) =>
+        dispatch({
+          type: LOAD_TRANSACTION,
+          data: t
+        })
       );
       dispatch({
         type: LOAD_TRANSACTIONS_SUCCESS,

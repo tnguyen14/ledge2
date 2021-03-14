@@ -1,7 +1,8 @@
 import {
   ADD_WEEK,
   SHOW_WEEK,
-  LOAD_TRANSACTIONS_SUCCESS
+  LOAD_TRANSACTIONS_SUCCESS,
+  LOAD_TRANSACTION
 } from '../actions/weeks';
 import {
   ADD_TRANSACTION_SUCCESS,
@@ -19,13 +20,14 @@ function createDefaultWeek(offset) {
   return {
     start: moment()
       .isoWeekday(1 + offset * 7)
-      .startOf('isoWeek'),
+      .startOf('day'),
     end: moment()
       .isoWeekday(7 + offset * 7)
-      .endOf('isoWeek'),
+      .endOf('day'),
     isLoading: false,
     hasLoaded: false,
     transactions: [],
+    offset,
     visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
   };
 }
@@ -38,45 +40,50 @@ function isWithinWeek(date, start, end) {
   return date >= start.toISOString() && date <= end.toISOString();
 }
 
-// add a newTransactions array to an existing ones,
-// with checking for duplicate id
-function addTransactionsToExisting(existingTransactions, newTransactions) {
-  // create a new array
-  const transactions = existingTransactions.concat();
-  newTransactions.forEach((tx) => {
-    if (!existingTransactions.some((existingTx) => existingTx.id == tx.id)) {
-      transactions.push(tx);
-    }
-  });
-  return transactions;
-}
-// filter out list of transactions that have span > 1
-function getMultiWeekTransactions(transactions) {
-  return transactions.filter((txn) => {
-    return txn.span && txn.span > 1;
-  });
+function addTransactionToWeek(transaction, week) {
+  if (
+    !week.transactions.some((existingTx) => existingTx.id == transaction.id)
+  ) {
+    week.transactions = sortTransactions(week.transactions.concat(transaction));
+  }
 }
 
-// distribute multiweek transactions across other weeks
-function accountForMultiWeekTransaction(transaction, currentOffset, weeks) {
-  // sort week indices from highest (future) to lowest (past)
-  const weeksIndices = Object.keys(weeks).sort((a, b) => b - a);
+function getTransactionWeekOffset(transaction) {
+  const thisMonday = moment().tz(TIMEZONE).isoWeekday(1).startOf('day');
+  const transactionMonday = moment(transaction.date)
+    .tz(TIMEZONE)
+    .isoWeekday(1)
+    .startOf('day');
+  const offset = transactionMonday.diff(thisMonday, 'week');
+  return offset;
+}
+
+function addTransaction(transaction, weeks) {
+  const newWeeks = {
+    ...weeks
+  };
+  const offset = getTransactionWeekOffset(transaction);
+
+  if (!newWeeks[offset]) {
+    newWeeks[offset] = createDefaultWeek(offset);
+  }
+
+  addTransactionToWeek(transaction, newWeeks[offset]);
+  // account for multi-week transaction
   for (let i = 1; i < transaction.span; i++) {
-    let nextOffset = currentOffset + i;
-    if (!weeks[nextOffset]) {
-      weeks[nextOffset] = createDefaultWeek(nextOffset);
+    let nextOffset = offset + i;
+    if (!newWeeks[nextOffset]) {
+      newWeeks[nextOffset] = createDefaultWeek(nextOffset);
     }
-
-    weeks[nextOffset].transactions = addTransactionsToExisting(
-      weeks[nextOffset].transactions,
-      [
-        {
-          ...transaction,
-          carriedOver: true
-        }
-      ]
+    addTransactionToWeek(
+      {
+        ...transaction,
+        carriedOver: true
+      },
+      newWeeks[nextOffset]
     );
   }
+  return newWeeks;
 }
 
 function sortTransactions(transactions) {
@@ -89,6 +96,7 @@ function sortTransactions(transactions) {
 export default function weeks(state = {}, action) {
   let offset;
   let newState;
+  let transaction;
   switch (action.type) {
     case ADD_WEEK:
       newState = {
@@ -111,6 +119,11 @@ export default function weeks(state = {}, action) {
       }
 
       return newState;
+    case 'LOAD_TRANSACTIONS':
+      newState = action.data.reduce((weeks, t) => {
+        return addTransaction(t, weeks);
+      }, state);
+      return newState;
     case LOAD_TRANSACTIONS_SUCCESS:
       offset = action.data.offset;
       const start = state[offset].start;
@@ -118,14 +131,12 @@ export default function weeks(state = {}, action) {
       if (!start || !end) {
         throw new Error('Unable to find boundaries for week ' + offset);
       }
-      getMultiWeekTransactions(action.data.transactions).forEach((txn) => {
-        accountForMultiWeekTransaction(txn, offset, state);
-      });
-      // there might be existing transactions that were carried over
-      // by multiweek transactions
       const existingTransactions = state[offset].transactions || [];
       const carriedOverTransactions = existingTransactions.filter(
         (tx) => tx.carriedOver
+      );
+      const weekOnlyTransactions = existingTransactions.filter(
+        (tx) => !tx.carriedOver
       );
       return {
         ...state,
@@ -133,13 +144,6 @@ export default function weeks(state = {}, action) {
           ...state[offset],
           isLoading: false,
           hasLoaded: true,
-          transactions: carriedOverTransactions.concat(
-            sortTransactions(
-              // filter seems unnecessary for weekly transactions
-              // filterTransactions(action.data.transactions, start, end)
-              action.data.transactions
-            )
-          ),
           // assign start and end again
           // as nested object will be overriden
           start,

@@ -11,8 +11,8 @@ export function loadYear(year) {
     end = now;
   }
 
-  const startMonday = start.isoWeekday(1);
-  const endMonday = end.isoWeekday(8);
+  const startMonday = start.isoWeekday(1).startOf('day');
+  const endMonday = end.isoWeekday(8).startOf('day');
   return async function (dispatch, getState) {
     const {
       user: { idToken }
@@ -32,8 +32,12 @@ export function loadYear(year) {
           transactions
         }
       });
+      dispatch({
+        type: 'LOAD_TRANSACTIONS',
+        data: transactions
+      });
     } catch (e) {
-      if (err.message == 'Unauthorized') {
+      if (e.message == 'Unauthorized') {
         dispatch({
           type: LOGOUT
         });

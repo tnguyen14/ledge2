@@ -11,6 +11,7 @@ import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadInitialWeeks } from '../actions/weeks';
 import { loadAccount } from '../actions/account';
+import { loadYear } from '../actions/years';
 import { useHistory, useLocation } from 'react-router-dom';
 
 function App(props) {
@@ -20,10 +21,13 @@ function App(props) {
     isAuthenticating,
     handleAuthentication,
     loadAccount,
+    loadYear,
     loadInitialWeeks,
     notification
   } = props;
 
+  const yearsToLoad = [2021, 2020, 2019];
+  // const yearsToLoad = [2021];
   const isVisible = usePageVisibility();
 
   const history = useHistory();
@@ -37,7 +41,8 @@ function App(props) {
 
     if (authenticated) {
       loadAccount();
-      loadInitialWeeks();
+      yearsToLoad.forEach(loadYear);
+      // loadInitialWeeks();
     }
   }, [authenticated, isVisible]);
 
@@ -78,5 +83,6 @@ export default connect(mapStateToProps, {
   login,
   handleAuthentication,
   loadAccount,
+  loadYear,
   loadInitialWeeks
 })(App);

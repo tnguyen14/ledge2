@@ -7,11 +7,9 @@ import { loadYear } from '../actions/years';
 import { getYearAverages } from '../selectors';
 
 function YearAverages(props) {
-  const yearsToLoad = [2021, 2020, 2019];
+  // const yearsToLoad = [2021, 2020, 2019];
+  const yearsToLoad = [2021];
   const { averages, loadYear } = props;
-  useEffect(() => {
-    yearsToLoad.forEach(loadYear);
-  }, []);
   return (
     <div>
       <h4>Weekly Averages - Years</h4>
