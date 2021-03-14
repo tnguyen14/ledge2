@@ -11,7 +11,14 @@ import { usd } from '@tridnguyen/money';
 import { sum } from '../util/calculate';
 
 function WeekStats(props) {
-  const { label, offset, transactions, categories, past4Weeks } = props;
+  const {
+    label,
+    offset,
+    transactions,
+    categories,
+    past4Weeks,
+    isFiltering
+  } = props;
   const weekId = `week-${offset}`;
   const carriedOvers = transactions.filter((tx) => tx.carriedOver);
   const carriedOversByCategory = carriedOvers.reduce((txnsByCat, txn) => {
@@ -33,6 +40,10 @@ function WeekStats(props) {
 
   const past4WeeksId = `average-past-4-weeks`;
 
+  // don't show stats when filtering
+  if (isFiltering) {
+    return null;
+  }
   return (
     <div className="stats week-stats">
       {label && <h4>{label}</h4>}
@@ -76,7 +87,8 @@ WeekStats.propTypes = {
   offset: PropTypes.number.isRequired,
   transactions: PropTypes.array,
   categories: PropTypes.array,
-  past4Weeks: PropTypes.array
+  past4Weeks: PropTypes.array,
+  isFiltering: PropTypes.bool
 };
 
 function mapStateToProps(state, ownProps) {

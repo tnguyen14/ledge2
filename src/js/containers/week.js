@@ -107,7 +107,7 @@ function Week(props) {
           ))}
         </tbody>
       </table>
-      <WeekStats offset={offset} />
+      <WeekStats offset={offset} isFiltering={filter != ''} />
     </div>
   );
 }
