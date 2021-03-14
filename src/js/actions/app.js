@@ -17,11 +17,3 @@ export function loadTransactions(years) {
     });
   };
 }
-
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-
-export function loadTransactionsSuccess() {
-  return {
-    type: LOAD_TRANSACTIONS_SUCCESS
-  };
-}

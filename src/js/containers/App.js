@@ -25,7 +25,7 @@ function App(props) {
   } = props;
 
   const yearsToLoad = [2021, 2020, 2019];
-  // const yearsToLoad = [2021];
+
   const isVisible = usePageVisibility();
 
   const history = useHistory();
