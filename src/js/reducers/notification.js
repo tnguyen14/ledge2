@@ -3,7 +3,7 @@ import {
   AUTHENTICATED,
   RENEWED_SESSION
 } from '../actions/user';
-import { LOAD_INITIAL_WEEKS_SUCCESS } from '../actions/weeks';
+import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/app';
 
 const initialState = {
   content: ''
@@ -22,10 +22,10 @@ export default function app(state = initialState, action) {
         title: '',
         content: ''
       };
-    case LOAD_INITIAL_WEEKS_SUCCESS:
+    case LOAD_TRANSACTIONS_SUCCESS:
       return {
         title: 'Transactions',
-        content: `Finished loading ${action.data} weeks`,
+        content: `Finished loading transactions`,
         autohide: true
       };
     default:

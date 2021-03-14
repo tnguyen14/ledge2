@@ -2,8 +2,8 @@ import moment from 'moment-timezone';
 import { getTransactions } from '../util/transaction';
 import { LOGOUT } from './user';
 
+export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
-
 function loadWeek(offset) {
   return async function (dispatch, getState) {
     const {
@@ -19,6 +19,13 @@ function loadWeek(offset) {
         return;
       }
     }
+
+    dispatch({
+      type: LOAD_WEEK,
+      data: {
+        offset
+      }
+    });
     try {
       const dayOffset = Number(offset) * 7;
       // Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/

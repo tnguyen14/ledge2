@@ -1,4 +1,4 @@
-import { SHOW_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
+import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
 import { LOAD_YEAR_SUCCESS } from '../actions/years';
 
 import {
@@ -22,6 +22,7 @@ function createDefaultWeek(offset) {
       .isoWeekday(7 + offset * 7)
       .endOf('day'),
     transactions: [],
+    isLoading: false,
     offset,
     visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
   };
@@ -106,7 +107,21 @@ export default function weeks(state = {}, action) {
       newState = action.data.transactions.reduce((weeks, t) => {
         return addTransaction(t, weeks);
       }, state);
+
+      // if week loading
+      if (action.data.offset) {
+        newState[action.data.offset].isLoading = false;
+      }
       return newState;
+    case LOAD_WEEK:
+      return {
+        ...state,
+        [action.data.offset]: {
+          ...state[action.data.offset],
+          isLoading: true
+        }
+      };
+
     case ADD_TRANSACTION_SUCCESS:
       return Object.keys(state).reduce((newState, offset) => {
         const week = state[offset];

@@ -1,6 +1,6 @@
+import moment from 'moment-timezone';
 import { getTransactions } from '../util/transaction';
 import { LOGOUT } from './user';
-import moment from 'moment-timezone';
 
 export const LOAD_YEAR_SUCCESS = 'LOAD_YEAR_SUCCESS';
 export function loadYear(year) {
