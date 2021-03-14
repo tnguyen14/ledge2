@@ -3,7 +3,6 @@ import { LOGOUT } from './user';
 import moment from 'moment-timezone';
 
 export const LOAD_YEAR_SUCCESS = 'LOAD_YEAR_SUCCESS';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 export function loadYear(year) {
   const now = moment().tz(TIMEZONE);
   const start = moment(`${year}-01-01`).tz(TIMEZONE);
@@ -32,10 +31,6 @@ export function loadYear(year) {
           end: endMonday,
           transactions
         }
-      });
-      dispatch({
-        type: LOAD_TRANSACTIONS_SUCCESS,
-        data: transactions
       });
     } catch (e) {
       if (e.message == 'Unauthorized') {

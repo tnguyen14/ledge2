@@ -1,5 +1,5 @@
-import { SHOW_WEEK } from '../actions/weeks';
-import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/years';
+import { SHOW_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
+import { LOAD_YEAR_SUCCESS } from '../actions/years';
 
 import {
   ADD_TRANSACTION_SUCCESS,
@@ -89,9 +89,7 @@ function sortTransactions(transactions) {
 }
 
 export default function weeks(state = {}, action) {
-  let offset;
   let newState;
-  let transaction;
   switch (action.type) {
     case SHOW_WEEK:
       newState = {
@@ -103,8 +101,9 @@ export default function weeks(state = {}, action) {
       }
 
       return newState;
-    case LOAD_TRANSACTIONS_SUCCESS:
-      newState = action.data.reduce((weeks, t) => {
+    case LOAD_YEAR_SUCCESS:
+    case LOAD_WEEK_SUCCESS:
+      newState = action.data.transactions.reduce((weeks, t) => {
         return addTransaction(t, weeks);
       }, state);
       return newState;

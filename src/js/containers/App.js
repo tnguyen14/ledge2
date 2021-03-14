@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { usePageVisibility } from 'react-page-visibility';
 import { login, handleAuthentication } from '../actions/user';
 import { loadAccount } from '../actions/account';
-import { loadYear } from '../actions/years';
+import { loadTransactions } from '../actions/app';
 import { useHistory, useLocation } from 'react-router-dom';
 
 function App(props) {
@@ -20,7 +20,7 @@ function App(props) {
     isAuthenticating,
     handleAuthentication,
     loadAccount,
-    loadYear,
+    loadTransactions,
     notification
   } = props;
 
@@ -39,7 +39,7 @@ function App(props) {
 
     if (authenticated) {
       loadAccount();
-      yearsToLoad.forEach(loadYear);
+      loadTransactions(yearsToLoad);
     }
   }, [authenticated, isVisible]);
 
@@ -79,5 +79,5 @@ export default connect(mapStateToProps, {
   login,
   handleAuthentication,
   loadAccount,
-  loadYear
+  loadTransactions
 })(App);
