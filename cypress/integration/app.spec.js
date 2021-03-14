@@ -92,7 +92,7 @@ describe('Ledge', () => {
     cy.get('select[name=source]').should('have.value', 'chase-sapphire');
 
     // weekly averages are loaded and match
-    cy.wait('@weeks');
+    cy.contains('Finished loading transactions', { timeout: 15000 });
     cy.get(currentMonthAverageValue).then(($currentMonth) => {
       const currentMonthAverage = $currentMonth.text();
       cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(
