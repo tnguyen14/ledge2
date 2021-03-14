@@ -11,3 +11,11 @@
     width: 90%;
   }
 }
+.transactions-loading {
+  @util clearfix();
+  margin: 1rem auto;
+  width: 5rem;
+  div > div {
+    background-color: var(--color-lime);
+  }
+}

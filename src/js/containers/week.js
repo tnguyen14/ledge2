@@ -72,6 +72,9 @@ function Week(props) {
       <h3 className="week-title">
         {start.format('MMM D')} - {end.format('MMM D')}
       </h3>
+      <div className="transactions-loading">
+        <PulseLoader loading={isLoading} />
+      </div>
       <table className="weekly-transactions table table-striped">
         <thead>
           <tr>
@@ -105,7 +108,6 @@ function Week(props) {
         </tbody>
       </table>
       <WeekStats offset={offset} />
-      <PulseLoader className="transactions-loading" loading={isLoading} />
     </div>
   );
 }

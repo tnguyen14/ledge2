@@ -5,9 +5,10 @@ import Button from 'react-bootstrap/Button';
 import { showMore } from '../actions/weeks';
 import Week from './week';
 import Field from '../components/field';
+import PulseLoader from 'react-spinners/PulseLoader';
 
 function Weeks(props) {
-  const { weeks, showMore } = props;
+  const { weeks, showMore, isLoading } = props;
   const [filter, setFilter] = useState('');
   return (
     <div className="transactions">
@@ -22,6 +23,9 @@ function Weeks(props) {
             setFilter(event.target.value);
           }}
         />
+      </div>
+      <div className="transactions-loading">
+        <PulseLoader loading={isLoading} />
       </div>
       <div className="weeks">
         {Object.keys(weeks)
@@ -39,12 +43,14 @@ function Weeks(props) {
 
 Weeks.propTypes = {
   weeks: PropTypes.object.isRequired,
-  showMore: PropTypes.func.isRequired
+  showMore: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 };
 
 function mapStateToProps(state) {
   return {
-    weeks: state.weeks
+    weeks: state.weeks,
+    isLoading: state.app.isLoading
   };
 }
 
