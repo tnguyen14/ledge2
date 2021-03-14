@@ -3,10 +3,15 @@ import {
   AUTHENTICATED,
   RENEWED_SESSION
 } from '../actions/user';
-import { LOAD_TRANSACTIONS, LOAD_TRANSACTIONS_SUCCESS } from '../actions/app';
+import {
+  LOAD_TRANSACTIONS,
+  LOAD_TRANSACTIONS_SUCCESS,
+  SET_FILTER
+} from '../actions/app';
 
 const defaultState = {
   isLoading: false,
+  filter: '',
   notification: {
     content: ''
   }
@@ -45,6 +50,11 @@ export default function app(state = defaultState, action) {
           content: `Finished loading transactions`,
           autohide: true
         }
+      };
+    case SET_FILTER:
+      return {
+        ...state,
+        filter: action.data
       };
     default:
       return state;

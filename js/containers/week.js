@@ -131,7 +131,8 @@ function mapStateToProps(state, ownProps) {
   return {
     ...state.weeks[ownProps.offset],
     categories: state.account.categories,
-    sources: state.account.sources
+    sources: state.account.sources,
+    filter: state.app.filter
   };
 }
 
