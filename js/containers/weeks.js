@@ -20,7 +20,7 @@ function Weeks(props) {
           label="Search"
           placeholder="Search"
           handleChange={(event) => {
-            setFilter(event.target.value);
+            setFilter(event.target.value.toLowerCase());
           }}
         />
       </div>
