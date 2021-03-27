@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { getTransactions } from '../util/transaction';
-import { LOGOUT } from './user';
+import { logout } from './user';
 
 export const LOAD_YEAR_SUCCESS = 'LOAD_YEAR_SUCCESS';
 export function loadYear(year) {
@@ -34,9 +34,7 @@ export function loadYear(year) {
       });
     } catch (e) {
       if (e.message == 'Unauthorized') {
-        dispatch({
-          type: LOGOUT
-        });
+        dispatch(logout());
         return;
       }
       throw e;

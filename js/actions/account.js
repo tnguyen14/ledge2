@@ -1,5 +1,5 @@
 import { getJson, patchJson } from '../util/fetch';
-import { LOGOUT } from './user';
+import { logout } from './user';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
@@ -16,9 +16,7 @@ export function loadAccount() {
       });
     } catch (err) {
       if (err.message == 'Unauthorized') {
-        dispatch({
-          type: LOGOUT
-        });
+        dispatch(logout());
         return;
       }
       throw err;

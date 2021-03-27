@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { getTransactions } from '../util/transaction';
-import { LOGOUT } from './user';
+import { logout } from './user';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
@@ -49,9 +49,7 @@ function loadWeek(offset) {
       });
     } catch (err) {
       if (err.message == 'Unauthorized') {
-        dispatch({
-          type: LOGOUT
-        });
+        dispatch(logout());
         return;
       }
       throw err;
