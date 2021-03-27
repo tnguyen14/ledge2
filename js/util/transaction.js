@@ -79,7 +79,7 @@ export function decorateTransaction(params) {
     throw new Error('Span is required for transaction');
   }
   opts.date = moment
-    .tz(`${params.date} ${params.time}`, window.TIMEZONE)
+    .tz(new Date(`${params.date} ${params.time}`), window.TIMEZONE)
     .toISOString();
   opts.amount = toCents(params.amount);
   opts.span = parseInt(params.span, 10);

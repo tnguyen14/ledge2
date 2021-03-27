@@ -34,7 +34,7 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
-  const displayDate = moment(date).format('MM/DD/YY');
+  const displayDate = moment(date).format('MM/DD/YY h:ma');
   const displayDay = moment(date).format('ddd');
   return (
     <tr
