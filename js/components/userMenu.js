@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
 import { logout } from '../actions/user';
 import moment from 'moment-timezone';
 
 function UserMenu(props) {
   const [profileActive, setProfileActive] = useState(false);
+  const user = useSelector((state) => state.user);
+  const { authenticated, profile, expiresAt, idToken } = user;
 
-  const { authenticated, profile, logout, expiresAt, idToken } = props;
   if (!authenticated) {
     return null;
   }
@@ -28,7 +28,7 @@ function UserMenu(props) {
         <li>{profile.name}</li>
         <li>Logged in until {moment(expiresAt).format('hh:mm:ss A')}</li>
         <li className="jwt-token">{idToken}</li>
-        <li className="logout" onClick={logout}>
+        <li className="logout" onClick={() => dispatch(logout())}>
           Log Out
         </li>
       </ul>
@@ -36,23 +36,4 @@ function UserMenu(props) {
   );
 }
 
-UserMenu.propTypes = {
-  isAuthenticating: PropTypes.bool,
-  authenticated: PropTypes.bool,
-  profile: PropTypes.shape({
-    picture: PropTypes.string,
-    name: PropTypes.string
-  }),
-  logout: PropTypes.func.isRequired,
-  expiresAt: PropTypes.number,
-  renewTimeout: PropTypes.number,
-  idToken: PropTypes.string
-};
-
-function mapStateToProps(state) {
-  return state.user;
-}
-
-export default connect(mapStateToProps, {
-  logout
-})(UserMenu);
+export default UserMenu;
