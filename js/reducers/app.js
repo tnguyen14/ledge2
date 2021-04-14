@@ -13,7 +13,8 @@ const defaultState = {
   isLoading: false,
   filter: '',
   notification: {
-    content: ''
+    content: '',
+    title: ''
   }
 };
 

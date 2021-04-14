@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import Toast from 'react-bootstrap/Toast';
 
-function Notification(props) {
-  const { content = '', title = '', autohide } = props;
+function Notification() {
+  const { content, title, autohide } = useSelector(
+    (state) => state.app.notification
+  );
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(content != '');
@@ -17,11 +19,5 @@ function Notification(props) {
     </div>
   );
 }
-
-Notification.propTypes = {
-  title: PropTypes.string,
-  content: PropTypes.string,
-  autohide: PropTypes.bool
-};
 
 export default Notification;

@@ -1,18 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatcher } from 'react-redux';
+import { login } from '../actions/user';
 
-function Login(props) {
+function Login() {
+  const dispatch = useDispatcher();
   return (
     <div className="login">
-      <button className="btn" onClick={props.login}>
+      <button className="btn" onClick={() => dispatch(login())}>
         Log In
       </button>
     </div>
   );
 }
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired
-};
 
 export default Login;

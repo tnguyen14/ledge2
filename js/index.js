@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
-import App from './containers/App';
+import App from './components/App';
 import Header from './components/header';
 import reducer from './reducers';
 import { BrowserRouter, Route } from 'react-router-dom';
