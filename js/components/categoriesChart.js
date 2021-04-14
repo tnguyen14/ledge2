@@ -40,6 +40,8 @@ function CategoriesChart(props) {
 
   const weeksData = Object.keys(weeks)
     .filter((weekIndex) => weekIndex <= start && weekIndex > -numWeeks + start)
+    // newest week should be to the right
+    .sort((a, b) => a - b)
     .map((weekIndex) => weeks[weekIndex])
     .map((week) => {
       const stats = getCategoriesTotalsStats({
@@ -53,9 +55,7 @@ function CategoriesChart(props) {
         weekData[stat.slug] = (stat.amount / 100).toFixed(2);
       });
       return weekData;
-    })
-    // newest week should be to the right
-    .reverse();
+    });
 
   return (
     <div className="chart categories">
