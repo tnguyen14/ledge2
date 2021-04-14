@@ -1,7 +1,7 @@
 import React from 'react';
 import Averages from './averages';
 import CategoriesChart from './categoriesChart';
-import YearAverages from '../containers/yearAverages';
+import YearAverages from './yearAverages';
 import Carousel from 'react-bootstrap/Carousel';
 import { useSelector } from 'react-redux';
 import { getWeeklyAverages } from '../selectors';
