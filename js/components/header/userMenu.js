@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import { logout } from '../actions/user';
 import moment from 'moment-timezone';
+import { logout } from '../../actions/user';
 
 function UserMenu(props) {
   const [profileActive, setProfileActive] = useState(false);
