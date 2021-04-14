@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Form from './form';
 import AccountStats from '../components/accountStats';
 import Weeks from './weeks';
-import DeleteDialog from './deleteDialog';
+import DeleteDialog from '../components/deleteDialog';
 import Login from '../components/login';
 import Notification from '../components/notification';
 import PropTypes from 'prop-types';
