@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getTransactions } from '../util/transaction';
+import { getTransactions } from '../../util/transaction';
 import { usd } from '@tridnguyen/money';
-import { getYearAverages } from '../selectors';
+import { getYearAverages } from '../../selectors';
 
 function YearAverages(props) {
   const averages = useSelector((state) => getYearAverages(state));

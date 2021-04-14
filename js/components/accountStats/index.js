@@ -1,8 +1,8 @@
 import React from 'react';
+import Carousel from 'react-bootstrap/Carousel';
 import WeeklyAverages from './weeklyAverages';
 import CategoriesChart from './categoriesChart';
 import YearAverages from './yearAverages';
-import Carousel from 'react-bootstrap/Carousel';
 
 function AccountStats(props) {
   return (

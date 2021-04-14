@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 import Button from 'react-bootstrap/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import { getCategoriesTotalsStats } from '../selectors';
+import { getCategoriesTotalsStats } from '../../selectors';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {

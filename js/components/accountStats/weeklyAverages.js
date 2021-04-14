@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import WeeklyAverage from './weeklyAverage';
-import { getWeeklyAverages } from '../selectors';
+import { getWeeklyAverages } from '../../selectors';
 
 function WeeklyAverages(props) {
   const averages = useSelector((state) => getWeeklyAverages(state));
