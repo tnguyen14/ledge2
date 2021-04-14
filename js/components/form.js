@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import Field from '../components/field';
 import {
@@ -46,20 +45,17 @@ function calculateString(str) {
 }
 
 function Form(props) {
-  const {
-    fields,
-    action,
-    values,
-    datalists,
-    pending,
-    resetForm,
-    fieldOptions,
-    addTransaction,
-    updateTransaction,
-    logout,
-    scheduleRenewal,
-    inputChange
-  } = props;
+  const dispatch = useDispatch();
+  const datalists = useSelector((state) => ({
+    'merchants-list': state.account.merchants
+  }));
+  const fieldOptions = useSelector((state) => ({
+    category: state.account.categories,
+    source: state.account.sources
+  }));
+  const { fields, action, values, pending } = useSelector(
+    (state) => state.form
+  );
 
   const prevMerchantRef = useRef();
   useEffect(() => {
@@ -81,23 +77,23 @@ function Form(props) {
   const submitForm = useCallback(
     (event) => {
       event.preventDefault();
-      submit();
+      dispatch(submit());
       try {
         if (action == 'update') {
-          updateTransaction(values, prevMerchantRef.current);
+          dispatch(updateTransaction(values, prevMerchantRef.current));
         } else {
-          addTransaction(values);
+          dispatch(addTransaction(values));
         }
       } catch (err) {
         if (err.message == 'Unauthorized') {
-          logout();
+          dispatch(logout());
           return;
         }
-        submitFailure(err);
+        dispatch(submitFailure(err));
       }
-      scheduleRenewal();
+      dispatch(scheduleRenewal());
     },
-    [action, values, updateTransaction, addTransaction, logout, submitFailure]
+    [action, values]
   );
 
   return (
@@ -119,7 +115,7 @@ function Form(props) {
             }}
             key={field.name}
             handleChange={(event) => {
-              inputChange(field.name, event.target.value);
+              dispatch(inputChange(field.name, event.target.value));
             }}
             afterButtonAction={() => {
               if (field.name == 'calculate') {
@@ -128,7 +124,7 @@ function Form(props) {
                 }
                 const newAmount = calculateString(values.calculate).toFixed(2);
 
-                inputChange('amount', newAmount);
+                dispatch(inputChange('amount', newAmount));
               }
             }}
             {...field}
@@ -147,7 +143,7 @@ function Form(props) {
       <Button
         variant="outline-secondary"
         className="float-right"
-        onClick={resetForm}
+        onClick={() => dispatch(resetForm())}
         {...buttonAttrs}
       >
         Reset
@@ -156,49 +152,4 @@ function Form(props) {
   );
 }
 
-Form.propTypes = {
-  fields: PropTypes.array.isRequired,
-  values: PropTypes.object,
-  action: PropTypes.string.isRequired,
-  focus: PropTypes.bool,
-  pending: PropTypes.bool,
-  addTransaction: PropTypes.func,
-  updateTransaction: PropTypes.func,
-  logout: PropTypes.func,
-  scheduleRenewal: PropTypes.func,
-  submitFailure: PropTypes.func,
-  submit: PropTypes.func,
-  datalists: PropTypes.shape({
-    'merchants-list': PropTypes.array
-  }),
-  inputChange: PropTypes.func,
-  resetForm: PropTypes.func,
-  fieldOptions: PropTypes.shape({
-    category: PropTypes.array.isRequired,
-    source: PropTypes.array.isRequired
-  })
-};
-
-function mapStateToProps(state) {
-  return {
-    ...state.form,
-    datalists: {
-      'merchants-list': state.account.merchants
-    },
-    fieldOptions: {
-      category: state.account.categories,
-      source: state.account.sources
-    }
-  };
-}
-
-export default connect(mapStateToProps, {
-  inputChange,
-  resetForm,
-  addTransaction,
-  updateTransaction,
-  logout,
-  scheduleRenewal,
-  submitFailure,
-  submit
-})(Form);
+export default Form;
