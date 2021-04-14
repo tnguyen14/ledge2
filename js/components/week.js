@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
 import {
   INTEND_TO_REMOVE_TRANSACTION,
@@ -9,8 +8,7 @@ import {
 import Transaction from '../components/transaction';
 import WeekStats from '../containers/weekStats';
 
-function editTransaction(transaction, event) {
-  event.stopPropagation(); // avoid toggling the transaction as active
+function editTransaction(transaction) {
   return {
     type: EDIT_TRANSACTION,
     data: transaction
@@ -25,19 +23,13 @@ function intendToRemoveTransaction(transaction) {
 }
 
 function Week(props) {
-  const {
-    offset,
-    isLoading,
-    visible,
-    transactions,
-    start,
-    end,
-    editTransaction,
-    intendToRemoveTransaction,
-    categories,
-    sources,
-    filter
-  } = props;
+  const dispatch = useDispatch();
+  const { offset } = props;
+  const week = useSelector((state) => state.weeks[offset]);
+  const categories = useSelector((state) => state.account.categories);
+  const sources = useSelector((state) => state.account.sources);
+  const filter = useSelector((state) => state.app.filter);
+  const { isLoading, visible, transactions, start, end } = week;
 
   if (!visible) {
     return null;
@@ -96,8 +88,12 @@ function Week(props) {
           {displayTransactions.map((tx) => (
             <Transaction
               key={tx.id}
-              handleRemove={intendToRemoveTransaction.bind(null, tx)}
-              handleEdit={editTransaction.bind(null, tx)}
+              handleRemove={() => dispatch(intendToRemoveTransaction(tx))}
+              handleEdit={(event) => {
+                // avoid toggling the transaction as active
+                event.stopPropagation();
+                dispatch(editTransaction(tx));
+              }}
               options={{
                 categories,
                 sources
@@ -112,31 +108,4 @@ function Week(props) {
   );
 }
 
-Week.propTypes = {
-  offset: PropTypes.number.isRequired,
-  isLoading: PropTypes.bool,
-  visible: PropTypes.bool,
-  transactions: PropTypes.array,
-  start: PropTypes.object,
-  end: PropTypes.object,
-  editTransaction: PropTypes.func,
-  intendToRemoveTransaction: PropTypes.func,
-  stats: PropTypes.array,
-  categories: PropTypes.array,
-  sources: PropTypes.array,
-  filter: PropTypes.string
-};
-
-function mapStateToProps(state, ownProps) {
-  return {
-    ...state.weeks[ownProps.offset],
-    categories: state.account.categories,
-    sources: state.account.sources,
-    filter: state.app.filter
-  };
-}
-
-export default connect(mapStateToProps, {
-  editTransaction,
-  intendToRemoveTransaction
-})(Week);
+export default Week;

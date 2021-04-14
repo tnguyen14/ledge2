@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
 import { showMore } from '../actions/weeks';
 import { setFilter } from '../actions/app';
@@ -9,18 +8,22 @@ import Field from '../components/field';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 function Weeks(props) {
-  const { weeks, showMore, isLoading, filter, setFilter } = props;
+  const dispatch = useDispatch();
+  const weeks = useSelector((state) => state.weeks);
+  const isLoading = useSelector((state) => state.app.isLoading);
+  const filter = useSelector((state) => state.app.filter);
+
   return (
     <div className="transactions">
       <div className="top-actions">
-        <Button onClick={showMore.bind(null, true)}>Look Ahead</Button>
+        <Button onClick={() => dispatch(showMore(true))}>Look Ahead</Button>
         <Field
           type="text"
           value={filter}
           label="Search"
           placeholder="Search"
           handleChange={(event) => {
-            setFilter(event.target.value.toLowerCase());
+            dispatch(setFilter(event.target.value.toLowerCase()));
           }}
         />
       </div>
@@ -34,30 +37,11 @@ function Weeks(props) {
             return <Week key={week} offset={Number(week)} />;
           })}
       </div>
-      <Button variant="success" onClick={showMore.bind(null, false)}>
+      <Button variant="success" onClick={() => dispatch(showMore(false))}>
         Show More
       </Button>
     </div>
   );
 }
 
-Weeks.propTypes = {
-  weeks: PropTypes.object.isRequired,
-  showMore: PropTypes.func.isRequired,
-  filter: PropTypes.string,
-  setFilter: PropTypes.func,
-  isLoading: PropTypes.bool
-};
-
-function mapStateToProps(state) {
-  return {
-    weeks: state.weeks,
-    isLoading: state.app.isLoading,
-    filter: state.app.filter
-  };
-}
-
-export default connect(mapStateToProps, {
-  showMore,
-  setFilter
-})(Weeks);
+export default Weeks;
