@@ -5,6 +5,7 @@ import moment from 'moment-timezone';
 import { logout } from '../../actions/user';
 
 function UserMenu(props) {
+  const dispatch = useDispatch();
   const [profileActive, setProfileActive] = useState(false);
   const user = useSelector((state) => state.user);
   const { authenticated, profile, expiresAt, idToken } = user;
