@@ -10,7 +10,7 @@ function DeleteDialog(props) {
     (state) => state.account.isRemovingTransaction
   );
   const transactionToBeRemoved = useSelector(
-    (state) => state.account.transactionsToBeRemoved
+    (state) => state.account.transactionToBeRemoved
   );
   const dispatch = useDispatch();
 
