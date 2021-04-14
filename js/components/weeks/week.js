@@ -4,7 +4,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
-} from '../actions/account';
+} from '../../actions/account';
 import Transaction from './transaction';
 import WeekStats from './weekStats';
 

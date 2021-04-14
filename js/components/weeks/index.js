@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { showMore } from '../actions/weeks';
-import { setFilter } from '../actions/app';
+import { showMore } from '../../actions/weeks';
+import { setFilter } from '../../actions/app';
 import Week from './week';
-import Field from '../components/field';
+import Field from '../field';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 function Weeks(props) {

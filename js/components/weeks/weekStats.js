@@ -4,10 +4,10 @@ import {
   calculateWeeklyAverage,
   calculateWeeklyTotal,
   getCategoriesTotalsStats
-} from '../selectors';
+} from '../../selectors';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
-import { sum } from '../util/calculate';
+import { sum } from '../../util/calculate';
 
 function WeekStats(props) {
   const { offset, label } = props;
