@@ -1,9 +1,9 @@
 import React from 'react';
-import { useDispatcher } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { login } from '../actions/user';
 
 function Login() {
-  const dispatch = useDispatcher();
+  const dispatch = useDispatch();
   return (
     <div className="login">
       <button className="btn" onClick={() => dispatch(login())}>
