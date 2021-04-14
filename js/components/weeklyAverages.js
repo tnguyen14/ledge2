@@ -1,9 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import WeeklyAverage from '../components/weeklyAverage';
+import { useSelector } from 'react-redux';
+import WeeklyAverage from './weeklyAverage';
+import { getWeeklyAverages } from '../selectors';
 
-function Averages(props) {
-  const { averages } = props;
+function WeeklyAverages(props) {
+  const averages = useSelector((state) => getWeeklyAverages(state));
 
   return (
     <div className="averages">
@@ -19,8 +20,4 @@ function Averages(props) {
   );
 }
 
-Averages.propTypes = {
-  averages: PropTypes.array
-};
-
-export default Averages;
+export default WeeklyAverages;

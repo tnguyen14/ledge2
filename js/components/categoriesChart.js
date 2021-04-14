@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import times from 'lodash.times';
 import {
   BarChart,
@@ -33,8 +33,9 @@ const colorMaps = {
   travel: 'indigo'
 };
 
-function CategoriesChart(props) {
-  const { categories, weeks } = props;
+function CategoriesChart() {
+  const categories = useSelector((state) => state.account.categories);
+  const weeks = useSelector((state) => state.weeks);
   const [start, setStart] = useState(0);
   const numWeeks = 12;
 
@@ -103,10 +104,5 @@ function CategoriesChart(props) {
     </div>
   );
 }
-
-CategoriesChart.propTypes = {
-  categories: PropTypes.array,
-  weeks: PropTypes.object
-};
 
 export default CategoriesChart;
