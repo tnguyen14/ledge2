@@ -1,5 +1,5 @@
 import React from 'react';
-import WeekCategory from '../components/weekCategory';
+import WeekCategory from './weekCategory';
 import {
   calculateWeeklyAverage,
   calculateWeeklyTotal,

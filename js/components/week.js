@@ -5,8 +5,8 @@ import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
 } from '../actions/account';
-import Transaction from '../components/transaction';
-import WeekStats from '../containers/weekStats';
+import Transaction from './transaction';
+import WeekStats from './weekStats';
 
 function editTransaction(transaction) {
   return {
