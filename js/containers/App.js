@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Form from './form';
-import AccountStats from './accountStats';
+import AccountStats from '../components/accountStats';
 import Weeks from './weeks';
 import DeleteDialog from './deleteDialog';
 import Login from '../components/login';
