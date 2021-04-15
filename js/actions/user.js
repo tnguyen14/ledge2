@@ -3,7 +3,7 @@ import { createAuth } from '@tridnguyen/auth';
 const auth = createAuth();
 
 export function login() {
-  return function (dispatch) {
+  return function loginAsync(dispatch) {
     dispatch({
       type: AUTHENTICATING
     });
@@ -15,7 +15,7 @@ export const AUTHENTICATING = 'AUTHENTICATING';
 export const AUTHENTICATED = 'AUTHENTICATED';
 
 export function handleAuthentication() {
-  return function (dispatch) {
+  return function handleAuthenticationAsync(dispatch) {
     auth.handleCallback((err, result) => {
       if (err) {
         console.error(err);
@@ -34,7 +34,7 @@ export const RENEWING_SESSION = 'RENEWING_SESSION';
 export const RENEWED_SESSION = 'RENEWED_SESSION';
 
 function renewSession() {
-  return function (dispatch) {
+  return function renewSessionAsync(dispatch) {
     dispatch({
       type: RENEWING_SESSION
     });
@@ -53,7 +53,7 @@ function renewSession() {
 export const SCHEDULE_RENEWAL = 'SCHEDULE_RENEWAL';
 
 export function scheduleRenewal(delay = 1000) {
-  return function (dispatch, getState) {
+  return function scheduleRenewalAsync(dispatch, getState) {
     const {
       user: { expiresAt, renewTimeout }
     } = getState();

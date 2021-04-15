@@ -13,7 +13,7 @@ export function loadYear(year) {
 
   const startMonday = start.isoWeekday(1).startOf('day');
   const endMonday = end.isoWeekday(8).startOf('day');
-  return async function (dispatch, getState) {
+  return async function loadYearAsync(dispatch, getState) {
     const {
       user: { idToken }
     } = getState();

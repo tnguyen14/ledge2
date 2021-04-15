@@ -30,7 +30,7 @@ async function getTransactionsWithMerchantName(idToken, merchant) {
 }
 
 export function addTransaction(transaction) {
-  return async function (dispatch, getState) {
+  return async function addTransactionAsync(dispatch, getState) {
     const {
       user: { idToken },
       account: { merchants_count }
@@ -59,7 +59,7 @@ export function addTransaction(transaction) {
 }
 
 export function updateTransaction(transaction, oldMerchant) {
-  return async function (dispatch, getState) {
+  return async function updateTransactionAsync(dispatch, getState) {
     const {
       user: { idToken },
       account: { merchants_count }
@@ -99,7 +99,7 @@ export function updateTransaction(transaction, oldMerchant) {
 }
 
 export function removeTransaction(transaction) {
-  return async function (dispatch, getState) {
+  return async function removeTransactionAsync(dispatch, getState) {
     const {
       user: { idToken },
       account: { merchants_count }

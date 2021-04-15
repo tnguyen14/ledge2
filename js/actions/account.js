@@ -4,7 +4,7 @@ import { logout } from './user';
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 export function loadAccount() {
-  return async function (dispatch, getState) {
+  return async function loadAccountAsync(dispatch, getState) {
     const {
       user: { idToken }
     } = getState();
@@ -32,7 +32,7 @@ export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
 const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
 export function updateMerchantCounts(merchants_count) {
-  return async function (dispatch, getState) {
+  return async function updateMerchantCountsAsync(dispatch, getState) {
     const {
       user: { idToken }
     } = getState();

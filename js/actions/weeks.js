@@ -5,7 +5,7 @@ import { logout } from './user';
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
 function loadWeek(offset) {
-  return async function (dispatch, getState) {
+  return async function loadWeekAsync(dispatch, getState) {
     const {
       user: { idToken },
       weeks
@@ -60,7 +60,7 @@ function loadWeek(offset) {
 export const SHOW_WEEK = 'SHOW_WEEK';
 
 export function showMore(ahead) {
-  return function (dispatch, getState) {
+  return function showMoreAsync(dispatch, getState) {
     const { weeks } = getState();
     // get all the visible weeks' indices, sort from high to low
     const visibleWeeksIndices = Object.keys(weeks)
