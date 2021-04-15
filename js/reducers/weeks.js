@@ -28,6 +28,13 @@ function createDefaultWeek(offset) {
   };
 }
 
+function sortTransactions(transactions) {
+  return transactions.sort((a, b) => {
+    // sort by id, which is the transaction timestamp
+    return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+  });
+}
+
 function isWithinWeek(date, start, end) {
   if (!date || !start || !end) {
     return false;
@@ -54,7 +61,7 @@ function getTransactionWeekOffset(transaction) {
   return offset;
 }
 
-function addTransaction(transaction, weeks) {
+function addTransaction(weeks, transaction) {
   const newWeeks = {
     ...weeks
   };
@@ -82,13 +89,6 @@ function addTransaction(transaction, weeks) {
   return newWeeks;
 }
 
-function sortTransactions(transactions) {
-  return transactions.sort((a, b) => {
-    // sort by id, which is the transaction timestamp
-    return moment(b.date).valueOf() - moment(a.date).valueOf();
-  });
-}
-
 export default function weeks(state = {}, action) {
   let newState;
   switch (action.type) {
@@ -104,9 +104,7 @@ export default function weeks(state = {}, action) {
       return newState;
     case LOAD_YEAR_SUCCESS:
     case LOAD_WEEK_SUCCESS:
-      newState = action.data.transactions.reduce((weeks, t) => {
-        return addTransaction(t, weeks);
-      }, state);
+      newState = action.data.transactions.reduce(addTransaction, state);
 
       // if week loading
       if (action.data.offset) {
