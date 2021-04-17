@@ -6,6 +6,7 @@ import {
   UPDATE_TRANSACTION_SUCCESS,
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
+import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/app';
 import moment from 'moment-timezone';
 
 const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;
@@ -47,12 +48,11 @@ function addTransactionToWeek(transaction, week) {
   if (
     !week.transactions.some((existingTx) => existingTx.id == transaction.id)
   ) {
-    week.transactions = sortTransactions(week.transactions.concat(transaction));
+    week.transactions = week.transactions.concat(transaction);
   }
 }
 
-function getTransactionWeekOffset(transaction) {
-  const thisMonday = moment().tz(TIMEZONE).isoWeekday(1).startOf('day');
+function getTransactionWeekOffset(thisMonday, transaction) {
   const transactionMonday = moment(transaction.date)
     .tz(TIMEZONE)
     .isoWeekday(1)
@@ -61,11 +61,11 @@ function getTransactionWeekOffset(transaction) {
   return offset;
 }
 
-function addTransaction(weeks, transaction) {
+function addTransaction(thisMonday, weeks, transaction) {
   const newWeeks = {
     ...weeks
   };
-  const offset = getTransactionWeekOffset(transaction);
+  const offset = getTransactionWeekOffset(thisMonday, transaction);
 
   if (!newWeeks[offset]) {
     newWeeks[offset] = createDefaultWeek(offset);
@@ -104,13 +104,25 @@ export default function weeks(state = {}, action) {
       return newState;
     case LOAD_YEAR_SUCCESS:
     case LOAD_WEEK_SUCCESS:
-      newState = action.data.transactions.reduce(addTransaction, state);
+      let thisMonday = moment().tz(TIMEZONE).isoWeekday(1).startOf('day');
+      newState = action.data.transactions.reduce(
+        addTransaction.bind(null, thisMonday),
+        state
+      );
 
       // if week loading
       if (action.data.offset) {
         newState[action.data.offset].isLoading = false;
       }
       return newState;
+    case LOAD_TRANSACTIONS_SUCCESS:
+      return Object.keys(state).reduce((newState, weekOffset) => {
+        newState[weekOffset] = {
+          ...state[weekOffset],
+          transactions: sortTransactions(state[weekOffset].transactions)
+        };
+        return newState;
+      }, {});
     case LOAD_WEEK:
       return {
         ...state,

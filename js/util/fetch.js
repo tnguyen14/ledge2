@@ -1,7 +1,7 @@
 import simpleFetch from 'simple-fetch';
 
 function createFetchMethod(method) {
-  return function (idToken, url, data, opts) {
+  return function fetchMethod(idToken, url, data, opts) {
     return simpleFetch(method, url, data, {
       ...opts,
       headers: {
