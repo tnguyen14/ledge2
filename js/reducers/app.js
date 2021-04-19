@@ -12,6 +12,7 @@ import {
 const defaultState = {
   isLoading: false,
   filter: '',
+  yearsToLoad: 3,
   notification: {
     content: '',
     title: ''

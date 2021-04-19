@@ -1,12 +1,11 @@
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
-import { LOAD_YEAR_SUCCESS, LOAD_YEARS_SUCCESS } from '../actions/years';
+import { LOAD_YEARS_SUCCESS } from '../actions/years';
 
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
-import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/app';
 import { sortTransactions } from '../util/transaction';
 import moment from 'moment-timezone';
 
@@ -96,7 +95,6 @@ export default function weeks(state = {}, action) {
       }
 
       return newState;
-    case LOAD_YEAR_SUCCESS:
     case LOAD_WEEK_SUCCESS:
     case LOAD_YEARS_SUCCESS:
       let thisMonday = moment().tz(TIMEZONE).isoWeekday(1).startOf('day');
@@ -104,20 +102,19 @@ export default function weeks(state = {}, action) {
         addTransaction.bind(null, thisMonday),
         state
       );
+      return Object.keys(newState).reduce((weeks, weekOffset) => {
+        weeks[weekOffset] = {
+          ...newState[weekOffset],
+          transactions: sortTransactions(newState[weekOffset].transactions)
+        };
+        return weeks;
+      }, {});
 
       // if week loading
       if (action.data.offset) {
         newState[action.data.offset].isLoading = false;
       }
       return newState;
-    case LOAD_TRANSACTIONS_SUCCESS:
-      return Object.keys(state).reduce((newState, weekOffset) => {
-        newState[weekOffset] = {
-          ...state[weekOffset],
-          transactions: sortTransactions(state[weekOffset].transactions)
-        };
-        return newState;
-      }, {});
     case LOAD_WEEK:
       return {
         ...state,
