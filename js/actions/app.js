@@ -1,4 +1,4 @@
-import { loadYear } from './years';
+import { loadYear, loadYears } from './years';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
@@ -7,11 +7,12 @@ export function loadTransactions(years) {
     dispatch({
       type: LOAD_TRANSACTIONS
     });
-    await Promise.all(
-      years.map(function dispatchLoadYear(year) {
-        return dispatch(loadYear(year));
-      })
-    );
+    await dispatch(loadYears(3));
+    // await Promise.all(
+    //   years.map(function dispatchLoadYear(year) {
+    //     return dispatch(loadYear(year));
+    //   })
+    // );
     dispatch({
       type: LOAD_TRANSACTIONS_SUCCESS
     });

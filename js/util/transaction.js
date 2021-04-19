@@ -95,3 +95,10 @@ export function decorateTransaction(params) {
     ...opts
   };
 }
+
+export function sortTransactions(transactions) {
+  return transactions.sort((a, b) => {
+    // sort by id, which is the transaction timestamp
+    return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+  });
+}

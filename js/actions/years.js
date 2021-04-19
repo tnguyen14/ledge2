@@ -41,3 +41,37 @@ export function loadYear(year) {
     }
   };
 }
+
+export const LOAD_YEARS_SUCCESS = 'LOAD_YEARS_SUCCESS';
+export function loadYears(numYear) {
+  const now = moment().tz(TIMEZONE);
+  const start = moment().subtract(numYear, 'year');
+  const startMonday = start.isoWeekday(1).startOf('day');
+  const endMonday = now.isoWeekday(8).startOf('day');
+  return async function loadYearAsync(dispatch, getState) {
+    const {
+      user: { idToken }
+    } = getState();
+    try {
+      const transactions = await getTransactions(
+        idToken,
+        startMonday,
+        endMonday
+      );
+      dispatch({
+        type: LOAD_YEARS_SUCCESS,
+        data: {
+          start: startMonday,
+          end: endMonday,
+          transactions
+        }
+      });
+    } catch (e) {
+      if (e.message == 'Unauthorized') {
+        dispatch(logout());
+        return;
+      }
+      throw e;
+    }
+  };
+}

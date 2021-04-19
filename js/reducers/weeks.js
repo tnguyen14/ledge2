@@ -1,5 +1,5 @@
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
-import { LOAD_YEAR_SUCCESS } from '../actions/years';
+import { LOAD_YEAR_SUCCESS, LOAD_YEARS_SUCCESS } from '../actions/years';
 
 import {
   ADD_TRANSACTION_SUCCESS,
@@ -7,6 +7,7 @@ import {
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
 import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/app';
+import { sortTransactions } from '../util/transaction';
 import moment from 'moment-timezone';
 
 const NUM_PAST_WEEKS_VISIBLE_AT_FIRST = 4;
@@ -27,13 +28,6 @@ function createDefaultWeek(offset) {
     offset,
     visible: offset <= 0 && Math.abs(offset) < NUM_PAST_WEEKS_VISIBLE_AT_FIRST
   };
-}
-
-function sortTransactions(transactions) {
-  return transactions.sort((a, b) => {
-    // sort by id, which is the transaction timestamp
-    return new Date(b.date).valueOf() - new Date(a.date).valueOf();
-  });
 }
 
 function isWithinWeek(date, start, end) {
@@ -104,6 +98,7 @@ export default function weeks(state = {}, action) {
       return newState;
     case LOAD_YEAR_SUCCESS:
     case LOAD_WEEK_SUCCESS:
+    case LOAD_YEARS_SUCCESS:
       let thisMonday = moment().tz(TIMEZONE).isoWeekday(1).startOf('day');
       newState = action.data.transactions.reduce(
         addTransaction.bind(null, thisMonday),
