@@ -13,9 +13,15 @@ function addTransaction(years, transaction) {
       transactions: [transaction]
     };
   } else {
-    newYears[transactionYear].transactions = newYears[
-      transactionYear
-    ].transactions.concat(transaction);
+    if (
+      !newYears[transactionYear].transactions.some(
+        (existingTx) => existingTx.id == transaction.id
+      )
+    ) {
+      newYears[transactionYear].transactions = newYears[
+        transactionYear
+      ].transactions.concat(transaction);
+    }
   }
   return newYears;
 }

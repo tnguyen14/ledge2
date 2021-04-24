@@ -5,10 +5,11 @@ import { usd } from '@tridnguyen/money';
 import { getYearAverages } from '../../selectors';
 
 function YearAverages(props) {
+  const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
   const averages = useSelector((state) => getYearAverages(state));
   return (
     <div>
-      <h4>Weekly Averages - Years</h4>
+      <h4>Weekly Averages - Past {yearsToLoad} Years</h4>
       <table className="table">
         <tbody>
           {averages.map((average) => (
