@@ -76,16 +76,3 @@ export const getCategoriesTotalsStats = createSelector(
     return totals;
   }
 );
-
-const getYears = (state) => state.years;
-
-export const getYearAverages = createSelector(getYears, (years) => {
-  return Object.keys(years).map((year) => {
-    const y = years[year];
-    return {
-      year,
-      ...y,
-      weeklyAverage: sum(y.transactions.map((t) => t.amount)) / y.numWeeks
-    };
-  });
-});
