@@ -1,10 +1,6 @@
 import { createSelector } from 'reselect';
 import { sum, average } from '../util/calculate';
 
-const getWeeks = (state) => state.weeks;
-
-const getTimeSpans = (state) => state.account.stats.averages.timespans;
-
 export const calculateWeeklyTotal = (week) => {
   if (!week || !week.transactions) {
     return 0;
@@ -17,35 +13,6 @@ export const calculateWeeklyTotal = (week) => {
 export const calculateWeeklyAverage = (weeks) => {
   return average(weeks.map(calculateWeeklyTotal));
 };
-
-export const getWeeklyAverages = createSelector(
-  getWeeks,
-  getTimeSpans,
-  (weeks, timespans) => {
-    return timespans.map((timespan, index) => {
-      const numWeeksInSpan = timespan.start - timespan.end;
-      const span = {
-        ...timespan,
-        numWeeks: numWeeksInSpan,
-        loaded: false,
-        weeks: []
-      };
-
-      span.weeks = Object.keys(weeks)
-        .filter((weekIndex) => {
-          return weekIndex <= timespan.start && weekIndex > timespan.end;
-        })
-        .map((weekIndex) => weeks[weekIndex]);
-
-      span.weeklyAverage = calculateWeeklyAverage(span.weeks);
-
-      if (span.weeks.length == numWeeksInSpan) {
-        span.loaded = true;
-      }
-      return span;
-    });
-  }
-);
 
 const getTransactions = (state) => state.transactions;
 

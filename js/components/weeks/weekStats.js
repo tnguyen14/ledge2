@@ -2,7 +2,6 @@ import React from 'react';
 import WeekCategory from './weekCategory';
 import {
   calculateWeeklyAverage,
-  calculateWeeklyTotal,
   getCategoriesTotalsStats
 } from '../../selectors';
 import { getWeekId } from '../../selectors/week';
@@ -34,7 +33,7 @@ function WeekStats(props) {
   const rawTotal = sum(
     transactions.filter((tx) => !tx.carriedOver).map((t) => t.amount)
   );
-  const rawTotalId = `total-without-carried-overs-${weekId}`;
+  const rawTotalId = `raw-total-${weekId}`;
 
   const carriedOvers = transactions.filter((tx) => tx.carriedOver);
   const carriedOversByCategory = carriedOvers.reduce((txnsByCat, txn) => {
