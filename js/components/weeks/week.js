@@ -29,10 +29,10 @@ function Week(props) {
   const categories = useSelector((state) => state.account.categories);
   const sources = useSelector((state) => state.account.sources);
   const filter = useSelector((state) => state.app.filter);
-  const weeksToShow = useSelector((state) => state.app.weeksToShow);
+  const visibleWeeks = useSelector((state) => state.app.visibleWeeks);
   const { weekId, transactions, start, end } = week;
 
-  if (!weeksToShow.includes(weekId)) {
+  if (!visibleWeeks.map((week) => week.weekId).includes(weekId)) {
     return null;
   }
 
