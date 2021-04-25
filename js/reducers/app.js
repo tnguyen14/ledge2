@@ -8,11 +8,17 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER
 } from '../actions/app';
+import moment from 'moment-timezone';
+import { getWeekId } from '../selectors/week';
 
 const defaultState = {
   isLoading: false,
   filter: '',
   yearsToLoad: 3,
+  // show last 4 weeks by default
+  weeksToShow: [...Array(4).keys()].map((offset) =>
+    getWeekId({ offset: -offset })
+  ),
   notification: {
     content: '',
     title: ''

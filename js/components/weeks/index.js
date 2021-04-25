@@ -6,10 +6,11 @@ import { setFilter } from '../../actions/app';
 import Week from './week';
 import Field from '../field';
 import PulseLoader from 'react-spinners/PulseLoader';
+import { getWeeks } from '../../selectors/transactions';
 
 function Weeks(props) {
   const dispatch = useDispatch();
-  const weeks = useSelector((state) => state.weeks);
+  const weeks = useSelector(getWeeks);
   const isLoading = useSelector((state) => state.app.isLoading);
   const filter = useSelector((state) => state.app.filter);
 
@@ -32,9 +33,10 @@ function Weeks(props) {
       </div>
       <div className="weeks">
         {Object.keys(weeks)
-          .sort((a, b) => b - a)
-          .map((week) => {
-            return <Week key={week} offset={Number(week)} />;
+          .sort()
+          .reverse()
+          .map((weekId) => {
+            return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
       <Button variant="success" onClick={() => dispatch(showMore(false))}>

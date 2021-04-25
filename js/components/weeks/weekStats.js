@@ -5,23 +5,37 @@ import {
   calculateWeeklyTotal,
   getCategoriesTotalsStats
 } from '../../selectors';
+import { getWeekId } from '../../selectors/week';
+import { getWeekById } from '../../selectors/transactions';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
 import { sum } from '../../util/calculate';
 
 function WeekStats(props) {
-  const { offset, label } = props;
+  const { week, label } = props;
+  const { weekId, transactions } = week;
   const categories = useSelector((state) => state.account.categories);
-  const transactions = useSelector((state) => state.weeks[offset].transactions);
-  const filter = useSelector((state) => state.app.filter);
   const past4Weeks = useSelector((state) => [
-    state.weeks[offset],
-    state.weeks[offset - 1],
-    state.weeks[offset - 2],
-    state.weeks[offset - 3]
+    week,
+    getWeekById({
+      ...state,
+      weekId: getWeekId({ date: week.start, offset: -1 })
+    }),
+    getWeekById({
+      ...state,
+      weekId: getWeekId({ date: week.start, offset: -2 })
+    }),
+    getWeekById({
+      ...state,
+      weekId: getWeekId({ date: week.start, offset: -3 })
+    })
   ]);
 
-  const weekId = `week-${offset}`;
+  const rawTotal = sum(
+    transactions.filter((tx) => !tx.carriedOver).map((t) => t.amount)
+  );
+  const rawTotalId = `total-without-carried-overs-${weekId}`;
+
   const carriedOvers = transactions.filter((tx) => tx.carriedOver);
   const carriedOversByCategory = carriedOvers.reduce((txnsByCat, txn) => {
     if (!txnsByCat[txn.category]) {
@@ -38,14 +52,11 @@ function WeekStats(props) {
   });
 
   const total = sum(categoriesStats.map((s) => s.amount));
-  const totalStatId = `total-${weekId}`;
+  const totalId = `total-${weekId}`;
 
-  const past4WeeksId = `average-past-4-weeks`;
+  const past4WeeksAverage = calculateWeeklyAverage(past4Weeks);
+  const past4WeeksAverageId = `average-past-4-weeks-${weekId}`;
 
-  // don't show stats when filtering
-  if (filter != '') {
-    return null;
-  }
   return (
     <div className="stats week-stats">
       {label && <h4>{label}</h4>}
@@ -64,19 +75,25 @@ function WeekStats(props) {
               />
             );
           })}
-          <tr key={totalStatId} className="stat" data-cat="total">
-            <td id={totalStatId} className="stat-label">
+          <tr key={totalId} className="stat" data-cat="total">
+            <td id={totalId} className="stat-label">
               Total
             </td>
-            <td aria-labelledby={totalStatId}>{usd(total)}</td>
+            <td aria-labelledby={totalId}>{usd(total)}</td>
           </tr>
-          <tr key={past4WeeksId} className="stat" data-cat={past4WeeksId}>
-            <td className={past4WeeksId} className="stat-label">
+          <tr key={past4WeeksAverageId} className="stat" data-cat="total">
+            <td id={past4WeeksAverageId} className="stat-label">
               4-week average
             </td>
-            <td data-sum={sum(past4Weeks.map(calculateWeeklyTotal))}>
-              {usd(calculateWeeklyAverage(past4Weeks))}
+            <td aria-labelledby={past4WeeksAverageId}>
+              {usd(past4WeeksAverage)}
             </td>
+          </tr>
+          <tr key={rawTotalId} className="stat" data-cat="total">
+            <td id={rawTotalId} className="stat-label">
+              Raw Total
+            </td>
+            <td aria-labelledby={rawTotalId}>{usd(rawTotal)}</td>
           </tr>
         </tbody>
       </table>
