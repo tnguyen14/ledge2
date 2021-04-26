@@ -33,10 +33,7 @@ function Week(props) {
   const { weekId, transactions, start, end } = week;
 
   // show all data if filtering
-  if (
-    !visibleWeeks.map((week) => week.weekId).includes(weekId) &&
-    filter == ''
-  ) {
+  if (!visibleWeeks.map((week) => week.weekId).includes(weekId)) {
     return null;
   }
 

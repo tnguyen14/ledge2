@@ -27,7 +27,7 @@ function WeeklyAverages(props) {
   ].map((span) => {
     const weeks = [];
     for (let offset = span.start; offset > span.end; offset--) {
-      let weekId = getWeekId({ offset });
+      const weekId = getWeekId({ offset });
       weeks.push(getWeekById({ transactions, weekId }));
     }
     return {
