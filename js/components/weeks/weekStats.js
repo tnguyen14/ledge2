@@ -1,7 +1,6 @@
 import React from 'react';
 import WeekCategory from './weekCategory';
 import {
-  calculateWeeklyAverage,
   calculateWeeklyTotal,
   getCategoriesTotalsStats
 } from '../../selectors';
@@ -9,7 +8,7 @@ import { getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
-import { sum } from '../../util/calculate';
+import { sum, average } from '../../util/calculate';
 
 function WeekStats(props) {
   const { week, label } = props;
@@ -54,7 +53,8 @@ function WeekStats(props) {
   const total = sum(categoriesStats.map((s) => s.amount));
   const totalId = `total-${weekId}`;
 
-  const past4WeeksAverage = calculateWeeklyAverage(past4Weeks);
+  const past4WeeksSum = sum(past4Weeks.map(calculateWeeklyTotal));
+  const past4WeeksAverage = average(past4Weeks.map(calculateWeeklyTotal));
   const past4WeeksAverageId = `average-past-4-weeks-${weekId}`;
 
   return (
@@ -89,10 +89,7 @@ function WeekStats(props) {
             <td id={past4WeeksAverageId} className="stat-label">
               4-week average
             </td>
-            <td
-              aria-labelledby={past4WeeksAverageId}
-              data-sum={sum(past4Weeks.map(calculateWeeklyTotal))}
-            >
+            <td aria-labelledby={past4WeeksAverageId} data-sum={past4WeeksSum}>
               {usd(past4WeeksAverage)}
             </td>
           </tr>

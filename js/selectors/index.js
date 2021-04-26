@@ -10,10 +10,6 @@ export const calculateWeeklyTotal = (week) => {
   );
 };
 
-export const calculateWeeklyAverage = (weeks) => {
-  return average(weeks.map(calculateWeeklyTotal));
-};
-
 const getTransactions = (state) => state.transactions;
 
 const getCategories = (state) => state.categories;
