@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect';
+import moment from 'moment-timezone';
 import { sortTransactions } from '../util/transaction';
 import { sum } from '../util/calculate';
-import moment from 'moment-timezone';
+import { TIMEZONE } from '../util/constants';
 import { getWeekStart, getWeekEnd, getWeekId } from './week';
 
 const getTransactions = (state) => state.transactions;

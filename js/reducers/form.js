@@ -1,5 +1,7 @@
 import React from 'react';
 import moment from 'moment-timezone';
+import { ZapIcon } from '@primer/octicons-react';
+import { fromCents } from '@tridnguyen/money';
 import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
@@ -11,12 +13,10 @@ import {
   UPDATE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
-import { ZapIcon } from '@primer/octicons-react';
-import { fromCents } from '@tridnguyen/money';
+import { TIMEZONE } from '../util/constants';
 
 const dateFormat = 'YYYY-MM-DD';
 const timeFormat = 'HH:mm';
-const timezone = 'America/New_York';
 
 let defaultCategory = '';
 let defaultSource = '';
@@ -24,7 +24,7 @@ let defaultSource = '';
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
 function createInitialValues() {
-  const now = moment.tz(timezone);
+  const now = moment.tz(TIMEZONE);
   return {
     amount: '',
     calculate: '',
@@ -187,7 +187,7 @@ export default function form(state = initialState, action) {
         fields: updateFieldsWithValues(state.fields, newValues)
       };
     case EDIT_TRANSACTION:
-      const date = moment.tz(action.data.date, timezone);
+      const date = moment.tz(action.data.date, TIMEZONE);
       newValues = {
         ...action.data,
         amount: fromCents(action.data.amount),

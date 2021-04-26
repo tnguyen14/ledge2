@@ -1,9 +1,10 @@
 import async from 'async';
-import { getJson } from '../util/fetch';
 import moment from 'moment-timezone';
 import pick from 'lodash.pick';
 import { toCents } from '@tridnguyen/money';
 import qs from 'qs';
+import { getJson } from '.fetch';
+import { TIMEZONE } from './constants';
 
 async function getTransaction(idToken, id) {
   return await getJson(idToken, `${window.SERVER_URL}/items/${id}`);
@@ -79,7 +80,7 @@ export function decorateTransaction(params) {
     throw new Error('Span is required for transaction');
   }
   opts.date = moment
-    .tz(`${params.date} ${params.time}`, window.TIMEZONE)
+    .tz(`${params.date} ${params.time}`, TIMEZONE)
     .toISOString();
   opts.amount = toCents(params.amount);
   opts.span = parseInt(params.span, 10);

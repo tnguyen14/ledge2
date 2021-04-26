@@ -14,7 +14,6 @@ const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 window.SERVER_URL = process.env.SERVER_URL;
 window.AUTH_TOKEN = process.env.AUTH_TOKEN;
 window.ACCOUNT_NAME = 'daily';
-window.TIMEZONE = 'America/New_York';
 
 render(
   <Provider store={store}>

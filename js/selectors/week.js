@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect';
 import moment from 'moment-timezone';
-
-// TODO consolidate this with window.TIMEZONE
-const TIMEZONE = 'America/New_York';
+import { TIMEZONE, WEEK_ID_FORMAT } from '../util/constants';
 
 const getOffset = (state) => state.offset || 0;
 const getDate = (state) => state.date;
@@ -15,7 +13,7 @@ export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
-  weekStart.format('YYYY-MM-DD')
+  weekStart.format(WEEK_ID_FORMAT)
 );
 
 export const getWeekEnd = createSelector(getWeekStart, (weekStart) =>
