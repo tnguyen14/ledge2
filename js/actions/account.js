@@ -1,4 +1,4 @@
-import { getJson, patchJson } from '../util/fetch';
+import { getAccount, patchAccount } from '../util/api';
 import { logout } from './user';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
@@ -9,7 +9,7 @@ export function loadAccount() {
       user: { idToken }
     } = getState();
     try {
-      const account = await getJson(idToken, `${SERVER_URL}/meta`);
+      const account = await getAccount(idToken);
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
         data: account
@@ -36,7 +36,7 @@ export function updateMerchantCounts(merchants_count) {
     const {
       user: { idToken }
     } = getState();
-    await patchJson(idToken, `${SERVER_URL}/meta`, {
+    await patchAccount(idToken, {
       merchants_count
     });
     dispatch({

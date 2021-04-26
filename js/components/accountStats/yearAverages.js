@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getTransactions } from '../../util/transaction';
 import { usd } from '@tridnguyen/money';
-import { getYearAverages } from '../../selectors';
+import { getYearAverages } from '../../selectors/transactions';
 
 function YearAverages(props) {
   const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
-  const averages = useSelector((state) => getYearAverages(state));
+  const averages = useSelector(getYearAverages);
   return (
     <div>
       <h4>Weekly Averages - Past {yearsToLoad} Years</h4>

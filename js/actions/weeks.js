@@ -1,18 +1,21 @@
 import moment from 'moment-timezone';
-import { getTransactions } from '../util/transaction';
+import { getTransactions } from '../util/api';
+import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week';
+import { getWeekById } from '../selectors/transactions';
 import { logout } from './user';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
-function loadWeek(offset) {
+function loadWeek({ offset, weekId }) {
   return async function loadWeekAsync(dispatch, getState) {
     const {
       user: { idToken },
-      weeks
+      transactions
     } = getState();
+    const week = getWeekById({ transactions, weekId });
     // if there are non-carriedOver transactions, assume it's been loaded
-    if (weeks[offset]) {
-      let existingTransactions = weeks[offset].transactions.filter(
+    if (week) {
+      let existingTransactions = week.transactions.filter(
         (t) => !t.carriedOver
       );
       if (existingTransactions.length > 0) {
@@ -27,18 +30,10 @@ function loadWeek(offset) {
       }
     });
     try {
-      const dayOffset = Number(offset) * 7;
-      // Monday is number 1 http://momentjs.com/docs/#/get-set/iso-weekday/
-      const thisMonday = moment()
-        .tz(TIMEZONE)
-        .isoWeekday(1 + dayOffset);
-      const nextMonday = moment()
-        .tz(TIMEZONE)
-        .isoWeekday(8 + dayOffset);
       const transactions = await getTransactions(
         idToken,
-        thisMonday,
-        nextMonday
+        getWeekStart({ offset }),
+        getWeekEnd({ offset })
       );
       dispatch({
         type: LOAD_WEEK_SUCCESS,
@@ -61,23 +56,24 @@ export const SHOW_WEEK = 'SHOW_WEEK';
 
 export function showMore(ahead) {
   return function showMoreAsync(dispatch, getState) {
-    const { weeks } = getState();
-    // get all the visible weeks' indices, sort from high to low
-    const visibleWeeksIndices = Object.keys(weeks)
-      .filter((weekIndex) => weeks[weekIndex].visible)
+    const { app } = getState();
+    const visibleWeeksOffsets = app.visibleWeeks
+      .map((week) => week.offset)
       .sort((a, b) => b - a);
-    const nextIndex =
+    const offset =
       ahead == true
-        ? Number(visibleWeeksIndices[0]) + 1
-        : Number(visibleWeeksIndices.pop()) - 1;
+        ? Number(visibleWeeksOffsets[0]) + 1
+        : Number(visibleWeeksOffsets.pop()) - 1;
 
-    dispatch(loadWeek(nextIndex));
+    const data = {
+      offset,
+      weekId: getWeekId({ offset })
+    };
+    dispatch(loadWeek(data));
     // show the week in UI
     dispatch({
       type: SHOW_WEEK,
-      data: {
-        index: nextIndex
-      }
+      data
     });
   };
 }

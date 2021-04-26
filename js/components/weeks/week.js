@@ -5,6 +5,7 @@ import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
 } from '../../actions/account';
+import { sortTransactions } from '../../util/transaction';
 import Transaction from './transaction';
 import WeekStats from './weekStats';
 
@@ -24,18 +25,18 @@ function intendToRemoveTransaction(transaction) {
 
 function Week(props) {
   const dispatch = useDispatch();
-  const { offset } = props;
-  const week = useSelector((state) => state.weeks[offset]);
+  const { week } = props;
   const categories = useSelector((state) => state.account.categories);
   const sources = useSelector((state) => state.account.sources);
   const filter = useSelector((state) => state.app.filter);
-  const { isLoading, visible, transactions, start, end } = week;
+  const visibleWeeks = useSelector((state) => state.app.visibleWeeks);
+  const { weekId, transactions, start, end } = week;
 
-  if (!visible) {
+  if (!visibleWeeks.map((week) => week.weekId).includes(weekId)) {
     return null;
   }
 
-  const displayTransactions = transactions
+  const displayTransactions = sortTransactions(transactions)
     .filter((tx) => {
       // don't show carried over transactions
       return !tx.carriedOver;
@@ -64,9 +65,6 @@ function Week(props) {
       <h3 className="week-title">
         {start.format('MMM D')} - {end.format('MMM D')}
       </h3>
-      <div className="transactions-loading">
-        <PulseLoader loading={isLoading} />
-      </div>
       <table className="weekly-transactions table table-striped">
         <thead>
           <tr>
@@ -103,7 +101,7 @@ function Week(props) {
           ))}
         </tbody>
       </table>
-      <WeekStats offset={offset} isFiltering={filter != ''} />
+      {filter == '' && <WeekStats week={week} />}
     </div>
   );
 }

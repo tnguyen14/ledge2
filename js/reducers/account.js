@@ -11,29 +11,7 @@ const initialState = {
   isRemovingTransaction: false,
   categories: [],
   sources: [],
-  merchants_count: {},
-  stats: {
-    averages: {
-      timespans: [
-        {
-          start: 0,
-          end: -4
-        },
-        {
-          start: -1,
-          end: -5
-        },
-        {
-          start: -1,
-          end: -13
-        },
-        {
-          start: -1,
-          end: -25
-        }
-      ]
-    }
-  }
+  merchants_count: {}
 };
 
 export default function account(state = initialState, action) {
