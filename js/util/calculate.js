@@ -15,3 +15,12 @@ export const average = function (nums) {
   }
   return sum(nums) / nums.length;
 };
+
+export const weeklyTotal = function (week) {
+  if (!week || !week.transactions) {
+    return 0;
+  }
+  return sum(
+    week.transactions.filter((txn) => !txn.carriedOver).map((t) => t.amount)
+  );
+};

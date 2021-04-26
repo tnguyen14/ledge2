@@ -11,7 +11,7 @@ import {
 } from 'recharts';
 import Button from 'react-bootstrap/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import { getCategoriesTotalsStats } from '../../selectors';
+import { getCategoriesTotalsStats } from '../../selectors/stats';
 import { getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
 

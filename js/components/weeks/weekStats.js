@@ -1,14 +1,11 @@
 import React from 'react';
 import WeekCategory from './weekCategory';
-import {
-  calculateWeeklyTotal,
-  getCategoriesTotalsStats
-} from '../../selectors';
+import { getCategoriesTotalsStats } from '../../selectors/stats';
 import { getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
-import { sum, average } from '../../util/calculate';
+import { sum, average, weeklyTotal } from '../../util/calculate';
 
 function WeekStats(props) {
   const { week, label } = props;
@@ -53,8 +50,8 @@ function WeekStats(props) {
   const total = sum(categoriesStats.map((s) => s.amount));
   const totalId = `total-${weekId}`;
 
-  const past4WeeksSum = sum(past4Weeks.map(calculateWeeklyTotal));
-  const past4WeeksAverage = average(past4Weeks.map(calculateWeeklyTotal));
+  const past4WeeksSum = sum(past4Weeks.map(weeklyTotal));
+  const past4WeeksAverage = average(past4Weeks.map(weeklyTotal));
   const past4WeeksAverageId = `average-past-4-weeks-${weekId}`;
 
   return (

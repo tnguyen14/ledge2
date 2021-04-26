@@ -1,15 +1,6 @@
 import { createSelector } from 'reselect';
 import { sum, average } from '../util/calculate';
 
-export const calculateWeeklyTotal = (week) => {
-  if (!week || !week.transactions) {
-    return 0;
-  }
-  return sum(
-    week.transactions.filter((txn) => !txn.carriedOver).map((t) => t.amount)
-  );
-};
-
 const getTransactions = (state) => state.transactions;
 
 const getCategories = (state) => state.categories;

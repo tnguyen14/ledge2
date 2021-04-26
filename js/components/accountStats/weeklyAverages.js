@@ -1,8 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
-import { calculateWeeklyTotal } from '../../selectors';
-import { average } from '../../util/calculate';
+import { average, weeklyTotal } from '../../util/calculate';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
 
@@ -51,7 +50,7 @@ function WeeklyAverages(props) {
                 {span.endWeekStart.format('MMM D, YYYY')} (
                 {span.start - span.end} weeks)
               </td>
-              <td>{usd(average(span.weeks.map(calculateWeeklyTotal)))}</td>
+              <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
             </tr>
           ))}
         </tbody>
