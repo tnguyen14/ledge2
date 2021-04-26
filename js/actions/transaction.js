@@ -1,4 +1,3 @@
-import { getJson, postJson, patchJson, deleteJson } from '../util/fetch';
 import {
   getUniqueTransactionId,
   decorateTransaction
@@ -8,26 +7,16 @@ import {
   removeMerchantFromCounts
 } from '../util/merchants';
 import { updateMerchantCounts } from './account';
-import qs from 'qs';
+import {
+  getTransactionsWithMerchantName,
+  postTransaction,
+  patchTransaction,
+  deleteTransaction
+} from '../util/api';
 
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
-
-async function getTransactionsWithMerchantName(idToken, merchant) {
-  return await getJson(
-    idToken,
-    `${window.SERVER_URL}/items?${qs.stringify({
-      where: [
-        {
-          field: 'merchant',
-          op: '==',
-          value: merchant
-        }
-      ]
-    })}`
-  );
-}
 
 export function addTransaction(transaction) {
   return async function addTransactionAsync(dispatch, getState) {
@@ -39,7 +28,7 @@ export function addTransaction(transaction) {
     const decoratedTransaction = decorateTransaction(transaction);
     const id = await getUniqueTransactionId(idToken, decoratedTransaction.date);
     // TODO handle error
-    await postJson(idToken, `${window.SERVER_URL}/items`, {
+    await postTransaction(idToken, {
       ...decoratedTransaction,
       id
     });
@@ -69,7 +58,7 @@ export function updateTransaction(transaction, oldMerchant) {
     const id = transaction.id;
 
     // TODO handle error
-    await patchJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`, {
+    await patchTransaction(idToken, {
       ...decoratedTransaction,
       id
     });
@@ -105,7 +94,7 @@ export function removeTransaction(transaction) {
       account: { merchants_count }
     } = getState();
 
-    await deleteJson(idToken, `${window.SERVER_URL}/items/${transaction.id}`);
+    await deleteTransaction(idToken, transaction.id);
     dispatch({
       type: REMOVE_TRANSACTION_SUCCESS,
       data: transaction.id

@@ -11,10 +11,6 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
-window.SERVER_URL = process.env.SERVER_URL;
-window.AUTH_TOKEN = process.env.AUTH_TOKEN;
-window.ACCOUNT_NAME = 'daily';
-
 render(
   <Provider store={store}>
     <BrowserRouter>

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getTransactions } from '../../util/transaction';
 import { usd } from '@tridnguyen/money';
 import { getYearAverages } from '../../selectors/transactions';
 

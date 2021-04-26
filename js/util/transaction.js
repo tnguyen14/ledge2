@@ -2,31 +2,8 @@ import async from 'async';
 import moment from 'moment-timezone';
 import pick from 'lodash.pick';
 import { toCents } from '@tridnguyen/money';
-import qs from 'qs';
-import { getJson } from '.fetch';
 import { TIMEZONE } from './constants';
-
-async function getTransaction(idToken, id) {
-  return await getJson(idToken, `${window.SERVER_URL}/items/${id}`);
-}
-
-export async function getTransactions(idToken, start, end) {
-  const query = qs.stringify({
-    where: [
-      {
-        field: 'date',
-        op: '>=',
-        value: start.startOf('day').toISOString()
-      },
-      {
-        field: 'date',
-        op: '<',
-        value: end.startOf('day').toISOString()
-      }
-    ]
-  });
-  return await getJson(idToken, `${window.SERVER_URL}/items?${query}`);
-}
+import { getTransaction } from './api';
 
 /**
  * Generate a unique transaction ID based on current timestamp
