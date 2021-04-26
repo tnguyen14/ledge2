@@ -2,6 +2,7 @@ import React from 'react';
 import WeekCategory from './weekCategory';
 import {
   calculateWeeklyAverage,
+  calculateWeeklyTotal,
   getCategoriesTotalsStats
 } from '../../selectors';
 import { getWeekId } from '../../selectors/week';
@@ -88,7 +89,10 @@ function WeekStats(props) {
             <td id={past4WeeksAverageId} className="stat-label">
               4-week average
             </td>
-            <td aria-labelledby={past4WeeksAverageId}>
+            <td
+              aria-labelledby={past4WeeksAverageId}
+              data-sum={sum(past4Weeks.map(calculateWeeklyTotal))}
+            >
               {usd(past4WeeksAverage)}
             </td>
           </tr>
