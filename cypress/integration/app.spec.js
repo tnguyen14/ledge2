@@ -14,7 +14,7 @@ const firstTransaction = '.weekly-transactions .transaction:first-of-type';
 const secondTransaction = '.weekly-transactions .transaction:nth-of-type(2)';
 
 const weekStats = '.week-stats';
-const weekStats4WeekAverage = `${weekStats} .stat[data-cat=average-past-4-weeks]`;
+const weekStats4WeekAverage = `${weekStats} .stat[data-cat=4-week-average]`;
 const weekStats4WeekAverageValue = `${weekStats4WeekAverage} td:nth-of-type(2)`;
 
 const amountField = 'input[name=amount]';

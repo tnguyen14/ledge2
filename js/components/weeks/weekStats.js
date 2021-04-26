@@ -80,7 +80,11 @@ function WeekStats(props) {
             </td>
             <td aria-labelledby={totalId}>{usd(total)}</td>
           </tr>
-          <tr key={past4WeeksAverageId} className="stat" data-cat="total">
+          <tr
+            key={past4WeeksAverageId}
+            className="stat"
+            data-cat="4-week-average"
+          >
             <td id={past4WeeksAverageId} className="stat-label">
               4-week average
             </td>
@@ -88,7 +92,7 @@ function WeekStats(props) {
               {usd(past4WeeksAverage)}
             </td>
           </tr>
-          <tr key={rawTotalId} className="stat" data-cat="total">
+          <tr key={rawTotalId} className="stat" data-cat="raw-total">
             <td id={rawTotalId} className="stat-label">
               Raw Total
             </td>

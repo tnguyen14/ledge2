@@ -8,7 +8,7 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER
 } from '../actions/app';
-import { SHOW_WEEK } from '../actions/weeks';
+import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
 import moment from 'moment-timezone';
 import { getWeekId } from '../selectors/week';
 
@@ -47,9 +47,15 @@ export default function app(state = defaultState, action) {
         }
       };
     case LOAD_TRANSACTIONS:
+    case LOAD_WEEK:
       return {
         ...state,
         isLoading: true
+      };
+    case LOAD_WEEK_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
       };
     case LOAD_TRANSACTIONS_SUCCESS:
       return {

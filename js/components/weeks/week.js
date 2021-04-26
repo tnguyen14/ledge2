@@ -32,7 +32,6 @@ function Week(props) {
   const visibleWeeks = useSelector((state) => state.app.visibleWeeks);
   const { weekId, transactions, start, end } = week;
 
-  // show all data if filtering
   if (!visibleWeeks.map((week) => week.weekId).includes(weekId)) {
     return null;
   }
