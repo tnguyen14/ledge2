@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import times from 'lodash.times';
 import {
   BarChart,
   XAxis,
@@ -13,6 +12,8 @@ import {
 import Button from 'react-bootstrap/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import { getCategoriesTotalsStats } from '../../selectors';
+import { getWeekId } from '../../selectors/week';
+import { getWeekById } from '../../selectors/transactions';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {
@@ -35,16 +36,21 @@ const colorMaps = {
 
 function CategoriesChart() {
   const categories = useSelector((state) => state.account.categories);
-  const weeks = useSelector((state) => state.weeks);
+  const transactions = useSelector((state) => state.transactions);
   const [start, setStart] = useState(0);
   const numWeeks = 12;
 
-  const weeksData = Object.keys(weeks)
-    .filter((weekIndex) => weekIndex <= start && weekIndex > -numWeeks + start)
-    // newest week should be to the right
-    .sort((a, b) => a - b)
-    .map((weekIndex) => weeks[weekIndex])
+  // reverse to keep the newest week to the right
+  const weeks = [...Array(numWeeks).keys()]
+    .reverse()
+    .map((index) => {
+      const weekId = getWeekId({ offset: start - index });
+      return getWeekById({ transactions, weekId });
+    })
     .map((week) => {
+      if (!week) {
+        return {};
+      }
       const stats = getCategoriesTotalsStats({
         transactions: week.transactions,
         categories
@@ -60,7 +66,7 @@ function CategoriesChart() {
 
   return (
     <div className="chart categories">
-      <h4>Past {numWeeks} weeks</h4>
+      <h4>{numWeeks} weeks chart</h4>
       <div className="nav">
         <Button variant="light" onClick={() => setStart(start - 1)}>
           <ChevronLeftIcon />
@@ -74,7 +80,7 @@ function CategoriesChart() {
         </Button>
       </div>
       <ResponsiveContainer width="100%" height={500}>
-        <BarChart width={400} height={400} data={weeksData}>
+        <BarChart width={400} height={400} data={weeks}>
           <XAxis dataKey="weekStart" />
           <YAxis />
           {/* use itemSorter to reverse order because by default,
