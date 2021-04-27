@@ -17,6 +17,7 @@ function App() {
   const { authenticated, isAuthenticating } = useSelector(
     (state) => state.user
   );
+  const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
 
   const yearsToLoad = [2021, 2020, 2019];
 
@@ -31,7 +32,9 @@ function App() {
     }
     dispatch(handleAuthentication());
 
-    if (authenticated) {
+    const now = new Date().valueOf();
+    // only load if authenticated and haven't been loaded in an hour
+    if (authenticated && now - lastRefreshed > 3600000) {
       dispatch(loadAccount());
       dispatch(loadTransactions(yearsToLoad));
     }

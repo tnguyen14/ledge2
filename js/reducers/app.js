@@ -24,7 +24,8 @@ const defaultState = {
   notification: {
     content: '',
     title: ''
-  }
+  },
+  lastRefreshed: 0
 };
 
 export default function app(state = defaultState, action) {
@@ -61,6 +62,7 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         isLoading: false,
+        lastRefreshed: new Date().valueOf(),
         notification: {
           title: 'App',
           content: `Finished loading transactions`,
