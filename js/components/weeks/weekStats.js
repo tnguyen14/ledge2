@@ -6,9 +6,17 @@ import { getWeekById } from '../../selectors/transactions';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
 import { sum, average, weeklyTotal } from '../../util/calculate';
+import useToggle from '../../hooks/useToggle';
+import classnames from 'classnames';
+import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
+import { useMediaQuery } from 'react-responsive';
 
 function WeekStats(props) {
   const { week, label } = props;
+  const isBigScreen = useMediaQuery({
+    query: '(min-width: 42.5em)'
+  });
+  const [showBreakdown, toggleShowBreakdown] = useToggle(isBigScreen);
   const { weekId, transactions } = week;
   const categories = useSelector((state) => state.account.categories);
   const past4Weeks = useSelector((state) => [
@@ -59,22 +67,15 @@ function WeekStats(props) {
       {label && <h4>{label}</h4>}
       <table className="table">
         <tbody>
-          {categoriesStats.map((stat) => {
-            const { slug, label, amount } = stat;
-            return (
-              <WeekCategory
-                key={slug}
-                slug={slug}
-                label={label}
-                amount={amount}
-                weekId={weekId}
-                carriedOvers={carriedOversByCategory[slug]}
-              />
-            );
-          })}
+          <tr key={rawTotalId} className="stat" data-cat="raw-total">
+            <td id={rawTotalId} className="stat-label">
+              Total
+            </td>
+            <td aria-labelledby={rawTotalId}>{usd(rawTotal)}</td>
+          </tr>
           <tr key={totalId} className="stat" data-cat="total">
             <td id={totalId} className="stat-label">
-              Total
+              Total with carried-overs
             </td>
             <td aria-labelledby={totalId}>{usd(total)}</td>
           </tr>
@@ -90,12 +91,31 @@ function WeekStats(props) {
               {usd(past4WeeksAverage)}
             </td>
           </tr>
-          <tr key={rawTotalId} className="stat" data-cat="raw-total">
-            <td id={rawTotalId} className="stat-label">
-              Raw Total
-            </td>
-            <td aria-labelledby={rawTotalId}>{usd(rawTotal)}</td>
-          </tr>
+        </tbody>
+      </table>
+      <h6 onClick={toggleShowBreakdown}>
+        Category breakdown
+        {showBreakdown ? <ChevronUpIcon /> : <ChevronDownIcon />}
+      </h6>
+      <table className="table categories-stats">
+        <tbody
+          className={classnames({
+            hide: !showBreakdown
+          })}
+        >
+          {categoriesStats.map((stat) => {
+            const { slug, label, amount } = stat;
+            return (
+              <WeekCategory
+                key={slug}
+                slug={slug}
+                label={label}
+                amount={amount}
+                weekId={weekId}
+                carriedOvers={carriedOversByCategory[slug]}
+              />
+            );
+          })}
         </tbody>
       </table>
     </div>

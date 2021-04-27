@@ -91,6 +91,22 @@
       word-break: break-word;
     }
   }
+  .week-stats {
+    h6 {
+      margin: 1rem 0 0.75rem;
+      svg {
+        margin-left: 0.3rem;
+        margin-bottom: 0.2rem;
+      }
+    }
+    .categories-stats {
+      tbody {
+        &.hide {
+          display: none;
+        }
+      }
+    }
+  }
   .stat {
     .stat-label.carried-over {
       cursor: help;

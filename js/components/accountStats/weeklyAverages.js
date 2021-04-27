@@ -46,9 +46,9 @@ function WeeklyAverages(props) {
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>
               <td>
-                {span.startWeekEnd.format('MMM D, YYYY')} -{' '}
-                {span.endWeekStart.format('MMM D, YYYY')} (
-                {span.start - span.end} weeks)
+                {span.startWeekEnd.format('MMM D')} -{' '}
+                {span.endWeekStart.format('MMM D')} ({span.start - span.end}{' '}
+                weeks)
               </td>
               <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
             </tr>

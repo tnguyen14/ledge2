@@ -59,6 +59,7 @@
     "postcss-strip-inline-comments": "^0.1.5",
     "postcss-utilities": "^0.8.0",
     "prettier": "^2.0.4",
+    "react-responsive": "^8.2.0",
     "redux-devtools-extension": "^2.13.5",
     "tinyify": "^2.5.2",
     "watchify": "^4.0.0"
