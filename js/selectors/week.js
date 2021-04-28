@@ -17,5 +17,5 @@ export const getWeekId = createSelector(getWeekStart, (weekStart) =>
 );
 
 export const getWeekEnd = createSelector(getWeekStart, (weekStart) =>
-  moment(weekStart).add(7, 'd').endOf('day')
+  moment(weekStart).isoWeekday(7).endOf('day')
 );
