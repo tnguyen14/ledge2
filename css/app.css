@@ -12,7 +12,6 @@
   }
 }
 .transactions-loading {
-  @util clearfix();
   margin: 1rem auto;
   width: 5rem;
   div > div {

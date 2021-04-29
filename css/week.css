@@ -1,5 +1,4 @@
 .weekly {
-  @util clearfix();
   border-bottom: 1px solid var(--color-gainsboro);
   &:last-of-type {
     border-bottom: none;
@@ -48,13 +47,6 @@
       flex-flow: row wrap;
       @media (min-width: 42.5em) {
         display: table-row;
-      }
-      &.active {
-        td {
-          background-color: color(
-            var(--color-white-smoke, shade(3%))
-          ) !important;
-        }
       }
     }
     td,

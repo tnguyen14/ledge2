@@ -26,7 +26,7 @@
     margin-top: 2rem;
   }
   &.carousel {
-    padding-bottom: 1.5rem; // carousel indicators is an ol with margin-bottom of 1rem (set in _reboot.scss)
+    padding-bottom: 1.5rem; /* carousel indicators is an ol with margin-bottom of 1rem (set in _reboot.scss) */
   }
 }
 

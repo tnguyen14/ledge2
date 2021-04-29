@@ -1,18 +1,18 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
-@import './header.scss';
-@import './app.scss';
-@import './userMenu.scss';
-@import './login.scss';
-@import './form.scss';
-@import './stats.scss';
-@import './weeks.scss';
-@import './week.scss';
-@import './transaction.scss';
-@import './deleteDialog.scss';
-@import './notification.scss';
-@import './categoriesChart.scss';
+@import './header.css';
+@import './app.css';
+@import './userMenu.css';
+@import './login.css';
+@import './form.css';
+@import './stats.css';
+@import './weeks.css';
+@import './week.css';
+@import './transaction.css';
+@import './deleteDialog.css';
+@import './notification.css';
+@import './categoriesChart.css';
 
-// consult https://materializecss.com/color.html
+/* consult https://materializecss.com/color.html */
 :root {
   --color-amber: #ffc107;
   --color-blue-grey: #607d8b;
@@ -41,7 +41,7 @@
 }
 
 .span-hint {
-  color: #212529; // bootstrap body color
+  color: #212529; /* bootstrap body color */
   cursor: help;
   margin-left: 0.5em;
 }

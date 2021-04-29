@@ -2,7 +2,7 @@
   position: absolute;
   top: 0.5rem;
   right: 2.5%;
-  z-index: 20; // float above the form / Calculate button. 20 because z-index of carousel-indicators is 15
+  z-index: 20; /* float above the form / Calculate button. 20 because z-index of carousel-indicators is 15 */
   @media (min-width: 42.5em) {
     right: 5%;
   }
@@ -28,7 +28,7 @@
     padding: 1rem;
   }
   .jwt-token {
-    // don't show token on mobile, show on desktop
+    /* don't show token on mobile, show on desktop */
     display: none;
     max-width: 40rem;
     word-break: break-all;
