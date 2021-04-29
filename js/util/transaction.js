@@ -1,6 +1,4 @@
-import async from 'async';
 import moment from 'moment-timezone';
-import pick from 'lodash.pick';
 import { toCents } from '@tridnguyen/money';
 import { TIMEZONE } from './constants';
 import { getTransaction } from './api';
@@ -9,40 +7,18 @@ import { getTransaction } from './api';
  * Generate a unique transaction ID based on current timestamp
  * If that value already exists, keep incrementing it until it is unique
  * @param {string} idToken JWT token
- * @param {string} date transaction date and time
+ * @param {number} id The id as a number to check
  */
-export async function getUniqueTransactionId(idToken, date) {
-  let id = moment(date).valueOf();
-  let notFound = false;
-  return new Promise((resolve, reject) => {
-    async.until(
-      function () {
-        return notFound;
-      },
-      function (cb) {
-        getTransaction(idToken, String(id)).then(
-          () => {
-            // transaction ID already exists, increment and try again
-            id++;
-            cb(null);
-          },
-          (err) => {
-            if (err.response.status == 404) {
-              notFound = true;
-              return cb(null, id);
-            }
-            return cb(err);
-          }
-        );
-      },
-      function (err, id) {
-        if (err) {
-          return reject(err);
-        }
-        resolve(String(id));
-      }
-    );
-  });
+export async function getUniqueTransactionId(idToken, id) {
+  try {
+    await getTransaction(idToken, String(id));
+    return await getUniqueTransactionId(idToken, id++);
+  } catch (e) {
+    if (e.response.status == 404) {
+      return String(id);
+    }
+    throw e;
+  }
 }
 
 export function decorateTransaction(params) {
@@ -56,21 +32,22 @@ export function decorateTransaction(params) {
   if (!params.span) {
     throw new Error('Span is required for transaction');
   }
-  opts.date = moment
+
+  const { description, merchant, status, category, source } = params;
+  const date = moment
     .tz(`${params.date} ${params.time}`, TIMEZONE)
     .toISOString();
-  opts.amount = toCents(params.amount);
-  opts.span = parseInt(params.span, 10);
-
+  const amount = toCents(params.amount);
+  const span = parseInt(params.span, 10);
   return {
-    ...pick(params, [
-      'description',
-      'merchant',
-      'status',
-      'category',
-      'source'
-    ]),
-    ...opts
+    date,
+    amount,
+    description,
+    merchant,
+    status,
+    category,
+    source,
+    span
   };
 }
 

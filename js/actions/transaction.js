@@ -26,7 +26,10 @@ export function addTransaction(transaction) {
     } = getState();
 
     const decoratedTransaction = decorateTransaction(transaction);
-    const id = await getUniqueTransactionId(idToken, decoratedTransaction.date);
+    const id = await getUniqueTransactionId(
+      idToken,
+      new Date(decoratedTransaction.date).valueOf()
+    );
     // TODO handle error
     await postTransaction(idToken, {
       ...decoratedTransaction,
