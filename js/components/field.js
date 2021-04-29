@@ -4,6 +4,8 @@ import { InfoIcon } from '@primer/octicons-react';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Button from 'react-bootstrap/Button';
+import classnames from 'classnames';
+import { useMediaQuery } from 'react-responsive';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -23,6 +25,9 @@ function Field(props) {
     afterButtonAction,
     tabindex = 0
   } = props;
+  const isSmallScreen = useMediaQuery({
+    query: '(max-width: 42.5em)'
+  });
   let inputEl;
   if (inputTypes.includes(type)) {
     inputEl = (
@@ -77,7 +82,13 @@ function Field(props) {
   }
   return (
     <div className="form-group" data-form-name={name}>
-      <label className="control-label">{label}</label>
+      <label
+        className={classnames('control-label', {
+          'sr-only': isSmallScreen
+        })}
+      >
+        {label}
+      </label>
       <div className="input-group">
         {hint && (
           <OverlayTrigger

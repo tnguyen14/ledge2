@@ -54,9 +54,6 @@
     margin-top: 0.3rem;
     text-align: right;
     width: 5em;
-    @media (max-width: 42.4em) {
-      @util hide-visually;
-    }
     @media (min-width: 42.5em) {
       margin-right: 0.5em;
     }
