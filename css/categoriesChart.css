@@ -1,11 +1,5 @@
 .categories.chart {
-  h4 {
-    float: left;
-  }
-  .nav {
-    float: right;
-  }
-  .recharts-responsive-container {
-    clear: both;
-  }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }

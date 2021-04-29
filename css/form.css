@@ -48,7 +48,6 @@
     }
   }
   label {
-    float: left;
     margin-right: 0.5em;
     margin-top: 0.3rem;
     text-align: right;
@@ -61,7 +60,6 @@
     }
   }
   .input-group {
-    float: left;
     width: 100%;
     @media (min-width: 42.5em) {
       width: calc(100% - 5.5em);

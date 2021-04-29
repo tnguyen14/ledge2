@@ -121,3 +121,7 @@ a:not([href]) {
   white-space: nowrap;
   width: 1px;
 }
+
+.form-group {
+  display: flex;
+}

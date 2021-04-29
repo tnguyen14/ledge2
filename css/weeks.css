@@ -8,14 +8,12 @@
       margin-bottom: 0;
     }
     label {
-      float: left;
       margin-right: 0.5em;
       text-align: right;
       margin-top: 0.3rem;
       width: 5em;
     }
     .input-group {
-      float: left;
       @media (min-width: 42.5em) {
         width: calc(100% - 5.5em);
       }
