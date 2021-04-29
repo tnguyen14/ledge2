@@ -1,6 +1,5 @@
 .transactions {
-  /* needed to clear float left form at wide screen */
-  clear: left;
+  width: 100%;
   margin-bottom: 2em;
   .top-actions {
     display: flex;

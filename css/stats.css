@@ -5,16 +5,17 @@
 }
 
 .account-stats {
+  width: 100%;
   @media (min-width: 68.75em) {
     width: 50%;
   }
 }
 .stats {
   @media (min-width: 68.75em) {
-    float: left;
     padding-left: 2rem;
   }
   .table {
+    width: 100%;
     @media (min-width: 42.5em) {
       width: 50%;
     }

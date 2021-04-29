@@ -7,6 +7,9 @@
 .app {
   margin: 0.5rem auto;
   width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   @media (min-width: 42.5em) {
     width: 90%;
   }

@@ -4,7 +4,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   @media (min-width: 68.75em) {
-    float: left;
     width: 50%;
   }
   h2 {
