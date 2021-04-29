@@ -1,11 +1,10 @@
-const cloneDeep = require('lodash.clonedeep');
-const slugify = require('@tridnguyen/slugify');
+import slugify from '@tridnguyen/slugify';
 
 /**
  * @param {String} merchant name of merchant
  * @param {Object} counts the counts object
  */
-function addMerchantToCounts(merchant, counts) {
+export function addMerchantToCounts(merchant, counts) {
   var slug = slugify(merchant);
   var _counts = counts || {};
   if (_counts[slug]) {
@@ -28,9 +27,9 @@ function addMerchantToCounts(merchant, counts) {
  * @param {Object} counts the counts object
  * @param {Boolean} merchantCount the count of transaction with the exact merchant
  */
-function removeMerchantFromCounts(merchant, counts, merchantCount) {
+export function removeMerchantFromCounts(merchant, counts, merchantCount) {
   const slug = slugify(merchant);
-  let _counts = cloneDeep(counts);
+  let _counts = { ...counts };
   // if the count doesn't exist, bail early
   if (!_counts[slug]) {
     return _counts;
@@ -54,8 +53,3 @@ function removeMerchantFromCounts(merchant, counts, merchantCount) {
   }
   return _counts;
 }
-
-module.exports = {
-  addMerchantToCounts,
-  removeMerchantFromCounts
-};
