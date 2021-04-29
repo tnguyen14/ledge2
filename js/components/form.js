@@ -131,23 +131,23 @@ function Form(props) {
           />
         );
       })}
-      <Button
-        variant="primary"
-        className="float-right"
-        type="submit"
-        onClick={submitForm}
-        {...buttonAttrs}
-      >
-        {action}
-      </Button>
-      <Button
-        variant="outline-secondary"
-        className="float-right"
-        onClick={() => dispatch(resetForm())}
-        {...buttonAttrs}
-      >
-        Reset
-      </Button>
+      <div className="actions">
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={submitForm}
+          {...buttonAttrs}
+        >
+          {action}
+        </Button>
+        <Button
+          variant="outline-secondary"
+          onClick={() => dispatch(resetForm())}
+          {...buttonAttrs}
+        >
+          Reset
+        </Button>
+      </div>
     </form>
   );
 }

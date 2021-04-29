@@ -1,6 +1,8 @@
 .new-transaction {
-  @util clearfix();
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   @media (min-width: 68.75em) {
     float: left;
     width: 50%;
@@ -8,15 +10,13 @@
   h2 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
+    width: 100%;
     @media (min-width: 42.5em) {
       font-size: 2rem;
     }
   }
   fieldset {
     margin-top: 1.3rem;
-  }
-  .form-group {
-    @util clearfix();
   }
   [data-form-name='amount'],
   [data-form-name='calculate'],
@@ -26,15 +26,27 @@
   [data-form-name='source'],
   [data-form-name='merchant'],
   [data-form-name='category'] {
-    float: left;
     width: 48%;
-    margin-right: 4%;
   }
-  [data-form-name='calculate'],
-  [data-form-name='category'],
-  [data-form-name='time'],
-  [data-form-name='span'] {
-    margin-right: 0;
+  [data-form-name='description'] {
+    width: 100%;
+    textarea {
+      height: calc(
+        2.25rem + 2px
+      ); /* this is the height of form-control set by bootstrap */
+    }
+  }
+  .actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    [type='submit'] {
+      order: 1; /* move to the right */
+      text-transform: capitalize;
+    }
+    button + button {
+      margin-right: 0.7rem; /* create gap between buttons */
+    }
   }
   label {
     float: left;
@@ -64,17 +76,6 @@
     .hint {
       cursor: help;
     }
-  }
-  [data-form-name='description'] textarea {
-    height: calc(
-      2.25rem + 2px
-    ); /* this is the height of form-control set by bootstrap */
-  }
-  button + button {
-    margin-right: 0.7rem;
-  }
-  button[type='submit'] {
-    text-transform: capitalize;
   }
   .react-hint__content {
     font-size: 0.8rem;
