@@ -1,11 +1,6 @@
 import { createSelector } from 'reselect';
-import {
-  startOfDay,
-  endOfDay,
-  setISODay,
-  format,
-  utcToZonedTime
-} from 'date-fns';
+import { startOfDay, endOfDay, setISODay, format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { WEEK_ID_FORMAT, TIMEZONE } from '../util/constants';
 
 const getOffset = (state) => state.offset || 0;

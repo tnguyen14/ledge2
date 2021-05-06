@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
@@ -9,6 +10,7 @@ import {
 import { sortTransactions } from '../../util/transaction';
 import Transaction from './transaction';
 import WeekStats from './weekStats';
+import { TIMEZONE } from '../../util/constants';
 
 function editTransaction(transaction) {
   return {
@@ -64,7 +66,8 @@ function Week(props) {
   return (
     <div className="weekly">
       <h3 className="week-title">
-        {format(start, 'MMM d')} - {format(end, 'MMM d')}
+        {format(utcToZonedTime(start, TIMEZONE), 'MMM d')} -{' '}
+        {format(utcToZonedTime(end, TIMEZONE), 'MMM d')}
       </h3>
       <table className="weekly-transactions table table-striped">
         <thead>

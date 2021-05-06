@@ -12,9 +12,11 @@ import {
 import Button from 'react-bootstrap/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { getCategoriesTotalsStats } from '../../selectors/stats';
 import { getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
+import { TIMEZONE } from '../../util/constants';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {
@@ -57,7 +59,7 @@ function CategoriesChart() {
         categories
       });
       const weekData = {
-        weekStart: format(week.start, 'MMM d')
+        weekStart: format(utcToZonedTime(week.start, TIMEZONE), 'MMM d')
       };
       stats.forEach((stat) => {
         weekData[stat.slug] = (stat.amount / 100).toFixed(2);
