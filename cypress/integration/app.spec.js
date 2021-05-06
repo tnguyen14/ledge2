@@ -27,6 +27,7 @@ const SERVER_URL = Cypress.env('SERVER_URL');
 describe('Ledge', () => {
   beforeEach(() => {
     cy.viewport('macbook-15');
+    cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
     cy.restoreLocalStorage();
     cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
     cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
