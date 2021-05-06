@@ -180,12 +180,15 @@ describe('Ledge', () => {
 
   it('Update a transaction - amount', () => {
     cy.contains('Finished loading transactions', { timeout: 15000 });
+    cy.log('Update amount of first transaction of second week');
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
         const amount = fromUsd($amount.text());
+        cy.log(`Old amount is ${amount}`);
         cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
           ($average) => {
             const sum = Number($average.data('sum'));
+            cy.log(`sum of 4 weeks ${sum}`);
             cy.get(
               `${secondWeek} ${firstTransaction} [data-field=action] .edit`
             ).click();
@@ -223,9 +226,11 @@ describe('Ledge', () => {
       const merchantsCount = interception.response.body.merchants_count;
       const newMerchant = 'Test Merchant';
       cy.contains('Finished loading transactions', { timeout: 15000 });
+      cy.log('Update merchant of second transaction of second week');
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
+          cy.log(`Old merchant is ${oldMerchant}`);
           cy.get(
             `${secondWeek} ${secondTransaction} [data-field=action] .edit`
           ).click();
