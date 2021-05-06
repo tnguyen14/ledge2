@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import Button from 'react-bootstrap/Button';
 import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
+import { format } from 'date-fns';
 import { getCategoriesTotalsStats } from '../../selectors/stats';
 import { getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
@@ -56,7 +57,7 @@ function CategoriesChart() {
         categories
       });
       const weekData = {
-        weekStart: week.start.format('MMM D')
+        weekStart: format(week.start, 'MMM d')
       };
       stats.forEach((stat) => {
         weekData[stat.slug] = (stat.amount / 100).toFixed(2);

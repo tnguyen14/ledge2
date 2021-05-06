@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import classNames from 'classnames';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
 import { logout } from '../../actions/user';
 
 function UserMenu(props) {
@@ -27,7 +27,7 @@ function UserMenu(props) {
       />
       <ul className="profile">
         <li>{profile.name}</li>
-        <li>Logged in until {moment(expiresAt).format('hh:mm:ss A')}</li>
+        <li>Logged in until {format(new Date(expiresAt), 'hh:mm:ss a')}</li>
         <li className="jwt-token">{idToken}</li>
         <li className="logout" onClick={() => dispatch(logout())}>
           Log Out

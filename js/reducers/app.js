@@ -9,7 +9,6 @@ import {
   SET_FILTER
 } from '../actions/app';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
-import moment from 'moment-timezone';
 import { getWeekId } from '../selectors/week';
 
 const defaultState = {

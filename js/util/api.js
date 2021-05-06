@@ -1,6 +1,7 @@
 import qs from 'qs';
 import { getJson, postJson, patchJson, deleteJson } from './fetch';
 import { SERVER_URL } from './constants';
+import { startOfDay } from 'date-fns';
 
 export async function getTransaction(idToken, id) {
   return await getJson(idToken, `${SERVER_URL}/items/${id}`);
@@ -12,12 +13,12 @@ export async function getTransactions(idToken, start, end) {
       {
         field: 'date',
         op: '>=',
-        value: start.startOf('day').toISOString()
+        value: startOfDay(start).toISOString()
       },
       {
         field: 'date',
         op: '<',
-        value: end.startOf('day').toISOString()
+        value: startOfDay(end).toISOString()
       }
     ]
   });

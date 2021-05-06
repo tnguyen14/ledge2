@@ -4,6 +4,7 @@ import { usd } from '@tridnguyen/money';
 import { average, weeklyTotal } from '../../util/calculate';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
+import { format } from 'date-fns';
 
 function WeeklyAverages(props) {
   const transactions = useSelector((state) => state.transactions);
@@ -46,8 +47,8 @@ function WeeklyAverages(props) {
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>
               <td>
-                {span.startWeekEnd.format('MMM D')} -{' '}
-                {span.endWeekStart.format('MMM D')} ({span.start - span.end}{' '}
+                {format(span.startWeekEnd, 'MMM d')} -{' '}
+                {format(span.endWeekStart, 'MMM d')} ({span.start - span.end}{' '}
                 weeks)
               </td>
               <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>

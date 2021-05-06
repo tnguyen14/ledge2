@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import { startOfDay, setISODay, sub } from 'date-fns';
 import { getTransactions } from '../util/api';
 import { TIMEZONE } from '../util/constants';
 import { logout } from './user';
@@ -10,10 +10,12 @@ export function loadYears() {
       user: { idToken },
       app: { yearsToLoad }
     } = getState();
-    const now = moment().tz(TIMEZONE);
-    const start = moment().subtract(yearsToLoad, 'year');
-    const startMonday = start.isoWeekday(1).startOf('day');
-    const endMonday = now.isoWeekday(8).startOf('day');
+    const now = new Date();
+    const start = sub(now, {
+      years: yearsToLoad
+    });
+    const startMonday = startOfDay(setISODay(start, 1));
+    const endMonday = startOfDay(setISODay(now, 8));
     try {
       const transactions = await getTransactions(
         idToken,

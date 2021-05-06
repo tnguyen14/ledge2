@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
-import moment from 'moment-timezone';
+import { getYear, differenceInCalendarWeeks } from 'date-fns';
 import { sortTransactions } from '../util/transaction';
 import { sum } from '../util/calculate';
-import { TIMEZONE } from '../util/constants';
 import { getWeekStart, getWeekEnd, getWeekId } from './week';
 
 const getTransactions = (state) => state.transactions;
@@ -11,7 +10,7 @@ const getYears = createSelector(getTransactions, (transactions) => {
   const years = {};
   Object.keys(transactions).forEach(function processTransactionForYear(id) {
     const transaction = transactions[id];
-    const year = moment(new Date(transaction.date)).tz(TIMEZONE).year();
+    const year = getYear(new Date(transaction.date));
     if (!years[year]) {
       years[year] = [transaction];
     } else {
@@ -24,9 +23,9 @@ const getYears = createSelector(getTransactions, (transactions) => {
 export const getYearAverages = createSelector(getYears, (years) => {
   return Object.keys(years).map((year) => {
     const transactions = sortTransactions(years[year]);
-    const numWeeks = moment(new Date(transactions[0].date)).diff(
-      moment(new Date(transactions[transactions.length - 1].date)),
-      'weeks'
+    const numWeeks = differenceInCalendarWeeks(
+      new Date(transactions[0].date),
+      new Date(transactions[transactions.length - 1].date)
     );
 
     return {

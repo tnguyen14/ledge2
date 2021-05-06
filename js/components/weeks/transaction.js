@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import Badge from 'react-bootstrap/Badge';
 import { usd } from '@tridnguyen/money';
 import classnames from 'classnames';
@@ -8,6 +9,11 @@ import Overlay from 'react-bootstrap/Overlay';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { PencilIcon, XIcon, ClockIcon } from '@primer/octicons-react';
 import useToggle from '../../hooks/useToggle';
+import {
+  TIMEZONE,
+  DISPLAY_DATE_FORMAT,
+  DISPLAY_DAY_FORMAT
+} from '../../util/constants';
 
 function getValueFromOptions(options, slug) {
   let option = options.find((opt) => opt.slug === slug);
@@ -34,8 +40,9 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
-  const displayDate = moment(date).format('MM/DD/YY h:ma');
-  const displayDay = moment(date).format('ddd');
+  const dateInZone = utcToZonedTime(date, TIMEZONE);
+  const displayDate = format(dateInZone, DISPLAY_DATE_FORMAT);
+  const displayDay = format(dateInZone, DISPLAY_DAY_FORMAT);
   return (
     <tr
       className={classnames('transaction', {

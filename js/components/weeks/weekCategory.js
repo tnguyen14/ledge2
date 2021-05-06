@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { usd } from '@tridnguyen/money';
 import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import moment from 'moment-timezone';
+import { utcToZonedTime } from 'date-fns-tz';
+import { format } from 'date-fns';
 import { ClockIcon } from '@primer/octicons-react';
+import { TIMEZONE } from '../../util/constants';
 
 function WeekCategory(props) {
   const { slug, label, amount, weekId, carriedOvers = [] } = props;
@@ -16,9 +18,10 @@ function WeekCategory(props) {
       title="Carried-over transactions"
     >
       {carriedOvers.map((txn) => {
+        const dateInZone = utcToZonedTime(txn.date, TIMEZONE);
         return (
           <li key={txn.id}>
-            {moment(txn.date).format('MM/DD/YY')} ({txn.span}) {txn.merchant}{' '}
+            {format(dateInZone, 'MM/dd/yy')} ({txn.span}) {txn.merchant}{' '}
             {usd(txn.amount)}{' '}
           </li>
         );
