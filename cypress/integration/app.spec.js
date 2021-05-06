@@ -1,7 +1,8 @@
 import { usd, fromUsd, fromCents } from '@tridnguyen/money';
 import slugify from '@tridnguyen/slugify';
 import { format } from 'date-fns';
-import { DISPLAY_DAY_FORMAT } from '../../js/util/constants';
+import { utcToZonedTime } from 'date-fns-tz';
+import { TIMEZONE, DISPLAY_DAY_FORMAT } from '../../js/util/constants';
 
 // selectors
 const accountStats = '.account-stats';
@@ -142,7 +143,8 @@ describe('Ledge', () => {
               ...merchantCount,
               count: merchantCount.count + 1
             });
-            const displayDay = format(new Date(), DISPLAY_DAY_FORMAT);
+            const today = utcToZonedTime(new Date(), TIMEZONE);
+            const displayDay = format(today, DISPLAY_DAY_FORMAT);
             cy.get(
               `${firstWeek} .weekly-transactions .transaction[data-day=${displayDay}]`
             ).as('transaction');
