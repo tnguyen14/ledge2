@@ -26,6 +26,7 @@ const submitButton = 'button[type=submit]';
 const SERVER_URL = Cypress.env('SERVER_URL');
 describe('Ledge', () => {
   beforeEach(() => {
+    cy.viewport('macbook-15');
     cy.restoreLocalStorage();
     cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
     cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
@@ -143,6 +144,10 @@ describe('Ledge', () => {
               ...merchantCount,
               count: merchantCount.count + 1
             });
+
+            // scroll to element for debugging purposes
+            cy.get(firstWeek).scrollTo('center');
+
             const today = utcToZonedTime(new Date(), TIMEZONE);
             const displayDay = format(today, DISPLAY_DAY_FORMAT);
             cy.get(
@@ -204,14 +209,16 @@ describe('Ledge', () => {
                 amount + 4020
               );
 
+              // scroll to element for debugging purposes
+              cy.get(secondWeek).scrollTo('center');
               cy.get(
                 `${secondWeek} ${firstTransaction} [data-field=amount]`
-              ).should(($amount) => {
-                expect($amount.text()).to.equal(usd(amount + 4020));
+              ).should(($newAmount) => {
+                expect($newAmount.text()).to.equal(usd(amount + 4020));
               });
               cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
-                ($average) => {
-                  expect($average.text()).to.equal(usd((sum + 4020) / 4));
+                ($newAverage) => {
+                  expect($newAverage.text()).to.equal(usd((sum + 4020) / 4));
                 }
               );
             });
@@ -246,6 +253,8 @@ describe('Ledge', () => {
               newMerchant
             );
 
+            // scroll to element for debugging purposes
+            cy.get(secondWeek).scrollTo('center');
             cy.get(
               `${secondWeek} ${secondTransaction} [data-field=merchant]`
             ).should(($merchant) => {
