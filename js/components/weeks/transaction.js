@@ -50,6 +50,7 @@ function Transaction(props) {
       })}
       onClick={toggleActive}
       data-day={displayDay}
+      data-date={date}
     >
       <td data-field="day" title={displayDate}>
         {displayDay}

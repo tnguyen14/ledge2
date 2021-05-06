@@ -186,6 +186,7 @@ describe('Ledge', () => {
   it('Update a transaction - amount', () => {
     cy.contains('Finished loading transactions', { timeout: 15000 });
     cy.log('Update amount of first transaction of second week');
+    cy.get(secondWeek).scrollIntoView();
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
         const amount = fromUsd($amount.text());
@@ -209,7 +210,6 @@ describe('Ledge', () => {
                 amount + 4020
               );
 
-              // scroll to element for debugging purposes
               cy.get(secondWeek).scrollIntoView();
 
               cy.get(
@@ -235,6 +235,7 @@ describe('Ledge', () => {
       const newMerchant = 'Test Merchant';
       cy.contains('Finished loading transactions', { timeout: 15000 });
       cy.log('Update merchant of second transaction of second week');
+      cy.get(secondWeek).scrollIntoView();
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
@@ -254,7 +255,6 @@ describe('Ledge', () => {
               newMerchant
             );
 
-            // scroll to element for debugging purposes
             cy.get(secondWeek).scrollIntoView();
 
             cy.get(
