@@ -146,7 +146,7 @@ describe('Ledge', () => {
             });
 
             // scroll to element for debugging purposes
-            cy.get(firstWeek).scrollTo('center', { ensureScrollable: false });
+            cy.get(firstWeek).scrollIntoView();
 
             const today = utcToZonedTime(new Date(), TIMEZONE);
             const displayDay = format(today, DISPLAY_DAY_FORMAT);
@@ -210,9 +210,7 @@ describe('Ledge', () => {
               );
 
               // scroll to element for debugging purposes
-              cy.get(secondWeek).scrollTo('center', {
-                ensureScrollable: false
-              });
+              cy.get(secondWeek).scrollIntoView();
 
               cy.get(
                 `${secondWeek} ${firstTransaction} [data-field=amount]`
@@ -257,7 +255,7 @@ describe('Ledge', () => {
             );
 
             // scroll to element for debugging purposes
-            cy.get(secondWeek).scrollTo('center', { ensureScrollable: false });
+            cy.get(secondWeek).scrollIntoView();
 
             cy.get(
               `${secondWeek} ${secondTransaction} [data-field=merchant]`
