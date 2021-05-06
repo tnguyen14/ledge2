@@ -178,6 +178,7 @@ describe('Ledge', () => {
               const newAverage = fromUsd($newStat.text());
               expect(newAverage).to.equal(average + 5080 / 4);
             });
+            cy.get(secondWeek).scrollIntoView();
           }
         );
       });
