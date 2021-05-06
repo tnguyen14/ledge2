@@ -189,8 +189,8 @@ export default function form(state = initialState, action) {
       newValues = {
         ...action.data,
         amount: fromCents(action.data.amount),
-        date: format(action.data.date, dateFormat),
-        time: format(action.data.date, timeFormat),
+        date: format(new Date(action.data.date), dateFormat),
+        time: format(new Date(action.data.date), timeFormat),
         calculate: ''
       };
       return {
