@@ -66,8 +66,7 @@ function Week(props) {
   return (
     <div className="weekly">
       <h3 className="week-title">
-        {format(utcToZonedTime(start, TIMEZONE), 'MMM d')} -{' '}
-        {format(utcToZonedTime(end, TIMEZONE), 'MMM d')}
+        {format(start, 'MMM d')} - {format(end, 'MMM d')}
       </h3>
       <table className="weekly-transactions table table-striped">
         <thead>
