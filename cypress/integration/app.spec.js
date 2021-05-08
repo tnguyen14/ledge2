@@ -100,7 +100,9 @@ describe('Ledge', () => {
     cy.get(currentMonthAverageValue).then(($currentMonth) => {
       const currentMonthAverage = $currentMonth.text();
       cy.get(firstWeek).scrollIntoView();
+      cy.wait(1000);
       cy.get(secondWeek).scrollIntoView();
+      cy.wait(1000);
       cy.get('.transactions .weeks .weekly:nth-of-type(3)').scrollIntoView();
       cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(
         ($4weekAverage) => {
