@@ -15,7 +15,7 @@ import {
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
 
 const dateFormat = 'yyyy-MM-dd';
-const timeFormat = 'hh:mm';
+const timeFormat = 'HH:mm';
 
 let defaultCategory = '';
 let defaultSource = '';
