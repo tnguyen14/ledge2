@@ -1,6 +1,4 @@
-import moment from 'moment-timezone';
 import { toCents } from '@tridnguyen/money';
-import { TIMEZONE } from './constants';
 import { getTransaction } from './api';
 
 /**
@@ -34,9 +32,7 @@ export function decorateTransaction(params) {
   }
 
   const { description, merchant, status, category, source } = params;
-  const date = moment
-    .tz(`${params.date} ${params.time}`, TIMEZONE)
-    .toISOString();
+  const date = new Date(`${params.date} ${params.time}`).toISOString();
   const amount = toCents(params.amount);
   const span = parseInt(params.span, 10);
   return {

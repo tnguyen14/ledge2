@@ -1,6 +1,8 @@
 import { usd, fromUsd, fromCents } from '@tridnguyen/money';
 import slugify from '@tridnguyen/slugify';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
+import { TIMEZONE, DISPLAY_DAY_FORMAT } from '../../js/util/constants';
 
 // selectors
 const accountStats = '.account-stats';
@@ -24,6 +26,8 @@ const submitButton = 'button[type=submit]';
 const SERVER_URL = Cypress.env('SERVER_URL');
 describe('Ledge', () => {
   beforeEach(() => {
+    cy.viewport('macbook-15');
+    cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
     cy.restoreLocalStorage();
     cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
     cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
@@ -95,6 +99,7 @@ describe('Ledge', () => {
     cy.contains('Finished loading transactions', { timeout: 15000 });
     cy.get(currentMonthAverageValue).then(($currentMonth) => {
       const currentMonthAverage = $currentMonth.text();
+      cy.get(firstWeek).scrollIntoView();
       cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(
         ($4weekAverage) => {
           expect($4weekAverage.text()).to.equal(currentMonthAverage);
@@ -141,9 +146,13 @@ describe('Ledge', () => {
               ...merchantCount,
               count: merchantCount.count + 1
             });
-            const displayDate = moment().format('ddd');
+
+            cy.get(firstWeek).scrollIntoView();
+
+            const today = utcToZonedTime(new Date(), TIMEZONE);
+            const displayDay = format(today, DISPLAY_DAY_FORMAT);
             cy.get(
-              `${firstWeek} .weekly-transactions .transaction[data-day=${displayDate}]`
+              `${firstWeek} .weekly-transactions .transaction[data-day=${displayDay}]`
             ).as('transaction');
             cy.get('@transaction')
               .find('[data-field=merchant]')
@@ -177,12 +186,16 @@ describe('Ledge', () => {
 
   it('Update a transaction - amount', () => {
     cy.contains('Finished loading transactions', { timeout: 15000 });
+    cy.log('Update amount of first transaction of second week');
+    cy.get(secondWeek).scrollIntoView();
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
         const amount = fromUsd($amount.text());
+        cy.log(`Old amount is ${amount}`);
         cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
           ($average) => {
             const sum = Number($average.data('sum'));
+            cy.log(`sum of 4 weeks ${sum}`);
             cy.get(
               `${secondWeek} ${firstTransaction} [data-field=action] .edit`
             ).click();
@@ -198,14 +211,16 @@ describe('Ledge', () => {
                 amount + 4020
               );
 
+              cy.get(secondWeek).scrollIntoView();
+
               cy.get(
                 `${secondWeek} ${firstTransaction} [data-field=amount]`
-              ).should(($amount) => {
-                expect($amount.text()).to.equal(usd(amount + 4020));
+              ).should(($newAmount) => {
+                expect($newAmount.text()).to.equal(usd(amount + 4020));
               });
               cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).should(
-                ($average) => {
-                  expect($average.text()).to.equal(usd((sum + 4020) / 4));
+                ($newAverage) => {
+                  expect($newAverage.text()).to.equal(usd((sum + 4020) / 4));
                 }
               );
             });
@@ -220,9 +235,12 @@ describe('Ledge', () => {
       const merchantsCount = interception.response.body.merchants_count;
       const newMerchant = 'Test Merchant';
       cy.contains('Finished loading transactions', { timeout: 15000 });
+      cy.log('Update merchant of second transaction of second week');
+      cy.get(secondWeek).scrollIntoView();
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
+          cy.log(`Old merchant is ${oldMerchant}`);
           cy.get(
             `${secondWeek} ${secondTransaction} [data-field=action] .edit`
           ).click();
@@ -237,6 +255,8 @@ describe('Ledge', () => {
               'merchant',
               newMerchant
             );
+
+            cy.get(secondWeek).scrollIntoView();
 
             cy.get(
               `${secondWeek} ${secondTransaction} [data-field=merchant]`

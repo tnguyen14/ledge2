@@ -35,9 +35,7 @@ function WeekStats(props) {
     })
   ]);
 
-  const rawTotal = sum(
-    transactions.filter((tx) => !tx.carriedOver).map((t) => t.amount)
-  );
+  const rawTotal = weeklyTotal(week);
   const rawTotalId = `raw-total-${weekId}`;
 
   const carriedOvers = transactions.filter((tx) => tx.carriedOver);

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import Badge from 'react-bootstrap/Badge';
 import { usd } from '@tridnguyen/money';
 import classnames from 'classnames';
-import Overlay from 'react-bootstrap/Overlay';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import { PencilIcon, XIcon, ClockIcon } from '@primer/octicons-react';
 import useToggle from '../../hooks/useToggle';
+import {
+  TIMEZONE,
+  DISPLAY_DATE_FORMAT,
+  DISPLAY_DAY_FORMAT
+} from '../../util/constants';
 
 function getValueFromOptions(options, slug) {
   let option = options.find((opt) => opt.slug === slug);
@@ -18,8 +24,7 @@ function getValueFromOptions(options, slug) {
 
 function Transaction(props) {
   const [active, toggleActive] = useToggle(false);
-  const [showSpanHint, toggleSpanHint] = useToggle(false);
-  const [spanHintTarget, setSpanHintTarget] = useState();
+  const [showDateHint, toggleDateHint] = useToggle(false);
 
   const {
     id,
@@ -34,8 +39,9 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
-  const displayDate = moment(date).format('MM/DD/YY h:ma');
-  const displayDay = moment(date).format('ddd');
+  const dateInZone = utcToZonedTime(date, TIMEZONE);
+  const displayDate = format(dateInZone, DISPLAY_DATE_FORMAT);
+  const displayDay = format(dateInZone, DISPLAY_DAY_FORMAT);
   return (
     <tr
       className={classnames('transaction', {
@@ -43,33 +49,29 @@ function Transaction(props) {
       })}
       onClick={toggleActive}
       data-day={displayDay}
+      data-date={date}
     >
-      <td data-field="day" title={displayDate}>
-        {displayDay}
+      <td data-field="day">
+        <OverlayTrigger
+          overlay={<Tooltip id={`${id}-date`}>{displayDate}</Tooltip>}
+        >
+          <span>{displayDay}</span>
+        </OverlayTrigger>
       </td>
       <td data-field="merchant">{merchant}</td>
       <td data-field="amount" data-cat={category}>
         <Badge pill>{usd(amount)}</Badge>
         {span > 1 ? (
-          <span>
-            <Overlay
-              target={spanHintTarget}
-              show={showSpanHint}
-              placement="top"
-            >
+          <OverlayTrigger
+            placement="top"
+            overlay={
               <Tooltip id={`${id}-span-hint`}>Span {span} weeks</Tooltip>
-            </Overlay>
-            <span
-              ref={setSpanHintTarget}
-              className="span-hint"
-              onClick={(e) => {
-                toggleSpanHint();
-                e.stopPropagation();
-              }}
-            >
+            }
+          >
+            <span className="span-hint">
               <ClockIcon />
             </span>
-          </span>
+          </OverlayTrigger>
         ) : null}
       </td>
       <td data-field="source">

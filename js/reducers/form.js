@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment-timezone';
+import { format } from 'date-fns';
 import { ZapIcon } from '@primer/octicons-react';
 import { fromCents } from '@tridnguyen/money';
 import {
@@ -13,9 +13,8 @@ import {
   UPDATE_TRANSACTION_SUCCESS
 } from '../actions/transaction';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
-import { TIMEZONE } from '../util/constants';
 
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = 'yyyy-MM-dd';
 const timeFormat = 'HH:mm';
 
 let defaultCategory = '';
@@ -24,14 +23,14 @@ let defaultSource = '';
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
 function createInitialValues() {
-  const now = moment.tz(TIMEZONE);
+  const now = new Date();
   return {
     amount: '',
     calculate: '',
     merchant: '',
     category: defaultCategory,
-    date: now.format(dateFormat),
-    time: now.format(timeFormat),
+    date: format(now, dateFormat),
+    time: format(now, timeFormat),
     source: defaultSource,
     span: 1,
     description: '',
@@ -187,12 +186,11 @@ export default function form(state = initialState, action) {
         fields: updateFieldsWithValues(state.fields, newValues)
       };
     case EDIT_TRANSACTION:
-      const date = moment.tz(action.data.date, TIMEZONE);
       newValues = {
         ...action.data,
         amount: fromCents(action.data.amount),
-        date: date.format(dateFormat),
-        time: date.format(timeFormat),
+        date: format(new Date(action.data.date), dateFormat),
+        time: format(new Date(action.data.date), timeFormat),
         calculate: ''
       };
       return {

@@ -1,4 +1,3 @@
-import moment from 'moment-timezone';
 import { getTransactions } from '../util/api';
 import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week';
 import { getWeekById } from '../selectors/transactions';

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PulseLoader from 'react-spinners/PulseLoader';
+import { format } from 'date-fns';
 import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
@@ -63,7 +64,7 @@ function Week(props) {
   return (
     <div className="weekly">
       <h3 className="week-title">
-        {start.format('MMM D')} - {end.format('MMM D')}
+        {format(start, 'MMM d')} - {format(end, 'MMM d')}
       </h3>
       <table className="weekly-transactions table table-striped">
         <thead>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { usd } from '@tridnguyen/money';
+import { format } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { average, weeklyTotal } from '../../util/calculate';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week';
 import { getWeekById } from '../../selectors/transactions';
+import { TIMEZONE } from '../../util/constants';
 
 function WeeklyAverages(props) {
   const transactions = useSelector((state) => state.transactions);
@@ -46,9 +49,9 @@ function WeeklyAverages(props) {
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>
               <td>
-                {span.startWeekEnd.format('MMM D')} -{' '}
-                {span.endWeekStart.format('MMM D')} ({span.start - span.end}{' '}
-                weeks)
+                {format(utcToZonedTime(span.startWeekEnd, TIMEZONE), 'MMM d')} -{' '}
+                {format(utcToZonedTime(span.endWeekStart, TIMEZONE), 'MMM d')} (
+                {span.start - span.end} weeks)
               </td>
               <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
             </tr>
