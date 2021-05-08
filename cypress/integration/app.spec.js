@@ -100,10 +100,6 @@ describe('Ledge', () => {
     cy.get(currentMonthAverageValue).then(($currentMonth) => {
       const currentMonthAverage = $currentMonth.text();
       cy.get(firstWeek).scrollIntoView();
-      cy.wait(1000);
-      cy.get(secondWeek).scrollIntoView();
-      cy.wait(1000);
-      cy.get('.transactions .weeks .weekly:nth-of-type(3)').scrollIntoView();
       cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(
         ($4weekAverage) => {
           expect($4weekAverage.text()).to.equal(currentMonthAverage);
@@ -151,7 +147,6 @@ describe('Ledge', () => {
               count: merchantCount.count + 1
             });
 
-            // scroll to element for debugging purposes
             cy.get(firstWeek).scrollIntoView();
 
             const today = utcToZonedTime(new Date(), TIMEZONE);
@@ -183,7 +178,6 @@ describe('Ledge', () => {
               const newAverage = fromUsd($newStat.text());
               expect(newAverage).to.equal(average + 5080 / 4);
             });
-            cy.get(secondWeek).scrollIntoView();
           }
         );
       });

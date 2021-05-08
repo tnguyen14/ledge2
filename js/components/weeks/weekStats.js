@@ -77,12 +77,6 @@ function WeekStats(props) {
             </td>
             <td aria-labelledby={totalId}>{usd(total)}</td>
           </tr>
-          {past4Weeks.map((week) => (
-            <tr>
-              <td className="stat-label">{week.weekId}</td>
-              <td>{weeklyTotal(week)}</td>
-            </tr>
-          ))}
           <tr
             key={past4WeeksAverageId}
             className="stat"
