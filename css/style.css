@@ -48,9 +48,9 @@ a:not([href]) {
 
 .span-hint {
   color: #212529; /* bootstrap body color */
-  margin-left: 0.5em;
+  margin: 0 0.5em;
   svg {
-    cusor: help;
+    cursor: help;
   }
 }
 

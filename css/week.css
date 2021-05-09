@@ -110,9 +110,6 @@
     details {
       display: inline-block;
       position: relative;
-      summary {
-        cursor: help;
-      }
       ul {
         position: absolute;
         z-index: 1;

@@ -1,7 +1,6 @@
-import React from 'https://cdn.skypack.dev/react@16';
+import React, { useRef, useEffect } from 'https://cdn.skypack.dev/react@17';
 import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import OverlayTrigger from 'https://cdn.skypack.dev/react-bootstrap@1/OverlayTrigger';
-import Tooltip from 'https://cdn.skypack.dev/react-bootstrap@1/Tooltip';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -79,16 +78,11 @@ function Field(props) {
       <label className="control-label">{label}</label>
       <div className="input-group">
         {hint && (
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip id={`${name}-hint`}>{hint}</Tooltip>}
-          >
-            <div className="input-group-prepend hint">
-              <div className="input-group-text">
-                <InfoIcon />
-              </div>
+          <Tooltip title={hint}>
+            <div className="input-group-text hint">
+              <InfoIcon />
             </div>
-          </OverlayTrigger>
+          </Tooltip>
         )}
         {inputEl}
         {afterButton && (

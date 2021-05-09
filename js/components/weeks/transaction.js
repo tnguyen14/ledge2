@@ -4,13 +4,12 @@ import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
-import OverlayTrigger from 'https://cdn.skypack.dev/react-bootstrap@1/OverlayTrigger';
-import Tooltip from 'https://cdn.skypack.dev/react-bootstrap@1/Tooltip';
 import {
   PencilIcon,
   XIcon,
   ClockIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core/Tooltip';
 import useToggle from '../../hooks/useToggle.js';
 import {
   TIMEZONE,
@@ -27,8 +26,6 @@ function getValueFromOptions(options, slug) {
 
 function Transaction(props) {
   const [active, toggleActive] = useToggle(false);
-  const [showDateHint, toggleDateHint] = useToggle(false);
-
   const {
     id,
     date,
@@ -47,6 +44,7 @@ function Transaction(props) {
   const displayDay = format(dateInZone, DISPLAY_DAY_FORMAT);
   return (
     <tr
+      id={id}
       className={classnames('transaction', {
         'table-active': active
       })}
@@ -55,26 +53,19 @@ function Transaction(props) {
       data-date={date}
     >
       <td data-field="day">
-        <OverlayTrigger
-          overlay={<Tooltip id={`${id}-date`}>{displayDate}</Tooltip>}
-        >
+        <Tooltip title={displayDate}>
           <span>{displayDay}</span>
-        </OverlayTrigger>
+        </Tooltip>
       </td>
       <td data-field="merchant">{merchant}</td>
       <td data-field="amount" data-cat={category}>
         <Badge pill>{usd(amount)}</Badge>
         {span > 1 ? (
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip id={`${id}-span-hint`}>Span {span} weeks</Tooltip>
-            }
-          >
+          <Tooltip title={`Span ${span} weeks`}>
             <span className="span-hint">
               <ClockIcon />
             </span>
-          </OverlayTrigger>
+          </Tooltip>
         ) : null}
       </td>
       <td data-field="source">
