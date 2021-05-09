@@ -7,7 +7,7 @@ import { showMore } from '../../actions/weeks.js';
 import { setFilter } from '../../actions/app.js';
 import Week from './week.js';
 import Field from '../field.js';
-import PulseLoader from 'https://cdn.skypack.dev/react-spinners@0/PulseLoader';
+import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
@@ -36,7 +36,7 @@ function Weeks(props) {
         />
       </div>
       <div className="transactions-loading">
-        <PulseLoader loading={isLoading} />
+        {isLoading && <Spinner animation="border" variant="success" />}
       </div>
       <div className="weeks">
         {Object.keys(weeks)
