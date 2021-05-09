@@ -43,8 +43,7 @@ function WeeklyAverages(props) {
 
   return (
     <div className="averages">
-      <h4>Weekly Averages</h4>
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>

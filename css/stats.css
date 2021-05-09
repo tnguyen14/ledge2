@@ -3,6 +3,12 @@
   @media (min-width: 68.75em) {
     width: 50%;
   }
+  .tab-content {
+    margin-top: 1rem;
+  }
+  .MuiTabs-indicator {
+    background-color: var(--color-green);
+  }
 }
 .stats {
   @media (min-width: 68.75em) {

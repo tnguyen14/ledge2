@@ -8,8 +8,7 @@ function YearAverages(props) {
   const averages = useSelector(getYearAverages);
   return (
     <div>
-      <h4>Weekly Averages - Past {yearsToLoad} Years</h4>
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           {averages.map((average) => (
             <tr className="stat" key={average.year}>
