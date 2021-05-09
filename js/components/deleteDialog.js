@@ -33,15 +33,15 @@ function DeleteDialog(props) {
       </Modal.Header>
       <Modal.Body>Are you sure you want to delete this transaction?</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={cancelRemoveTransaction}>
+        <button className="btn btn-secondary" onClick={cancelRemoveTransaction}>
           Cancel
-        </Button>
-        <Button
-          variant="danger"
+        </button>
+        <button
+          className="btn btn-danger"
           onClick={() => dispatch(removeTransaction(transactionToBeRemoved))}
         >
           Delete
-        </Button>
+        </button>
       </Modal.Footer>
     </Modal>
   );

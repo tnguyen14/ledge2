@@ -104,8 +104,8 @@ function Field(props) {
         {inputEl}
         {afterButton && (
           <div className="input-group-append">
-            <Button
-              variant="outline-secondary"
+            <button
+              className="btn btn-outline-secondary"
               tabIndex={tabindex}
               onClick={() => {
                 if (afterButtonAction) {
@@ -114,7 +114,7 @@ function Field(props) {
               }}
             >
               {afterButton}
-            </Button>
+            </button>
           </div>
         )}
         {datalist && (

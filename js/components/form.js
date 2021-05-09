@@ -138,21 +138,21 @@ function Form(props) {
         );
       })}
       <div className="actions">
-        <Button
-          variant="primary"
+        <button
+          className="btn btn-primary"
           type="submit"
           onClick={submitForm}
           {...buttonAttrs}
         >
           {action}
-        </Button>
-        <Button
-          variant="outline-secondary"
+        </button>
+        <button
+          className="btn btn-outline-secondary"
           onClick={() => dispatch(resetForm())}
           {...buttonAttrs}
         >
           Reset
-        </Button>
+        </button>
       </div>
     </form>
   );

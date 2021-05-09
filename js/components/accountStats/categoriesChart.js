@@ -73,16 +73,16 @@ function CategoriesChart() {
     <div className="chart categories">
       <h4>{numWeeks} weeks chart</h4>
       <div className="nav">
-        <Button variant="light" onClick={() => setStart(start - 1)}>
+        <button className="btn btn-light" onClick={() => setStart(start - 1)}>
           <ChevronLeftIcon />
-        </Button>
-        <Button
-          variant="light"
+        </button>
+        <button
+          className="btn btn-light"
           disabled={start == 0}
           onClick={() => setStart(start + 1)}
         >
           <ChevronRightIcon />
-        </Button>
+        </button>
       </div>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart width={400} height={400} data={weeks}>

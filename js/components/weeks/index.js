@@ -19,7 +19,12 @@ function Weeks(props) {
   return (
     <div className="transactions">
       <div className="top-actions">
-        <Button onClick={() => dispatch(showMore(true))}>Look Ahead</Button>
+        <button
+          className="btn btn-primary"
+          onClick={() => dispatch(showMore(true))}
+        >
+          Look Ahead
+        </button>
         <Field
           type="text"
           value={filter}
@@ -41,9 +46,12 @@ function Weeks(props) {
             return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
-      <Button variant="success" onClick={() => dispatch(showMore(false))}>
+      <button
+        className="btn btn-success"
+        onClick={() => dispatch(showMore(false))}
+      >
         Show More
-      </Button>
+      </button>
     </div>
   );
 }
