@@ -1,9 +1,14 @@
 import React from 'https://cdn.skypack.dev/react@16';
-import Modal from 'https://cdn.skypack.dev/react-bootstrap@1/Modal.js';
 import {
   useDispatch,
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
+import Dialog from 'https://cdn.skypack.dev/@material-ui/core@4/Dialog';
+import DialogTitle from 'https://cdn.skypack.dev/@material-ui/core@4/DialogTitle';
+import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4/DialogContent';
+import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4/DialogContentText';
+import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4/DialogActions';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { CANCEL_REMOVE_TRANSACTION } from '../actions/account.js';
 import { removeTransaction } from '../actions/transaction.js';
 
@@ -23,27 +28,25 @@ function DeleteDialog(props) {
   }
 
   return (
-    <Modal
-      show={isRemovingTransaction}
-      onHide={cancelRemoveTransaction}
-      className="delete-dialog"
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>Delete Transaction</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>Are you sure you want to delete this transaction?</Modal.Body>
-      <Modal.Footer>
-        <button className="btn btn-secondary" onClick={cancelRemoveTransaction}>
+    <Dialog open={isRemovingTransaction} onClose={cancelRemoveTransaction}>
+      <DialogTitle>Delete Transaction</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          Are you sure you want to delete this transaction?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button variant="secondary" onClick={cancelRemoveTransaction}>
           Cancel
-        </button>
-        <button
-          className="btn btn-danger"
+        </Button>
+        <Button
+          variant="danger"
           onClick={() => dispatch(removeTransaction(transactionToBeRemoved))}
         >
           Delete
-        </button>
-      </Modal.Footer>
-    </Modal>
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
 
