@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'https://cdn.skypack.dev/react@17';
 import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import Tooltip from 'https://cdn.skypack.dev/@material-ui/core/Tooltip';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@16';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
-import Toast from 'https://cdn.skypack.dev/react-bootstrap@1/Toast';
+import Snackbar from 'https://cdn.skypack.dev/@material-ui/core@4/Snackbar';
 
 function Notification() {
-  const { content, title, autohide } = useSelector(
+  const { content, title, type, autohide } = useSelector(
     (state) => state.app.notification
   );
   const [show, setShow] = useState(false);
@@ -12,10 +12,19 @@ function Notification() {
   }, [content]);
   return (
     <div aria-live="polite" aria-atomic="true" className="notification">
-      <Toast show={show} onClose={() => setShow(false)} autohide={autohide}>
-        <Toast.Header>{title}</Toast.Header>
-        <Toast.Body>{content}</Toast.Body>
-      </Toast>
+      <Snackbar
+        open={show}
+        onClose={() => setShow(false)}
+        autoHideDuration={autohide}
+        message={content}
+      >
+        {/* consider using Alert and AlertTitle when they're available
+            potentially in material-ui/core@5
+        <Alert variant="outlined" severity={type}>
+          <AlertTitle>{title}</AlertTitle>
+        {content}
+        </Alert> */}
+      </Snackbar>
     </div>
   );
 }

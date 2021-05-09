@@ -9,7 +9,7 @@ import {
   XIcon,
   ClockIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import Tooltip from 'https://cdn.skypack.dev/@material-ui/core/Tooltip';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 import useToggle from '../../hooks/useToggle.js';
 import {
   TIMEZONE,

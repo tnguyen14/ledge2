@@ -2,7 +2,7 @@ import React from 'https://cdn.skypack.dev/react@16';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import Tooltip from 'https://cdn.skypack.dev/@material-ui/core/Tooltip';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { TIMEZONE } from '../../util/constants.js';
 

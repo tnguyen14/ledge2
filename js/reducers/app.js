@@ -22,7 +22,8 @@ const defaultState = {
   })),
   notification: {
     content: '',
-    title: ''
+    title: '',
+    type: 'info'
   },
   lastRefreshed: 0
 };
@@ -65,7 +66,7 @@ export default function app(state = defaultState, action) {
         notification: {
           title: 'App',
           content: `Finished loading transactions`,
-          autohide: true
+          autohide: 5000
         }
       };
     case SET_FILTER:
