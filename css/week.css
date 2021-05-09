@@ -87,6 +87,7 @@
     }
   }
   .week-stats {
+    margin-bottom: 1rem;
     width: 100%;
     @media (min-width: 68.75em) {
       width: 35%;
@@ -99,10 +100,9 @@
       }
     }
     .categories-stats {
-      tbody {
-        &.hide {
-          display: none;
-        }
+      margin-top: 0.75rem;
+      td {
+        padding: 0.75rem;
       }
     }
   }

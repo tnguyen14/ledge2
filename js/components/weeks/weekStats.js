@@ -55,7 +55,7 @@ function WeekStats(props) {
   return (
     <div className="stats week-stats">
       {label && <h4>{label}</h4>}
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           <tr key={rawTotalId} className="stat" data-cat="raw-total">
             <td id={rawTotalId} className="stat-label">
@@ -85,7 +85,7 @@ function WeekStats(props) {
       </table>
       <details>
         <summary>Category breakdown</summary>
-        <table className="table categories-stats">
+        <table className="table table-borderless categories-stats">
           <tbody>
             {categoriesStats.map((stat) => {
               const { slug, label, amount } = stat;

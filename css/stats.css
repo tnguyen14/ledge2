@@ -1,9 +1,3 @@
-.week-stats {
-  @media (min-width: 68.75em) {
-    width: 35%;
-  }
-}
-
 .account-stats {
   width: 100%;
   @media (min-width: 68.75em) {
