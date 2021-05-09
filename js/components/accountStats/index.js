@@ -44,7 +44,7 @@ function AccountStats(props) {
         <YearAverages />
       </TabPanel>
       <TabPanel value={tab} index={2}>
-        {/* <CategoriesChart /> */}
+        <CategoriesChart />
       </TabPanel>
     </div>
   );

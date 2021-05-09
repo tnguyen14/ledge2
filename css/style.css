@@ -62,7 +62,8 @@ a:not([href]) {
 }
 
 .badge,
-.legend {
+.legend,
+.bar-piece {
   [data-cat='dineout'] & {
     background-color: var(--color-purple);
   }

@@ -47,30 +47,6 @@
       margin-right: 0.7rem; /* create gap between buttons */
     }
   }
-  label {
-    margin-right: 0.5em;
-    margin-top: 0.3rem;
-    text-align: right;
-    width: 5em;
-    @media (max-width: 42.4em) {
-      /* copy from .sr-only */
-      &:not(:focus):not(:active) {
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        height: 1px;
-        overflow: hidden;
-        position: absolute;
-        white-space: nowrap;
-        width: 1px;
-      }
-    }
-    @media (min-width: 42.5em) {
-      margin-right: 0.5em;
-    }
-    @media (min-width: 68.75em) {
-      margin-right: 1em;
-    }
-  }
   .input-group {
     width: 100%;
     @media (min-width: 42.5em) {
@@ -85,5 +61,30 @@
   }
   .react-hint__content {
     font-size: 0.8rem;
+  }
+}
+
+label {
+  margin-right: 0.5em;
+  margin-top: 0.3rem;
+  text-align: right;
+  width: 5em;
+  @media (max-width: 42.4em) {
+    /* copy from .sr-only */
+    &:not(:focus):not(:active) {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+    }
+  }
+  @media (min-width: 42.5em) {
+    margin-right: 0.5em;
+  }
+  @media (min-width: 68.75em) {
+    margin-right: 1em;
   }
 }

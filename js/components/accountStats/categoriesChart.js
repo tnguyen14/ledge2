@@ -1,14 +1,6 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@16';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
-import {
-  BarChart,
-  XAxis,
-  YAxis,
-  Bar,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from 'https://cdn.skypack.dev/recharts@1';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon
@@ -20,34 +12,16 @@ import { getWeekId } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { TIMEZONE } from '../../util/constants.js';
 
-// duplicate the badge and legend styles in style.scss
-const colorMaps = {
-  dineout: 'purple',
-  groceries: 'deep-orange',
-  gas: 'green',
-  household: 'cyan',
-  entertainment: 'light-green',
-  health: 'red',
-  transportation: 'amber',
-  shopping: 'orange',
-  misc: 'lime',
-  donation: 'blue-grey',
-  residence: 'light-blue-700',
-  investment: 'teal',
-  utilities: 'light-blue',
-  mark: 'grey',
-  travel: 'indigo'
-};
-
 function CategoriesChart() {
   const categories = useSelector((state) => state.account.categories);
   const transactions = useSelector((state) => state.transactions);
   const [start, setStart] = useState(0);
-  const numWeeks = 12;
+  const NUM_WEEKS = 12;
+  const MAX_WEEK_AMOUNT = 2000; // assumption
+  const INTERVAL_AMOUNT = 400;
+  const HEIGHT_FACTOR = 500 / MAX_WEEK_AMOUNT; // 500px is height of a bar
 
-  // reverse to keep the newest week to the right
-  const weeks = [...Array(numWeeks).keys()]
-    .reverse()
+  const weeks = [...Array(NUM_WEEKS).keys()]
     .map((index) => {
       const weekId = getWeekId({ offset: start - index });
       return getWeekById({ transactions, weekId });
@@ -64,54 +38,65 @@ function CategoriesChart() {
         weekStart: format(utcToZonedTime(week.start, TIMEZONE), 'MMM d')
       };
       stats.forEach((stat) => {
-        weekData[stat.slug] = (stat.amount / 100).toFixed(2);
+        weekData[stat.slug] = stat.amount;
       });
       return weekData;
     });
 
   return (
-    <div className="chart categories">
-      <h4>{numWeeks} weeks chart</h4>
+    <div className="categories-chart">
       <div className="nav">
-        <button className="btn btn-light" onClick={() => setStart(start - 1)}>
+        <Button variant="light" onClick={() => setStart(start - 1)}>
           <ChevronLeftIcon />
-        </button>
-        <button
-          className="btn btn-light"
+        </Button>
+        <Button
+          variant="light"
           disabled={start == 0}
           onClick={() => setStart(start + 1)}
         >
           <ChevronRightIcon />
-        </button>
+        </Button>
       </div>
-      <ResponsiveContainer width="100%" height={500}>
-        <BarChart width={400} height={400} data={weeks}>
-          <XAxis dataKey="weekStart" />
-          <YAxis />
-          {/* use itemSorter to reverse order because by default,
-           * the order of items in tooltip is the opposite (visually)
-           * of the stacked bars
-           * reversal is done by passing negative index of category
-           */}
-          <Tooltip
-            itemSorter={(item, index) => {
-              return -categories.findIndex((cat) => cat.slug == item.dataKey);
-            }}
-          />
-          <Legend />
-          {categories.map((cat) => {
-            return (
-              <Bar
-                key={cat.slug}
-                dataKey={cat.slug}
-                name={cat.value}
-                stackId="a"
-                fill={`var(--color-${colorMaps[cat.slug]})`}
-              />
-            );
-          })}
-        </BarChart>
-      </ResponsiveContainer>
+      <div className="y-axis">
+        {[...Array(MAX_WEEK_AMOUNT / INTERVAL_AMOUNT).keys()].map((index) => {
+          return (
+            <div
+              className="interval"
+              style={{ height: `${INTERVAL_AMOUNT * HEIGHT_FACTOR}px` }}
+            >
+              {INTERVAL_AMOUNT * (index + 1)}
+            </div>
+          );
+        })}
+      </div>
+      <div className="chart">
+        {weeks.map((week) => {
+          return (
+            <div class="week-column">
+              {categories.map((cat) => {
+                // make bar-piece a child of data-cat to use styles
+                // defined in style.css
+                return (
+                  <div data-cat={cat.slug}>
+                    <div
+                      className="bar-piece"
+                      style={{
+                        height: `${(week[cat.slug] / 100) * HEIGHT_FACTOR}px`
+                      }}
+                    ></div>
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
+      <div className="spacer"></div>
+      <div className="x-axis">
+        {weeks.map((week) => {
+          return <div class="week-label">{week.weekStart}</div>;
+        })}
+      </div>
     </div>
   );
 }

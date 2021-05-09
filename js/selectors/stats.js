@@ -10,7 +10,7 @@ export const getCategoriesTotalsStats = createSelector(
   getCategories,
   (transactions, categories) => {
     // calculate total for each category
-    const totals = categories
+    return categories
       .map((cat) => {
         const categoryTransactions = transactions.filter(
           (t) => t.category == cat.slug
@@ -27,6 +27,5 @@ export const getCategoriesTotalsStats = createSelector(
       .sort((a, b) => {
         return b.amount - a.amount;
       });
-    return totals;
   }
 );

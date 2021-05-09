@@ -14,7 +14,7 @@ function WeekCategory(props) {
       <td className="stat-label">
         <span className="legend">&nbsp;</span>
         {label}
-        {carriedOvers.length && (
+        {carriedOvers.length > 0 && (
           <>
             <Tooltip title="Contains carried-over transactions">
               <span className="span-hint">
