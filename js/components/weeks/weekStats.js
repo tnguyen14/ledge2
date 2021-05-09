@@ -1,27 +1,14 @@
 import React from 'https://cdn.skypack.dev/react@16';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
-import {
-  ChevronUpIcon,
-  ChevronDownIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import reactResponsive from 'https://cdn.skypack.dev/react-responsive@8';
 import WeekCategory from './weekCategory.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import { getWeekId } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { sum, average, weeklyTotal } from '../../util/calculate.js';
-import useToggle from '../../hooks/useToggle.js';
-
-const { useMediaQuery } = reactResponsive;
 
 function WeekStats(props) {
   const { week, label } = props;
-  const isBigScreen = useMediaQuery({
-    query: '(min-width: 42.5em)'
-  });
-  const [showBreakdown, toggleShowBreakdown] = useToggle(isBigScreen);
   const { weekId, transactions } = week;
   const categories = useSelector((state) => state.account.categories);
   const past4Weeks = useSelector((state) => [
@@ -96,31 +83,26 @@ function WeekStats(props) {
           </tr>
         </tbody>
       </table>
-      <h6 onClick={toggleShowBreakdown}>
-        Category breakdown
-        {showBreakdown ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      </h6>
-      <table className="table categories-stats">
-        <tbody
-          className={classnames({
-            hide: !showBreakdown
-          })}
-        >
-          {categoriesStats.map((stat) => {
-            const { slug, label, amount } = stat;
-            return (
-              <WeekCategory
-                key={slug}
-                slug={slug}
-                label={label}
-                amount={amount}
-                weekId={weekId}
-                carriedOvers={carriedOversByCategory[slug]}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <details>
+        <summary>Category breakdown</summary>
+        <table className="table categories-stats">
+          <tbody>
+            {categoriesStats.map((stat) => {
+              const { slug, label, amount } = stat;
+              return (
+                <WeekCategory
+                  key={slug}
+                  slug={slug}
+                  label={label}
+                  amount={amount}
+                  weekId={weekId}
+                  carriedOvers={carriedOversByCategory[slug]}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </details>
     </div>
   );
 }
