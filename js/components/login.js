@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { login } from '../actions/user';
+import React from 'https://cdn.skypack.dev/react@16';
+import { useDispatch } from 'https://cdn.skypack.dev/react-redux@7';
+import { login } from '../actions/user.js';
 
 function Login() {
   const dispatch = useDispatch();

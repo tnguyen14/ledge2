@@ -1,18 +1,18 @@
 import {
   getUniqueTransactionId,
   decorateTransaction
-} from '../util/transaction';
+} from '../util/transaction.js';
 import {
   addMerchantToCounts,
   removeMerchantFromCounts
-} from '../util/merchants';
-import { updateMerchantCounts } from './account';
+} from '../util/merchants.js';
+import { updateMerchantCounts } from './account.js';
 import {
   getTransactionsWithMerchantName,
   postTransaction,
   patchTransaction,
   deleteTransaction
-} from '../util/api';
+} from '../util/api.js';
 
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';

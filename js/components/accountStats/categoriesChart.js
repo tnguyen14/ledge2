@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'https://cdn.skypack.dev/react@16';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import {
   BarChart,
   XAxis,
@@ -8,15 +8,17 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer
-} from 'recharts';
-import Button from 'react-bootstrap/Button';
-import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import { getCategoriesTotalsStats } from '../../selectors/stats';
-import { getWeekId } from '../../selectors/week';
-import { getWeekById } from '../../selectors/transactions';
-import { TIMEZONE } from '../../util/constants';
+} from 'https://cdn.skypack.dev/recharts@1';
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { getCategoriesTotalsStats } from '../../selectors/stats.js';
+import { getWeekId } from '../../selectors/week.js';
+import { getWeekById } from '../../selectors/transactions.js';
+import { TIMEZONE } from '../../util/constants.js';
 
 // duplicate the badge and legend styles in style.scss
 const colorMaps = {

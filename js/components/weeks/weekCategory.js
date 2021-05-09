@@ -1,12 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { usd } from '@tridnguyen/money';
-import Popover from 'react-bootstrap/Popover';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import { utcToZonedTime } from 'date-fns-tz';
-import { format } from 'date-fns';
-import { ClockIcon } from '@primer/octicons-react';
-import { TIMEZONE } from '../../util/constants';
+import React from 'https://cdn.skypack.dev/react@16';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import Popover from 'https://cdn.skypack.dev/react-bootstrap@1/Popover';
+import OverlayTrigger from 'https://cdn.skypack.dev/react-bootstrap@1/OverlayTrigger';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import { TIMEZONE } from '../../util/constants.js';
 
 function WeekCategory(props) {
   const { slug, label, amount, weekId, carriedOvers = [] } = props;
@@ -50,13 +49,5 @@ function WeekCategory(props) {
     </tr>
   );
 }
-
-WeekCategory.propTypes = {
-  slug: PropTypes.string,
-  label: PropTypes.string,
-  amount: PropTypes.number,
-  weekId: PropTypes.string,
-  carriedOvers: PropTypes.array
-};
 
 export default WeekCategory;

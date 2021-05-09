@@ -1,13 +1,16 @@
-import React from 'react';
-import { render } from 'react-dom';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { Provider } from 'react-redux';
-import App from './components/App';
-import Header from './components/header';
-import reducer from './reducers';
-import { BrowserRouter, Route } from 'react-router-dom';
+import React from 'https://cdn.skypack.dev/react@16';
+import { render } from 'https://cdn.skypack.dev/react-dom@16';
+import thunk from 'https://cdn.skypack.dev/redux-thunk@2';
+import { createStore, applyMiddleware } from 'https://cdn.skypack.dev/redux@3';
+import { composeWithDevTools } from 'https://cdn.skypack.dev/redux-devtools-extension@2';
+import { Provider } from 'https://cdn.skypack.dev/react-redux@7';
+import {
+  BrowserRouter,
+  Route
+} from 'https://cdn.skypack.dev/react-router-dom@5';
+import App from './components/App.js';
+import Header from './components/header/index.js';
+import reducer from './reducers/index.js';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 

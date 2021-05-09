@@ -2,14 +2,14 @@ import {
   RENEWING_SESSION,
   AUTHENTICATED,
   RENEWED_SESSION
-} from '../actions/user';
+} from '../actions/user.js';
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER
-} from '../actions/app';
-import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks';
-import { getWeekId } from '../selectors/week';
+} from '../actions/app.js';
+import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
+import { getWeekId } from '../selectors/week.js';
 
 const defaultState = {
   isLoading: false,

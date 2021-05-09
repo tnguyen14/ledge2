@@ -1,4 +1,4 @@
-import simpleFetch from 'simple-fetch';
+import simpleFetch from 'https://cdn.skypack.dev/simple-fetch@2';
 
 function createFetchMethod(method) {
   return function fetchMethod(idToken, url, data, opts) {

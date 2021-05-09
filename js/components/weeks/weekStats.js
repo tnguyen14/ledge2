@@ -1,15 +1,20 @@
-import React from 'react';
-import WeekCategory from './weekCategory';
-import { getCategoriesTotalsStats } from '../../selectors/stats';
-import { getWeekId } from '../../selectors/week';
-import { getWeekById } from '../../selectors/transactions';
-import { useSelector } from 'react-redux';
-import { usd } from '@tridnguyen/money';
-import { sum, average, weeklyTotal } from '../../util/calculate';
-import useToggle from '../../hooks/useToggle';
-import classnames from 'classnames';
-import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
-import { useMediaQuery } from 'react-responsive';
+import React from 'https://cdn.skypack.dev/react@16';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
+import {
+  ChevronUpIcon,
+  ChevronDownIcon
+} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import reactResponsive from 'https://cdn.skypack.dev/react-responsive@8';
+import WeekCategory from './weekCategory.js';
+import { getCategoriesTotalsStats } from '../../selectors/stats.js';
+import { getWeekId } from '../../selectors/week.js';
+import { getWeekById } from '../../selectors/transactions.js';
+import { sum, average, weeklyTotal } from '../../util/calculate.js';
+import useToggle from '../../hooks/useToggle.js';
+
+const { useMediaQuery } = reactResponsive;
 
 function WeekStats(props) {
   const { week, label } = props;

@@ -1,4 +1,4 @@
-import { loadYears } from './years';
+import { loadYears } from './years.js';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';

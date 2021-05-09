@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import Toast from 'react-bootstrap/Toast';
+import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@16';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import Toast from 'https://cdn.skypack.dev/react-bootstrap@1/Toast';
 
 function Notification() {
   const { content, title, autohide } = useSelector(

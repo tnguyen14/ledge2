@@ -1,8 +1,8 @@
-import React from 'react';
-import Carousel from 'react-bootstrap/Carousel';
-import WeeklyAverages from './weeklyAverages';
-import CategoriesChart from './categoriesChart';
-import YearAverages from './yearAverages';
+import React from 'https://cdn.skypack.dev/react@16';
+import Carousel from 'https://cdn.skypack.dev/react-bootstrap@1/Carousel';
+import WeeklyAverages from './weeklyAverages.js';
+import CategoriesChart from './categoriesChart.js';
+import YearAverages from './yearAverages.js';
 
 function AccountStats(props) {
   return (

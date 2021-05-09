@@ -1,7 +1,12 @@
-import { createSelector } from 'reselect';
-import { startOfDay, endOfDay, setISODay, format } from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
-import { WEEK_ID_FORMAT, TIMEZONE } from '../util/constants';
+import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
+import {
+  startOfDay,
+  endOfDay,
+  setISODay,
+  format
+} from 'https://cdn.skypack.dev/date-fns@2';
+import { zonedTimeToUtc } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { WEEK_ID_FORMAT, TIMEZONE } from '../util/constants.js';
 
 const getOffset = (state) => state.offset || 0;
 const getDate = (state) => state.date;

@@ -1,10 +1,10 @@
-import { LOAD_YEARS_SUCCESS } from '../actions/years';
-import { LOAD_WEEK_SUCCESS } from '../actions/weeks';
+import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
+import { LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
   REMOVE_TRANSACTION_SUCCESS
-} from '../actions/transaction';
+} from '../actions/transaction.js';
 
 export default function transactions(state = {}, action) {
   switch (action.type) {

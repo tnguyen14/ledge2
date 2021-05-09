@@ -6,8 +6,12 @@ import {
   RENEWED_SESSION,
   SCHEDULE_RENEWAL,
   LOGOUT
-} from '../actions/user';
-import { getSession, storeSession, deleteSession } from '@tridnguyen/auth';
+} from '../actions/user.js';
+import {
+  getSession,
+  storeSession,
+  deleteSession
+} from 'https://cdn.skypack.dev/@tridnguyen/auth@5';
 
 const initialState = {
   authenticated: false,

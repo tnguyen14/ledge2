@@ -1,7 +1,7 @@
-import { getTransactions } from '../util/api';
-import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week';
-import { getWeekById } from '../selectors/transactions';
-import { logout } from './user';
+import { getTransactions } from '../util/api.js';
+import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
+import { getWeekById } from '../selectors/transactions.js';
+import { logout } from './user.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';

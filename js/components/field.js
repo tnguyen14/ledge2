@@ -1,11 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { InfoIcon } from '@primer/octicons-react';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import Button from 'react-bootstrap/Button';
-import classnames from 'classnames';
-import { useMediaQuery } from 'react-responsive';
+import React from 'https://cdn.skypack.dev/react@16';
+import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import OverlayTrigger from 'https://cdn.skypack.dev/react-bootstrap@1/OverlayTrigger';
+import Tooltip from 'https://cdn.skypack.dev/react-bootstrap@1/Tooltip';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
+import reactResponsive from 'https://cdn.skypack.dev/react-responsive@8';
+const { useMediaQuery } = reactResponsive;
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -129,22 +128,5 @@ function Field(props) {
     </div>
   );
 }
-
-Field.propTypes = {
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  name: PropTypes.string,
-  hint: PropTypes.string,
-  attributes: PropTypes.object,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array,
-  placeholder: PropTypes.string,
-  datalist: PropTypes.array,
-  handleChange: PropTypes.func.isRequired,
-  inputRef: PropTypes.func,
-  // allow either a text or a react component to be passed as afterButton
-  afterButton: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  afterButtonAction: PropTypes.func
-};
 
 export default Field;

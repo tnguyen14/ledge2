@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Button from 'react-bootstrap/Button';
-import { showMore } from '../../actions/weeks';
-import { setFilter } from '../../actions/app';
-import Week from './week';
-import Field from '../field';
-import PulseLoader from 'react-spinners/PulseLoader';
-import { getWeeks } from '../../selectors/transactions';
+import React, { useState } from 'https://cdn.skypack.dev/react@16';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
+import { showMore } from '../../actions/weeks.js';
+import { setFilter } from '../../actions/app.js';
+import Week from './week.js';
+import Field from '../field.js';
+import PulseLoader from 'https://cdn.skypack.dev/react-spinners@0/PulseLoader';
+import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
   const dispatch = useDispatch();

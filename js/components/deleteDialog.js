@@ -1,9 +1,11 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import { CANCEL_REMOVE_TRANSACTION } from '../actions/account';
-import { removeTransaction } from '../actions/transaction';
+import React from 'https://cdn.skypack.dev/react@16';
+import Modal from 'https://cdn.skypack.dev/react-bootstrap@1/Modal.js';
+import {
+  useDispatch,
+  useSelector
+} from 'https://cdn.skypack.dev/react-redux@7';
+import { CANCEL_REMOVE_TRANSACTION } from '../actions/account.js';
+import { removeTransaction } from '../actions/transaction.js';
 
 function DeleteDialog(props) {
   const isRemovingTransaction = useSelector(
