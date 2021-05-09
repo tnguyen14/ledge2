@@ -35,11 +35,13 @@
   },
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
+    "@babel/cli": "^7.13.16",
     "@babel/core": "^7.9.6",
     "@babel/plugin-transform-runtime": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "babel-plugin-recharts": "^1.2.1",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-polyfill": "^6.26.0",
     "babelify": "^10.0.0",
     "browserify": "^16.2.3",

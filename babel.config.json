@@ -1,4 +1,6 @@
 {
 	"presets": ["@babel/preset-react"],
-	"plugins": ["recharts"]
+	"plugins": [["transform-inline-environment-variables", {
+		"include": ["NODE_ENV", "SERVER_URL"]
+	}], "recharts"]
 }
