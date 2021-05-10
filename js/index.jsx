@@ -1,5 +1,5 @@
-import React from 'https://cdn.skypack.dev/react@16';
-import { render } from 'https://cdn.skypack.dev/react-dom@16';
+import React from 'https://cdn.skypack.dev/react@17';
+import { render } from 'https://cdn.skypack.dev/react-dom@17';
 import thunk from 'https://cdn.skypack.dev/redux-thunk@2';
 import { createStore, applyMiddleware } from 'https://cdn.skypack.dev/redux@3';
 import { composeWithDevTools } from 'https://cdn.skypack.dev/redux-devtools-extension@2';
