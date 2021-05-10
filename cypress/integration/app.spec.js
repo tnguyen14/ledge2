@@ -187,7 +187,6 @@ describe('Ledge', () => {
   it('Update a transaction - amount', () => {
     cy.contains('Finished loading transactions', { timeout: 15000 });
     cy.log('Update amount of first transaction of second week');
-    cy.get(secondWeek).scrollIntoView();
     cy.get(`${secondWeek} ${firstTransaction} [data-field=amount]`).then(
       ($amount) => {
         const amount = fromUsd($amount.text());
@@ -196,6 +195,7 @@ describe('Ledge', () => {
           ($average) => {
             const sum = Number($average.data('sum'));
             cy.log(`sum of 4 weeks ${sum}`);
+            cy.get(secondWeek).scrollIntoView();
             cy.get(
               `${secondWeek} ${firstTransaction} [data-field=action] .edit`
             ).click();
