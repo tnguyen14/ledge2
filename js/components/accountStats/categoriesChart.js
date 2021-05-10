@@ -7,6 +7,7 @@ import {
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import ChartBar from './chartBar.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import { getWeekId } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
@@ -34,13 +35,18 @@ function CategoriesChart() {
         transactions: week.transactions,
         categories
       });
-      const weekData = {
-        weekStart: format(utcToZonedTime(week.start, TIMEZONE), 'MMM d')
+      const label = format(utcToZonedTime(week.start, TIMEZONE), 'MMM d');
+      const categoryTotals = stats.reduce((totals, stat) => {
+        totals[stat.slug] = {
+          ...stat
+        };
+        return totals;
+      }, {});
+      return {
+        ...week,
+        categoryTotals,
+        label
       };
-      stats.forEach((stat) => {
-        weekData[stat.slug] = stat.amount;
-      });
-      return weekData;
     });
 
   return (
@@ -72,29 +78,18 @@ function CategoriesChart() {
       <div className="chart">
         {weeks.map((week) => {
           return (
-            <div class="week-column">
-              {categories.map((cat) => {
-                // make bar-piece a child of data-cat to use styles
-                // defined in style.css
-                return (
-                  <div data-cat={cat.slug}>
-                    <div
-                      className="bar-piece"
-                      style={{
-                        height: `${(week[cat.slug] / 100) * HEIGHT_FACTOR}px`
-                      }}
-                    ></div>
-                  </div>
-                );
-              })}
-            </div>
+            <ChartBar
+              categories={categories}
+              week={week}
+              heightFactor={HEIGHT_FACTOR}
+            />
           );
         })}
       </div>
       <div className="spacer"></div>
       <div className="x-axis">
         {weeks.map((week) => {
-          return <div class="week-label">{week.weekStart}</div>;
+          return <div class="week-label">{week.label}</div>;
         })}
       </div>
     </div>
