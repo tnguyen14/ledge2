@@ -13,10 +13,10 @@
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
-    "css": "postcss -o dist/style.css css/style.css",
+    "css": "postcss --dir dist css",
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel js --out-dir dist/js",
-    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri babel js --out-dir dist/js --watch",
+    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri npm run js -- --watch",
     "test": "jest && cypress run",
     "test:open": "cypress open",
     "test:production": "CYPRESS_SERVER_URL=https://lists.cloud.tridnguyen.com/ledge/tri CYPRESS_BASE_URL=https://tridnguyen.com/ledge cypress run --record"
@@ -48,7 +48,6 @@
     "lint-staged": "^10.1.1",
     "postcss": "^7.0.5",
     "postcss-cli": "^7.1.1",
-    "postcss-import": "^12.0.0",
     "postcss-nested": "^4.1.0",
     "prettier": "^2.0.4"
   },
