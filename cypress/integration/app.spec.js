@@ -2,7 +2,7 @@ import { usd, fromUsd, fromCents } from '@tridnguyen/money';
 import slugify from '@tridnguyen/slugify';
 import { format } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
-import { TIMEZONE, DISPLAY_DAY_FORMAT } from '../../js/util/constants';
+import { TIMEZONE, DISPLAY_DAY_FORMAT } from '../../src/util/constants';
 
 // selectors
 const accountStats = '.account-stats';
