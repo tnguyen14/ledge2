@@ -14,7 +14,7 @@ const getDate = (state) => state.date;
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
   startOfDay(
     setISODay(
-      zonedTimeToUtc(date ? new Date(date) : new Date(), TIMEZONE),
+      date ? new Date(date) : zonedTimeToUtc(new Date(), TIMEZONE),
       1 + offset * 7
     )
   )
