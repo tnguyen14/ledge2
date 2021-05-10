@@ -8,12 +8,12 @@ import {
   useHistory,
   useLocation
 } from 'https://cdn.skypack.dev/react-router-dom@5';
-import Form from './form.js';
-import AccountStats from './accountStats/index.js';
-import Weeks from './weeks/index.js';
-import DeleteDialog from './deleteDialog.js';
-import Login from './login.js';
-import Notification from './notification.js';
+import Form from './Form.js';
+import AccountStats from './AccountStats/index.js';
+import Weeks from './Weeks/index.js';
+import DeleteDialog from './DeleteDialog.js';
+import Login from './Login.js';
+import Notification from './Notification.js';
 import { handleAuthentication } from '../actions/user.js';
 import { loadAccount } from '../actions/account.js';
 import { loadTransactions } from '../actions/app.js';

@@ -7,7 +7,7 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
-import Field from '../components/field.js';
+import Field from './Field.js';
 import {
   INPUT_CHANGE,
   RESET_FORM,

@@ -1,7 +1,7 @@
 import React from 'https://cdn.skypack.dev/react@16';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import WeekCategory from './weekCategory.js';
+import WeekCategory from './WeekCategory.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import { getWeekId } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';

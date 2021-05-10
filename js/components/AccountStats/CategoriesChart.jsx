@@ -7,7 +7,7 @@ import {
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import ChartBar from './chartBar.js';
+import ChartBar from './ChartBar.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import { getWeekId } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';

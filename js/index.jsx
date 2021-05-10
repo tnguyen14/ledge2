@@ -9,7 +9,7 @@ import {
   Route
 } from 'https://cdn.skypack.dev/react-router-dom@5';
 import App from './components/App.js';
-import Header from './components/header/index.js';
+import Header from './components/Header/index.js';
 import reducer from './reducers/index.js';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

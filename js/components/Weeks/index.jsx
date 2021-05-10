@@ -5,8 +5,8 @@ import {
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { showMore } from '../../actions/weeks.js';
 import { setFilter } from '../../actions/app.js';
-import Week from './week.js';
-import Field from '../field.js';
+import Week from './Week.js';
+import Field from '../Field.js';
 import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { getWeeks } from '../../selectors/transactions.js';
 

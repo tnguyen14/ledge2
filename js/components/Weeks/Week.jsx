@@ -9,8 +9,8 @@ import {
   EDIT_TRANSACTION
 } from '../../actions/account.js';
 import { sortTransactions } from '../../util/transaction.js';
-import Transaction from './transaction.js';
-import WeekStats from './weekStats.js';
+import Transaction from './Transaction.js';
+import WeekStats from './WeekStats.js';
 
 function editTransaction(transaction) {
   return {

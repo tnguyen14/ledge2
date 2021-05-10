@@ -2,9 +2,9 @@ import React, { useState } from 'https://cdn.skypack.dev/react@16';
 import Tabs from 'https://cdn.skypack.dev/@material-ui/core@4/Tabs';
 import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';
-import WeeklyAverages from './weeklyAverages.js';
-import CategoriesChart from './categoriesChart.js';
-import YearAverages from './yearAverages.js';
+import WeeklyAverages from './WeeklyAverages.js';
+import CategoriesChart from './CategoriesChart.js';
+import YearAverages from './YearAverages.js';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
