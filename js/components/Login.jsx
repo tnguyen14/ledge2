@@ -1,14 +1,15 @@
 import React from 'https://cdn.skypack.dev/react@16';
 import { useDispatch } from 'https://cdn.skypack.dev/react-redux@7';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { login } from '../actions/user.js';
 
 function Login() {
   const dispatch = useDispatch();
   return (
     <div className="login">
-      <button className="btn" onClick={() => dispatch(login())}>
+      <Button onClick={() => dispatch(login())}>
         Log In
-      </button>
+      </Button>
     </div>
   );
 }

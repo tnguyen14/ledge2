@@ -7,6 +7,7 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Field from './Field.js';
 import {
   INPUT_CHANGE,
@@ -138,21 +139,21 @@ function Form(props) {
         );
       })}
       <div className="actions">
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="primary"
           type="submit"
           onClick={submitForm}
           {...buttonAttrs}
         >
           {action}
-        </button>
-        <button
-          className="btn btn-outline-secondary"
+        </Button>
+        <Button
+          variant="outline-secondary"
           onClick={() => dispatch(resetForm())}
           {...buttonAttrs}
         >
           Reset
-        </button>
+        </Button>
       </div>
     </form>
   );

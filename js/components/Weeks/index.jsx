@@ -3,11 +3,12 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { showMore } from '../../actions/weeks.js';
 import { setFilter } from '../../actions/app.js';
 import Week from './Week.js';
 import Field from '../Field.js';
-import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
@@ -19,12 +20,12 @@ function Weeks(props) {
   return (
     <div className="transactions">
       <div className="top-actions">
-        <button
-          className="btn btn-primary"
+        <Button
+          variant="primary"
           onClick={() => dispatch(showMore(true))}
         >
           Look Ahead
-        </button>
+        </Button>
         <Field
           type="text"
           value={filter}
@@ -46,12 +47,12 @@ function Weeks(props) {
             return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
-      <button
-        className="btn btn-success"
+      <Button
+        variant="success"
         onClick={() => dispatch(showMore(false))}
       >
         Show More
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'https://cdn.skypack.dev/react@17';
 import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
@@ -87,8 +88,8 @@ function Field(props) {
         {inputEl}
         {afterButton && (
           <div className="input-group-append">
-            <button
-              className="btn btn-outline-secondary"
+            <Button
+              variant="outline-secondary"
               tabIndex={tabindex}
               onClick={() => {
                 if (afterButtonAction) {
@@ -97,7 +98,7 @@ function Field(props) {
               }}
             >
               {afterButton}
-            </button>
+            </Button>
           </div>
         )}
         {datalist && (
