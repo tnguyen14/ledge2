@@ -242,7 +242,7 @@ describe('Ledge', () => {
           cy.log(`Old merchant is ${oldMerchant}`);
           cy.get(
             `${secondWeek} ${secondTransaction} [data-field=action] .edit`
-          ).click({ timeout: 6000 });
+          ).click();
           cy.get(submitButton).contains('update');
           cy.get(merchantField).clear().type(newMerchant);
           cy.get(submitButton).click();
@@ -304,7 +304,7 @@ describe('Ledge', () => {
                 const sum = Number($average.data('sum'));
                 cy.get(
                   `${secondWeek} ${secondTransaction} [data-field=action] .remove`
-                ).click({ timeout: 6000 });
+                ).click();
                 cy.get('.delete-dialog').should('be.visible');
                 cy.get('.delete-dialog button').contains('Delete').click();
                 cy.wait(['@deleteTransaction', '@updateAccountMeta']).then(
