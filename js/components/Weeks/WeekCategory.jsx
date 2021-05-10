@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@16';
+import React from 'https://cdn.skypack.dev/react@17';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';

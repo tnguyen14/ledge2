@@ -1,4 +1,4 @@
-import { useState } from 'https://cdn.skypack.dev/react@16';
+import { useState } from 'https://cdn.skypack.dev/react@17';
 
 export default function useToggle(defaultValue = false) {
   var [state, setState] = useState(defaultValue);

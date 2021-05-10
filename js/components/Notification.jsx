@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@16';
+import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Snackbar from 'https://cdn.skypack.dev/@material-ui/core@4/Snackbar';
 

@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@16';
+import React from 'https://cdn.skypack.dev/react@17';
 import { useDispatch } from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { login } from '../actions/user.js';

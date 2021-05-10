@@ -1,4 +1,4 @@
-import React, { useEffect } from 'https://cdn.skypack.dev/react@16';
+import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
 import {
   useDispatch,
   useSelector

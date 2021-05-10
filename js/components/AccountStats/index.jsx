@@ -1,4 +1,4 @@
-import React, { useState } from 'https://cdn.skypack.dev/react@16';
+import React, { useState } from 'https://cdn.skypack.dev/react@17';
 import Tabs from 'https://cdn.skypack.dev/@material-ui/core@4/Tabs';
 import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';

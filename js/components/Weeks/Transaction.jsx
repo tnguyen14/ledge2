@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@16';
+import React from 'https://cdn.skypack.dev/react@17';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';

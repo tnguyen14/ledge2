@@ -2,7 +2,7 @@ import React, {
   useEffect,
   useRef,
   useCallback
-} from 'https://cdn.skypack.dev/react@16';
+} from 'https://cdn.skypack.dev/react@17';
 import {
   useSelector,
   useDispatch

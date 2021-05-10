@@ -1,4 +1,4 @@
-import React, { useEffect } from 'https://cdn.skypack.dev/react@16';
+import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getYearAverages } from '../../selectors/transactions.js';

@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@16';
+import React from 'https://cdn.skypack.dev/react@17';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state/hooks';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
