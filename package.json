@@ -52,7 +52,12 @@
     "postcss-nested": "^4.1.0",
     "prettier": "^2.0.4"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@tridnguyen/money": "^1.6.1",
+    "@tridnguyen/slugify": "^2.0.0",
+    "date-fns": "^2.21.3",
+    "date-fns-tz": "^1.1.4"
+  },
   "lint-staged": {
     "*.{js,json,css,scss,md}": "prettier --write"
   },
