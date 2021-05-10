@@ -1,3 +1,5 @@
+@import './UserMenu.css';
+
 .header {
   background-color: var(--color-green);
   width: 100%;

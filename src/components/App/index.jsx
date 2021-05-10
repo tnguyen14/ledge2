@@ -8,15 +8,15 @@ import {
   useHistory,
   useLocation
 } from 'https://cdn.skypack.dev/react-router-dom@5';
-import Form from './Form.js';
-import AccountStats from './AccountStats/index.js';
-import Weeks from './Weeks/index.js';
-import DeleteDialog from './DeleteDialog.js';
-import Login from './Login.js';
-import Notification from './Notification.js';
-import { handleAuthentication } from '../actions/user.js';
-import { loadAccount } from '../actions/account.js';
-import { loadTransactions } from '../actions/app.js';
+import Form from '../Form/index.js';
+import AccountStats from '../AccountStats/index.js';
+import Weeks from '../Weeks/index.js';
+import DeleteDialog from '../DeleteDialog/index.js';
+import Login from '../Login/index.js';
+import Notification from '../Notification/index.js';
+import { handleAuthentication } from '../../actions/user.js';
+import { loadAccount } from '../../actions/account.js';
+import { loadTransactions } from '../../actions/app.js';
 
 function App() {
   const dispatch = useDispatch();

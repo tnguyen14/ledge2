@@ -14,9 +14,12 @@ import {
   RESET_FORM,
   SUBMIT_TRANSACTION_FAILURE,
   SUBMIT_TRANSACTION
-} from '../actions/form.js';
-import { addTransaction, updateTransaction } from '../actions/transaction.js';
-import { logout, scheduleRenewal } from '../actions/user.js';
+} from '../../actions/form.js';
+import {
+  addTransaction,
+  updateTransaction
+} from '../../actions/transaction.js';
+import { logout, scheduleRenewal } from '../../actions/user.js';
 
 function submit() {
   return {

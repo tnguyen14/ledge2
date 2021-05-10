@@ -8,7 +8,7 @@ import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { showMore } from '../../actions/weeks.js';
 import { setFilter } from '../../actions/app.js';
 import Week from './Week.js';
-import Field from '../Field.js';
+import Field from '../Form/Field.js';
 import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
