@@ -236,14 +236,17 @@ describe('Ledge', () => {
       const newMerchant = 'Test Merchant';
       cy.contains('Finished loading transactions', { timeout: 15000 });
       cy.log('Update merchant of second transaction of second week');
-      cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView();
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
           cy.log(`Old merchant is ${oldMerchant}`);
+          cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView({
+            offset: { top: 150 }
+          });
+          cy.wait(1000);
           cy.get(
             `${secondWeek} ${secondTransaction} [data-field=action] .edit`
-          ).click();
+          ).click({ timeout: 6000 });
           cy.get(submitButton).contains('update');
           cy.get(merchantField).clear().type(newMerchant);
           cy.get(submitButton).click();
@@ -303,10 +306,13 @@ describe('Ledge', () => {
             cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
               ($average) => {
                 const sum = Number($average.data('sum'));
-                cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView();
+                cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView({
+                  offset: { top: 150 }
+                });
+                cy.wait(1000);
                 cy.get(
                   `${secondWeek} ${secondTransaction} [data-field=action] .remove`
-                ).click();
+                ).click({ timeout: 6000 });
                 cy.get('.delete-dialog').should('be.visible');
                 cy.get('.delete-dialog button').contains('Delete').click();
                 cy.wait(['@deleteTransaction', '@updateAccountMeta']).then(
