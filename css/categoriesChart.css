@@ -33,14 +33,23 @@
     .week-column {
       display: flex;
       flex-direction: column-reverse;
+      cursor: pointer;
+      padding: 0.25rem 0.25rem 0 0.25rem;
+      @media (min-width: 42.5em) {
+        padding: 0.5rem 0.5rem 0 0.5rem;
+      }
+      &.has-popup-open,
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
     }
     .bar-piece {
-      width: 15px;
+      width: 1rem;
       @media (min-width: 42.5em) {
-        width: 30px;
+        width: 2rem;
       }
       @media (min-width: 68.75em) {
-        width: 40px;
+        width: 2.5rem;
       }
     }
   }

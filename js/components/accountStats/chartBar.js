@@ -2,6 +2,7 @@ import React from 'https://cdn.skypack.dev/react@16';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state/hooks';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
@@ -15,24 +16,31 @@ function ChartBar(props) {
   // make bar-piece a child of data-cat to use styles
   // defined in style.css
   return (
-    <div class="week-column" {...bindTrigger(popupState)}>
-      {categories.map((cat) => {
-        if (!week.categoryTotals[cat.slug]) {
-          return null;
-        }
-        return (
-          <div data-cat={cat.slug}>
-            <div
-              className="bar-piece"
-              style={{
-                height: `${
-                  (week.categoryTotals[cat.slug].amount / 100) * heightFactor
-                }px`
-              }}
-            ></div>
-          </div>
-        );
-      })}
+    <>
+      <div
+        class={classnames('week-column', {
+          'has-popup-open': popupState.isOpen
+        })}
+        {...bindTrigger(popupState)}
+      >
+        {categories.map((cat) => {
+          if (!week.categoryTotals[cat.slug]) {
+            return null;
+          }
+          return (
+            <div data-cat={cat.slug}>
+              <div
+                className="bar-piece"
+                style={{
+                  height: `${
+                    (week.categoryTotals[cat.slug].amount / 100) * heightFactor
+                  }px`
+                }}
+              ></div>
+            </div>
+          );
+        })}
+      </div>
       <Popover
         {...bindPopover(popupState)}
         anchorOrigin={{
@@ -67,7 +75,7 @@ function ChartBar(props) {
           </div>
         </div>
       </Popover>
-    </div>
+    </>
   );
 }
 
