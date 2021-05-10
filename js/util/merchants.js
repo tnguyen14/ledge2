@@ -1,4 +1,4 @@
-import slugify from '@tridnguyen/slugify';
+import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 
 /**
  * @param {String} merchant name of merchant

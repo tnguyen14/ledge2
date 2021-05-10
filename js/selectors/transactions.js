@@ -1,8 +1,11 @@
-import { createSelector } from 'reselect';
-import { getYear, differenceInCalendarWeeks } from 'date-fns';
-import { sortTransactions } from '../util/transaction';
-import { sum } from '../util/calculate';
-import { getWeekStart, getWeekEnd, getWeekId } from './week';
+import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
+import {
+  getYear,
+  differenceInCalendarWeeks
+} from 'https://cdn.skypack.dev/date-fns@2';
+import { sortTransactions } from '../util/transaction.js';
+import { sum } from '../util/calculate.js';
+import { getWeekStart, getWeekEnd, getWeekId } from './week.js';
 
 const getTransactions = (state) => state.transactions;
 

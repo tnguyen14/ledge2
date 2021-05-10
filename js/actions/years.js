@@ -1,7 +1,6 @@
-import { startOfDay, setISODay, sub } from 'date-fns';
-import { getTransactions } from '../util/api';
-import { TIMEZONE } from '../util/constants';
-import { logout } from './user';
+import { startOfDay, setISODay, sub } from 'https://cdn.skypack.dev/date-fns@2';
+import { getTransactions } from '../util/api.js';
+import { logout } from './user.js';
 
 export const LOAD_YEARS_SUCCESS = 'LOAD_YEARS_SUCCESS';
 export function loadYears() {

@@ -1,4 +1,4 @@
-import { getWeekStart, getWeekEnd, getWeekId } from './week';
+import { getWeekStart, getWeekEnd, getWeekId } from './week.js';
 
 test('weekStart - Sunday night NY after midnight UTC', () => {
   const state = {

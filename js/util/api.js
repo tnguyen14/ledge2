@@ -1,7 +1,7 @@
-import qs from 'qs';
-import { getJson, postJson, patchJson, deleteJson } from './fetch';
-import { SERVER_URL } from './constants';
-import { startOfDay } from 'date-fns';
+import qs from 'https://cdn.skypack.dev/qs@6';
+import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
+import { SERVER_URL } from './constants.js';
+import { startOfDay } from 'https://cdn.skypack.dev/date-fns@2';
 
 export async function getTransaction(idToken, id) {
   return await getJson(idToken, `${SERVER_URL}/items/${id}`);

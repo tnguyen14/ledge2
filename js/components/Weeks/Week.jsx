@@ -1,14 +1,16 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import PulseLoader from 'react-spinners/PulseLoader';
-import { format } from 'date-fns';
+import React from 'https://cdn.skypack.dev/react@17';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
-} from '../../actions/account';
-import { sortTransactions } from '../../util/transaction';
-import Transaction from './transaction';
-import WeekStats from './weekStats';
+} from '../../actions/account.js';
+import { sortTransactions } from '../../util/transaction.js';
+import Transaction from './Transaction.js';
+import WeekStats from './WeekStats.js';
 
 function editTransaction(transaction) {
   return {

@@ -1,22 +1,14 @@
-import React from 'react';
-import WeekCategory from './weekCategory';
-import { getCategoriesTotalsStats } from '../../selectors/stats';
-import { getWeekId } from '../../selectors/week';
-import { getWeekById } from '../../selectors/transactions';
-import { useSelector } from 'react-redux';
-import { usd } from '@tridnguyen/money';
-import { sum, average, weeklyTotal } from '../../util/calculate';
-import useToggle from '../../hooks/useToggle';
-import classnames from 'classnames';
-import { ChevronUpIcon, ChevronDownIcon } from '@primer/octicons-react';
-import { useMediaQuery } from 'react-responsive';
+import React from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import WeekCategory from './WeekCategory.js';
+import { getCategoriesTotalsStats } from '../../selectors/stats.js';
+import { getWeekId } from '../../selectors/week.js';
+import { getWeekById } from '../../selectors/transactions.js';
+import { sum, average, weeklyTotal } from '../../util/calculate.js';
 
 function WeekStats(props) {
   const { week, label } = props;
-  const isBigScreen = useMediaQuery({
-    query: '(min-width: 42.5em)'
-  });
-  const [showBreakdown, toggleShowBreakdown] = useToggle(isBigScreen);
   const { weekId, transactions } = week;
   const categories = useSelector((state) => state.account.categories);
   const past4Weeks = useSelector((state) => [
@@ -63,7 +55,7 @@ function WeekStats(props) {
   return (
     <div className="stats week-stats">
       {label && <h4>{label}</h4>}
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           <tr key={rawTotalId} className="stat" data-cat="raw-total">
             <td id={rawTotalId} className="stat-label">
@@ -91,31 +83,26 @@ function WeekStats(props) {
           </tr>
         </tbody>
       </table>
-      <h6 onClick={toggleShowBreakdown}>
-        Category breakdown
-        {showBreakdown ? <ChevronUpIcon /> : <ChevronDownIcon />}
-      </h6>
-      <table className="table categories-stats">
-        <tbody
-          className={classnames({
-            hide: !showBreakdown
-          })}
-        >
-          {categoriesStats.map((stat) => {
-            const { slug, label, amount } = stat;
-            return (
-              <WeekCategory
-                key={slug}
-                slug={slug}
-                label={label}
-                amount={amount}
-                weekId={weekId}
-                carriedOvers={carriedOversByCategory[slug]}
-              />
-            );
-          })}
-        </tbody>
-      </table>
+      <details>
+        <summary>Category breakdown</summary>
+        <table className="table table-borderless categories-stats">
+          <tbody>
+            {categoriesStats.map((stat) => {
+              const { slug, label, amount } = stat;
+              return (
+                <WeekCategory
+                  key={slug}
+                  slug={slug}
+                  label={label}
+                  amount={amount}
+                  weekId={weekId}
+                  carriedOvers={carriedOversByCategory[slug]}
+                />
+              );
+            })}
+          </tbody>
+        </table>
+      </details>
     </div>
   );
 }

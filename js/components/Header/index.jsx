@@ -1,5 +1,5 @@
-import React from 'react';
-import UserMenu from './userMenu';
+import React from 'https://cdn.skypack.dev/react@17';
+import UserMenu from './UserMenu.js';
 
 function Header() {
   return (

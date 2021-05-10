@@ -1,5 +1,5 @@
-import { createSelector } from 'reselect';
-import { sum, average } from '../util/calculate';
+import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
+import { sum, average } from '../util/calculate.js';
 
 const getTransactions = (state) => state.transactions;
 
@@ -10,7 +10,7 @@ export const getCategoriesTotalsStats = createSelector(
   getCategories,
   (transactions, categories) => {
     // calculate total for each category
-    const totals = categories
+    return categories
       .map((cat) => {
         const categoryTransactions = transactions.filter(
           (t) => t.category == cat.slug
@@ -27,6 +27,5 @@ export const getCategoriesTotalsStats = createSelector(
       .sort((a, b) => {
         return b.amount - a.amount;
       });
-    return totals;
   }
 );

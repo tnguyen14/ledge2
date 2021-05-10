@@ -1,11 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { InfoIcon } from '@primer/octicons-react';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import Button from 'react-bootstrap/Button';
-import classnames from 'classnames';
-import { useMediaQuery } from 'react-responsive';
+import React, { useRef, useEffect } from 'https://cdn.skypack.dev/react@17';
+import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
@@ -25,9 +21,7 @@ function Field(props) {
     afterButtonAction,
     tabindex = 0
   } = props;
-  const isSmallScreen = useMediaQuery({
-    query: '(max-width: 42.5em)'
-  });
+
   let inputEl;
   if (inputTypes.includes(type)) {
     inputEl = (
@@ -82,25 +76,14 @@ function Field(props) {
   }
   return (
     <div className="form-group" data-form-name={name}>
-      <label
-        className={classnames('control-label', {
-          'sr-only': isSmallScreen
-        })}
-      >
-        {label}
-      </label>
+      <label className="control-label">{label}</label>
       <div className="input-group">
         {hint && (
-          <OverlayTrigger
-            placement="top"
-            overlay={<Tooltip id={`${name}-hint`}>{hint}</Tooltip>}
-          >
-            <div className="input-group-prepend hint">
-              <div className="input-group-text">
-                <InfoIcon />
-              </div>
+          <Tooltip title={hint}>
+            <div className="input-group-text hint">
+              <InfoIcon />
             </div>
-          </OverlayTrigger>
+          </Tooltip>
         )}
         {inputEl}
         {afterButton && (
@@ -129,22 +112,5 @@ function Field(props) {
     </div>
   );
 }
-
-Field.propTypes = {
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  name: PropTypes.string,
-  hint: PropTypes.string,
-  attributes: PropTypes.object,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array,
-  placeholder: PropTypes.string,
-  datalist: PropTypes.array,
-  handleChange: PropTypes.func.isRequired,
-  inputRef: PropTypes.func,
-  // allow either a text or a react component to be passed as afterButton
-  afterButton: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  afterButtonAction: PropTypes.func
-};
 
 export default Field;

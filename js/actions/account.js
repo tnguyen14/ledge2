@@ -1,5 +1,5 @@
-import { getAccount, patchAccount } from '../util/api';
-import { logout } from './user';
+import { getAccount, patchAccount } from '../util/api.js';
+import { logout } from './user.js';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 

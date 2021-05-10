@@ -1,4 +1,4 @@
-import { createAuth } from '@tridnguyen/auth';
+import { createAuth } from 'https://cdn.skypack.dev/@tridnguyen/auth@5';
 
 const auth = createAuth();
 

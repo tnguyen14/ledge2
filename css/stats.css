@@ -1,13 +1,14 @@
-.week-stats {
-  @media (min-width: 68.75em) {
-    width: 35%;
-  }
-}
-
 .account-stats {
   width: 100%;
+  margin: 2rem 0;
   @media (min-width: 68.75em) {
     width: 50%;
+  }
+  .tab-content {
+    margin-top: 1rem;
+  }
+  .MuiTabs-indicator {
+    background-color: var(--color-green);
   }
 }
 .stats {
@@ -22,12 +23,6 @@
     @media (min-width: 68.75em) {
       width: 100%;
     }
-  }
-  &.account-stats {
-    margin-top: 2rem;
-  }
-  &.carousel {
-    padding-bottom: 1.5rem; /* carousel indicators is an ol with margin-bottom of 1rem (set in _reboot.scss) */
   }
 }
 

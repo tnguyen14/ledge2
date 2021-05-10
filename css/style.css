@@ -7,7 +7,6 @@
 @import './weeks.css';
 @import './week.css';
 @import './transaction.css';
-@import './deleteDialog.css';
 @import './notification.css';
 @import './categoriesChart.css';
 
@@ -48,8 +47,10 @@ a:not([href]) {
 
 .span-hint {
   color: #212529; /* bootstrap body color */
-  cursor: help;
-  margin-left: 0.5em;
+  margin: 0 0.5em;
+  svg {
+    cursor: help;
+  }
 }
 
 .legend {
@@ -61,7 +62,8 @@ a:not([href]) {
 }
 
 .badge,
-.legend {
+.legend,
+.bar-piece {
   [data-cat='dineout'] & {
     background-color: var(--color-purple);
   }
@@ -124,4 +126,5 @@ a:not([href]) {
 
 .form-group {
   display: flex;
+  margin-bottom: 1rem;
 }

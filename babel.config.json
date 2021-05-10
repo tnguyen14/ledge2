@@ -1,0 +1,11 @@
+{
+  "presets": ["@babel/preset-react"],
+  "plugins": [
+    [
+      "transform-inline-environment-variables",
+      {
+        "include": ["SERVER_URL"]
+      }
+    ]
+  ]
+}

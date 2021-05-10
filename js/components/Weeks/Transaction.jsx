@@ -1,19 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import Badge from 'react-bootstrap/Badge';
-import { usd } from '@tridnguyen/money';
-import classnames from 'classnames';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import { PencilIcon, XIcon, ClockIcon } from '@primer/octicons-react';
-import useToggle from '../../hooks/useToggle';
+import React from 'https://cdn.skypack.dev/react@17';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
+import {
+  PencilIcon,
+  XIcon,
+  ClockIcon
+} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
+import useToggle from '../../hooks/useToggle.js';
 import {
   TIMEZONE,
   DISPLAY_DATE_FORMAT,
   DISPLAY_DAY_FORMAT
-} from '../../util/constants';
+} from '../../util/constants.js';
 
 function getValueFromOptions(options, slug) {
   let option = options.find((opt) => opt.slug === slug);
@@ -24,8 +26,6 @@ function getValueFromOptions(options, slug) {
 
 function Transaction(props) {
   const [active, toggleActive] = useToggle(false);
-  const [showDateHint, toggleDateHint] = useToggle(false);
-
   const {
     id,
     date,
@@ -44,6 +44,7 @@ function Transaction(props) {
   const displayDay = format(dateInZone, DISPLAY_DAY_FORMAT);
   return (
     <tr
+      id={id}
       className={classnames('transaction', {
         'table-active': active
       })}
@@ -52,26 +53,19 @@ function Transaction(props) {
       data-date={date}
     >
       <td data-field="day">
-        <OverlayTrigger
-          overlay={<Tooltip id={`${id}-date`}>{displayDate}</Tooltip>}
-        >
+        <Tooltip title={displayDate}>
           <span>{displayDay}</span>
-        </OverlayTrigger>
+        </Tooltip>
       </td>
       <td data-field="merchant">{merchant}</td>
       <td data-field="amount" data-cat={category}>
         <Badge pill>{usd(amount)}</Badge>
         {span > 1 ? (
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              <Tooltip id={`${id}-span-hint`}>Span {span} weeks</Tooltip>
-            }
-          >
+          <Tooltip title={`Span ${span} weeks`}>
             <span className="span-hint">
               <ClockIcon />
             </span>
-          </OverlayTrigger>
+          </Tooltip>
         ) : null}
       </td>
       <td data-field="source">
@@ -92,22 +86,5 @@ function Transaction(props) {
     </tr>
   );
 }
-
-Transaction.propTypes = {
-  id: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  merchant: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  span: PropTypes.number.isRequired,
-  source: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  handleEdit: PropTypes.func.isRequired,
-  handleRemove: PropTypes.func.isRequired,
-  options: PropTypes.shape({
-    categories: PropTypes.array,
-    sources: PropTypes.array
-  })
-};
 
 export default Transaction;

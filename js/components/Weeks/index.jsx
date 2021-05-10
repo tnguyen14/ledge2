@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Button from 'react-bootstrap/Button';
-import { showMore } from '../../actions/weeks';
-import { setFilter } from '../../actions/app';
-import Week from './week';
-import Field from '../field';
-import PulseLoader from 'react-spinners/PulseLoader';
-import { getWeeks } from '../../selectors/transactions';
+import React, { useState } from 'https://cdn.skypack.dev/react@17';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
+import { showMore } from '../../actions/weeks.js';
+import { setFilter } from '../../actions/app.js';
+import Week from './Week.js';
+import Field from '../Field.js';
+import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
   const dispatch = useDispatch();
@@ -17,7 +20,12 @@ function Weeks(props) {
   return (
     <div className="transactions">
       <div className="top-actions">
-        <Button onClick={() => dispatch(showMore(true))}>Look Ahead</Button>
+        <Button
+          variant="primary"
+          onClick={() => dispatch(showMore(true))}
+        >
+          Look Ahead
+        </Button>
         <Field
           type="text"
           value={filter}
@@ -29,7 +37,7 @@ function Weeks(props) {
         />
       </div>
       <div className="transactions-loading">
-        <PulseLoader loading={isLoading} />
+        {isLoading && <Spinner animation="border" variant="success" />}
       </div>
       <div className="weeks">
         {Object.keys(weeks)
@@ -39,7 +47,10 @@ function Weeks(props) {
             return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
-      <Button variant="success" onClick={() => dispatch(showMore(false))}>
+      <Button
+        variant="success"
+        onClick={() => dispatch(showMore(false))}
+      >
         Show More
       </Button>
     </div>

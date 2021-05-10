@@ -87,6 +87,7 @@
     }
   }
   .week-stats {
+    margin-bottom: 1rem;
     width: 100%;
     @media (min-width: 68.75em) {
       width: 35%;
@@ -99,16 +100,25 @@
       }
     }
     .categories-stats {
-      tbody {
-        &.hide {
-          display: none;
-        }
+      margin-top: 0.75rem;
+      td {
+        padding: 0.75rem;
       }
     }
   }
   .stat {
-    .stat-label.carried-over {
-      cursor: help;
+    details {
+      display: inline-block;
+      position: relative;
+      ul {
+        position: absolute;
+        z-index: 1;
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 0.3rem;
+        padding: 1rem 0.75rem 1rem 2rem;
+        width: max-content;
+      }
     }
     &[data-cat='total'] .legend {
       display: none;

@@ -1,15 +1,22 @@
-import React, { useEffect, useRef, useCallback } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import Button from 'react-bootstrap/Button';
-import Field from '../components/field';
+import React, {
+  useEffect,
+  useRef,
+  useCallback
+} from 'https://cdn.skypack.dev/react@17';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
+import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Field from './Field.js';
 import {
   INPUT_CHANGE,
   RESET_FORM,
   SUBMIT_TRANSACTION_FAILURE,
   SUBMIT_TRANSACTION
-} from '../actions/form';
-import { addTransaction, updateTransaction } from '../actions/transaction';
-import { logout, scheduleRenewal } from '../actions/user';
+} from '../actions/form.js';
+import { addTransaction, updateTransaction } from '../actions/transaction.js';
+import { logout, scheduleRenewal } from '../actions/user.js';
 
 function submit() {
   return {

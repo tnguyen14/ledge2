@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { usePageVisibility } from 'react-page-visibility';
-import { useHistory, useLocation } from 'react-router-dom';
-import Form from './form';
-import AccountStats from './accountStats';
-import Weeks from './weeks';
-import DeleteDialog from './deleteDialog';
-import Login from './login';
-import Notification from './notification';
-import { handleAuthentication } from '../actions/user';
-import { loadAccount } from '../actions/account';
-import { loadTransactions } from '../actions/app';
+import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
+import {
+  useDispatch,
+  useSelector
+} from 'https://cdn.skypack.dev/react-redux@7';
+import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+import {
+  useHistory,
+  useLocation
+} from 'https://cdn.skypack.dev/react-router-dom@5';
+import Form from './Form.js';
+import AccountStats from './AccountStats/index.js';
+import Weeks from './Weeks/index.js';
+import DeleteDialog from './DeleteDialog.js';
+import Login from './Login.js';
+import Notification from './Notification.js';
+import { handleAuthentication } from '../actions/user.js';
+import { loadAccount } from '../actions/account.js';
+import { loadTransactions } from '../actions/app.js';
 
 function App() {
   const dispatch = useDispatch();

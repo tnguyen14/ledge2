@@ -1,5 +1,5 @@
-import { toCents } from '@tridnguyen/money';
-import { getTransaction } from './api';
+import { toCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { getTransaction } from './api.js';
 
 /**
  * Generate a unique transaction ID based on current timestamp

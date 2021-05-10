@@ -1,18 +1,18 @@
-import React from 'react';
-import { format } from 'date-fns';
-import { ZapIcon } from '@primer/octicons-react';
-import { fromCents } from '@tridnguyen/money';
+import React from 'https://cdn.skypack.dev/react@17';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
   SUBMIT_TRANSACTION_FAILURE,
   RESET_FORM
-} from '../actions/form';
+} from '../actions/form.js';
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS
-} from '../actions/transaction';
-import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account';
+} from '../actions/transaction.js';
+import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
 
 const dateFormat = 'yyyy-MM-dd';
 const timeFormat = 'HH:mm';

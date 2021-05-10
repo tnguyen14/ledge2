@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { usd } from '@tridnguyen/money';
-import { getYearAverages } from '../../selectors/transactions';
+import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { getYearAverages } from '../../selectors/transactions.js';
 
 function YearAverages(props) {
   const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
   const averages = useSelector(getYearAverages);
   return (
     <div>
-      <h4>Weekly Averages - Past {yearsToLoad} Years</h4>
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           {averages.map((average) => (
             <tr className="stat" key={average.year}>

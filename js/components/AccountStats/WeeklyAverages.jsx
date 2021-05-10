@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { usd } from '@tridnguyen/money';
-import { format } from 'date-fns';
-import { utcToZonedTime } from 'date-fns-tz';
-import { average, weeklyTotal } from '../../util/calculate';
-import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week';
-import { getWeekById } from '../../selectors/transactions';
-import { TIMEZONE } from '../../util/constants';
+import React from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { average, weeklyTotal } from '../../util/calculate.js';
+import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
+import { getWeekById } from '../../selectors/transactions.js';
+import { TIMEZONE } from '../../util/constants.js';
 
 function WeeklyAverages(props) {
   const transactions = useSelector((state) => state.transactions);
@@ -43,8 +43,7 @@ function WeeklyAverages(props) {
 
   return (
     <div className="averages">
-      <h4>Weekly Averages</h4>
-      <table className="table">
+      <table className="table table-borderless">
         <tbody>
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>

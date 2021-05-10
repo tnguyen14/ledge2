@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import classNames from 'classnames';
-import { format } from 'date-fns';
-import { logout } from '../../actions/user';
+import React, { useState } from 'https://cdn.skypack.dev/react@17';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
+import classNames from 'https://cdn.skypack.dev/classnames@2';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { logout } from '../../actions/user.js';
 
 function UserMenu(props) {
   const dispatch = useDispatch();
