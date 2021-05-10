@@ -195,7 +195,7 @@ describe('Ledge', () => {
           ($average) => {
             const sum = Number($average.data('sum'));
             cy.log(`sum of 4 weeks ${sum}`);
-            cy.get(secondWeek).scrollIntoView();
+            cy.get(`${secondWeek} ${firstTransaction}`).scrollIntoView();
             cy.get(
               `${secondWeek} ${firstTransaction} [data-field=action] .edit`
             ).click();
@@ -236,7 +236,7 @@ describe('Ledge', () => {
       const newMerchant = 'Test Merchant';
       cy.contains('Finished loading transactions', { timeout: 15000 });
       cy.log('Update merchant of second transaction of second week');
-      cy.get(secondWeek).scrollIntoView();
+      cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView();
       cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`).then(
         ($merchant) => {
           const oldMerchant = $merchant.text();
@@ -255,8 +255,6 @@ describe('Ledge', () => {
               'merchant',
               newMerchant
             );
-
-            cy.get(secondWeek).scrollIntoView();
 
             cy.get(
               `${secondWeek} ${secondTransaction} [data-field=merchant]`
@@ -305,6 +303,7 @@ describe('Ledge', () => {
             cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
               ($average) => {
                 const sum = Number($average.data('sum'));
+                cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView();
                 cy.get(
                   `${secondWeek} ${secondTransaction} [data-field=action] .remove`
                 ).click();
