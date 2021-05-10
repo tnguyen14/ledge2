@@ -65,8 +65,8 @@ export default function app(state = defaultState, action) {
         lastRefreshed: new Date().valueOf(),
         notification: {
           title: 'App',
-          content: `Finished loading transactions`,
-          autohide: 5000
+          content: 'Finished loading transactions',
+          autohide: 3000
         }
       };
     case SET_FILTER:
