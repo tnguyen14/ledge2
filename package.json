@@ -54,7 +54,7 @@
   },
   "dependencies": {},
   "lint-staged": {
-    "*.{js,css,scss,md}": "prettier --write"
+    "*.{js,json,css,scss,md}": "prettier --write"
   },
   "prettier": {
     "trailingComma": "none",
