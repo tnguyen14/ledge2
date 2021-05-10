@@ -20,10 +20,7 @@ function Weeks(props) {
   return (
     <div className="transactions">
       <div className="top-actions">
-        <Button
-          variant="primary"
-          onClick={() => dispatch(showMore(true))}
-        >
+        <Button variant="primary" onClick={() => dispatch(showMore(true))}>
           Look Ahead
         </Button>
         <Field
@@ -47,10 +44,7 @@ function Weeks(props) {
             return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
-      <Button
-        variant="success"
-        onClick={() => dispatch(showMore(false))}
-      >
+      <Button variant="success" onClick={() => dispatch(showMore(false))}>
         Show More
       </Button>
     </div>

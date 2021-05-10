@@ -15,7 +15,7 @@
     "static": "mkdir -p dist && cp -R static/* dist",
     "css": "postcss --dir dist css",
     "css:watch": "npm run css -- --watch --poll --verbose",
-    "js": "babel js --out-dir dist/js",
+    "js": "babel src --out-dir dist",
     "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri npm run js -- --watch",
     "test": "jest && cypress run",
     "test:open": "cypress open",

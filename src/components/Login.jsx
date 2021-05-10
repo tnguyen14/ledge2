@@ -7,9 +7,7 @@ function Login() {
   const dispatch = useDispatch();
   return (
     <div className="login">
-      <Button onClick={() => dispatch(login())}>
-        Log In
-      </Button>
+      <Button onClick={() => dispatch(login())}>Log In</Button>
     </div>
   );
 }
