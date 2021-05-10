@@ -28,7 +28,11 @@ function DeleteDialog(props) {
   }
 
   return (
-    <Dialog open={isRemovingTransaction} onClose={cancelRemoveTransaction}>
+    <Dialog
+      className="delete-dialog"
+      open={isRemovingTransaction}
+      onClose={cancelRemoveTransaction}
+    >
       <DialogTitle>Delete Transaction</DialogTitle>
       <DialogContent>
         <DialogContentText>
