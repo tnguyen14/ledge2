@@ -26,7 +26,7 @@ const submitButton = 'button[type=submit]';
 const SERVER_URL = Cypress.env('SERVER_URL');
 describe('Ledge', () => {
   beforeEach(() => {
-    cy.viewport('macbook-15');
+    cy.viewport('macbook-16');
     cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
     cy.restoreLocalStorage();
     cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
@@ -240,10 +240,6 @@ describe('Ledge', () => {
         ($merchant) => {
           const oldMerchant = $merchant.text();
           cy.log(`Old merchant is ${oldMerchant}`);
-          cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView({
-            offset: { top: 150 }
-          });
-          cy.wait(1000);
           cy.get(
             `${secondWeek} ${secondTransaction} [data-field=action] .edit`
           ).click({ timeout: 6000 });
@@ -306,10 +302,6 @@ describe('Ledge', () => {
             cy.get(`${secondWeek} ${weekStats4WeekAverageValue}`).then(
               ($average) => {
                 const sum = Number($average.data('sum'));
-                cy.get(`${secondWeek} ${secondTransaction}`).scrollIntoView({
-                  offset: { top: 150 }
-                });
-                cy.wait(1000);
                 cy.get(
                   `${secondWeek} ${secondTransaction} [data-field=action] .remove`
                 ).click({ timeout: 6000 });
