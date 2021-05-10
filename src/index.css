@@ -1,14 +1,12 @@
-@import './header.css';
-@import './app.css';
-@import './userMenu.css';
-@import './login.css';
-@import './form.css';
-@import './stats.css';
-@import './weeks.css';
-@import './week.css';
-@import './transaction.css';
-@import './notification.css';
-@import './categoriesChart.css';
+@import './components/App/index.css';
+@import './components/Header/index.css';
+@import './components/Login/index.css';
+@import './components/Form/index.css';
+@import './components/Notification/index.css';
+@import './components/AccountStats/index.css';
+@import './components/AccountStats/CategoriesChart.css';
+@import './components/Weeks/index.css';
+@import './components/Weeks/Transaction.css';
 
 /* consult https://materializecss.com/color.html */
 :root {

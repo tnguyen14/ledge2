@@ -8,7 +8,7 @@ import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { showMore } from '../../actions/weeks.js';
 import { setFilter } from '../../actions/app.js';
 import Week from './Week.js';
-import Field from '../Field.js';
+import Field from '../Form/Field.js';
 import { getWeeks } from '../../selectors/transactions.js';
 
 function Weeks(props) {
@@ -20,10 +20,7 @@ function Weeks(props) {
   return (
     <div className="transactions">
       <div className="top-actions">
-        <Button
-          variant="primary"
-          onClick={() => dispatch(showMore(true))}
-        >
+        <Button variant="primary" onClick={() => dispatch(showMore(true))}>
           Look Ahead
         </Button>
         <Field
@@ -47,10 +44,7 @@ function Weeks(props) {
             return <Week key={weekId} week={weeks[weekId]} />;
           })}
       </div>
-      <Button
-        variant="success"
-        onClick={() => dispatch(showMore(false))}
-      >
+      <Button variant="success" onClick={() => dispatch(showMore(false))}>
         Show More
       </Button>
     </div>

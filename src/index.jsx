@@ -8,7 +8,7 @@ import {
   BrowserRouter,
   Route
 } from 'https://cdn.skypack.dev/react-router-dom@5';
-import App from './components/App.js';
+import App from './components/App/index.js';
 import Header from './components/Header/index.js';
 import reducer from './reducers/index.js';
 

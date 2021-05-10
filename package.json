@@ -8,15 +8,16 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "npm run js:watch & npm run css:watch",
+    "start": "npm run clean && npm run static && npm run watch",
+    "watch": "npm run js:watch & npm run css:watch",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "clean": "rm -rf dist",
     "static": "mkdir -p dist && cp -R static/* dist",
-    "css": "postcss -o dist/style.css css/style.css",
+    "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
-    "js": "babel js --out-dir dist/js",
-    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri babel js --out-dir dist/js --watch",
+    "js": "babel src --out-dir dist",
+    "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri npm run js -- --watch",
     "test": "jest && cypress run",
     "test:open": "cypress open",
     "test:production": "CYPRESS_SERVER_URL=https://lists.cloud.tridnguyen.com/ledge/tri CYPRESS_BASE_URL=https://tridnguyen.com/ledge cypress run --record"
@@ -48,7 +49,6 @@
     "lint-staged": "^10.1.1",
     "postcss": "^7.0.5",
     "postcss-cli": "^7.1.1",
-    "postcss-import": "^12.0.0",
     "postcss-nested": "^4.1.0",
     "prettier": "^2.0.4"
   },
@@ -59,7 +59,7 @@
     "date-fns-tz": "^1.1.4"
   },
   "lint-staged": {
-    "*.{js,jsx,json,css,scss,md}": "prettier --write"
+    "*.{js,jsx,json,css,scss,html,md}": "prettier --write"
   },
   "prettier": {
     "trailingComma": "none",
