@@ -24,6 +24,7 @@
   --color-cyan: #00bcd4;
   --color-teal: #009688;
   --color-green: #4caf50;
+  --color-green-700: #388e3c;
   --color-light-green: #8bc34a;
   --color-lime: #cddc39;
   --color-yellow: #ffeb3b;
@@ -106,6 +107,9 @@ a:not([href]) {
   }
   [data-cat='travel'] & {
     background-color: var(--color-indigo);
+  }
+  [data-cat='transfer'] & {
+    background-color: var(--color-green-700);
   }
 }
 
