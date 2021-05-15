@@ -10,22 +10,27 @@ function Notification() {
   useEffect(() => {
     setShow(content != '');
   }, [content]);
+
+  function handleClose(event, reason) {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setShow(false);
+  }
   return (
-    <div aria-live="polite" aria-atomic="true" className="notification">
-      <Snackbar
-        open={show}
-        onClose={() => setShow(false)}
-        autoHideDuration={autohide}
-        message={content}
-      >
-        {/* consider using Alert and AlertTitle when they're available
-            potentially in material-ui/core@5
-        <Alert variant="outlined" severity={type}>
-          <AlertTitle>{title}</AlertTitle>
-        {content}
-        </Alert> */}
-      </Snackbar>
-    </div>
+    <Snackbar
+      open={show}
+      onClose={handleClose}
+      autoHideDuration={autohide}
+      message={content}
+    >
+      {/* consider using Alert and AlertTitle when they're available
+          potentially in material-ui/core@5
+      <Alert variant="outlined" severity={type}>
+        <AlertTitle>{title}</AlertTitle>
+      {content}
+      </Alert> */}
+    </Snackbar>
   );
 }
 
