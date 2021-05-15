@@ -4,7 +4,7 @@
   .btn {
     background-color: var(--color-light-blue-600);
     border-color: var(--color-light-blue-900);
-    color: var(--color-white-smoke);
+    color: var(--color-gray-100);
     font-size: 1.5em;
     &:hover {
       background-color: var(--color-light-blue-800);

@@ -1,5 +1,5 @@
 .transaction {
-  border-left: 5px solid var(--color-gainsboro);
+  border-left: 5px solid var(--color-gray-300);
   clear: left;
   cursor: pointer;
   @media (min-width: 42.5em) {
