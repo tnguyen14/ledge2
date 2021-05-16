@@ -16,3 +16,17 @@ cypress.env.json
 cypress/videos/
 cypress/logs/
 cypress/screenshots/
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+!debug.keystore
