@@ -30,3 +30,6 @@ buck-out/
 \.buckd/
 *.keystore
 !debug.keystore
+
+# CocoaPods
+/ios/Pods/
