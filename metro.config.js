@@ -13,9 +13,9 @@ module.exports = {
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: false,
-        inlineRequires: true,
-      },
-    }),
+        inlineRequires: true
+      }
+    })
   },
   resolver: {
     // simplistic hack to allow resolving skypack assets
@@ -23,10 +23,16 @@ module.exports = {
     resolveRequest: (context, realModuleName, platform, moduleName) => {
       let name = moduleName;
       if (moduleName.startsWith('https://')) {
-        name = moduleName.replace(/https:\/\/cdn\.skypack\.dev\//, '').replace(/@\d+/, '')
+        name = moduleName
+          .replace(/https:\/\/cdn\.skypack\.dev\//, '')
+          .replace(/@\d+/, '');
         console.log(`Replacing ${moduleName} with ${name}`);
       }
-      return Resolver.resolve({...context, resolveRequest: undefined}, name, platform)
+      return Resolver.resolve(
+        { ...context, resolveRequest: undefined },
+        name,
+        platform
+      );
     },
     nodeModulesPaths: [path.resolve('native/node_modules')]
   }
