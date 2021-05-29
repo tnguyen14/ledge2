@@ -2,9 +2,9 @@ name: Production Test
 
 on:
   workflow_dispatch:
-  schedule:
+  # schedule:
     # run test every 2 hours
-    - cron: "0 */2 * * *"
+    # - cron: "0 */2 * * *"
 
 jobs:
   test:
