@@ -5,7 +5,7 @@ import { logout } from './user.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
-function loadWeek({ offset, weekId }) {
+function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch, getState) {
     const {
       user: { idToken },
@@ -23,21 +23,17 @@ function loadWeek({ offset, weekId }) {
     }
 
     dispatch({
-      type: LOAD_WEEK,
-      data: {
-        offset
-      }
+      type: LOAD_WEEK
     });
     try {
       const transactions = await getTransactions(
         idToken,
-        getWeekStart({ offset }),
-        getWeekEnd({ offset })
+        getWeekStart({ date: weekId }),
+        getWeekEnd({ date: weekId })
       );
       dispatch({
         type: LOAD_WEEK_SUCCESS,
         data: {
-          offset,
           transactions
         }
       });
