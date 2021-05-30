@@ -14,7 +14,7 @@ function ChartBar(props) {
   });
 
   if (!week.categoryTotals) {
-    return;
+    return null;
   }
   // make bar-piece a child of data-cat to use styles
   // defined in style.css

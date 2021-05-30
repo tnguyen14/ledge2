@@ -35,7 +35,9 @@ function CategoriesChart() {
         transactions: week.transactions,
         categories
       });
-      const label = format(utcToZonedTime(week.start, TIMEZONE), 'MMM d');
+      // add a space after / to allow label to "break" to new line
+      // on small screen
+      const label = format(utcToZonedTime(week.start, TIMEZONE), 'M/ d');
       const categoryTotals = stats.reduce((totals, stat) => {
         totals[stat.slug] = {
           ...stat
