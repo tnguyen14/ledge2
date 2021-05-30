@@ -9,23 +9,27 @@ import {
   useHistory,
   useLocation
 } from 'https://cdn.skypack.dev/react-router-dom@5';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Weeks from '../Weeks/index.js';
 import DeleteDialog from '../DeleteDialog/index.js';
 import Login from '../Login/index.js';
 import Notification from '../Notification/index.js';
-import { handleAuthentication } from '../../actions/user.js';
 import { loadAccount } from '../../actions/account.js';
-import { loadTransactions, setDisplayFrom } from '../../actions/app.js';
+import {
+  loadTransactions,
+  setDisplayFrom,
+  setToken,
+  setTokenExp
+} from '../../actions/app.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function App() {
   const dispatch = useDispatch();
-  const { authenticated, isAuthenticating } = useSelector(
-    (state) => state.user
-  );
+  const { isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
+  const token = useSelector((state) => state.app.token);
 
   const yearsToLoad = [2021, 2020, 2019];
 
@@ -38,21 +42,31 @@ function App() {
     if (!isVisible) {
       return;
     }
-    dispatch(handleAuthentication());
-
-    const now = new Date();
-    dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-    // only load if authenticated and haven't been loaded in an hour
-    if (authenticated && now.valueOf() - lastRefreshed > 3600000) {
-      dispatch(loadAccount());
-      dispatch(loadTransactions(yearsToLoad));
+    if (!isAuthenticated) {
+      return;
     }
-  }, [authenticated, isVisible]);
 
-  if (isAuthenticating) {
+    (async () => {
+      const claims = await getIdTokenClaims();
+      dispatch(setToken(claims.__raw));
+      dispatch(setTokenExp(claims.exp * 1000));
+    })();
+
+    if (token) {
+      const now = new Date();
+      dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
+      // only load if haven't been loaded in an hour
+      if (now.valueOf() - lastRefreshed > 3600000) {
+        dispatch(loadAccount());
+        dispatch(loadTransactions(yearsToLoad));
+      }
+    }
+  }, [isAuthenticated, isVisible, token]);
+
+  if (isLoading) {
     return <h2 className="auth-loading">Loading...</h2>;
   }
-  if (!authenticated) {
+  if (!isAuthenticated) {
     return <Login />;
   }
   return (

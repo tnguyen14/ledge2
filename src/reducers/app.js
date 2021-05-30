@@ -1,13 +1,10 @@
 import {
-  RENEWING_SESSION,
-  AUTHENTICATED,
-  RENEWED_SESSION
-} from '../actions/user.js';
-import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER,
-  SET_DISPLAY_FROM
+  SET_DISPLAY_FROM,
+  SET_TOKEN,
+  SET_TOKEN_EXP
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import { getWeekId, getPastWeeksIds } from '../selectors/week.js';
@@ -28,23 +25,6 @@ const defaultState = {
 
 export default function app(state = defaultState, action) {
   switch (action.type) {
-    case RENEWING_SESSION:
-      return {
-        ...state,
-        notification: {
-          title: 'Authentication',
-          content: 'Renewing session...'
-        }
-      };
-    case AUTHENTICATED:
-    case RENEWED_SESSION:
-      return {
-        ...state,
-        notification: {
-          title: '',
-          content: ''
-        }
-      };
     case LOAD_TRANSACTIONS:
     case LOAD_WEEK:
       return {
@@ -78,6 +58,16 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         filter: action.data
+      };
+    case SET_TOKEN:
+      return {
+        ...state,
+        token: action.data
+      };
+    case SET_TOKEN_EXP:
+      return {
+        ...state,
+        tokenExp: action.data
       };
     case SET_DISPLAY_FROM:
       const previousVisibleWeeks = getVisibleWeeks(state.weeksMeta);

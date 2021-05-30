@@ -2,7 +2,6 @@ import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { getTransactions } from '../util/api.js';
 import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
 import { getVisibleWeeks } from '../selectors/weeks.js';
-import { logout } from './user.js';
 import { TIMEZONE } from '../util/constants.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
@@ -10,33 +9,24 @@ export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
 export function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch, getState) {
     const {
-      user: { idToken },
-      transactions
+      app: { token }
     } = getState();
 
     dispatch({
       type: LOAD_WEEK
     });
-    try {
-      const transactions = await getTransactions(
-        idToken,
-        getWeekStart({ date: weekId }),
-        getWeekEnd({ date: weekId })
-      );
-      dispatch({
-        type: LOAD_WEEK_SUCCESS,
-        data: {
-          weekId,
-          transactions
-        }
-      });
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        dispatch(logout());
-        return;
+    const transactions = await getTransactions(
+      token,
+      getWeekStart({ date: weekId }),
+      getWeekEnd({ date: weekId })
+    );
+    dispatch({
+      type: LOAD_WEEK_SUCCESS,
+      data: {
+        weekId,
+        transactions
       }
-      throw err;
-    }
+    });
   };
 }
 

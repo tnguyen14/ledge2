@@ -29,3 +29,19 @@ export function setDisplayFrom(date) {
     data: date
   };
 }
+
+export const SET_TOKEN = 'SET_TOKEN';
+export function setToken(token) {
+  return {
+    type: SET_TOKEN,
+    data: token
+  };
+}
+
+export const SET_TOKEN_EXP = 'SET_TOKEN_EXP';
+export function setTokenExp(exp) {
+  return {
+    type: SET_TOKEN_EXP,
+    data: exp
+  };
+}

@@ -1,26 +1,18 @@
 import { getAccount, patchAccount } from '../util/api.js';
-import { logout } from './user.js';
 
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 export function loadAccount() {
   return async function loadAccountAsync(dispatch, getState) {
     const {
-      user: { idToken }
+      app: { token }
     } = getState();
-    try {
-      const account = await getAccount(idToken);
-      dispatch({
-        type: LOAD_ACCOUNT_SUCCESS,
-        data: account
-      });
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        dispatch(logout());
-        return;
-      }
-      throw err;
-    }
+    const state = getState();
+    const account = await getAccount(token);
+    dispatch({
+      type: LOAD_ACCOUNT_SUCCESS,
+      data: account
+    });
   };
 }
 
@@ -34,9 +26,9 @@ const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 export function updateMerchantCounts(merchants_count) {
   return async function updateMerchantCountsAsync(dispatch, getState) {
     const {
-      user: { idToken }
+      app: { token }
     } = getState();
-    await patchAccount(idToken, {
+    await patchAccount(token, {
       merchants_count
     });
     dispatch({

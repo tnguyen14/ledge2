@@ -19,7 +19,6 @@ import {
   addTransaction,
   updateTransaction
 } from '../../actions/transaction.js';
-import { logout, scheduleRenewal } from '../../actions/user.js';
 
 function submit() {
   return {
@@ -95,13 +94,8 @@ function Form(props) {
           dispatch(addTransaction(values));
         }
       } catch (err) {
-        if (err.message == 'Unauthorized') {
-          dispatch(logout());
-          return;
-        }
         dispatch(submitFailure(err));
       }
-      dispatch(scheduleRenewal());
     },
     [action, values]
   );

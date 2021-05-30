@@ -1,19 +1,16 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import classNames from 'https://cdn.skypack.dev/classnames@2';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { logout } from '../../actions/user.js';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 
 function UserMenu(props) {
-  const dispatch = useDispatch();
   const [profileActive, setProfileActive] = useState(false);
-  const user = useSelector((state) => state.user);
-  const { authenticated, profile, expiresAt, idToken } = user;
+  const { isAuthenticated, user, logout } = useAuth0();
+  const token = useSelector((state) => state.app.token);
+  const expiresAt = useSelector((state) => state.app.tokenExp);
 
-  if (!authenticated) {
+  if (!isAuthenticated) {
     return null;
   }
   return (
@@ -23,16 +20,25 @@ function UserMenu(props) {
       })}
     >
       <img
-        src={profile.picture}
+        src={user.picture}
         onClick={() => {
           setProfileActive(!profileActive);
         }}
       />
       <ul className="profile">
-        <li>{profile.name}</li>
-        <li>Logged in until {format(new Date(expiresAt), 'hh:mm:ss a')}</li>
-        <li className="jwt-token">{idToken}</li>
-        <li className="logout" onClick={() => dispatch(logout())}>
+        <li>{user.name}</li>
+        {expiresAt && (
+          <li>Logged in until {format(new Date(expiresAt), 'hh:mm:ss a')}</li>
+        )}
+        <li className="jwt-token">{token}</li>
+        <li
+          className="logout"
+          onClick={() =>
+            logout({
+              returnTo: window.location.origin
+            })
+          }
+        >
           Log Out
         </li>
       </ul>
