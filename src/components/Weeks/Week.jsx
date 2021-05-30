@@ -10,6 +10,7 @@ import {
 } from '../../actions/account.js';
 import { loadWeek, LOAD_WEEK_SUCCESS } from '../../actions/weeks.js';
 import { sortTransactions } from '../../util/transaction.js';
+import { getWeekById } from '../../selectors/transactions.js';
 import Transaction from './Transaction.js';
 import WeekStats from './WeekStats.js';
 
@@ -29,22 +30,29 @@ function intendToRemoveTransaction(transaction) {
 
 function Week(props) {
   const dispatch = useDispatch();
-  const { week } = props;
+  const { weekId } = props;
   const categories = useSelector((state) => state.account.categories);
   const sources = useSelector((state) => state.account.sources);
   const filter = useSelector((state) => state.app.filter);
-  const weeksMeta = useSelector((state) => state.app.weeksMeta);
+  const displayFrom = useSelector((state) => state.app.displayFrom);
   const isLoading = useSelector((state) => state.app.isLoading);
-  const { weekId, transactions, start, end } = week;
+  const weekMeta = useSelector((state) => state.app.weeksMeta[weekId]);
+  const transactions = useSelector((state) => state.transactions);
+  const { transactions: weekTransactions, start, end } = getWeekById({
+    transactions,
+    weekId
+  });
 
-  const localWeekTransactions = transactions.filter((tx) => !tx.carriedOver);
+  const localWeekTransactions = weekTransactions.filter(
+    (tx) => !tx.carriedOver
+  );
 
   useEffect(() => {
     // wait for initial loadYears
     if (!isLoading) {
-      if (!weeksMeta[weekId]) {
-        // if there's transactions, mark week as loaded
-        if (localWeekTransactions.length) {
+      if (localWeekTransactions.length) {
+        // if there's no meta or meta hasn't been marked as loaded
+        if (!(weekMeta && weekMeta.loaded)) {
           dispatch({
             type: LOAD_WEEK_SUCCESS,
             data: {
@@ -53,16 +61,14 @@ function Week(props) {
           });
         }
       } else {
-        // if there's no transactions, and week hasn't been loaded,
-        // loadWeek
-        if (!localWeekTransactions.length && !weeksMeta[weekId].loaded) {
+        if (weekMeta && !weekMeta.loaded && weekMeta.visible) {
           dispatch(loadWeek({ weekId }));
         }
       }
     }
-  }, [weeksMeta]);
+  }, [weekMeta]);
 
-  if (!weeksMeta[weekId] || !weeksMeta[weekId].visible) {
+  if (!weekMeta || !weekMeta.visible) {
     return null;
   }
 
@@ -86,6 +92,10 @@ function Week(props) {
       return true;
     }
   );
+
+  if (!start || !end) {
+    return null;
+  }
 
   return (
     <div className="weekly">
@@ -128,7 +138,7 @@ function Week(props) {
           ))}
         </tbody>
       </table>
-      {filter == '' && <WeekStats week={week} />}
+      {filter == '' && <WeekStats weekId={weekId} />}
     </div>
   );
 }

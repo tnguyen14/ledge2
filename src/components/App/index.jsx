@@ -4,6 +4,7 @@ import {
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import {
   useHistory,
   useLocation
@@ -16,7 +17,8 @@ import Login from '../Login/index.js';
 import Notification from '../Notification/index.js';
 import { handleAuthentication } from '../../actions/user.js';
 import { loadAccount } from '../../actions/account.js';
-import { loadTransactions } from '../../actions/app.js';
+import { loadTransactions, setDisplayFrom } from '../../actions/app.js';
+import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -38,9 +40,10 @@ function App() {
     }
     dispatch(handleAuthentication());
 
-    const now = new Date().valueOf();
+    const now = new Date();
+    dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
     // only load if authenticated and haven't been loaded in an hour
-    if (authenticated && now - lastRefreshed > 3600000) {
+    if (authenticated && now.valueOf() - lastRefreshed > 3600000) {
       dispatch(loadAccount());
       dispatch(loadTransactions(yearsToLoad));
     }

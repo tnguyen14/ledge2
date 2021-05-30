@@ -21,3 +21,11 @@ export function setFilter(filter) {
     data: filter
   };
 }
+
+export const SET_DISPLAY_FROM = 'SET_DISPLAY_FROM';
+export function setDisplayFrom(date) {
+  return {
+    type: SET_DISPLAY_FROM,
+    data: date
+  };
+}

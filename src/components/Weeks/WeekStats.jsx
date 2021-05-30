@@ -3,34 +3,31 @@ import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import WeekCategory from './WeekCategory.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
-import { getWeekId } from '../../selectors/week.js';
+import { getWeekId, getPastWeeksIds } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { sum, average, weeklyTotal } from '../../util/calculate.js';
 
 function WeekStats(props) {
-  const { week, label } = props;
-  const { weekId, transactions } = week;
+  const { weekId, label } = props;
   const categories = useSelector((state) => state.account.categories);
-  const past4Weeks = useSelector((state) => [
-    week,
-    getWeekById({
-      ...state,
-      weekId: getWeekId({ date: week.start, offset: -1 })
-    }),
-    getWeekById({
-      ...state,
-      weekId: getWeekId({ date: week.start, offset: -2 })
-    }),
-    getWeekById({
-      ...state,
-      weekId: getWeekId({ date: week.start, offset: -3 })
-    })
-  ]);
+  const past4Weeks = useSelector((state) =>
+    getPastWeeksIds({
+      weekId,
+      numWeeks: 4
+    }).map((weekId) =>
+      getWeekById({
+        ...state,
+        weekId
+      })
+    )
+  );
 
-  const rawTotal = weeklyTotal(week);
+  const rawTotal = weeklyTotal(past4Weeks[0]);
   const rawTotalId = `raw-total-${weekId}`;
 
-  const carriedOvers = transactions.filter((tx) => tx.carriedOver);
+  const carriedOvers = past4Weeks[0].transactions.filter(
+    (tx) => tx.carriedOver
+  );
   const carriedOversByCategory = carriedOvers.reduce((txnsByCat, txn) => {
     if (!txnsByCat[txn.category]) {
       txnsByCat[txn.category] = [txn];
@@ -41,7 +38,7 @@ function WeekStats(props) {
   }, {});
 
   const categoriesStats = getCategoriesTotalsStats({
-    transactions,
+    transactions: past4Weeks[0].transactions,
     categories
   });
 

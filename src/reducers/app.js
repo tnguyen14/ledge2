@@ -6,10 +6,12 @@ import {
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
-  SET_FILTER
+  SET_FILTER,
+  SET_DISPLAY_FROM
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
-import { getWeekId } from '../selectors/week.js';
+import { getWeekId, getPastWeeksIds } from '../selectors/week.js';
+import { getVisibleWeeks } from '../selectors/weeks.js';
 
 const defaultState = {
   isLoading: false,
@@ -21,20 +23,7 @@ const defaultState = {
     type: 'info'
   },
   lastRefreshed: 0,
-  weeksMeta: {
-    [getWeekId({ date: today })]: {
-      visible: true
-    },
-    [getWeekId({ date: today, offset: -1 })]: {
-      visible: true
-    },
-    [getWeekId({ date: today, offset: -2 })]: {
-      visible: true
-    },
-    [getWeekId({ date: today, offset: -3 })]: {
-      visible: true
-    }
-  }
+  weeksMeta: {}
 };
 
 export default function app(state = defaultState, action) {
@@ -90,6 +79,30 @@ export default function app(state = defaultState, action) {
         ...state,
         filter: action.data
       };
+    case SET_DISPLAY_FROM:
+      const previousVisibleWeeks = getVisibleWeeks(state.weeksMeta);
+      // show 4 weeks by default
+      const newVisibleWeeks = getPastWeeksIds({
+        weekId: action.data,
+        numWeeks: 4
+      });
+      const newState = {
+        ...state,
+        displayFrom: action.data
+      };
+      for (let week of previousVisibleWeeks) {
+        newState.weeksMeta[week] = {
+          ...newState.weeksMeta[week],
+          visible: false
+        };
+      }
+      for (let week of newVisibleWeeks) {
+        newState.weeksMeta[week] = {
+          ...newState.weeksMeta[week],
+          visible: true
+        };
+      }
+      return newState;
     case SHOW_WEEK:
       return {
         ...state,

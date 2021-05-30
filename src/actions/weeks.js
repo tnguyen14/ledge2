@@ -1,7 +1,7 @@
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { getTransactions } from '../util/api.js';
 import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
-import { getWeekById } from '../selectors/transactions.js';
+import { getVisibleWeeks } from '../selectors/weeks.js';
 import { logout } from './user.js';
 import { TIMEZONE } from '../util/constants.js';
 
@@ -47,10 +47,10 @@ export function showMore(ahead) {
     const {
       app: { weeksMeta }
     } = getState();
-    const visibleWeeks = Object.keys(weeksMeta)
-      .filter((weekId) => weeksMeta[weekId].visible)
-      .map((weekId) => utcToZonedTime(new Date(weekId)), TIMEZONE)
-      .sort((a, b) => b - a);
+    const visibleWeeks = getVisibleWeeks(weeksMeta).map(
+      (weekId) => utcToZonedTime(new Date(weekId)),
+      TIMEZONE
+    );
 
     const data = {
       weekId: getWeekId(
