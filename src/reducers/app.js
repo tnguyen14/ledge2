@@ -3,8 +3,7 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER,
   SET_DISPLAY_FROM,
-  SET_TOKEN,
-  SET_TOKEN_EXP
+  SET_TOKEN
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import { getWeekId, getPastWeeksIds } from '../selectors/week.js';
@@ -63,11 +62,6 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         token: action.data
-      };
-    case SET_TOKEN_EXP:
-      return {
-        ...state,
-        tokenExp: action.data
       };
     case SET_DISPLAY_FROM:
       const previousVisibleWeeks = getVisibleWeeks(state.weeksMeta);

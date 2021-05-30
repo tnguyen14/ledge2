@@ -20,18 +20,20 @@ import { loadAccount } from '../../actions/account.js';
 import {
   loadTransactions,
   setDisplayFrom,
-  setToken,
-  setTokenExp
+  setToken
 } from '../../actions/app.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function App() {
   const dispatch = useDispatch();
-  const { isLoading, isAuthenticated, getIdTokenClaims } = useAuth0();
+  const {
+    isLoading,
+    isAuthenticated,
+    getIdTokenClaims,
+    getAccessTokenSilently
+  } = useAuth0();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const token = useSelector((state) => state.app.token);
-
-  const yearsToLoad = [2021, 2020, 2019];
 
   const isVisible = usePageVisibility();
 
@@ -46,19 +48,23 @@ function App() {
       return;
     }
 
+    const now = new Date();
+    // reload if haven't been loaded in an hour
+    const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
-      const claims = await getIdTokenClaims();
-      dispatch(setToken(claims.__raw));
-      dispatch(setTokenExp(claims.exp * 1000));
+      if (shouldReload) {
+        const token = await getAccessTokenSilently({
+          audience: 'https://lists.cloud.tridnguyen.com'
+        });
+        dispatch(setToken(token));
+      }
     })();
 
     if (token) {
-      const now = new Date();
       dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-      // only load if haven't been loaded in an hour
-      if (now.valueOf() - lastRefreshed > 3600000) {
+      if (shouldReload) {
         dispatch(loadAccount());
-        dispatch(loadTransactions(yearsToLoad));
+        dispatch(loadTransactions());
       }
     }
   }, [isAuthenticated, isVisible, token]);

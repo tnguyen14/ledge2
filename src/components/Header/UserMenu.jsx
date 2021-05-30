@@ -8,7 +8,6 @@ function UserMenu(props) {
   const [profileActive, setProfileActive] = useState(false);
   const { isAuthenticated, user, logout } = useAuth0();
   const token = useSelector((state) => state.app.token);
-  const expiresAt = useSelector((state) => state.app.tokenExp);
 
   if (!isAuthenticated) {
     return null;
@@ -27,9 +26,6 @@ function UserMenu(props) {
       />
       <ul className="profile">
         <li>{user.name}</li>
-        {expiresAt && (
-          <li>Logged in until {format(new Date(expiresAt), 'hh:mm:ss a')}</li>
-        )}
         <li className="jwt-token">{token}</li>
         <li
           className="logout"

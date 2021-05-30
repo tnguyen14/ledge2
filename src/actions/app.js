@@ -2,7 +2,7 @@ import { loadYears } from './years.js';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-export function loadTransactions(years) {
+export function loadTransactions() {
   return async function loadTransactionsAsync(dispatch) {
     dispatch({
       type: LOAD_TRANSACTIONS
@@ -35,13 +35,5 @@ export function setToken(token) {
   return {
     type: SET_TOKEN,
     data: token
-  };
-}
-
-export const SET_TOKEN_EXP = 'SET_TOKEN_EXP';
-export function setTokenExp(exp) {
-  return {
-    type: SET_TOKEN_EXP,
-    data: exp
   };
 }
