@@ -67,14 +67,6 @@ beforeEach(() => {
   cy.intercept('DELETE', '*', '{"success": true}');
 
   cy.visit('/');
-  cy.get('body').then(($body) => {
-    if ($body.find(loginButton).length) {
-      cy.log('Login required - performing login');
-      cy.login();
-      cy.saveLocalStorage();
-      cy.reload();
-    }
-  });
   disableSmoothScroll();
   cy.wait('@accountMeta').then((interception) => {
     cy.wrap(interception.response).as('accountMetaResponse');
