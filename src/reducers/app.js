@@ -15,16 +15,26 @@ const defaultState = {
   isLoading: false,
   filter: '',
   yearsToLoad: 3,
-  // show last 4 weeks by default
-  visibleWeeks: [...Array(4).keys()].map((offset) => ({
-    weekId: getWeekId({ offset: -offset })
-  })),
   notification: {
     content: '',
     title: '',
     type: 'info'
   },
-  lastRefreshed: 0
+  lastRefreshed: 0,
+  weeksMeta: {
+    [getWeekId({ date: today })]: {
+      visible: true
+    },
+    [getWeekId({ date: today, offset: -1 })]: {
+      visible: true
+    },
+    [getWeekId({ date: today, offset: -2 })]: {
+      visible: true
+    },
+    [getWeekId({ date: today, offset: -3 })]: {
+      visible: true
+    }
+  }
 };
 
 export default function app(state = defaultState, action) {
@@ -55,7 +65,14 @@ export default function app(state = defaultState, action) {
     case LOAD_WEEK_SUCCESS:
       return {
         ...state,
-        isLoading: false
+        isLoading: false,
+        weeksMeta: {
+          ...state.weeksMeta,
+          [action.data.weekId]: {
+            ...state.weeksMeta[action.data.weekId],
+            loaded: true
+          }
+        }
       };
     case LOAD_TRANSACTIONS_SUCCESS:
       return {
@@ -76,7 +93,13 @@ export default function app(state = defaultState, action) {
     case SHOW_WEEK:
       return {
         ...state,
-        visibleWeeks: state.visibleWeeks.concat(action.data)
+        weeksMeta: {
+          ...state.weeksMeta,
+          [action.data.weekId]: {
+            ...state.weeksMeta[action.data.weekId],
+            visible: true
+          }
+        }
       };
     default:
       return state;

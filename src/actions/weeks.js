@@ -7,22 +7,12 @@ import { TIMEZONE } from '../util/constants.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
-function loadWeek({ weekId }) {
+export function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch, getState) {
     const {
       user: { idToken },
       transactions
     } = getState();
-    const week = getWeekById({ transactions, weekId });
-    // if there are non-carriedOver transactions, assume it's been loaded
-    if (week) {
-      let existingTransactions = week.transactions.filter(
-        (t) => !t.carriedOver
-      );
-      if (existingTransactions.length > 0) {
-        return;
-      }
-    }
 
     dispatch({
       type: LOAD_WEEK
@@ -36,6 +26,7 @@ function loadWeek({ weekId }) {
       dispatch({
         type: LOAD_WEEK_SUCCESS,
         data: {
+          weekId,
           transactions
         }
       });
@@ -53,9 +44,12 @@ export const SHOW_WEEK = 'SHOW_WEEK';
 
 export function showMore(ahead) {
   return function showMoreAsync(dispatch, getState) {
-    const { app } = getState();
-    const visibleWeeks = app.visibleWeeks
-      .map((week) => utcToZonedTime(new Date(week.weekId)), TIMEZONE)
+    const {
+      app: { weeksMeta }
+    } = getState();
+    const visibleWeeks = Object.keys(weeksMeta)
+      .filter((weekId) => weeksMeta[weekId].visible)
+      .map((weekId) => utcToZonedTime(new Date(weekId)), TIMEZONE)
       .sort((a, b) => b - a);
 
     const data = {
@@ -65,7 +59,6 @@ export function showMore(ahead) {
           : { date: visibleWeeks.pop(), offset: -1 }
       )
     };
-    dispatch(loadWeek(data));
     // show the week in UI
     dispatch({
       type: SHOW_WEEK,
