@@ -13,9 +13,7 @@ import {
   UPDATE_TRANSACTION_SUCCESS
 } from '../actions/transaction.js';
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
-
-const dateFormat = 'yyyy-MM-dd';
-const timeFormat = 'HH:mm';
+import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 
 let defaultCategory = '';
 let defaultSource = '';
@@ -29,8 +27,8 @@ function createInitialValues() {
     calculate: '',
     merchant: '',
     category: defaultCategory,
-    date: format(now, dateFormat),
-    time: format(now, timeFormat),
+    date: format(now, DATE_FIELD_FORMAT),
+    time: format(now, TIME_FIELD_FORMAT),
     source: defaultSource,
     span: 1,
     description: '',
@@ -189,8 +187,8 @@ export default function form(state = initialState, action) {
       newValues = {
         ...action.data,
         amount: fromCents(action.data.amount),
-        date: format(new Date(action.data.date), dateFormat),
-        time: format(new Date(action.data.date), timeFormat),
+        date: format(new Date(action.data.date), DATE_FIELD_FORMAT),
+        time: format(new Date(action.data.date), TIME_FIELD_FORMAT),
         calculate: ''
       };
       return {
