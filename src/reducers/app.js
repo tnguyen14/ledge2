@@ -17,8 +17,7 @@ const defaultState = {
   yearsToLoad: 3,
   // show last 4 weeks by default
   visibleWeeks: [...Array(4).keys()].map((offset) => ({
-    weekId: getWeekId({ offset: -offset }),
-    offset: -offset
+    weekId: getWeekId({ offset: -offset })
   })),
   notification: {
     content: '',

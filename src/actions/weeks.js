@@ -1,7 +1,9 @@
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { getTransactions } from '../util/api.js';
 import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
 import { getWeekById } from '../selectors/transactions.js';
 import { logout } from './user.js';
+import { TIMEZONE } from '../util/constants.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
@@ -52,17 +54,16 @@ export const SHOW_WEEK = 'SHOW_WEEK';
 export function showMore(ahead) {
   return function showMoreAsync(dispatch, getState) {
     const { app } = getState();
-    const visibleWeeksOffsets = app.visibleWeeks
-      .map((week) => week.offset)
+    const visibleWeeks = app.visibleWeeks
+      .map((week) => utcToZonedTime(new Date(week.weekId)), TIMEZONE)
       .sort((a, b) => b - a);
-    const offset =
-      ahead == true
-        ? Number(visibleWeeksOffsets[0]) + 1
-        : Number(visibleWeeksOffsets.pop()) - 1;
 
     const data = {
-      offset,
-      weekId: getWeekId({ offset })
+      weekId: getWeekId(
+        ahead == true
+          ? { date: visibleWeeks[0], offset: 1 }
+          : { date: visibleWeeks.pop(), offset: -1 }
+      )
     };
     dispatch(loadWeek(data));
     // show the week in UI
