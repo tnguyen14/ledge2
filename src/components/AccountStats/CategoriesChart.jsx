@@ -55,11 +55,7 @@ function CategoriesChart() {
         <Button variant="light" onClick={() => setStart(start - 1)}>
           <ChevronLeftIcon />
         </Button>
-        <Button
-          variant="light"
-          disabled={start == 0}
-          onClick={() => setStart(start + 1)}
-        >
+        <Button variant="light" onClick={() => setStart(start + 1)}>
           <ChevronRightIcon />
         </Button>
       </div>

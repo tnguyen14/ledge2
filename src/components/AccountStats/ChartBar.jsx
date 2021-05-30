@@ -13,6 +13,9 @@ function ChartBar(props) {
     popupId: `${week.label}-chart-popup`
   });
 
+  if (!week.categoryTotals) {
+    return;
+  }
   // make bar-piece a child of data-cat to use styles
   // defined in style.css
   return (
