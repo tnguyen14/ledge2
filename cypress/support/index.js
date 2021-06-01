@@ -16,7 +16,6 @@
 // Import commands.js using ES2015 syntax:
 import './commands';
 import 'cypress-failed-log';
-import './before.js';
 import './beforeEach.js';
 
 // Alternatively you can use CommonJS syntax:
