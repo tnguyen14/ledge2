@@ -10,7 +10,7 @@
 //
 //
 import 'cypress-localstorage-commands';
-import { loginButton, weeks } from '../selectors';
+import { loginButton, firstWeek } from '../selectors';
 
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
@@ -21,7 +21,7 @@ Cypress.Commands.add('login', () => {
   cy.get('#password').clear().type(Cypress.env('TEST_PASSWORD'));
   cy.get('button[name=action]').click();
   // wait for callback
-  cy.get(weeks, { timeout: 10000 });
+  cy.get(firstWeek, { timeout: 10000 });
 });
 
 //
