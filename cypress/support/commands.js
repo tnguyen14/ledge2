@@ -16,14 +16,10 @@ import { loginButton, weeks } from '../selectors';
 Cypress.Commands.add('login', () => {
   cy.get(loginButton).click();
 
-  cy.get('.auth0-lock-input-username .auth0-lock-input')
-    .clear()
-    .type(Cypress.env('TEST_USER'));
+  cy.get('#username').clear().type(Cypress.env('TEST_USER'));
 
-  cy.get('.auth0-lock-input-password .auth0-lock-input')
-    .clear()
-    .type(Cypress.env('TEST_PASSWORD'));
-  cy.get('.auth0-lock-submit').click();
+  cy.get('#password').clear().type(Cypress.env('TEST_PASSWORD'));
+  cy.get('button[type=submit]').click();
   // wait for callback
   cy.get(weeks, { timeout: 10000 });
 });
