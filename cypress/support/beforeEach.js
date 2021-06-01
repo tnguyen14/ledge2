@@ -13,7 +13,6 @@ const disableSmoothScroll = () => {
 };
 
 beforeEach(() => {
-  cy.reload();
   cy.viewport('macbook-16');
   cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
   cy.restoreLocalStorage();
@@ -65,7 +64,7 @@ beforeEach(() => {
   cy.intercept('PATCH', '*', '{"success": true}');
   cy.intercept('DELETE', '*', '{"success": true}');
 
-  cy.visit('/');
+  cy.reload();
   disableSmoothScroll();
   cy.wait('@accountMeta').then((interception) => {
     cy.wrap(interception.response).as('accountMetaResponse');
