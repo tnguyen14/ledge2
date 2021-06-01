@@ -8,6 +8,7 @@ export async function getTransaction(idToken, id) {
 }
 
 export async function getTransactions(idToken, start, end) {
+  console.log(`Getting transactions from ${start} to ${end}`);
   const query = qs.stringify({
     where: [
       {

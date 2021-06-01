@@ -4,28 +4,36 @@ import {
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import {
   useHistory,
   useLocation
 } from 'https://cdn.skypack.dev/react-router-dom@5';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Weeks from '../Weeks/index.js';
 import DeleteDialog from '../DeleteDialog/index.js';
 import Login from '../Login/index.js';
 import Notification from '../Notification/index.js';
-import { handleAuthentication } from '../../actions/user.js';
 import { loadAccount } from '../../actions/account.js';
-import { loadTransactions } from '../../actions/app.js';
+import {
+  loadTransactions,
+  setDisplayFrom,
+  setToken
+} from '../../actions/app.js';
+import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function App() {
   const dispatch = useDispatch();
-  const { authenticated, isAuthenticating } = useSelector(
-    (state) => state.user
-  );
+  const {
+    isLoading,
+    isAuthenticated,
+    getIdTokenClaims,
+    getAccessTokenSilently
+  } = useAuth0();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
-
-  const yearsToLoad = [2021, 2020, 2019];
+  const token = useSelector((state) => state.app.token);
 
   const isVisible = usePageVisibility();
 
@@ -36,20 +44,35 @@ function App() {
     if (!isVisible) {
       return;
     }
-    dispatch(handleAuthentication());
-
-    const now = new Date().valueOf();
-    // only load if authenticated and haven't been loaded in an hour
-    if (authenticated && now - lastRefreshed > 3600000) {
-      dispatch(loadAccount());
-      dispatch(loadTransactions(yearsToLoad));
+    if (!isAuthenticated) {
+      return;
     }
-  }, [authenticated, isVisible]);
 
-  if (isAuthenticating) {
+    const now = new Date();
+    // reload if haven't been loaded in an hour
+    const shouldReload = now.valueOf() - lastRefreshed > 3600000;
+    (async () => {
+      if (shouldReload) {
+        const token = await getAccessTokenSilently({
+          audience: 'https://lists.cloud.tridnguyen.com'
+        });
+        dispatch(setToken(token));
+      }
+    })();
+
+    if (token) {
+      dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
+      if (shouldReload) {
+        dispatch(loadAccount());
+        dispatch(loadTransactions());
+      }
+    }
+  }, [isAuthenticated, isVisible, token]);
+
+  if (isLoading) {
     return <h2 className="auth-loading">Loading...</h2>;
   }
-  if (!authenticated) {
+  if (!isAuthenticated) {
     return <Login />;
   }
   return (

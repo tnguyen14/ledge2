@@ -29,9 +29,8 @@ jobs:
       - name: Cypress
         uses: cypress-io/github-action@v2
         env:
-          CYPRESS_AUTH0_DOMAIN: ${{ secrets.AUTH0_DOMAIN }}
-          CYPRESS_SERVER_APP_AUTH0_CLIENT_ID: ${{ secrets.SERVER_APP_AUTH0_CLIENT_ID }}
-          CYPRESS_SERVER_APP_AUTH0_CLIENT_SECRET: ${{ secrets.SERVER_APP_AUTH0_CLIENT_SECRET }}
+          CYPRESS_TEST_USER: ${{ secrets.CYPRESS_TEST_USER }}
+          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
           CYPRESS_BASE_URL: 'http://localhost:4003'
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
         with:

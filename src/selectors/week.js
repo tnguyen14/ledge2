@@ -27,3 +27,15 @@ export const getWeekId = createSelector(getWeekStart, (weekStart) =>
 export const getWeekEnd = createSelector(getWeekStart, (weekStart) =>
   endOfDay(setISODay(weekStart, 7))
 );
+
+const getDateFromId = (state) =>
+  new Date(`${state.weekId} 00:00`).toISOString();
+const getNumWeeks = (state) => state.numWeeks;
+export const getPastWeeksIds = createSelector(
+  getDateFromId,
+  getNumWeeks,
+  (date, numWeeks) =>
+    [...Array(numWeeks).keys()].map((offset) =>
+      getWeekId({ date, offset: -offset })
+    )
+);

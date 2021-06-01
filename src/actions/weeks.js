@@ -1,53 +1,32 @@
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { getTransactions } from '../util/api.js';
 import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
-import { getWeekById } from '../selectors/transactions.js';
-import { logout } from './user.js';
+import { getVisibleWeeks } from '../selectors/weeks.js';
+import { TIMEZONE } from '../util/constants.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
-function loadWeek({ offset, weekId }) {
+export function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch, getState) {
     const {
-      user: { idToken },
-      transactions
+      app: { token }
     } = getState();
-    const week = getWeekById({ transactions, weekId });
-    // if there are non-carriedOver transactions, assume it's been loaded
-    if (week) {
-      let existingTransactions = week.transactions.filter(
-        (t) => !t.carriedOver
-      );
-      if (existingTransactions.length > 0) {
-        return;
-      }
-    }
 
     dispatch({
-      type: LOAD_WEEK,
+      type: LOAD_WEEK
+    });
+    const transactions = await getTransactions(
+      token,
+      getWeekStart({ date: weekId }),
+      getWeekEnd({ date: weekId })
+    );
+    dispatch({
+      type: LOAD_WEEK_SUCCESS,
       data: {
-        offset
+        weekId,
+        transactions
       }
     });
-    try {
-      const transactions = await getTransactions(
-        idToken,
-        getWeekStart({ offset }),
-        getWeekEnd({ offset })
-      );
-      dispatch({
-        type: LOAD_WEEK_SUCCESS,
-        data: {
-          offset,
-          transactions
-        }
-      });
-    } catch (err) {
-      if (err.message == 'Unauthorized') {
-        dispatch(logout());
-        return;
-      }
-      throw err;
-    }
   };
 }
 
@@ -55,20 +34,21 @@ export const SHOW_WEEK = 'SHOW_WEEK';
 
 export function showMore(ahead) {
   return function showMoreAsync(dispatch, getState) {
-    const { app } = getState();
-    const visibleWeeksOffsets = app.visibleWeeks
-      .map((week) => week.offset)
-      .sort((a, b) => b - a);
-    const offset =
-      ahead == true
-        ? Number(visibleWeeksOffsets[0]) + 1
-        : Number(visibleWeeksOffsets.pop()) - 1;
+    const {
+      app: { weeksMeta }
+    } = getState();
+    const visibleWeeks = getVisibleWeeks(weeksMeta).map(
+      (weekId) => utcToZonedTime(new Date(weekId)),
+      TIMEZONE
+    );
 
     const data = {
-      offset,
-      weekId: getWeekId({ offset })
+      weekId: getWeekId(
+        ahead == true
+          ? { date: visibleWeeks[0], offset: 1 }
+          : { date: visibleWeeks.pop(), offset: -1 }
+      )
     };
-    dispatch(loadWeek(data));
     // show the week in UI
     dispatch({
       type: SHOW_WEEK,

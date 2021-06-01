@@ -1,5 +1,3 @@
-import { loginButton } from '../selectors';
-
 const SERVER_URL = Cypress.env('SERVER_URL');
 
 /**
@@ -66,15 +64,7 @@ beforeEach(() => {
   cy.intercept('PATCH', '*', '{"success": true}');
   cy.intercept('DELETE', '*', '{"success": true}');
 
-  cy.visit('/');
-  cy.get('body').then(($body) => {
-    if ($body.find(loginButton).length) {
-      cy.log('Login required - performing login');
-      cy.login();
-      cy.saveLocalStorage();
-      cy.reload();
-    }
-  });
+  cy.reload();
   disableSmoothScroll();
   cy.wait('@accountMeta').then((interception) => {
     cy.wrap(interception.response).as('accountMetaResponse');

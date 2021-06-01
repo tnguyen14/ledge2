@@ -85,5 +85,9 @@ const getId = (state) => state.weekId;
 export const getWeekById = createSelector(
   getWeeks,
   getId,
-  (weeks, weekId) => weeks[weekId]
+  (weeks, weekId) =>
+    weeks[weekId] || {
+      weekId,
+      transactions: []
+    }
 );

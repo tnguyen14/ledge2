@@ -10,6 +10,9 @@ export default function transactions(state = {}, action) {
   switch (action.type) {
     case LOAD_YEARS_SUCCESS:
     case LOAD_WEEK_SUCCESS:
+      if (!action.data.transactions) {
+        return state;
+      }
       return action.data.transactions.reduce(
         function addTransation(currentState, transaction) {
           if (!currentState[transaction.id]) {
