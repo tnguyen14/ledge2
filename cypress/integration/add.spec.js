@@ -12,7 +12,7 @@ import {
 } from '../selectors.js';
 
 describe('Add', () => {
-  it('a transaction', () => {
+  it('a transaction', function () {
     const merchantCount = this.accountMetaResponse.body.merchants_count.amazon;
 
     cy.get(currentMonthAverageValue).invoke('text').as('currentMonthAverage');

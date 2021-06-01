@@ -55,7 +55,7 @@ describe('Update', () => {
     });
   });
 
-  it('transaction merchant', () => {
+  it('transaction merchant', function () {
     const newMerchant = 'Test Merchant';
     cy.get(`${secondWeek} ${secondTransaction} [data-field=merchant]`)
       .as('merchant')

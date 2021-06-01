@@ -8,7 +8,7 @@ import {
 } from '../selectors.js';
 
 describe('Delete', () => {
-  it('a transaction', () => {
+  it('a transaction', function () {
     cy.get(`${secondWeek} ${secondTransaction} [data-field=amount]`)
       .invoke('text')
       .as('amount');
