@@ -3,5 +3,8 @@
   "baseUrl": "https://lab.tridnguyen.com/ledge",
   "env": {
     "SERVER_URL": "https://api.tridnguyen.com/lists/ledge/tri"
-  }
+  },
+  "chromeWebSecurity": false,
+  "viewportWidth": 1000,
+  "viewportHeight": 1000
 }
