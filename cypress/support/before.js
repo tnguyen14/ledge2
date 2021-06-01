@@ -7,7 +7,6 @@ before(() => {
       cy.log('Login required - performing login');
       cy.login();
       cy.saveLocalStorage();
-      cy.reload();
     }
   });
 });
