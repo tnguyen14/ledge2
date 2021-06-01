@@ -31,7 +31,7 @@ function UserMenu(props) {
           className="logout"
           onClick={() =>
             logout({
-              returnTo: window.location.origin
+              returnTo: window.location.href
             })
           }
         >

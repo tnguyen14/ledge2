@@ -10,21 +10,22 @@
 //
 //
 import 'cypress-localstorage-commands';
+import { loginButton, weeks } from '../selectors';
 
 // -- This is a parent command --
 Cypress.Commands.add('login', () => {
-  cy.request('POST', `https://${Cypress.env('AUTH0_DOMAIN')}/oauth/token`, {
-    client_id: Cypress.env('AUTH0_CLIENT_ID'),
-    client_secret: Cypress.env('AUTH0_CLIENT_SECRET'),
-    audience: 'https://lists.cloud.tridnguyen.com',
-    grant_type: 'client_credentials'
-  }).then((response) => {
-    cy.setLocalStorage('id_token', response.body.access_token);
-    cy.setLocalStorage(
-      'expires_at',
-      JSON.stringify(response.body.expires_in * 1000 + Date.now())
-    );
-  });
+  cy.get(loginButton).click();
+
+  cy.get('.auth0-lock-input-username .auth0-lock-input')
+    .clear()
+    .type(Cypress.env('TEST_USER'));
+
+  cy.get('.auth0-lock-input-password .auth0-lock-input')
+    .clear()
+    .type(Cypress.env('TEST_PASSWORD'));
+  cy.get('.auth0-lock-submit').click();
+  // wait for callback
+  cy.get(weeks, { timeout: 10000 });
 });
 
 //
