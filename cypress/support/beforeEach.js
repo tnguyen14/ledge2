@@ -1,5 +1,3 @@
-import { loginButton } from '../selectors';
-
 const SERVER_URL = Cypress.env('SERVER_URL');
 
 /**

@@ -1,3 +1,5 @@
+import { loginButton } from '../selectors';
+
 before(() => {
   cy.visit('/');
   cy.get('body').then(($body) => {
