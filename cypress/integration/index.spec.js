@@ -1,7 +1,7 @@
-import { display } from './display.spec.js';
-import { add } from './add.spec.js';
-import { amount, merchant } from './update.spec.js';
-import { remove } from './delete.spec.js';
+import { display } from '../tests/display.js';
+import { add } from '../tests/add.js';
+import { amount, merchant } from '../tests/update.js';
+import { remove } from '../tests/delete.js';
 
 describe('Ledge', () => {
   it('Display logged in content', display);
