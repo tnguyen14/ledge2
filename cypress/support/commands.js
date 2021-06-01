@@ -19,7 +19,7 @@ Cypress.Commands.add('login', () => {
   cy.get('#username').clear().type(Cypress.env('TEST_USER'));
 
   cy.get('#password').clear().type(Cypress.env('TEST_PASSWORD'));
-  cy.get('button[type=submit]').click();
+  cy.get('button[name=action]').click();
   // wait for callback
   cy.get(weeks, { timeout: 10000 });
 });
