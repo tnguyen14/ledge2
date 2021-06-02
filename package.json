@@ -50,7 +50,8 @@
     "postcss": "^8.2.10",
     "postcss-cli": "^7.1.1",
     "postcss-nested": "^4.1.0",
-    "prettier": "^2.0.4"
+    "prettier": "^2.0.4",
+    "react-native": "^0.64.1"
   },
   "dependencies": {
     "@tridnguyen/money": "^1.6.1",
