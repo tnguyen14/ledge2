@@ -6,6 +6,7 @@
  */
 
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   SafeAreaView,
   Button,
@@ -17,8 +18,9 @@ import {
 } from 'react-native';
 
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-
 import Auth0 from 'react-native-auth0';
+
+import { setToken } from '../src/actions/app.js';
 
 const auth0 = new Auth0({
   domain: 'tridnguyen.auth0.com',
@@ -32,8 +34,11 @@ const App = () => {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
   };
 
+  const dispatch = useDispatch();
+
+  const token = useSelector((state) => state.app.token);
+
   const [loggedIn, setLoggedIn] = useState(false);
-  const [accessToken, setAccessToken] = useState();
   const [error, setError] = useState();
 
   async function login() {
@@ -42,8 +47,8 @@ const App = () => {
         scope: 'openid profile email',
         audience: 'https://lists.cloud.tridnguyen.com'
       });
-      setAccessToken(creds.accessToken);
       setLoggedIn(true);
+      dispatch(setToken(creds.accessToken));
     } catch (e) {
       console.error(e);
     }
@@ -67,7 +72,7 @@ const App = () => {
           backgroundColor: isDarkMode ? Colors.black : Colors.white
         }}
       >
-        {loggedIn && <Text>Access token: ${accessToken}</Text>}
+        {loggedIn && <Text>Access token: ${token}</Text>}
         {!loggedIn && <Button title="Log In" onPress={login} />}
       </View>
     </SafeAreaView>
