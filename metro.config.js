@@ -18,6 +18,7 @@ module.exports = {
     })
   },
   resolver: {
+    sourceExts: ['js', 'jsx'],
     // simplistic hack to allow resolving skypack assets
     // with node_modules in native
     resolveRequest: (context, realModuleName, platform, moduleName) => {

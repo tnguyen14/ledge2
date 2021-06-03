@@ -78,7 +78,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [
-    entryFile: "native/index.js",
+    entryFile: "native/index.jsx",
     enableHermes: false,  // clean and rebuild if changing
 ]
 
