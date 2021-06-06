@@ -1,28 +1,56 @@
-import { utcToZonedTime, zonedTimeToUtc } from 'date-fns-tz';
-import { format } from 'date-fns';
+import {
+  utcToZonedTime,
+  zonedTimeToUtc
+} from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { expect } from 'https://cdn.skypack.dev/chai';
+import { setISODay, format } from 'https://cdn.skypack.dev/date-fns@2';
 
+const TIMEZONE = 'America/Chicago';
 const localTime8pm = new Date('2021-12-05 20:05');
 // localTime8pm is, if local system is
 // - America/New_York 2021-12-06T01:05:00.000Z
 // - UTC              2021-12-05T20:05:00.000Z
 
-test('date-fns-tz', () => {
-  /*
-   * hard-to-understand behavior for date-fns-tz when passing Date object
-   * - "zonedTimeToUtc" is as if to take only the time (pretend it's not UTC)
-   *   from the Date object and add the timezone parameter
-   * - "utcToZonedTime" is as if to remove the timezone parameter from the
-   *   Date object (UTC time)
-   */
-  const utcTimeForChicago8pm = zonedTimeToUtc(localTime8pm, 'America/Chicago');
-  expect(utcTimeForChicago8pm.toISOString()).toBe('2021-12-06T02:05:00.000Z');
+describe('date-fns', () => {
+  it('tz', () => {
+    /*
+     * hard-to-understand behavior for date-fns-tz when passing Date object
+     * - "zonedTimeToUtc" is as if to take only the time (pretend it's not UTC)
+     *   from the Date object and add the timezone parameter
+     * - "utcToZonedTime" is as if to remove the timezone parameter from the
+     *   Date object (UTC time)
+     */
+    const utcTimeForLocal8pm = zonedTimeToUtc(localTime8pm, TIMEZONE);
+    expect(utcTimeForLocal8pm.toISOString()).to.equal(
+      '2021-12-06T02:05:00.000Z'
+    );
 
-  expect(utcToZonedTime(utcTimeForChicago8pm, 'America/Chicago')).toEqual(
-    localTime8pm
-  );
-});
+    // revert conversion
+    expect(utcToZonedTime(utcTimeForLocal8pm, TIMEZONE)).to.deep.equal(
+      localTime8pm
+    );
+  });
 
-test('date-fns format', () => {
-  const displayFormat = 'MM/dd/yyyy hh:mm a';
-  expect(format(localTime8pm, displayFormat)).toBe('12/05/2021 08:05 PM');
+  it('tz - get ISO day in local timezone', () => {
+    const sundayNyAfterMidnightUtc = '2021-05-03T03:04:00.000Z';
+    expect(
+      zonedTimeToUtc(
+        setISODay(
+          new Date(
+            format(
+              utcToZonedTime(sundayNyAfterMidnightUtc, TIMEZONE),
+              'yyyy-MM-dd HH:mm'
+            )
+          ),
+          1
+        ),
+        TIMEZONE
+      ).toISOString()
+    ).to.equal('2021-04-27T03:04:00.000Z');
+  });
+
+  it('format', () => {
+    const displayFormat = 'MM/dd/yyyy hh:mm a';
+    expect(format(localTime8pm, displayFormat)).to.equal('12/05/2021 08:05 PM');
+  });
 });
