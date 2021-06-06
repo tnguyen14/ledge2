@@ -39,3 +39,8 @@ export const getPastWeeksIds = createSelector(
       getWeekId({ date, offset: -offset })
     )
 );
+
+export const getWeekStartFromWeekId = createSelector(
+  (state) => state.weekId,
+  (weekId) => zonedTimeToUtc(new Date(`${weekId} 00:00`), TIMEZONE)
+);

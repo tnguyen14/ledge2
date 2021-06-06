@@ -1,8 +1,11 @@
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { getTransactions } from '../util/api.js';
-import { getWeekId, getWeekStart, getWeekEnd } from '../selectors/week.js';
+import {
+  getWeekId,
+  getWeekStart,
+  getWeekEnd,
+  getWeekStartFromWeekId
+} from '../selectors/week.js';
 import { getVisibleWeeks } from '../selectors/weeks.js';
-import { TIMEZONE } from '../util/constants.js';
 
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
@@ -17,8 +20,8 @@ export function loadWeek({ weekId }) {
     });
     const transactions = await getTransactions(
       token,
-      getWeekStart({ date: weekId }),
-      getWeekEnd({ date: weekId })
+      getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+      getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) })
     );
     dispatch({
       type: LOAD_WEEK_SUCCESS,
@@ -37,17 +40,17 @@ export function showMore(ahead) {
     const {
       app: { weeksMeta }
     } = getState();
-    const visibleWeeks = getVisibleWeeks(weeksMeta).map(
-      (weekId) => utcToZonedTime(new Date(weekId)),
-      TIMEZONE
-    );
+    const visibleWeeks = getVisibleWeeks(weeksMeta);
+
+    const referenceWeekId =
+      ahead == true ? visibleWeeks[0] : visibleWeeks.pop();
+    const offset = ahead == true ? 1 : -1;
 
     const data = {
-      weekId: getWeekId(
-        ahead == true
-          ? { date: visibleWeeks[0], offset: 1 }
-          : { date: visibleWeeks.pop(), offset: -1 }
-      )
+      weekId: getWeekId({
+        date: getWeekStartFromWeekId({ weekId: referenceWeekId }),
+        offset
+      })
     };
     // show the week in UI
     dispatch({
