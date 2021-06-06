@@ -14,6 +14,8 @@ describe('Display', () => {
 
     cy.get(currentMonthAverageValue).invoke('text').as('currentMonthAverage');
 
+    cy.wait(2000); // wait 2 seconds for debugging purposes
+
     cy.get(firstWeek).scrollIntoView();
     cy.get(`${firstWeek} ${weekStats4WeekAverageValue}`).should(function (
       $4weekAverage
