@@ -13,7 +13,6 @@ const disableSmoothScroll = () => {
 };
 
 beforeEach(() => {
-  cy.viewport('macbook-16');
   cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
   cy.restoreLocalStorage();
   cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');

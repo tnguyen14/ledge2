@@ -5,6 +5,6 @@
     "SERVER_URL": "https://api.tridnguyen.com/lists/ledge/tri"
   },
   "chromeWebSecurity": false,
-  "viewportWidth": 1000,
-  "viewportHeight": 1000
+  "viewportWidth": 1600,
+  "viewportHeight": 1200
 }
