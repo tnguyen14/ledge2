@@ -9,8 +9,8 @@ on:
     - master
 
 jobs:
-  test-ny:
-    name: Test NY TZ
+  unit-test-ny:
+    name: Unit Test NY TZ
     if: "!contains(github.event.head_commit.message, '[skip-ci]')"
     runs-on: ubuntu-latest
 
@@ -29,8 +29,8 @@ jobs:
       - name: Unit test
         run: npm t
 
-  test:
-    name: Test
+  unit-test:
+    name: Unit Test
     if: "!contains(github.event.head_commit.message, '[skip-ci]')"
     runs-on: ubuntu-latest
 
@@ -43,6 +43,18 @@ jobs:
 
       - name: Unit test
         run: npm t
+
+  integration-test:
+    name: Cypress
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install deps
+        run: npm install
 
       - name: Build
         env:
