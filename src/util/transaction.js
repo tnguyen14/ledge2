@@ -10,7 +10,7 @@ import { getTransaction } from './api.js';
 export async function getUniqueTransactionId(idToken, id) {
   try {
     await getTransaction(idToken, String(id));
-    return await getUniqueTransactionId(idToken, id++);
+    return await getUniqueTransactionId(idToken, ++id);
   } catch (e) {
     if (e.response.status == 404) {
       return String(id);
