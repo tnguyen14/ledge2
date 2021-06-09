@@ -1,18 +1,55 @@
-import { getWeekStart, getWeekEnd, getWeekId } from './week.js';
+import {
+  getWeekStart,
+  getWeekEnd,
+  getWeekId,
+  getPastWeeksIds,
+  getWeekStartFromWeekId
+} from './week.js';
+import { expect } from 'https://cdn.skypack.dev/chai';
 
-test('weekStart - Sunday night NY after midnight UTC', () => {
-  const state = {
-    date: '2021-05-03T03:04:00.000Z'
-  };
+// Sunday night 11pm NY after midnight UTC
+const date = '2021-05-03T03:04:00.000Z';
 
-  expect(getWeekStart(state).toISOString()).toBe('2021-04-26T04:00:00.000Z');
-  expect(getWeekEnd(state).toISOString()).toBe('2021-05-03T03:59:59.999Z');
-  expect(getWeekId(state)).toBe('2021-04-26');
+describe('selectors/week', () => {
+  it('getWeekStart & getWeekEnd', () => {
+    const state = {
+      date
+    };
 
-  // Date object
-  expect(
-    getWeekStart({
-      date: new Date('2021-05-03T03:04:00.000Z')
-    }).toISOString()
-  ).toBe('2021-04-26T04:00:00.000Z');
+    expect(getWeekStart(state).toISOString()).to.equal(
+      '2021-04-26T04:00:00.000Z'
+    );
+    expect(getWeekEnd(state).toISOString()).to.equal(
+      '2021-05-03T03:59:59.999Z'
+    );
+
+    // Date object
+    expect(
+      getWeekStart({
+        date: new Date(date)
+      }).toISOString()
+    ).to.equal('2021-04-26T04:00:00.000Z');
+  });
+  it('getWeekId', () => {
+    const state = {
+      date
+    };
+    expect(getWeekId(state)).to.equal('2021-04-26');
+  });
+  it('getWeekStartFromWeekId', () => {
+    const state = {
+      weekId: '2021-05-31'
+    };
+    expect(getWeekStartFromWeekId(state).toISOString()).to.equal(
+      '2021-05-31T04:00:00.000Z'
+    );
+  });
+  it('getPastWeeksIds', () => {
+    expect(
+      getPastWeeksIds({
+        weekId: '2021-05-31',
+        numWeeks: 4
+      })
+    ).to.deep.equal(['2021-05-31', '2021-05-24', '2021-05-17', '2021-05-10']);
+  });
 });

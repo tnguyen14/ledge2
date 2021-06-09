@@ -19,8 +19,8 @@
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel src --out-dir dist",
     "js:watch": "SERVER_URL=https://api.tridnguyen.com/lists/ledge/tri npm run js -- --watch",
-    "test": "cp node_modules/mocha/bin/mocha node_modules/mocha/bin/mocha.js && node --experimental-loader ./https-loader.js node_modules/mocha/bin/mocha.js ./src/**/transaction.test.js",
-    "test:open": "cypress open",
+    "test": "cp node_modules/mocha/bin/mocha node_modules/mocha/bin/mocha.js && node --experimental-loader ./https-loader.js node_modules/mocha/bin/mocha.js ./src/**/*.test.js",
+    "test:cypress": "cypress open",
     "test:production": "CYPRESS_SERVER_URL=https://lists.cloud.tridnguyen.com/ledge/tri CYPRESS_BASE_URL=https://tridnguyen.com/ledge cypress run --record"
   },
   "browser": {
@@ -46,7 +46,6 @@
     "gh-pages": "^3.2.0",
     "http-server": "^0.12.3",
     "husky": "^4.2.3",
-    "jest": "^27.0.4",
     "lint-staged": "^10.1.1",
     "mocha": "^9.0.0",
     "postcss": "^8.2.10",

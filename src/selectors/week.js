@@ -5,40 +5,55 @@ import {
   setISODay,
   format
 } from 'https://cdn.skypack.dev/date-fns@2';
-import { zonedTimeToUtc } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import { WEEK_ID_FORMAT, TIMEZONE } from '../util/constants.js';
+import {
+  zonedTimeToUtc,
+  utcToZonedTime
+} from 'https://cdn.skypack.dev/date-fns-tz@1';
+import {
+  WEEK_ID_FORMAT,
+  TIMEZONE,
+  DATE_FIELD_FORMAT
+} from '../util/constants.js';
 
 const getOffset = (state) => state.offset || 0;
-const getDate = (state) => state.date;
+const getDate = (state) => {
+  let date = new Date();
+  if (state && state.date) {
+    date = new Date(state.date);
+  }
+  return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
+};
+
+function setLocalDay(date, day) {
+  return zonedTimeToUtc(setISODay(date, day), TIMEZONE);
+}
 
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  zonedTimeToUtc(
-    startOfDay(setISODay(date ? new Date(date) : new Date(), 1 + offset * 7)),
-    TIMEZONE
-  )
+  setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
+);
+
+export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
+  setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
   format(weekStart, WEEK_ID_FORMAT)
 );
 
-export const getWeekEnd = createSelector(getWeekStart, (weekStart) =>
-  endOfDay(setISODay(weekStart, 7))
-);
-
-const getDateFromId = (state) =>
-  new Date(`${state.weekId} 00:00`).toISOString();
-const getNumWeeks = (state) => state.numWeeks;
-export const getPastWeeksIds = createSelector(
-  getDateFromId,
-  getNumWeeks,
-  (date, numWeeks) =>
-    [...Array(numWeeks).keys()].map((offset) =>
-      getWeekId({ date, offset: -offset })
-    )
-);
+const getDateFromWeekId = (state) => new Date(`${state.weekId} 00:00`);
 
 export const getWeekStartFromWeekId = createSelector(
-  (state) => state.weekId,
-  (weekId) => zonedTimeToUtc(new Date(`${weekId} 00:00`), TIMEZONE)
+  getDateFromWeekId,
+  (date) => zonedTimeToUtc(date, TIMEZONE)
+);
+
+const getNumWeeks = (state) => state.numWeeks;
+
+export const getPastWeeksIds = createSelector(
+  getWeekStartFromWeekId,
+  getNumWeeks,
+  (weekStart, numWeeks) =>
+    [...Array(numWeeks).keys()].map((offset) =>
+      getWeekId({ date: weekStart, offset: -offset })
+    )
 );
