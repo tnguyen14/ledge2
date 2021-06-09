@@ -53,20 +53,18 @@ function App() {
     const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
       if (shouldReload) {
-        const token = await getAccessTokenSilently({
+        const accessToken = await getAccessTokenSilently({
           audience: 'https://lists.cloud.tridnguyen.com'
         });
-        dispatch(setToken(token));
+        dispatch(setToken(accessToken));
+
+        dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
+        if (shouldReload) {
+          dispatch(loadAccount());
+          dispatch(loadTransactions());
+        }
       }
     })();
-
-    if (token) {
-      dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-      if (shouldReload) {
-        dispatch(loadAccount());
-        dispatch(loadTransactions());
-      }
-    }
   }, [isAuthenticated, isVisible, token]);
 
   if (isLoading) {
