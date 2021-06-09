@@ -50,7 +50,7 @@ describe('Add', () => {
       cy.get('@transaction')
         .find('[data-field=merchant]')
         .should(($merchant) => {
-          expect($merchant.text()).to.contains('Amazon');
+          expect($merchant.text()).to.contains('Amazon2');
         });
       cy.get('@transaction')
         .find('[data-field=amount]')
