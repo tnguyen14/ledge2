@@ -40,7 +40,7 @@ export function getSource(url, context, defaultGetSource) {
     return new Promise((resolve, reject) => {
       get(url, (res) => {
         let data = '';
-        res.on('data', (chunk) => data += chunk);
+        res.on('data', (chunk) => (data += chunk));
         res.on('end', () => resolve({ source: data }));
       }).on('error', (err) => reject(err));
     });
