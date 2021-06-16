@@ -14,7 +14,8 @@ const disableSmoothScroll = () => {
 
 beforeEach(() => {
   cy.log(`Timezone offset ${new Date().getTimezoneOffset()}`);
-  cy.restoreLocalStorage();
+  cy.visit('/');
+  cy.login();
   cy.intercept(`${SERVER_URL}/meta`).as('accountMeta');
   cy.intercept(`${SERVER_URL}/items?*`).as('weeks');
 
