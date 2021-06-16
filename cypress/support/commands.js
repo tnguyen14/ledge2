@@ -22,10 +22,9 @@ Cypress.Commands.add('login', () => {
 
       cy.get('#password').clear().type(Cypress.env('TEST_PASSWORD'));
       cy.get('button[name=action]').click();
-    } else {
-      // wait for callback
-      cy.get(firstWeek, { timeout: 10000 });
     }
+    // wait for callback
+    cy.get(firstWeek, { timeout: 10000 });
   });
 });
 
