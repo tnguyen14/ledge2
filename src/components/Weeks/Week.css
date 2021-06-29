@@ -23,6 +23,7 @@
     }
   }
   .weekly-transactions {
+    height: 100%; /* prevent height from being stretched by flexbox */
     @media (min-width: 68.75em) {
       width: 65%;
     }
