@@ -4,7 +4,6 @@ import {
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import {
   useHistory,
   useLocation
@@ -17,12 +16,7 @@ import DeleteDialog from '../DeleteDialog/index.js';
 import Login from '../Login/index.js';
 import Notification from '../Notification/index.js';
 import { loadAccount } from '../../actions/account.js';
-import {
-  loadTransactions,
-  setDisplayFrom,
-  setToken
-} from '../../actions/app.js';
-import { DATE_FIELD_FORMAT } from '../../util/constants.js';
+import { loadTransactions, refreshApp, setToken } from '../../actions/app.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,32 +34,37 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
+  async function updateToken() {
+    const accessToken = await getAccessTokenSilently({
+      audience: 'https://lists.cloud.tridnguyen.com'
+    });
+    dispatch(setToken(accessToken));
+  }
+
   useEffect(() => {
-    if (!isVisible) {
-      return;
-    }
     if (!isAuthenticated) {
       return;
     }
-
+    (async () => {
+      await updateToken();
+      dispatch(refreshApp());
+      dispatch(loadTransactions());
+    })();
+  }, [isAuthenticated]);
+  useEffect(() => {
+    if (!isVisible || !isAuthenticated) {
+      return;
+    }
     const now = new Date();
     // reload if haven't been loaded in an hour
     const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
       if (shouldReload) {
-        const accessToken = await getAccessTokenSilently({
-          audience: 'https://lists.cloud.tridnguyen.com'
-        });
-        dispatch(setToken(accessToken));
-
-        dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-        if (shouldReload) {
-          dispatch(loadAccount());
-          dispatch(loadTransactions());
-        }
+        await updateToken();
+        dispatch(refreshApp());
       }
     })();
-  }, [isAuthenticated, isVisible, token]);
+  }, [isVisible]);
 
   if (isLoading) {
     return <h2 className="auth-loading">Loading...</h2>;

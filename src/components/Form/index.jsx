@@ -11,9 +11,9 @@ import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Field from './Field.js';
 import {
   INPUT_CHANGE,
-  RESET_FORM,
   SUBMIT_TRANSACTION_FAILURE,
-  SUBMIT_TRANSACTION
+  SUBMIT_TRANSACTION,
+  resetForm
 } from '../../actions/form.js';
 import {
   addTransaction,
@@ -40,12 +40,6 @@ function inputChange(name, value) {
       name,
       value
     }
-  };
-}
-
-function resetForm() {
-  return {
-    type: RESET_FORM
   };
 }
 

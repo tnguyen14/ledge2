@@ -3,7 +3,8 @@ import {
   LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER,
   SET_DISPLAY_FROM,
-  SET_TOKEN
+  SET_TOKEN,
+  REFRESH_APP
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import { getWeekId, getPastWeeksIds } from '../selectors/week.js';
@@ -19,6 +20,7 @@ const defaultState = {
     type: 'info'
   },
   lastRefreshed: 0,
+  loadedTransactions: false,
   weeksMeta: {}
 };
 
@@ -46,12 +48,17 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         isLoading: false,
-        lastRefreshed: new Date().valueOf(),
+        loadedTransactions: true,
         notification: {
           title: 'App',
           content: 'Finished loading transactions',
           autohide: 3000
         }
+      };
+    case REFRESH_APP:
+      return {
+        ...state,
+        lastRefreshed: new Date().valueOf()
       };
     case SET_FILTER:
       return {

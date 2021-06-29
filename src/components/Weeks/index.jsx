@@ -32,8 +32,8 @@ function Weeks(props) {
         <Field
           type="text"
           value={filter}
-          label="Search"
-          placeholder="Search"
+          label="Filter"
+          placeholder="Filter"
           handleChange={(event) => {
             dispatch(setFilter(event.target.value.toLowerCase()));
           }}
