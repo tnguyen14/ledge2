@@ -1,6 +1,7 @@
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { loadYears } from './years.js';
 import { loadAccount } from './account.js';
+import { resetForm } from './form.js';
 import { DATE_FIELD_FORMAT } from '../util/constants.js';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
@@ -46,6 +47,7 @@ export function refreshApp() {
   return async function refreshApp(dispatch) {
     await dispatch(loadAccount());
     dispatch(setDisplayFrom(format(new Date(), DATE_FIELD_FORMAT)));
+    dispatch(resetForm());
     dispatch({
       type: REFRESH_APP
     });
