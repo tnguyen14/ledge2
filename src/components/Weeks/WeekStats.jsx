@@ -44,8 +44,8 @@ function WeekStats(props) {
     categories
   });
 
-  const total = sum(categoriesStats.map((s) => s.amount));
-  const totalId = `total-${weekId}`;
+  const totalWithSpans = sum(categoriesStats.map((s) => s.amount));
+  const totalWithSpansId = `total-with-spans-${weekId}`;
 
   const past4WeeksSum = sum(past4Weeks.map(weeklyTotal));
   const past4WeeksAverage = average(past4Weeks.map(weeklyTotal));
@@ -62,12 +62,6 @@ function WeekStats(props) {
             </td>
             <td aria-labelledby={rawTotalId}>{usd(rawTotal)}</td>
           </tr>
-          <tr key={totalId} className="stat" data-cat="total">
-            <td id={totalId} className="stat-label">
-              Total with carried-overs
-            </td>
-            <td aria-labelledby={totalId}>{usd(total)}</td>
-          </tr>
           <tr
             key={past4WeeksAverageId}
             className="stat"
@@ -79,6 +73,16 @@ function WeekStats(props) {
             <td aria-labelledby={past4WeeksAverageId} data-sum={past4WeeksSum}>
               {usd(past4WeeksAverage)}
             </td>
+          </tr>
+          <tr
+            key={totalWithSpansId}
+            className="stat"
+            data-cat={totalWithSpansId}
+          >
+            <td id={totalWithSpansId} className="stat-label">
+              Accounting for spans
+            </td>
+            <td aria-labelledby={totalWithSpansId}>{usd(totalWithSpans)}</td>
           </tr>
         </tbody>
       </table>

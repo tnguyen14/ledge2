@@ -24,20 +24,20 @@ function WeekCategory(props) {
         )}
         <details>
           <summary></summary>
-          <ul>
-            {transactions.map((txn) => {
-              const dateInZone = utcToZonedTime(txn.date, TIMEZONE);
-              return (
-                <li
-                  key={txn.id}
-                  className={txn.carriedOver ? 'carried-over' : ''}
-                >
-                  {format(dateInZone, 'MM/dd/yy')} ({txn.span}) {txn.merchant}{' '}
-                  {usd(txn.amount)}{' '}
-                </li>
-              );
-            })}
-          </ul>
+          <table className="table table-borderless category-transactions">
+            <tbody>
+              {transactions.map((txn) => (
+                <tr>
+                  <td>
+                    {format(utcToZonedTime(txn.date, TIMEZONE), 'MM/dd/yy')}
+                  </td>
+                  <td>{txn.merchant}</td>
+                  <td>{usd(txn.amount)}</td>
+                  <td>{`(${txn.span})`}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </details>
       </td>
       <td aria-labelledby={statId}>{usd(amount)}</td>
