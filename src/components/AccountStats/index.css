@@ -1,14 +1,26 @@
 .account-stats {
   width: 100%;
-  margin: 2rem 0;
+  margin-top: 1rem;
   @media (min-width: 68.75em) {
     width: 50%;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
   .tab-content {
     margin-top: 1rem;
   }
   .MuiTabs-indicator {
-    background-color: var(--color-green);
+    background: none;
+  }
+  .Mui-selected {
+    background-color: var(--color-gray-300);
+  }
+  [role='tab'] {
+    border-right: 2px solid var(--color-gray-300);
+    border-bottom: 2px solid var(--color-gray-300);
+  }
+  [role='tab']:last-of-type {
+    border-right: none;
   }
 }
 .stats {

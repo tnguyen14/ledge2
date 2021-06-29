@@ -1,11 +1,15 @@
 @import './Week.css';
 
 .transactions {
-  width: 100%;
-  margin-bottom: 2em;
+  width: 95%;
+  margin: 0 auto 2em;
+  @media (min-width: 42.5em) {
+    width: 90%;
+  }
   .top-actions {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 0.5rem;
     .form-group {
       margin-bottom: 0;
       width: 48%;
@@ -24,5 +28,8 @@
         width: calc(100% - 5.5em);
       }
     }
+  }
+  .weeks {
+    margin-top: 0.5rem;
   }
 }

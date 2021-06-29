@@ -74,8 +74,10 @@ function App() {
   }
   return (
     <div className="app">
-      <Form />
-      <AccountStats />
+      <div className="app-top">
+        <Form />
+        <AccountStats />
+      </div>
       <Weeks />
       <DeleteDialog />
       <Notification />
