@@ -22,20 +22,22 @@ function WeekStats(props) {
     )
   );
 
-  const rawTotal = weeklyTotal(past4Weeks[0]);
+  const thisWeek = past4Weeks[0];
+
+  const rawTotal = weeklyTotal(thisWeek);
   const rawTotalId = `raw-total-${weekId}`;
 
-  const carriedOvers = past4Weeks[0].transactions.filter(
-    (tx) => tx.carriedOver
+  const transactionsByCategory = thisWeek.transactions.reduce(
+    (txnsByCat, txn) => {
+      if (!txnsByCat[txn.category]) {
+        txnsByCat[txn.category] = [txn];
+      } else {
+        txnsByCat[txn.category].push(txn);
+      }
+      return txnsByCat;
+    },
+    {}
   );
-  const carriedOversByCategory = carriedOvers.reduce((txnsByCat, txn) => {
-    if (!txnsByCat[txn.category]) {
-      txnsByCat[txn.category] = [txn];
-    } else {
-      txnsByCat[txn.category].push(txn);
-    }
-    return txnsByCat;
-  }, {});
 
   const categoriesStats = getCategoriesTotalsStats({
     transactions: past4Weeks[0].transactions,
@@ -93,7 +95,7 @@ function WeekStats(props) {
                   label={label}
                   amount={amount}
                   weekId={weekId}
-                  carriedOvers={carriedOversByCategory[slug]}
+                  transactions={transactionsByCategory[slug]}
                 />
               );
             })}

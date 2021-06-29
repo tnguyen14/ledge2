@@ -7,7 +7,8 @@ import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { TIMEZONE } from '../../util/constants.js';
 
 function WeekCategory(props) {
-  const { slug, label, amount, weekId, carriedOvers = [] } = props;
+  const { slug, label, amount, weekId, transactions = [] } = props;
+  const carriedOvers = transactions.filter((tx) => tx.carriedOver);
   const statId = `${slug}-${weekId}`;
   return (
     <tr key={statId} id={statId} className="stat" data-cat={slug}>
@@ -15,28 +16,26 @@ function WeekCategory(props) {
         <span className="legend">&nbsp;</span>
         {label}
         {carriedOvers.length > 0 && (
-          <>
-            <Tooltip title="Contains carried-over transactions">
-              <span className="span-hint">
-                <ClockIcon />
-              </span>
-            </Tooltip>
-            <details>
-              <summary></summary>
-              <ul>
-                {carriedOvers.map((txn) => {
-                  const dateInZone = utcToZonedTime(txn.date, TIMEZONE);
-                  return (
-                    <li key={txn.id}>
-                      {format(dateInZone, 'MM/dd/yy')} ({txn.span}){' '}
-                      {txn.merchant} {usd(txn.amount)}{' '}
-                    </li>
-                  );
-                })}
-              </ul>
-            </details>
-          </>
+          <Tooltip title="Contains carried-over transactions">
+            <span className="span-hint">
+              <ClockIcon />
+            </span>
+          </Tooltip>
         )}
+        <details>
+          <summary></summary>
+          <ul>
+            {transactions.map((txn) => {
+              const dateInZone = utcToZonedTime(txn.date, TIMEZONE);
+              return (
+                <li key={txn.id}>
+                  {format(dateInZone, 'MM/dd/yy')} ({txn.span}) {txn.merchant}{' '}
+                  {usd(txn.amount)}{' '}
+                </li>
+              );
+            })}
+          </ul>
+        </details>
       </td>
       <td aria-labelledby={statId}>{usd(amount)}</td>
     </tr>

@@ -112,6 +112,7 @@
   }
   .stat {
     details {
+      margin-left: 0.5rem;
       display: inline-block;
       position: relative;
       ul {
