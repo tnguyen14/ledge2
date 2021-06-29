@@ -1,4 +1,5 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Tabs from 'https://cdn.skypack.dev/@material-ui/core@4/Tabs';
 import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';
@@ -24,6 +25,7 @@ function TabPanel(props) {
 
 function AccountStats(props) {
   const [tab, setTab] = useState(0);
+  const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
 
   return (
     <div className="stats account-stats">
@@ -34,8 +36,8 @@ function AccountStats(props) {
         }}
       >
         <Tab label="Weekly Averages" />
-        <Tab label="Past Years" />
-        <Tab label="Chart" />
+        <Tab label={`Past ${yearsToLoad} Years`} />
+        <Tab label="Weekly Chart" />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <WeeklyAverages />
