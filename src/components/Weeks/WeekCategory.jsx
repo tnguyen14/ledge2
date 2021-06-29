@@ -28,7 +28,10 @@ function WeekCategory(props) {
             {transactions.map((txn) => {
               const dateInZone = utcToZonedTime(txn.date, TIMEZONE);
               return (
-                <li key={txn.id}>
+                <li
+                  key={txn.id}
+                  className={txn.carriedOver ? 'carried-over' : ''}
+                >
                   {format(dateInZone, 'MM/dd/yy')} ({txn.span}) {txn.merchant}{' '}
                   {usd(txn.amount)}{' '}
                 </li>
