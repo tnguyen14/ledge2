@@ -29,7 +29,10 @@
     }
     thead {
       th {
-        border: none;
+        border-bottom-width: 0;
+        @media (min-width: 42.5em) {
+          border-bottom-width: 1px;
+        }
       }
       .secondary {
         display: none;
