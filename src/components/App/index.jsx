@@ -17,6 +17,7 @@ import Login from '../Login/index.js';
 import Notification from '../Notification/index.js';
 import { loadAccount } from '../../actions/account.js';
 import { loadTransactions, refreshApp, setToken } from '../../actions/app.js';
+import { resetForm } from '../../actions/form.js';
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
     const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
       if (shouldReload) {
+        dispatch(resetForm());
         await updateToken();
         dispatch(refreshApp());
       }
