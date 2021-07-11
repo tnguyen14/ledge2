@@ -9,6 +9,7 @@ import {
   zonedTimeToUtc,
   utcToZonedTime
 } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import {
   WEEK_ID_FORMAT,
   TIMEZONE,
@@ -25,7 +26,7 @@ const getDate = (state) => {
 };
 
 function setLocalDay(date, day) {
-  return zonedTimeToUtc(setISODay(date, day), TIMEZONE);
+  return getDateInTz(setISODay(date, day), TIMEZONE);
 }
 
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
@@ -44,7 +45,7 @@ const getDateFromWeekId = (state) => new Date(`${state.weekId} 00:00`);
 
 export const getWeekStartFromWeekId = createSelector(
   getDateFromWeekId,
-  (date) => zonedTimeToUtc(date, TIMEZONE)
+  (date) => getDateInTz(date, TIMEZONE)
 );
 
 const getNumWeeks = (state) => state.numWeeks;
