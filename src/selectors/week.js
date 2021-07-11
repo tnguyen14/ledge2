@@ -5,10 +5,7 @@ import {
   setISODay,
   format
 } from 'https://cdn.skypack.dev/date-fns@2';
-import {
-  zonedTimeToUtc,
-  utcToZonedTime
-} from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import {
   WEEK_ID_FORMAT,
