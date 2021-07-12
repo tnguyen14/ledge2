@@ -1,5 +1,6 @@
 import React from 'https://cdn.skypack.dev/react@17';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
@@ -38,8 +39,10 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
+
+  // show day as in origin timezone, while date in local timezone
+  const displayDay = format(utcToZonedTime(date, TIMEZONE), DISPLAY_DAY_FORMAT);
   const displayDate = format(date, DISPLAY_DATE_FORMAT);
-  const displayDay = format(date, DISPLAY_DAY_FORMAT);
   return (
     <tr
       id={id}
