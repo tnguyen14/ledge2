@@ -39,9 +39,10 @@ function Transaction(props) {
     handleRemove,
     options
   } = props;
-  const dateInZone = utcToZonedTime(date, TIMEZONE);
-  const displayDate = format(dateInZone, DISPLAY_DATE_FORMAT);
-  const displayDay = format(dateInZone, DISPLAY_DAY_FORMAT);
+
+  // show day as in origin timezone, while date in local timezone
+  const displayDay = format(utcToZonedTime(date, TIMEZONE), DISPLAY_DAY_FORMAT);
+  const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
   return (
     <tr
       id={id}
