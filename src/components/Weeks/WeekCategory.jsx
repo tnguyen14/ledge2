@@ -27,7 +27,7 @@ function WeekCategory(props) {
             <tbody>
               {transactions.map((txn) => (
                 <tr>
-                  <td>{format(txn.date, 'MM/dd/yy')}</td>
+                  <td>{format(new Date(txn.date), 'MM/dd/yy')}</td>
                   <td>{txn.merchant}</td>
                   <td>{usd(txn.amount)}</td>
                   <td>{`(${txn.span})`}</td>

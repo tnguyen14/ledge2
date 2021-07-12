@@ -42,7 +42,7 @@ function Transaction(props) {
 
   // show day as in origin timezone, while date in local timezone
   const displayDay = format(utcToZonedTime(date, TIMEZONE), DISPLAY_DAY_FORMAT);
-  const displayDate = format(date, DISPLAY_DATE_FORMAT);
+  const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
   return (
     <tr
       id={id}
