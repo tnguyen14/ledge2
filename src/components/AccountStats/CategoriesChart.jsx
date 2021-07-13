@@ -34,7 +34,7 @@ function CategoriesChart() {
       return getWeekById({ transactions, weekId });
     })
     .map((week) => {
-      if (!week) {
+      if (!week || !week.start) {
         return {};
       }
       const stats = getCategoriesTotalsStats({
