@@ -3,7 +3,7 @@ import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import WeekCategory from './WeekCategory.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
-import { getWeekId, getPastWeeksIds } from '../../selectors/week.js';
+import { getPastWeeksIds } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { sum, average, weeklyTotal } from '../../util/calculate.js';
 

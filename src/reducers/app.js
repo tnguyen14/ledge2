@@ -7,7 +7,7 @@ import {
   REFRESH_APP
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
-import { getWeekId, getPastWeeksIds } from '../selectors/week.js';
+import { getPastWeeksIds } from '../selectors/week.js';
 import { getVisibleWeeks } from '../selectors/weeks.js';
 
 const defaultState = {
@@ -21,7 +21,8 @@ const defaultState = {
   },
   lastRefreshed: 0,
   loadedTransactions: false,
-  weeksMeta: {}
+  weeksMeta: {},
+  numInitialVisibleWeeks: 12
 };
 
 export default function app(state = defaultState, action) {
@@ -75,7 +76,7 @@ export default function app(state = defaultState, action) {
       // show 4 weeks by default
       const newVisibleWeeks = getPastWeeksIds({
         weekId: action.data,
-        numWeeks: 4
+        numWeeks: state.numInitialVisibleWeeks
       });
       const newState = {
         ...state,

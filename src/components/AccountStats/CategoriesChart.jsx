@@ -1,5 +1,8 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import {
   ChevronLeftIcon,
@@ -9,22 +12,25 @@ import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import ChartBar from './ChartBar.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
-import { getWeekId } from '../../selectors/week.js';
+import { getWeekId, getWeekStartFromWeekId } from '../../selectors/week.js';
+import { getVisibleWeeks } from '../../selectors/weeks.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { TIMEZONE } from '../../util/constants.js';
+import { setDisplayFrom } from '../../actions/app.js';
 
 function CategoriesChart() {
+  const dispatch = useDispatch();
   const categories = useSelector((state) => state.account.categories);
   const transactions = useSelector((state) => state.transactions);
-  const [start, setStart] = useState(0);
-  const NUM_WEEKS = 12;
   const MAX_WEEK_AMOUNT = 2000; // assumption
   const INTERVAL_AMOUNT = 400;
   const HEIGHT_FACTOR = 500 / MAX_WEEK_AMOUNT; // 500px is height of a bar
+  const visibleWeeksIds = useSelector((state) =>
+    getVisibleWeeks(state.app.weeksMeta)
+  );
 
-  const weeks = [...Array(NUM_WEEKS).keys()]
-    .map((index) => {
-      const weekId = getWeekId({ offset: start - index });
+  const weeks = visibleWeeksIds
+    .map((weekId) => {
       return getWeekById({ transactions, weekId });
     })
     .map((week) => {
@@ -51,13 +57,42 @@ function CategoriesChart() {
       };
     });
 
+  console.log(visibleWeeksIds);
   return (
     <div className="categories-chart">
       <div className="nav">
-        <Button variant="light" onClick={() => setStart(start - 1)}>
+        <Button
+          variant="light"
+          onClick={() => {
+            dispatch(
+              setDisplayFrom(
+                getWeekId({
+                  date: getWeekStartFromWeekId({
+                    weekId: visibleWeeksIds[0]
+                  }),
+                  offset: -1
+                })
+              )
+            );
+          }}
+        >
           <ChevronLeftIcon />
         </Button>
-        <Button variant="light" onClick={() => setStart(start + 1)}>
+        <Button
+          variant="light"
+          onClick={() =>
+            dispatch(
+              setDisplayFrom(
+                getWeekId({
+                  date: getWeekStartFromWeekId({
+                    weekId: visibleWeeksIds[0]
+                  }),
+                  offset: 1
+                })
+              )
+            )
+          }
+        >
           <ChevronRightIcon />
         </Button>
       </div>
