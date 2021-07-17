@@ -30,19 +30,20 @@ function AccountStats(props) {
   return (
     <div className="stats account-stats">
       <Tabs
+        className="tabs-selector"
         value={tab}
         onChange={(e, newValue) => {
           setTab(newValue);
         }}
       >
         <Tab label="Weekly Chart" />
-        <Tab label="Weekly Averages" />
+        <Tab className="weekly-averages" label="Weekly Averages" />
         <Tab label={`Past ${yearsToLoad} Years`} />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <CategoriesChart />
       </TabPanel>
-      <TabPanel value={tab} index={1}>
+      <TabPanel className="weekly-averages" value={tab} index={1}>
         <WeeklyAverages />
       </TabPanel>
       <TabPanel value={tab} index={2}>

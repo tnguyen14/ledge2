@@ -7,6 +7,8 @@ import {
   amountField,
   merchantField,
   submitButton,
+  accountStatsWeeklyAveragesSelector,
+  accountStatsAverages,
   currentMonthAverageValue,
   firstWeek
 } from '../selectors.js';
@@ -15,6 +17,8 @@ describe('Add', () => {
   it('a transaction', function () {
     const merchantCount = this.accountMetaResponse.body.merchants_count.amazon;
 
+    cy.click(accountStatsWeeklyAveragesSelector);
+    cy.get(accountStatsAverages).should('be.visible');
     cy.get(currentMonthAverageValue).invoke('text').as('currentMonthAverage');
 
     cy.get(amountField).type('50.80');

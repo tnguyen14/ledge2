@@ -1,7 +1,9 @@
 import {
   firstWeek,
   currentMonthAverageValue,
-  weekStats4WeekAverageValue
+  weekStats4WeekAverageValue,
+  accountStatsWeeklyAveragesSelector,
+  accountStatsAverages
 } from '../selectors.js';
 
 describe('Display', () => {
@@ -12,6 +14,8 @@ describe('Display', () => {
     cy.get('select[name=category]').should('have.value', 'dineout');
     cy.get('select[name=source]').should('have.value', 'chase-sapphire');
 
+    cy.click(accountStatsWeeklyAveragesSelector);
+    cy.get(accountStatsAverages).should('be.visible');
     cy.get(currentMonthAverageValue).invoke('text').as('currentMonthAverage');
 
     cy.get(firstWeek).scrollIntoView();
