@@ -1,5 +1,6 @@
 export const loginButton = '.login button';
 
+export const newTransactionForm = '.new-transaction';
 const accountStats = '.account-stats';
 const accountStatsTabsSelector = `${accountStats} .tabs-selector`;
 export const accountStatsWeeklyAveragesSelector = `${accountStatsTabsSelector} .weekly-averages`;

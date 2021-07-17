@@ -1,4 +1,5 @@
 import {
+  newTransactionForm,
   firstWeek,
   currentMonthAverageValue,
   weekStats4WeekAverageValue,
@@ -8,7 +9,7 @@ import {
 
 describe('Display', () => {
   it('logged in content', () => {
-    cy.contains('Add a new transaction');
+    cy.get(newTransactionForm).should('be.visible');
 
     cy.get('select[name=category]').should('have.value', 'dineout');
     cy.get('select[name=source]').should('have.value', 'chase-sapphire');
