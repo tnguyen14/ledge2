@@ -17,7 +17,7 @@ describe('Add', () => {
   it('a transaction', function () {
     const merchantCount = this.accountMetaResponse.body.merchants_count.amazon;
 
-    cy.click(accountStatsWeeklyAveragesSelector);
+    cy.get(accountStatsWeeklyAveragesSelector).click();
     cy.get(accountStatsAverages).should('be.visible');
     cy.get(currentMonthAverageValue).invoke('text').as('currentMonthAverage');
 
