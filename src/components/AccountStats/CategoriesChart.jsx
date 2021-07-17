@@ -57,7 +57,6 @@ function CategoriesChart() {
       };
     });
 
-  console.log(visibleWeeksIds);
   return (
     <div className="categories-chart">
       <div className="nav">

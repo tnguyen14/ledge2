@@ -1,7 +1,10 @@
 export const loginButton = '.login button';
 
+export const newTransactionForm = '.new-transaction';
 const accountStats = '.account-stats';
-const accountStatsAverages = `${accountStats} .averages`;
+const accountStatsTabsSelector = `${accountStats} .tabs-selector`;
+export const accountStatsWeeklyAveragesSelector = `${accountStatsTabsSelector} .weekly-averages`;
+export const accountStatsAverages = `${accountStats} .averages`;
 const currentMonthAverage = `${accountStatsAverages} .stat:first-of-type`;
 export const currentMonthAverageValue = `${currentMonthAverage} td:nth-of-type(2)`;
 
