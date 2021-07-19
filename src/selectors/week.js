@@ -19,7 +19,7 @@ const getDate = (state) => {
   if (state && state.date) {
     date = new Date(state.date);
   }
-  return date;
+  return utcToZonedTime(date, TIMEZONE);
   // return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
