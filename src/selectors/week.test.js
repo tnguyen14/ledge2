@@ -7,7 +7,7 @@ import {
 } from './week.js';
 import { expect } from 'https://cdn.skypack.dev/chai';
 
-// Sunday night 11pm NY after midnight UTC
+// Sunday night 11pm NY, after midnight UTC
 const date = '2021-05-03T03:04:00.000Z';
 
 describe('selectors/week', () => {

@@ -14,13 +14,18 @@ import {
 } from '../util/constants.js';
 
 const getOffset = (state) => state.offset || 0;
+
+// given a date specified in the state param
+// return a date object that has the same date/ time in TIMEZONE
+// (if ignoring timezone parameter of Date object)
+// for eg.
+// getDate({date: '2021-12-06T02:05:00.000Z'}) => 2021-12-05T21:05:00.000Z
 const getDate = (state) => {
   let date = new Date();
   if (state && state.date) {
     date = new Date(state.date);
   }
   return utcToZonedTime(date, TIMEZONE);
-  // return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
 function setLocalDay(date, day) {
@@ -28,12 +33,10 @@ function setLocalDay(date, day) {
 }
 
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  // setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
   setLocalDay(startOfDay(date), 1 + offset * 7)
 );
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  // setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
   setLocalDay(endOfDay(date), 7 + offset * 7)
 );
 

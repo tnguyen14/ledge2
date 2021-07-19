@@ -15,20 +15,17 @@ describe('date-fns', () => {
   it('tz', () => {
     /*
      * hard-to-understand behavior for date-fns-tz when passing Date object
-     * - "zonedTimeToUtc" is as if to take only the time (pretend it's not UTC)
-     *   from the Date object and add the timezone parameter
-     * - "utcToZonedTime" is as if to remove the timezone parameter from the
-     *   Date object (UTC time)
-     */
-    const utcTimeForLocal8pm = zonedTimeToUtc(localTime8pm, TIMEZONE);
-    expect(utcTimeForLocal8pm.toISOString()).to.equal(
-      '2021-12-06T02:05:00.000Z'
-    );
+     * - "zonedTimeToUtc" is as if to take a local time and translate
+     *   to time in UTC that corresponds with that time
+     *
+     * - "utcToZonedTime" is getting the utc time and translate
+     *   to that time locally
+     *   */
+    const chicago8pm = zonedTimeToUtc(localTime8pm, TIMEZONE);
+    expect(chicago8pm.toISOString()).to.equal('2021-12-06T02:05:00.000Z');
 
     // revert conversion
-    expect(utcToZonedTime(utcTimeForLocal8pm, TIMEZONE)).to.deep.equal(
-      localTime8pm
-    );
+    expect(utcToZonedTime(chicago8pm, TIMEZONE)).to.deep.equal(localTime8pm);
   });
 
   it('tz - get ISO day in local timezone', () => {
