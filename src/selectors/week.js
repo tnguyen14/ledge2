@@ -19,7 +19,8 @@ const getDate = (state) => {
   if (state && state.date) {
     date = new Date(state.date);
   }
-  return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
+  return date;
+  // return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
 function setLocalDay(date, day) {
@@ -27,11 +28,13 @@ function setLocalDay(date, day) {
 }
 
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
+  // setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
+  setLocalDay(startOfDay(date), 1 + offset * 7)
 );
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
+  // setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
+  setLocalDay(endOfDay(date), 7 + offset * 7)
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
