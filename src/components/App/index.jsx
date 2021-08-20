@@ -49,7 +49,9 @@ function App() {
     (async () => {
       await updateToken();
       dispatch(refreshApp());
-      dispatch(loadTransactions());
+      requestIdleCallback(() => {
+        dispatch(loadTransactions());
+      });
     })();
   }, [isAuthenticated]);
   useEffect(() => {
