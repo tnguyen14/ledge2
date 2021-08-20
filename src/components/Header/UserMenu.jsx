@@ -26,7 +26,12 @@ function UserMenu(props) {
       />
       <ul className="profile">
         <li>{user.name}</li>
-        <li className="jwt-token">{token}</li>
+        <li className="jwt-token">
+          <details>
+            <summary>JWT Token</summary>
+            {token}
+          </details>
+        </li>
         <li
           className="logout"
           onClick={() =>

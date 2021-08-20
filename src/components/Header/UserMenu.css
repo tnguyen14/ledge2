@@ -1,7 +1,9 @@
 .user {
+  /*
   position: absolute;
   top: 0.5rem;
   right: 2.5%;
+  */
   z-index: 20; /* float above the form / Calculate button. 20 because z-index of carousel-indicators is 15 */
   @media (min-width: 42.5em) {
     right: 5%;
@@ -9,7 +11,7 @@
   img {
     border-radius: 50%;
     cursor: pointer;
-    width: 3em;
+    width: 2.5em;
   }
   .profile {
     background-color: white;

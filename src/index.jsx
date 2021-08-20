@@ -6,12 +6,14 @@ import { composeWithDevTools } from 'https://cdn.skypack.dev/redux-devtools-exte
 import { Provider } from 'https://cdn.skypack.dev/react-redux@7';
 import { Auth0Provider } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 import {
-  BrowserRouter,
+  HashRouter,
+  Switch,
   Route
 } from 'https://cdn.skypack.dev/react-router-dom@5';
+import reducer from './reducers/index.js';
 import App from './components/App/index.js';
 import Header from './components/Header/index.js';
-import reducer from './reducers/index.js';
+import Cashflow from './components/Cashflow/index.js';
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
 
@@ -24,12 +26,15 @@ render(
     redirectUri={window.location.href}
   >
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Header />
-          <Route path="/" component={App} />
+          <Switch>
+            <Route exact path="/" component={App} />
+            <Route exact path="/cashflow" component={Cashflow} />
+          </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   </Auth0Provider>,
   document.querySelector('.main')

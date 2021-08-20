@@ -3,11 +3,30 @@
 .header {
   background-color: var(--color-green);
   width: 100%;
+  display: flex;
+  justify-content: space-between;
   h1 {
     color: var(--color-gray-100);
     font-family: 'Shadows Into Light Two', cursive;
-    text-align: center;
-    margin: 0;
+    margin: 0 0 0 5%;
     padding: 0.25em 0;
+  }
+  .menu {
+    display: flex;
+    margin-right: 5%;
+    align-items: center;
+    a {
+      color: var(--color-gray-100);
+      font-size: 1.2em;
+      margin-right: 1rem;
+      text-decoration: none;
+      &:hover {
+        color: var(--color-amber);
+      }
+      &.active {
+        background-color: var(--color-green-700);
+        padding: 0.4em 0.75em;
+      }
+    }
   }
 }
