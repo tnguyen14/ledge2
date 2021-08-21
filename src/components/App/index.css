@@ -3,21 +3,3 @@
   font-size: 1.5em;
   margin-top: 2em;
 }
-
-.app-top {
-  background-color: var(--color-gray-100);
-  padding: 0.5rem 2.5%;
-  margin-bottom: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  @media (min-width: 42.5em) {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
-}
-.transactions-loading {
-  margin: 0 auto;
-  width: 2rem;
-}

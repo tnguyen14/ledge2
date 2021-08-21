@@ -1,5 +1,10 @@
 @import './Week.css';
 
+.transactions-loading {
+  margin: 0 auto;
+  width: 2rem;
+}
+
 .transactions {
   width: 95%;
   margin: 0 auto 2em;

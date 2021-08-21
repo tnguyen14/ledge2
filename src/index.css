@@ -1,5 +1,6 @@
 @import './components/App/index.css';
 @import './components/Header/index.css';
+@import './components/Expense/index.css';
 @import './components/Login/index.css';
 @import './components/Form/index.css';
 @import './components/Notification/index.css';

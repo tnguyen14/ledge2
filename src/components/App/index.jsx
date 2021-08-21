@@ -3,37 +3,35 @@ import {
   useDispatch,
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
-import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
 import {
-  useHistory,
-  useLocation
+  HashRouter,
+  Switch,
+  Route
 } from 'https://cdn.skypack.dev/react-router-dom@5';
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
-import Form from '../Form/index.js';
-import AccountStats from '../AccountStats/index.js';
-import Weeks from '../Weeks/index.js';
-import DeleteDialog from '../DeleteDialog/index.js';
-import Login from '../Login/index.js';
+import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+
 import Notification from '../Notification/index.js';
-import { loadAccount } from '../../actions/account.js';
+import Header from '../Header/index.js';
+import Login from '../Login/index.js';
+import Expense from '../Expense/index.js';
+import Cashflow from '../Cashflow/index.js';
 import { loadTransactions, refreshApp, setToken } from '../../actions/app.js';
 import { resetForm } from '../../actions/form.js';
 
+function AuthenticatedRoute({ component: Component, ...rest }) {
+  const { isAuthenticated } = useAuth0();
+  if (!isAuthenticated) {
+    return null;
+  }
+  return <Route component={Component} {...rest} />;
+}
 function App() {
+  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
-  const {
-    isLoading,
-    isAuthenticated,
-    getIdTokenClaims,
-    getAccessTokenSilently
-  } = useAuth0();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const token = useSelector((state) => state.app.token);
-
   const isVisible = usePageVisibility();
-
-  const history = useHistory();
-  const location = useLocation();
 
   async function updateToken() {
     const accessToken = await getAccessTokenSilently({
@@ -70,22 +68,23 @@ function App() {
     })();
   }, [isVisible]);
 
-  if (isLoading) {
-    return <h2 className="auth-loading">Loading...</h2>;
-  }
-  if (!isAuthenticated) {
-    return <Login />;
-  }
   return (
-    <div className="app">
-      <div className="app-top">
-        <Form />
-        <AccountStats />
+    <HashRouter>
+      <div className="app">
+        <Header />
+        {!isAuthenticated &&
+          (isLoading ? (
+            <h2 className="auth-loading">Loading...</h2>
+          ) : (
+            <Login />
+          ))}
+        <Switch>
+          <AuthenticatedRoute exact path="/" component={Expense} />
+          <AuthenticatedRoute exact path="/cashflow" component={Cashflow} />
+        </Switch>
+        <Notification />
       </div>
-      <Weeks />
-      <DeleteDialog />
-      <Notification />
-    </div>
+    </HashRouter>
   );
 }
 
