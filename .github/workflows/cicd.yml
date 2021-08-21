@@ -44,39 +44,40 @@ jobs:
       - name: Unit test
         run: npm t
 
-  integration-test:
-    name: Cypress
-    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
-    runs-on: ubuntu-latest
+  # integration-test:
+  #   name: Cypress
+  #   if: "!contains(github.event.head_commit.message, '[skip-ci]')"
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Install deps
-        run: npm install
+  #     - name: Install deps
+  #       run: npm install
 
-      - name: Build
-        env:
-          SERVER_URL: https://api.tridnguyen.com/lists/ledge/tri
-        run: npm run build
+  #     - name: Build
+  #       env:
+  #         SERVER_URL: https://api.tridnguyen.com/lists/ledge/tri
+  #       run: npm run build
 
-      - name: Cypress
-        uses: cypress-io/github-action@v2
-        env:
-          CYPRESS_TEST_USER: ${{ secrets.CYPRESS_TEST_USER }}
-          CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
-          CYPRESS_BASE_URL: 'http://localhost:4003'
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-        with:
-          record: true
-          start: npx http-server dist -p 4003
-          browser: chrome
-          headless: true
+  #     - name: Cypress
+  #       uses: cypress-io/github-action@v2
+  #       env:
+  #         CYPRESS_TEST_USER: ${{ secrets.CYPRESS_TEST_USER }}
+  #         CYPRESS_TEST_PASSWORD: ${{ secrets.CYPRESS_TEST_PASSWORD }}
+  #         CYPRESS_BASE_URL: 'http://localhost:4003'
+  #         CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+  #       with:
+  #         record: true
+  #         start: npx http-server dist -p 4003
+  #         browser: chrome
+  #         headless: true
 
   deploy:
     name: Deploy to GH Pages
-    needs: [unit-test-ny, unit-test, integration-test]
+    # needs: [unit-test-ny, unit-test, integration-test]
+    needs: [unit-test-ny, unit-test]
     if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip-ci]')
     runs-on: ubuntu-latest
 
