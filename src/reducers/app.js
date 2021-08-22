@@ -8,10 +8,10 @@ import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS
 } from '../actions/transaction.js';
-import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
 import { getPastWeeksIds } from '../selectors/week.js';
-import { getVisibleWeeks } from '../selectors/weeks.js';
+
+const numVisibleWeeks = 12;
 
 const defaultState = {
   isLoading: false,
@@ -25,8 +25,7 @@ const defaultState = {
   },
   lastRefreshed: 0,
   loadedTransactions: false,
-  weeksMeta: {},
-  numInitialVisibleWeeks: 12
+  visibleWeeksIds: []
 };
 
 export default function app(state = defaultState, action) {
@@ -35,17 +34,6 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         isLoading: true
-      };
-    case LOAD_WEEK_SUCCESS:
-      return {
-        ...state,
-        weeksMeta: {
-          ...state.weeksMeta,
-          [action.data.weekId]: {
-            ...state.weeksMeta[action.data.weekId],
-            loaded: true
-          }
-        }
       };
     case LOAD_TRANSACTIONS_SUCCESS:
       return {
@@ -79,39 +67,12 @@ export default function app(state = defaultState, action) {
         token: action.data
       };
     case SET_DISPLAY_FROM:
-      const previousVisibleWeeks = getVisibleWeeks(state.weeksMeta);
-      // show 4 weeks by default
-      const newVisibleWeeks = getPastWeeksIds({
-        weekId: action.data,
-        numWeeks: state.numInitialVisibleWeeks
-      });
-      const newState = {
-        ...state,
-        displayFrom: action.data
-      };
-      for (let week of previousVisibleWeeks) {
-        newState.weeksMeta[week] = {
-          ...newState.weeksMeta[week],
-          visible: false
-        };
-      }
-      for (let week of newVisibleWeeks) {
-        newState.weeksMeta[week] = {
-          ...newState.weeksMeta[week],
-          visible: true
-        };
-      }
-      return newState;
-    case SHOW_WEEK:
       return {
         ...state,
-        weeksMeta: {
-          ...state.weeksMeta,
-          [action.data.weekId]: {
-            ...state.weeksMeta[action.data.weekId],
-            visible: true
-          }
-        }
+        visibleWeeksIds: getPastWeeksIds({
+          weekId: action.data,
+          numWeeks: numVisibleWeeks
+        })
       };
     default:
       return state;

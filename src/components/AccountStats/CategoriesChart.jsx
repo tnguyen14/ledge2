@@ -13,7 +13,6 @@ import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import ChartBar from './ChartBar.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import { getWeekId, getWeekStartFromWeekId } from '../../selectors/week.js';
-import { getVisibleWeeks } from '../../selectors/weeks.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { TIMEZONE } from '../../util/constants.js';
 import { setDisplayFrom } from '../../actions/app.js';
@@ -25,9 +24,7 @@ function CategoriesChart() {
   const MAX_WEEK_AMOUNT = 2000; // assumption
   const INTERVAL_AMOUNT = 400;
   const HEIGHT_FACTOR = 500 / MAX_WEEK_AMOUNT; // 500px is height of a bar
-  const visibleWeeksIds = useSelector((state) =>
-    getVisibleWeeks(state.app.weeksMeta)
-  );
+  const visibleWeeksIds = useSelector((state) => state.app.visibleWeeksIds);
 
   const weeks = visibleWeeksIds
     .map((weekId) => {
