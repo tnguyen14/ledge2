@@ -7,11 +7,7 @@ import {
 } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
-import {
-  WEEK_ID_FORMAT,
-  TIMEZONE,
-  DATE_FIELD_FORMAT
-} from '../util/constants.js';
+import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
 const getOffset = (state) => state.offset || 0;
 const getDate = (state) => {
@@ -35,7 +31,7 @@ export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
-  format(weekStart, WEEK_ID_FORMAT)
+  format(weekStart, DATE_FIELD_FORMAT)
 );
 
 const getDateFromWeekId = (state) => {

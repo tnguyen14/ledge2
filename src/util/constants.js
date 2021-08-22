@@ -4,6 +4,5 @@ export const SERVER_URL = process.env.SERVER_URL;
 export const DATE_FIELD_FORMAT = 'yyyy-MM-dd';
 export const TIME_FIELD_FORMAT = 'HH:mm';
 
-export const WEEK_ID_FORMAT = 'yyyy-MM-dd';
 export const DISPLAY_DATE_FORMAT = 'MM/dd/yy hh:mm a z';
 export const DISPLAY_DAY_FORMAT = 'EEE';

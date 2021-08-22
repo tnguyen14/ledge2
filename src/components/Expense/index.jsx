@@ -10,7 +10,7 @@ import Weeks from '../Weeks/index.js';
 import DeleteDialog from '../DeleteDialog/index.js';
 import { setDisplayFrom } from '../../actions/app.js';
 import { resetForm } from '../../actions/form.js';
-import { WEEK_ID_FORMAT } from '../../util/constants.js';
+import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function Expense() {
   const today = useSelector((state) => state.app.today);
@@ -18,7 +18,7 @@ function Expense() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetForm());
-    dispatch(setDisplayFrom(format(today, WEEK_ID_FORMAT)));
+    dispatch(setDisplayFrom(format(today, DATE_FIELD_FORMAT)));
   }, [today, lastRefreshed]);
   return (
     <div className="expense">
