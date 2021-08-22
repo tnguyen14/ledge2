@@ -1,28 +1,4 @@
 import { loadAccount } from './account.js';
-import { getTransactions } from '../util/api.js';
-
-export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-export function loadTransactions(startDate, endDate) {
-  return async function loadTransactionsAsync(dispatch, getState) {
-    const {
-      app: { token }
-    } = getState();
-
-    dispatch({
-      type: LOAD_TRANSACTIONS
-    });
-    const transactions = await getTransactions(token, startDate, endDate);
-    dispatch({
-      type: LOAD_TRANSACTIONS_SUCCESS,
-      data: {
-        start: startDate,
-        end: endDate,
-        transactions
-      }
-    });
-  };
-}
 
 export const SET_FILTER = 'SET_FILTER';
 export function setFilter(filter) {

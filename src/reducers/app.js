@@ -1,11 +1,13 @@
 import {
-  LOAD_TRANSACTIONS,
-  LOAD_TRANSACTIONS_SUCCESS,
   SET_FILTER,
   SET_DISPLAY_FROM,
   SET_TOKEN,
   REFRESH_APP
 } from '../actions/app.js';
+import {
+  LOAD_TRANSACTIONS,
+  LOAD_TRANSACTIONS_SUCCESS
+} from '../actions/transaction.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
 import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
 import { getPastWeeksIds } from '../selectors/week.js';

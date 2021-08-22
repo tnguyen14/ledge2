@@ -1,4 +1,4 @@
-import { loadTransactions } from './app.js';
+import { loadTransactions } from './transaction.js';
 import {
   getWeekId,
   getWeekStart,
