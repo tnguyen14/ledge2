@@ -4,7 +4,7 @@ import {
   CANCEL_REMOVE_TRANSACTION
 } from '../actions/account.js';
 
-import { REMOVE_TRANSACTION_SUCCESS } from '../actions/transaction.js';
+import { REMOVE_TRANSACTION_SUCCESS } from '../actions/transactions.js';
 
 const initialState = {
   merchants: [],

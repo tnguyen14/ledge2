@@ -18,7 +18,7 @@ import {
 import {
   addTransaction,
   updateTransaction
-} from '../../actions/transaction.js';
+} from '../../actions/transactions.js';
 
 function submit() {
   return {

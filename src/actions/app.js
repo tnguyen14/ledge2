@@ -1,4 +1,12 @@
+import { startOfDay, setISODay, sub } from 'https://cdn.skypack.dev/date-fns@2';
 import { loadAccount } from './account.js';
+import { loadTransactions } from './transactions.js';
+
+import {
+  getWeekStart,
+  getWeekEnd,
+  getWeekStartFromWeekId
+} from '../selectors/week.js';
 
 export const SET_FILTER = 'SET_FILTER';
 export function setFilter(filter) {
@@ -32,5 +40,35 @@ export function refreshApp() {
     dispatch({
       type: REFRESH_APP
     });
+  };
+}
+
+export const INITIAL_LOAD_EXPENSE_SUCCESS = 'INITIAL_LOAD_EXPENSE_SUCCESS';
+export function initialLoadExpense() {
+  return async function initialLoadExpenseAsync(dispatch, getState) {
+    const {
+      app: { yearsToLoad }
+    } = getState();
+    const now = new Date();
+    const start = sub(now, {
+      years: yearsToLoad
+    });
+    const startMonday = startOfDay(setISODay(start, 1));
+    const endMonday = startOfDay(setISODay(now, 8));
+    await dispatch(loadTransactions(startMonday, endMonday));
+    dispatch({
+      type: INITIAL_LOAD_EXPENSE_SUCCESS
+    });
+  };
+}
+
+export function loadWeek({ weekId }) {
+  return async function loadWeekAsync(dispatch) {
+    dispatch(
+      loadTransactions(
+        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+        getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) })
+      )
+    );
   };
 }

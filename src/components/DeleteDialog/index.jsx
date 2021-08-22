@@ -10,7 +10,7 @@ import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { CANCEL_REMOVE_TRANSACTION } from '../../actions/account.js';
-import { removeTransaction } from '../../actions/transaction.js';
+import { removeTransaction } from '../../actions/transactions.js';
 
 function DeleteDialog(props) {
   const isRemovingTransaction = useSelector(

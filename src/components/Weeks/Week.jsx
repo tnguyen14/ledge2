@@ -8,7 +8,7 @@ import {
   INTEND_TO_REMOVE_TRANSACTION,
   EDIT_TRANSACTION
 } from '../../actions/account.js';
-import { loadWeek, LOAD_WEEK_SUCCESS } from '../../actions/weeks.js';
+import { loadWeek } from '../../actions/app.js';
 import { sortTransactions } from '../../util/transaction.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import Transaction from './Transaction.js';
@@ -47,7 +47,6 @@ function Week(props) {
   );
 
   useEffect(() => {
-    // wait for initial loadYears
     if (!initialLoad) {
       return;
     }

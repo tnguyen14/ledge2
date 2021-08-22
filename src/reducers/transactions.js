@@ -3,7 +3,7 @@ import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
   REMOVE_TRANSACTION_SUCCESS
-} from '../actions/transaction.js';
+} from '../actions/transactions.js';
 
 export default function transactions(state = {}, action) {
   switch (action.type) {

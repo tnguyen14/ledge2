@@ -2,14 +2,13 @@ import {
   SET_FILTER,
   SET_DISPLAY_FROM,
   SET_TOKEN,
-  REFRESH_APP
+  REFRESH_APP,
+  INITIAL_LOAD_EXPENSE_SUCCESS
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS
-} from '../actions/transaction.js';
-import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
-import { getPastWeeksIds } from '../selectors/week.js';
+} from '../actions/transactions.js';
 
 const numVisibleWeeks = 12;
 
@@ -45,7 +44,7 @@ export default function app(state = defaultState, action) {
           autohide: 3000
         }
       };
-    case LOAD_YEARS_SUCCESS:
+    case INITIAL_LOAD_EXPENSE_SUCCESS:
       return {
         ...state,
         initialLoad: true
