@@ -1,16 +1,25 @@
-import { loadYears } from './years.js';
 import { loadAccount } from './account.js';
+import { getTransactions } from '../util/api.js';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
-export function loadTransactions() {
-  return async function loadTransactionsAsync(dispatch) {
+export function loadTransactions(startDate, endDate) {
+  return async function loadTransactionsAsync(dispatch, getState) {
+    const {
+      app: { token }
+    } = getState();
+
     dispatch({
       type: LOAD_TRANSACTIONS
     });
-    await dispatch(loadYears());
+    const transactions = await getTransactions(token, startDate, endDate);
     dispatch({
-      type: LOAD_TRANSACTIONS_SUCCESS
+      type: LOAD_TRANSACTIONS_SUCCESS,
+      data: {
+        start: startDate,
+        end: endDate,
+        transactions
+      }
     });
   };
 }

@@ -1,4 +1,4 @@
-import { getTransactions } from '../util/api.js';
+import { loadTransactions } from './app.js';
 import {
   getWeekId,
   getWeekStart,
@@ -10,24 +10,23 @@ import { getVisibleWeeks } from '../selectors/weeks.js';
 export const LOAD_WEEK = 'LOAD_WEEK';
 export const LOAD_WEEK_SUCCESS = 'LOAD_WEEK_SUCCESS';
 export function loadWeek({ weekId }) {
-  return async function loadWeekAsync(dispatch, getState) {
-    const {
-      app: { token }
-    } = getState();
-
+  return async function loadWeekAsync(dispatch) {
     dispatch({
-      type: LOAD_WEEK
+      type: LOAD_WEEK,
+      data: {
+        weekId
+      }
     });
-    const transactions = await getTransactions(
-      token,
-      getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
-      getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) })
+    dispatch(
+      loadTransactions(
+        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+        getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) })
+      )
     );
     dispatch({
       type: LOAD_WEEK_SUCCESS,
       data: {
-        weekId,
-        transactions
+        weekId
       }
     });
   };

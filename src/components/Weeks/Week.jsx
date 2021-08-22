@@ -35,7 +35,7 @@ function Week(props) {
   const sources = useSelector((state) => state.account.sources);
   const filter = useSelector((state) => state.app.filter);
   const displayFrom = useSelector((state) => state.app.displayFrom);
-  const isLoading = useSelector((state) => state.app.isLoading);
+  const initialLoad = useSelector((state) => state.app.initialLoad);
   const weekMeta = useSelector((state) => state.app.weeksMeta[weekId]);
   const transactions = useSelector((state) => state.transactions);
   const { transactions: weekTransactions, start, end } = getWeekById({
@@ -49,21 +49,22 @@ function Week(props) {
 
   useEffect(() => {
     // wait for initial loadYears
-    if (!isLoading) {
-      if (localWeekTransactions.length) {
-        // if there's no meta or meta hasn't been marked as loaded
-        if (!(weekMeta && weekMeta.loaded)) {
-          dispatch({
-            type: LOAD_WEEK_SUCCESS,
-            data: {
-              weekId
-            }
-          });
-        }
-      } else {
-        if (weekMeta && !weekMeta.loaded && weekMeta.visible) {
-          dispatch(loadWeek({ weekId }));
-        }
+    if (!initialLoad) {
+      return;
+    }
+    if (localWeekTransactions.length) {
+      // if there's no meta or meta hasn't been marked as loaded
+      if (!(weekMeta && weekMeta.loaded)) {
+        dispatch({
+          type: LOAD_WEEK_SUCCESS,
+          data: {
+            weekId
+          }
+        });
+      }
+    } else {
+      if (weekMeta && !weekMeta.loaded && weekMeta.visible) {
+        dispatch(loadWeek({ weekId }));
       }
     }
   }, [weekMeta]);

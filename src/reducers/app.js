@@ -7,11 +7,13 @@ import {
   REFRESH_APP
 } from '../actions/app.js';
 import { SHOW_WEEK, LOAD_WEEK, LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
+import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
 import { getPastWeeksIds } from '../selectors/week.js';
 import { getVisibleWeeks } from '../selectors/weeks.js';
 
 const defaultState = {
   isLoading: false,
+  initialLoad: false,
   filter: '',
   yearsToLoad: 3,
   notification: {
@@ -28,7 +30,6 @@ const defaultState = {
 export default function app(state = defaultState, action) {
   switch (action.type) {
     case LOAD_TRANSACTIONS:
-    case LOAD_WEEK:
       return {
         ...state,
         isLoading: true
@@ -36,7 +37,6 @@ export default function app(state = defaultState, action) {
     case LOAD_WEEK_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         weeksMeta: {
           ...state.weeksMeta,
           [action.data.weekId]: {
@@ -52,9 +52,14 @@ export default function app(state = defaultState, action) {
         loadedTransactions: true,
         notification: {
           title: 'App',
-          content: 'Finished loading transactions',
+          content: `Finished loading transactions from ${action.data.start} to ${action.data.end}`,
           autohide: 3000
         }
+      };
+    case LOAD_YEARS_SUCCESS:
+      return {
+        ...state,
+        initialLoad: true
       };
     case REFRESH_APP:
       return {

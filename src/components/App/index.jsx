@@ -16,7 +16,8 @@ import Header from '../Header/index.js';
 import Login from '../Login/index.js';
 import Expense from '../Expense/index.js';
 import Cashflow from '../Cashflow/index.js';
-import { loadTransactions, refreshApp, setToken } from '../../actions/app.js';
+import { refreshApp, setToken } from '../../actions/app.js';
+import { loadYears } from '../../actions/years.js';
 import { resetForm } from '../../actions/form.js';
 
 function AuthenticatedRoute({ component: Component, ...rest }) {
@@ -48,7 +49,7 @@ function App() {
       await updateToken();
       dispatch(refreshApp());
       requestIdleCallback(() => {
-        dispatch(loadTransactions());
+        dispatch(loadYears());
       });
     })();
   }, [isAuthenticated]);

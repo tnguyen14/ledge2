@@ -1,5 +1,4 @@
-import { LOAD_YEARS_SUCCESS } from '../actions/years.js';
-import { LOAD_WEEK_SUCCESS } from '../actions/weeks.js';
+import { LOAD_TRANSACTIONS_SUCCESS } from '../actions/app.js';
 import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS,
@@ -8,8 +7,7 @@ import {
 
 export default function transactions(state = {}, action) {
   switch (action.type) {
-    case LOAD_YEARS_SUCCESS:
-    case LOAD_WEEK_SUCCESS:
+    case LOAD_TRANSACTIONS_SUCCESS:
       if (!action.data.transactions) {
         return state;
       }
