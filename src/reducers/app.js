@@ -24,8 +24,7 @@ const defaultState = {
     type: 'info'
   },
   lastRefreshed: 0,
-  loadedTransactions: false,
-  visibleWeeksIds: []
+  loadedTransactions: false
 };
 
 export default function app(state = defaultState, action) {
@@ -69,10 +68,7 @@ export default function app(state = defaultState, action) {
     case SET_DISPLAY_FROM:
       return {
         ...state,
-        visibleWeeksIds: getPastWeeksIds({
-          weekId: action.data,
-          numWeeks: numVisibleWeeks
-        })
+        displayFrom: action.data
       };
     default:
       return state;

@@ -8,6 +8,9 @@ import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { setFilter, setDisplayFrom } from '../../actions/app.js';
 import Week from './Week.js';
 import Field from '../Form/Field.js';
+import { getPastWeeksIds } from '../../selectors/week.js';
+
+const numWeeksToShow = 5;
 
 function Weeks(props) {
   const dispatch = useDispatch();
@@ -15,7 +18,10 @@ function Weeks(props) {
   const initialLoad = useSelector((state) => state.app.initialLoad);
   const filter = useSelector((state) => state.app.filter);
   const displayFrom = useSelector((state) => state.app.displayFrom);
-  const visibleWeeksIds = useSelector((state) => state.app.visibleWeeksIds);
+  const visibleWeeksIds = getPastWeeksIds({
+    weekId: displayFrom,
+    numWeeks: numWeeksToShow
+  });
 
   return (
     <div className="transactions">

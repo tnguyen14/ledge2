@@ -26,6 +26,7 @@ function TabPanel(props) {
 function AccountStats(props) {
   const [tab, setTab] = useState(0);
   const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
+  const initialLoad = useSelector((state) => state.app.initialLoad);
 
   return (
     <div className="stats account-stats">

@@ -38,11 +38,21 @@ export const getWeekId = createSelector(getWeekStart, (weekStart) =>
   format(weekStart, WEEK_ID_FORMAT)
 );
 
-const getDateFromWeekId = (state) => new Date(`${state.weekId} 00:00`);
+const getDateFromWeekId = (state) => {
+  if (!state.weekId) {
+    return;
+  }
+  return new Date(`${state.weekId} 00:00`);
+};
 
 export const getWeekStartFromWeekId = createSelector(
   getDateFromWeekId,
-  (date) => getDateInTz(date, TIMEZONE)
+  (date) => {
+    if (!date) {
+      return;
+    }
+    return getDateInTz(date, TIMEZONE);
+  }
 );
 
 const getNumWeeks = (state) => state.numWeeks;
@@ -50,8 +60,12 @@ const getNumWeeks = (state) => state.numWeeks;
 export const getPastWeeksIds = createSelector(
   getWeekStartFromWeekId,
   getNumWeeks,
-  (weekStart, numWeeks) =>
-    [...Array(numWeeks).keys()].map((offset) =>
+  (weekStart, numWeeks) => {
+    if (!weekStart) {
+      return [];
+    }
+    return [...Array(numWeeks).keys()].map((offset) =>
       getWeekId({ date: weekStart, offset: -offset })
-    )
+    );
+  }
 );
