@@ -1,5 +1,4 @@
 import { startOfDay, setISODay, sub } from 'https://cdn.skypack.dev/date-fns@2';
-import { loadAccount } from './account.js';
 import { loadTransactions } from './transactions.js';
 
 import {
@@ -32,14 +31,19 @@ export function setToken(token) {
   };
 }
 
+export const SET_TODAY = 'SET_TODAY';
+export function setToday(date) {
+  return {
+    type: SET_TODAY,
+    data: date
+  };
+}
+
 export const REFRESH_APP = 'REFRESH_APP';
 export function refreshApp() {
-  return async function refreshApp(dispatch) {
-    await dispatch(loadAccount());
-    // update lastRefreshed
-    dispatch({
-      type: REFRESH_APP
-    });
+  // update lastRefreshed
+  return {
+    type: REFRESH_APP
   };
 }
 

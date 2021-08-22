@@ -16,8 +16,13 @@ import Header from '../Header/index.js';
 import Login from '../Login/index.js';
 import Expense from '../Expense/index.js';
 import Cashflow from '../Cashflow/index.js';
-import { refreshApp, setToken, initialLoadExpense } from '../../actions/app.js';
-import { resetForm } from '../../actions/form.js';
+import {
+  refreshApp,
+  setToken,
+  initialLoadExpense,
+  setToday
+} from '../../actions/app.js';
+import { loadAccount } from '../../actions/account.js';
 
 function AuthenticatedRoute({ component: Component, ...rest }) {
   const { isAuthenticated } = useAuth0();
@@ -30,6 +35,7 @@ function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
+  const initialLoad = useSelector((state) => state.app.initialLoad);
   const token = useSelector((state) => state.app.token);
   const isVisible = usePageVisibility();
 
@@ -41,32 +47,26 @@ function App() {
   }
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-    (async () => {
-      await updateToken();
-      dispatch(refreshApp());
-      requestIdleCallback(() => {
-        dispatch(initialLoadExpense());
-      });
-    })();
-  }, [isAuthenticated]);
-  useEffect(() => {
-    if (!isVisible || !isAuthenticated) {
+    if (!isAuthenticated || !isVisible) {
       return;
     }
     const now = new Date();
-    // reload if haven't been loaded in an hour
+    // reload if haven't been refreshed in an hour
     const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
       if (shouldReload) {
-        dispatch(resetForm());
         await updateToken();
+        await dispatch(loadAccount());
+        dispatch(setToday(now));
         dispatch(refreshApp());
+        if (!initialLoad) {
+          requestIdleCallback(() => {
+            dispatch(initialLoadExpense());
+          });
+        }
       }
     })();
-  }, [isVisible]);
+  }, [isAuthenticated, isVisible]);
 
   return (
     <HashRouter>

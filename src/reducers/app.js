@@ -3,7 +3,8 @@ import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
   REFRESH_APP,
-  INITIAL_LOAD_EXPENSE_SUCCESS
+  INITIAL_LOAD_EXPENSE_SUCCESS,
+  SET_TODAY
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
@@ -68,6 +69,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         displayFrom: action.data
+      };
+    case SET_TODAY:
+      return {
+        ...state,
+        today: action.data
       };
     default:
       return state;
