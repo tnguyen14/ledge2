@@ -5,7 +5,7 @@ import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
 const getOffset = (state) => state.offset || 0;
-const getDate = (state) => {
+export const getDate = (state) => {
   let date = new Date();
   if (state && state.date) {
     date = new Date(state.date);
