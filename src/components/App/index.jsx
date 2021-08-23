@@ -10,6 +10,7 @@ import {
 } from 'https://cdn.skypack.dev/react-router-dom@5';
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
@@ -20,9 +21,10 @@ import {
   refreshApp,
   setToken,
   initialLoadExpense,
-  setToday
+  setDisplayFrom
 } from '../../actions/app.js';
 import { loadAccount } from '../../actions/account.js';
+import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
 function AuthenticatedRoute({ component: Component, ...rest }) {
   const { isAuthenticated } = useAuth0();
@@ -57,7 +59,7 @@ function App() {
       if (shouldReload) {
         await updateToken();
         await dispatch(loadAccount());
-        dispatch(setToday(now));
+        dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
         dispatch(refreshApp());
         if (!initialLoad) {
           requestIdleCallback(() => {

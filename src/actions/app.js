@@ -31,14 +31,6 @@ export function setToken(token) {
   };
 }
 
-export const SET_TODAY = 'SET_TODAY';
-export function setToday(date) {
-  return {
-    type: SET_TODAY,
-    data: date
-  };
-}
-
 export const REFRESH_APP = 'REFRESH_APP';
 export function refreshApp() {
   // update lastRefreshed
