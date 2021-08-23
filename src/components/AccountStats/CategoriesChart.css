@@ -51,7 +51,7 @@
   }
   .week-column,
   .week-label {
-    width: 1rem;
+    width: 1.5rem;
     @media (min-width: 42.5em) {
       width: 2.5rem;
     }
