@@ -1,10 +1,5 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import {
-  startOfDay,
-  endOfDay,
-  setISODay,
-  format
-} from 'https://cdn.skypack.dev/date-fns@2';
+import { setISODay, format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
