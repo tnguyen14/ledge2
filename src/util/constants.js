@@ -6,3 +6,5 @@ export const TIME_FIELD_FORMAT = 'HH:mm';
 
 export const DISPLAY_DATE_FORMAT = 'MM/dd/yy hh:mm a z';
 export const DISPLAY_DAY_FORMAT = 'EEE';
+
+export const MONTH_FORMAT = 'yyyy-MM';

@@ -1,16 +1,11 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import {
-  startOfDay,
-  endOfDay,
-  setISODay,
-  format
-} from 'https://cdn.skypack.dev/date-fns@2';
+import { setISODay, format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
-const getOffset = (state) => state.offset || 0;
-const getDate = (state) => {
+export const getOffset = (state) => state.offset || 0;
+export const getDate = (state) => {
   let date = new Date();
   if (state && state.date) {
     date = new Date(state.date);
@@ -18,16 +13,15 @@ const getDate = (state) => {
   return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
-function setLocalDay(date, day) {
-  return getDateInTz(setISODay(date, day), TIMEZONE);
-}
-
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
+  getDateInTz(setISODay(new Date(`${date} 00:00`), 1 + offset * 7), TIMEZONE)
 );
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
+  getDateInTz(
+    setISODay(new Date(`${date} 23:59:59.999`), 7 + offset * 7),
+    TIMEZONE
+  )
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
