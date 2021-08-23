@@ -18,7 +18,9 @@ function Expense() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetForm());
-    dispatch(setDisplayFrom(format(today, DATE_FIELD_FORMAT)));
+    if (today) {
+      dispatch(setDisplayFrom(format(today, DATE_FIELD_FORMAT)));
+    }
   }, [today, lastRefreshed]);
   return (
     <div className="expense">
