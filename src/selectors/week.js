@@ -13,16 +13,15 @@ export const getDate = (state) => {
   return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
-function setLocalDay(date, day) {
-  return getDateInTz(setISODay(date, day), TIMEZONE);
-}
-
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 00:00`), 1 + offset * 7)
+  getDateInTz(setISODay(new Date(`${date} 00:00`), 1 + offset * 7), TIMEZONE)
 );
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  setLocalDay(new Date(`${date} 23:59:59.999`), 7 + offset * 7)
+  getDateInTz(
+    setISODay(new Date(`${date} 23:59:59.999`), 7 + offset * 7),
+    TIMEZONE
+  )
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
