@@ -91,10 +91,6 @@ function Week(props) {
             <th data-field="day">Day</th>
             <th data-field="merchant">Merchant</th>
             <th data-field="amount">Amount</th>
-            <th data-field="source">Source</th>
-            <th data-field="description" className="secondary">
-              Desc.
-            </th>
             <th data-field="category" className="secondary">
               Category
             </th>

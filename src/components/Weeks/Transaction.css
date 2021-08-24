@@ -31,6 +31,21 @@
     color: white;
   }
 
+  [data-field='action'] {
+    button {
+      background-color: transparent;
+      padding: 0;
+      border: none;
+      margin-left: 1em;
+      &:hover {
+        color: var(--color-light-blue);
+      }
+      &.has-description {
+        color: var(--color-green-700);
+      }
+    }
+  }
+
   [data-field='day'],
   [data-field='merchant'],
   [data-field='amount'],
@@ -61,5 +76,12 @@
     [data-field='action'] {
       min-width: 6rem;
     }
+  }
+}
+.notes-popover {
+  padding: 0.75rem;
+  h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0;
   }
 }
