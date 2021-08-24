@@ -10,8 +10,6 @@ import Week from './Week.js';
 import Field from '../Form/Field.js';
 import { getPastWeeksIds } from '../../selectors/week.js';
 
-const numWeeksToShow = 5;
-
 function Weeks(props) {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.app.isLoading);
@@ -20,7 +18,7 @@ function Weeks(props) {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const visibleWeeksIds = getPastWeeksIds({
     weekId: displayFrom,
-    numWeeks: numWeeksToShow
+    numWeeks: filter ? 10 : 3
   });
 
   return (
