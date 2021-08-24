@@ -39,15 +39,12 @@ function AccountStats(props) {
       >
         <Tab label="Weekly Chart" />
         <Tab className="weekly-averages" label="Weekly Averages" />
-        <Tab label={`Past ${yearsToLoad} Years`} />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <CategoriesChart />
       </TabPanel>
       <TabPanel className="weekly-averages" value={tab} index={1}>
         <WeeklyAverages />
-      </TabPanel>
-      <TabPanel value={tab} index={2}>
         <YearAverages />
       </TabPanel>
     </div>

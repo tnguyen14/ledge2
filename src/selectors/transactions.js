@@ -24,20 +24,22 @@ const getYears = createSelector(getTransactions, (transactions) => {
 });
 
 export const getYearAverages = createSelector(getYears, (years) => {
-  return Object.keys(years).map((year) => {
-    const transactions = sortTransactions(years[year]);
-    const numWeeks = differenceInCalendarWeeks(
-      new Date(transactions[0].date),
-      new Date(transactions[transactions.length - 1].date)
-    );
+  return Object.keys(years)
+    .reverse()
+    .map((year) => {
+      const transactions = sortTransactions(years[year]);
+      const numWeeks = differenceInCalendarWeeks(
+        new Date(transactions[0].date),
+        new Date(transactions[transactions.length - 1].date)
+      );
 
-    return {
-      numWeeks,
-      transactions,
-      year,
-      weeklyAverage: sum(transactions.map((t) => t.amount)) / numWeeks
-    };
-  });
+      return {
+        numWeeks,
+        transactions,
+        year,
+        weeklyAverage: sum(transactions.map((t) => t.amount)) / numWeeks
+      };
+    });
 });
 
 function addTransactionToWeek(weeks, transaction, offset) {
