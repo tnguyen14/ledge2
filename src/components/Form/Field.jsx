@@ -10,6 +10,7 @@ function Field(props) {
     label,
     name,
     hint,
+    disabled,
     attributes,
     value,
     options,
@@ -34,6 +35,7 @@ function Field(props) {
         ref={inputRef}
         placeholder={placeholder}
         tabIndex={tabindex}
+        disabled={disabled}
         {...attributes}
       />
     );
@@ -46,6 +48,7 @@ function Field(props) {
         onChange={handleChange}
         ref={inputRef}
         tabIndex={tabindex}
+        disabled={disabled}
       >
         <option value="">{placeholder || `Select ${label}`}</option>
         {options.map((option) => {
@@ -67,6 +70,7 @@ function Field(props) {
         onChange={handleChange}
         ref={inputRef}
         tabIndex={tabindex}
+        disabled={disabled}
       />
     );
   }

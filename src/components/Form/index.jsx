@@ -60,6 +60,8 @@ function Form(props) {
     (state) => state.form
   );
 
+  const appReady = useSelector((state) => state.app.appReady);
+
   const prevMerchantRef = useRef();
   useEffect(() => {
     prevMerchantRef.current = values.merchant;
@@ -125,6 +127,7 @@ function Form(props) {
                 dispatch(inputChange('amount', newAmount));
               }
             }}
+            disabled={!appReady}
             {...field}
           />
         );

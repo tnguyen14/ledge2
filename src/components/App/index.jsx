@@ -59,8 +59,8 @@ function App() {
       if (shouldReload) {
         await updateToken();
         await dispatch(loadAccount());
-        dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
         dispatch(refreshApp());
+        dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
         if (!initialLoad) {
           requestIdleCallback(() => {
             dispatch(initialLoadExpense());

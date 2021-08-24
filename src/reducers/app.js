@@ -13,6 +13,7 @@ import {
 const numVisibleWeeks = 12;
 
 const defaultState = {
+  appReady: false,
   isLoading: false,
   initialLoad: false,
   filter: '',
@@ -52,6 +53,7 @@ export default function app(state = defaultState, action) {
     case REFRESH_APP:
       return {
         ...state,
+        appReady: true,
         lastRefreshed: new Date().valueOf()
       };
     case SET_FILTER:
