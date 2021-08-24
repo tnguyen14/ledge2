@@ -31,6 +31,7 @@
     color: white;
   }
 
+  [data-field='merchant'],
   [data-field='action'] {
     button {
       background-color: transparent;
@@ -40,48 +41,27 @@
       &:hover {
         color: var(--color-light-blue);
       }
-      &.has-description {
-        color: var(--color-green-700);
-      }
-    }
-  }
-
-  [data-field='day'],
-  [data-field='merchant'],
-  [data-field='amount'],
-  [data-field='source'] {
-    border-top-width: 2px;
-    @media (min-width: 42.5em) {
-      border-top-width: 1px;
-    }
-  }
-  [data-field='description'],
-  [data-field='category'],
-  [data-field='action'] {
-    display: none;
-  }
-  &.table-active {
-    [data-field='description'],
-    [data-field='category'],
-    [data-field='action'] {
-      display: table-cell;
-    }
-  }
-  @media (min-width: 42.5em) {
-    [data-field='description'],
-    [data-field='category'],
-    [data-field='action'] {
-      display: table-cell;
-    }
-    [data-field='action'] {
-      min-width: 6rem;
     }
   }
 }
-.notes-popover {
+.notes-popover,
+.date-popover,
+.span-popover,
+.actions-popover,
+.category-popover {
   padding: 0.75rem;
+  font-size: 0.9rem;
   h4 {
-    font-size: 0.9rem;
+    font-size: 0.9em;
     margin-bottom: 0;
+  }
+}
+.actions-popover {
+  div {
+    cursor: pointer;
+    padding: 0.5rem;
+    &:hover {
+      background-color: var(--color-gray-100);
+    }
   }
 }

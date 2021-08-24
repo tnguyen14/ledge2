@@ -2,7 +2,7 @@ import React from 'https://cdn.skypack.dev/react@17';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
-import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { TIMEZONE } from '../../util/constants.js';
 
 function WeekCategory(props) {

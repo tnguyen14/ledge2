@@ -1,6 +1,6 @@
 import React from 'https://cdn.skypack.dev/react@17';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   INPUT_CHANGE,

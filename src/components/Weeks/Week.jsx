@@ -86,27 +86,15 @@ function Week(props) {
         {format(start, 'MMM d')} - {format(end, 'MMM d')}
       </h3>
       <table className="weekly-transactions table table-striped">
-        <thead>
-          <tr>
-            <th data-field="day">Day</th>
-            <th data-field="merchant">Merchant</th>
-            <th data-field="amount">Amount</th>
-            <th data-field="category" className="secondary">
-              Category
-            </th>
-            <th className="secondary" />
-          </tr>
-          <tr className="addition" />
-        </thead>
         <tbody>
           {displayTransactions.map((tx) => (
             <Transaction
               key={tx.id}
               handleRemove={() => dispatch(intendToRemoveTransaction(tx))}
-              handleEdit={(event) => {
+              handleEdit={() => {
                 // avoid toggling the transaction as active
-                event.stopPropagation();
                 dispatch(editTransaction(tx));
+                document.querySelector('.new-transaction').scrollIntoView();
               }}
               options={{
                 categories,

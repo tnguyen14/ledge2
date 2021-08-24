@@ -15,28 +15,6 @@
     @media (min-width: 68.75em) {
       width: 65%;
     }
-    thead {
-      th {
-        border-bottom-width: 0;
-        @media (min-width: 42.5em) {
-          border-bottom-width: 1px;
-        }
-      }
-      .secondary {
-        display: none;
-        @media (min-width: 42.5em) {
-          display: table-cell;
-        }
-      }
-      .addition {
-        .two-col {
-          flex-grow: 2;
-        }
-        @media (min-width: 42.5em) {
-          display: none;
-        }
-      }
-    }
     tr {
       display: flex;
       flex-flow: row wrap;
@@ -53,28 +31,19 @@
         padding: 0.75rem;
       }
     }
-    th {
-      font-size: 0.9rem;
+    [data-field='day'] {
+      flex-basis: 3.5rem;
     }
-    [data-field='day'],
     [data-field='amount'] {
       flex-basis: 4.5rem;
-      @media (min-width: 42.5em) {
-        flex-basis: 25%;
-      }
     }
-    [data-field='merchant'],
-    [data-field='source'] {
-      flex-basis: calc((100% - 9rem) / 2);
-      @media (min-width: 42.5em) {
-        flex-basis: 25%;
-      }
+    [data-field='action'] {
+      flex-basis: 4rem;
     }
-    [data-field='description'] {
-      flex-grow: 2;
+    [data-field='merchant'] {
+      flex-basis: calc(100% - 3.5rem - 4.5rem - 4rem);
     }
-    [data-field='merchant'],
-    [data-field='source'] {
+    [data-field='merchant'] {
       word-break: break-word;
     }
   }

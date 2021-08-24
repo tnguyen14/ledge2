@@ -5,20 +5,15 @@ import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import {
-  PencilIcon,
-  XIcon,
+  KebabHorizontalIcon,
   ClockIcon,
   NoteIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import useToggle from '../../hooks/useToggle.js';
-import {
-  TIMEZONE,
-  DISPLAY_DATE_FORMAT,
-  DISPLAY_DAY_FORMAT
-} from '../../util/constants.js';
+import { TIMEZONE, DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
@@ -30,7 +25,6 @@ function getValueFromOptions(options, slug) {
 }
 
 function Transaction(props) {
-  const [active, toggleActive] = useToggle(false);
   const {
     id,
     date,
@@ -49,57 +43,105 @@ function Transaction(props) {
     variant: 'popover',
     popupId: `${id}-notes`
   });
+  const datePopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-date`
+  });
+  const categoryPopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-category`
+  });
+  const spanPopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-span`
+  });
+  const actionsPopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-actions`
+  });
 
   // show day as in origin timezone, while date in local timezone
-  const displayDay = format(utcToZonedTime(date, TIMEZONE), DISPLAY_DAY_FORMAT);
+  const displayDay = format(utcToZonedTime(date, TIMEZONE), 'EEE');
   const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
   return (
     <>
       <tr
         id={id}
-        className={classnames('transaction', {
-          'table-active': active
-        })}
-        onClick={toggleActive}
+        className="transaction"
         data-day={displayDay}
         data-date={date}
       >
-        <td data-field="day">
-          <Tooltip title={displayDate}>
-            <span>{displayDay}</span>
-          </Tooltip>
+        <td data-field="day" {...bindTrigger(datePopupState)}>
+          {displayDay}
         </td>
-        <td data-field="merchant">{merchant}</td>
+        <td data-field="merchant">
+          {merchant}
+          {description && (
+            <button className="note" {...bindTrigger(notesPopupState)}>
+              <NoteIcon />
+            </button>
+          )}
+        </td>
         <td data-field="amount" data-cat={category}>
-          <Badge pill>{usd(amount)}</Badge>
+          <Badge pill {...bindTrigger(categoryPopupState)}>
+            {usd(amount)}
+          </Badge>
           {span > 1 ? (
-            <Tooltip title={`Span ${span} weeks`}>
-              <span className="span-hint">
-                <ClockIcon />
-              </span>
-            </Tooltip>
+            <span className="span-hint" {...bindTrigger(spanPopupState)}>
+              <ClockIcon />
+            </span>
           ) : null}
         </td>
-        <td data-field="category">
-          {getValueFromOptions(options.categories, category)}
-        </td>
         <td data-field="action">
-          <button
-            className={classnames({
-              'has-description': !!description
-            })}
-            {...bindTrigger(notesPopupState)}
-          >
-            <NoteIcon />
-          </button>
-          <button onClick={handleEdit}>
-            <PencilIcon />
-          </button>
-          <button onClick={handleRemove}>
-            <XIcon />
+          <button {...bindTrigger(actionsPopupState)}>
+            <KebabHorizontalIcon />
           </button>
         </td>
       </tr>
+      <Popover
+        {...bindPopover(datePopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="date-popover">{displayDate}</div>
+      </Popover>
+      <Popover
+        {...bindPopover(categoryPopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="category-popover">
+          <h4>Category</h4>
+          <div>{getValueFromOptions(options.categories, category)}</div>
+          <h4>Source</h4>
+          <div>{getValueFromOptions(options.sources, source)}</div>
+        </div>
+      </Popover>
+      <Popover
+        {...bindPopover(spanPopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="span-popover">Span {span} weeks</div>
+      </Popover>
       <Popover
         {...bindPopover(notesPopupState)}
         anchorOrigin={{
@@ -111,15 +153,36 @@ function Transaction(props) {
           horizontal: 'center'
         }}
       >
-        <div className="notes-popover">
-          <h4>Source</h4>
-          <div>{getValueFromOptions(options.sources, source)}</div>
-          {description && (
-            <>
-              <h4>Description</h4>
-              <div>{description}</div>
-            </>
-          )}
+        <div className="notes-popover">{description}</div>
+      </Popover>
+      <Popover
+        {...bindPopover(actionsPopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="actions-popover">
+          <div
+            onClick={() => {
+              actionsPopupState.close();
+              handleEdit();
+            }}
+          >
+            Edit
+          </div>
+          <div
+            onClick={() => {
+              actionsPopupState.close();
+              handleRemove();
+            }}
+          >
+            Delete
+          </div>
         </div>
       </Popover>
     </>
