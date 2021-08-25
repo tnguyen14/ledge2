@@ -210,6 +210,8 @@ export default function form(state = initialState, action) {
           ...state.defaultValues,
           [action.data.name]: action.data.value
         },
+        // not just update the default values,
+        // but also actual values and fields
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
       };
