@@ -10,38 +10,16 @@ import {
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Field from './Field.js';
 import {
-  INPUT_CHANGE,
-  SUBMIT_TRANSACTION_FAILURE,
-  SUBMIT_TRANSACTION,
-  resetForm
+  submit,
+  submitFailure,
+  inputChange,
+  resetForm,
+  updateDefaultValue
 } from '../../actions/form.js';
 import {
   addTransaction,
   updateTransaction
 } from '../../actions/transactions.js';
-
-function submit() {
-  return {
-    type: SUBMIT_TRANSACTION
-  };
-}
-
-function submitFailure(err) {
-  return {
-    type: SUBMIT_TRANSACTION_FAILURE,
-    data: err
-  };
-}
-
-function inputChange(name, value) {
-  return {
-    type: INPUT_CHANGE,
-    data: {
-      name,
-      value
-    }
-  };
-}
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -78,13 +56,19 @@ function Form(props) {
   );
   const type = values.type;
   const fieldOptions = useSelector((state) => ({
-    category: state.account.categories,
-    source: state.account.sources,
-    types: state.account.types
-      ? [...state.account.types.out].concat(state.account.types.in)
-      : []
+    category: state.account.categories[type] || [],
+    source: state.account.sources[type] || [],
+    types: [...state.account.types.out].concat(state.account.types.in)
   }));
 
+  useEffect(() => {
+    if (fieldOptions.category.length) {
+      dispatch(updateDefaultValue('category', fieldOptions.category[0].slug));
+    }
+    if (fieldOptions.source.length) {
+      dispatch(updateDefaultValue('source', fieldOptions.source[0].slug));
+    }
+  }, [fieldOptions.category, fieldOptions.source]);
   const appReady = useSelector((state) => state.app.appReady);
 
   const prevMerchantRef = useRef();

@@ -31,8 +31,6 @@ function intendToRemoveTransaction(transaction) {
 function Week(props) {
   const dispatch = useDispatch();
   const { weekId } = props;
-  const categories = useSelector((state) => state.account.categories);
-  const sources = useSelector((state) => state.account.sources);
   const filter = useSelector((state) => state.app.filter);
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const initialLoad = useSelector((state) => state.app.initialLoad);
@@ -95,10 +93,6 @@ function Week(props) {
                 // avoid toggling the transaction as active
                 dispatch(editTransaction(tx));
                 document.querySelector('.new-transaction').scrollIntoView();
-              }}
-              options={{
-                categories,
-                sources
               }}
               {...tx}
             />

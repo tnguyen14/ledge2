@@ -9,9 +9,17 @@ import { REMOVE_TRANSACTION_SUCCESS } from '../actions/transactions.js';
 const initialState = {
   merchants: [],
   isRemovingTransaction: false,
-  categories: [],
-  sources: [],
-  merchants_count: {}
+  categories: {
+    'regular-expense': []
+  },
+  sources: {
+    'regular-expense': []
+  },
+  merchants_count: {},
+  types: {
+    in: [],
+    out: []
+  }
 };
 
 export default function account(state = initialState, action) {

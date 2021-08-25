@@ -9,7 +9,9 @@ import { sum, average, weeklyTotal } from '../../util/calculate.js';
 
 function WeekStats(props) {
   const { weekId, label } = props;
-  const categories = useSelector((state) => state.account.categories);
+  const categories = useSelector(
+    (state) => state.account.categories['regular-expense']
+  );
   const past4Weeks = useSelector((state) =>
     getPastWeeksIds({
       weekId,

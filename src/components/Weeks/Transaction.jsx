@@ -1,4 +1,5 @@
 import React from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
@@ -32,13 +33,15 @@ function Transaction(props) {
     merchant,
     category,
     source,
+    type = 'regular-expense',
     description,
     span,
     handleEdit,
-    handleRemove,
-    options
+    handleRemove
   } = props;
 
+  const categories = useSelector((state) => state.account.categories[type]);
+  const sources = useSelector((state) => state.account.sources[type]);
   const notesPopupState = usePopupState({
     variant: 'popover',
     popupId: `${id}-notes`
@@ -124,9 +127,9 @@ function Transaction(props) {
       >
         <div className="category-popover">
           <h4>Category</h4>
-          <div>{getValueFromOptions(options.categories, category)}</div>
+          <div>{getValueFromOptions(categories, category)}</div>
           <h4>Source</h4>
-          <div>{getValueFromOptions(options.sources, source)}</div>
+          <div>{getValueFromOptions(sources, source)}</div>
         </div>
       </Popover>
       <Popover

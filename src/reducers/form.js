@@ -6,7 +6,8 @@ import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
   SUBMIT_TRANSACTION_FAILURE,
-  RESET_FORM
+  RESET_FORM,
+  UPDATE_DEFAULT_VALUE
 } from '../actions/form.js';
 import {
   ADD_TRANSACTION_SUCCESS,
@@ -15,26 +16,23 @@ import {
 import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 
-let defaultCategory = '';
-let defaultSource = '';
-const defaultType = 'regular-expense';
-
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
-function createInitialValues() {
+function createInitialValues(defaults = {}) {
   const now = new Date();
   return {
     amount: '',
     calculate: '',
     merchant: '',
-    category: defaultCategory,
+    category: '',
     date: format(now, DATE_FIELD_FORMAT),
     time: format(now, TIME_FIELD_FORMAT),
-    source: defaultSource,
+    source: '',
     span: 1,
     description: '',
     id: '',
-    type: defaultType
+    type: '',
+    ...defaults
   };
 }
 
@@ -128,10 +126,14 @@ const fields = [
   }
 ];
 
+const defaultValues = {
+  type: 'regular-expense'
+};
 const initialState = {
   action: 'add',
   focus: true,
-  values: createInitialValues(),
+  defaultValues,
+  values: createInitialValues(defaultValues),
   fields: updateFieldsWithValues(fields, createInitialValues())
 };
 
@@ -155,7 +157,7 @@ export default function form(state = initialState, action) {
     case ADD_TRANSACTION_SUCCESS:
     case UPDATE_TRANSACTION_SUCCESS:
       // after successful save to the server, reset to initial values
-      newValues = createInitialValues();
+      newValues = createInitialValues(state.defaultValues);
       return {
         ...state,
         pending: false,
@@ -164,7 +166,7 @@ export default function form(state = initialState, action) {
         action: 'add'
       };
     case RESET_FORM:
-      newValues = createInitialValues();
+      newValues = createInitialValues(state.defaultValues);
       return {
         ...state,
         focus: true,
@@ -200,20 +202,13 @@ export default function form(state = initialState, action) {
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
       };
-    case LOAD_ACCOUNT_SUCCESS:
-      // when account is loaded, set category and source
-      // with the first value in options
-      defaultCategory = action.data.categories[0].slug;
-      defaultSource = action.data.sources[0].slug;
-      newValues = {
-        ...state.values,
-        category: defaultCategory,
-        source: defaultSource
-      };
+    case UPDATE_DEFAULT_VALUE:
       return {
         ...state,
-        values: newValues,
-        fields: updateFieldsWithValues(state.fields, newValues)
+        defaultValues: {
+          ...state.defaultValues,
+          [action.data.name]: action.data.value
+        }
       };
     default:
       return state;

@@ -25,7 +25,9 @@ const numWeeksToShow = 12;
 
 function CategoriesChart() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.account.categories);
+  const categories = useSelector(
+    (state) => state.account.categories['regular-expense']
+  );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const MAX_WEEK_AMOUNT = 2000; // assumption
