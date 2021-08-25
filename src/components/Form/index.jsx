@@ -30,6 +30,7 @@ function TypeSelector(props) {
   const dispatch = useDispatch();
   return (
     <select
+      placeholder="transaction"
       className="form-control type-selector"
       name="type"
       onChange={(event) => {
@@ -48,6 +49,7 @@ function TypeSelector(props) {
 
 function Form(props) {
   const dispatch = useDispatch();
+  const appReady = useSelector((state) => state.app.appReady);
   const datalists = useSelector((state) => ({
     'merchants-list': state.account.merchants
   }));
@@ -62,14 +64,18 @@ function Form(props) {
   }));
 
   useEffect(() => {
+    if (appReady) {
+      dispatch(updateDefaultValue('type', 'regular-expense'));
+    }
+  }, [appReady]);
+  useEffect(() => {
     if (fieldOptions.category.length) {
       dispatch(updateDefaultValue('category', fieldOptions.category[0].slug));
     }
     if (fieldOptions.source.length) {
       dispatch(updateDefaultValue('source', fieldOptions.source[0].slug));
     }
-  }, [fieldOptions.category, fieldOptions.source]);
-  const appReady = useSelector((state) => state.app.appReady);
+  }, [type]);
 
   const prevMerchantRef = useRef();
   useEffect(() => {

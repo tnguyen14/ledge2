@@ -126,14 +126,11 @@ const fields = [
   }
 ];
 
-const defaultValues = {
-  type: 'regular-expense'
-};
 const initialState = {
   action: 'add',
   focus: true,
-  defaultValues,
-  values: createInitialValues(defaultValues),
+  defaultValues: {},
+  values: createInitialValues(),
   fields: updateFieldsWithValues(fields, createInitialValues())
 };
 
@@ -203,12 +200,18 @@ export default function form(state = initialState, action) {
         fields: updateFieldsWithValues(state.fields, newValues)
       };
     case UPDATE_DEFAULT_VALUE:
+      newValues = {
+        ...state.values,
+        [action.data.name]: action.data.value
+      };
       return {
         ...state,
         defaultValues: {
           ...state.defaultValues,
           [action.data.name]: action.data.value
-        }
+        },
+        values: newValues,
+        fields: updateFieldsWithValues(state.fields, newValues)
       };
     default:
       return state;
