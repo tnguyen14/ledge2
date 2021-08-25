@@ -25,8 +25,8 @@ const numWeeksToShow = 12;
 
 function CategoriesChart() {
   const dispatch = useDispatch();
-  const categories = useSelector(
-    (state) => state.account.categories['regular-expense']
+  const categories = useSelector((state) =>
+    [...state.account.categories['regular-expense']].reverse()
   );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
