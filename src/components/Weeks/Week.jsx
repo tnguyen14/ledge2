@@ -99,7 +99,7 @@ function Week(props) {
           ))}
         </tbody>
       </table>
-      {filter == '' && <WeekStats weekId={weekId} />}
+      {filter == '' && <WeekStats weekId={weekId} label="Regular Expenses" />}
     </div>
   );
 }
