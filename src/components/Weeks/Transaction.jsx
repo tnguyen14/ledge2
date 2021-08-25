@@ -42,6 +42,14 @@ function Transaction(props) {
 
   const categories = useSelector((state) => state.account.categories[type]);
   const sources = useSelector((state) => state.account.sources[type]);
+  const types = useSelector((state) =>
+    state.account.types.in.concat(state.account.types.out)
+  );
+
+  const typePopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-type`
+  });
   const notesPopupState = usePopupState({
     variant: 'popover',
     popupId: `${id}-notes`
@@ -74,6 +82,11 @@ function Transaction(props) {
         data-day={displayDay}
         data-date={date}
       >
+        <td
+          data-field="type"
+          data-type={type}
+          {...bindTrigger(typePopupState)}
+        ></td>
         <td data-field="day">
           <span {...bindTrigger(datePopupState)}>{displayDay}</span>
         </td>
@@ -101,6 +114,21 @@ function Transaction(props) {
           </button>
         </td>
       </tr>
+      <Popover
+        {...bindPopover(typePopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="type-popover">
+          <h4>{getValueFromOptions(types, type)}</h4>
+        </div>
+      </Popover>
       <Popover
         {...bindPopover(datePopupState)}
         anchorOrigin={{
