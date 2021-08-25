@@ -21,6 +21,16 @@ export const weeklyTotal = function (week) {
     return 0;
   }
   return sum(
-    week.transactions.filter((txn) => !txn.carriedOver).map((t) => t.amount)
+    week.transactions
+      .filter((txn) => {
+        if (txn.carriedOver) {
+          return false;
+        }
+        if (txn.type && txn.type != 'regular-expense') {
+          return false;
+        }
+        return true;
+      })
+      .map((t) => t.amount)
   );
 };
