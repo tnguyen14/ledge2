@@ -32,6 +32,9 @@
       padding: 0.75rem;
     }
   }
+  [data-field='type'] {
+    flex-basis: 10px;
+  }
   [data-field='day'] {
     flex-basis: 3.5rem;
   }
@@ -42,7 +45,7 @@
     flex-basis: 4rem;
   }
   [data-field='merchant'] {
-    flex-basis: calc(100% - 3.5rem - 4.5rem - 4rem);
+    flex-basis: calc(100% - 3.5rem - 4.5rem - 4rem - 10px);
   }
   [data-field='merchant'] {
     word-break: break-word;
