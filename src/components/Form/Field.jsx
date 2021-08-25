@@ -51,13 +51,11 @@ function Field(props) {
         disabled={disabled}
       >
         <option value="">{placeholder || `Select ${label}`}</option>
-        {options.map((option) => {
-          return (
-            <option key={option.slug} value={option.slug}>
-              {option.value}
-            </option>
-          );
-        })}
+        {options.map((option) => (
+          <option key={option.slug} value={option.slug}>
+            {option.value}
+          </option>
+        ))}
       </select>
     );
   } else if (type === 'textarea') {

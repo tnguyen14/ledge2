@@ -18,7 +18,7 @@ describe('decorateTransaction', () => {
       category: undefined,
       description: undefined,
       source: undefined,
-      status: undefined
+      type: undefined
     });
   });
 });

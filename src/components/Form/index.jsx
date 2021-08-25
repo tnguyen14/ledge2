@@ -47,18 +47,43 @@ function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
 }
 
+function TypeSelector(props) {
+  const { value, options } = props;
+  const dispatch = useDispatch();
+  return (
+    <select
+      className="form-control type-selector"
+      name="type"
+      onChange={(event) => {
+        dispatch(inputChange('type', event.target.value));
+      }}
+      value={value}
+    >
+      {options.map((option) => (
+        <option key={option.slug} value={option.slug}>
+          {option.value}
+        </option>
+      ))}
+    </select>
+  );
+}
+
 function Form(props) {
   const dispatch = useDispatch();
   const datalists = useSelector((state) => ({
     'merchants-list': state.account.merchants
   }));
-  const fieldOptions = useSelector((state) => ({
-    category: state.account.categories,
-    source: state.account.sources
-  }));
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
   );
+  const type = values.type;
+  const fieldOptions = useSelector((state) => ({
+    category: state.account.categories,
+    source: state.account.sources,
+    types: state.account.types
+      ? [...state.account.types.out].concat(state.account.types.in)
+      : []
+  }));
 
   const appReady = useSelector((state) => state.app.appReady);
 
@@ -98,7 +123,9 @@ function Form(props) {
 
   return (
     <form className="new-transaction" method="POST">
-      <h2>Add a new transaction</h2>
+      <h2>
+        Add a <TypeSelector value={type} options={fieldOptions.types} />
+      </h2>
       {fields.map((field) => {
         if (field.attributes && field.attributes.list) {
           field.datalist = datalists[field.attributes.list];

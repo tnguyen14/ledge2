@@ -64,4 +64,14 @@
   .react-hint__content {
     font-size: 0.8rem;
   }
+  .type-selector {
+    display: inline-block;
+    vertical-align: text-top;
+    font-size: 1.1rem;
+    width: 50%;
+    @media (min-width: 42.5em) {
+      width: 25%;
+      vertical-align: top;
+    }
+  }
 }

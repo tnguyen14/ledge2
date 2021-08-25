@@ -17,6 +17,7 @@ import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 
 let defaultCategory = '';
 let defaultSource = '';
+const defaultType = 'regular-expense';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -32,7 +33,8 @@ function createInitialValues() {
     source: defaultSource,
     span: 1,
     description: '',
-    id: ''
+    id: '',
+    type: defaultType
   };
 }
 
