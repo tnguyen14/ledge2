@@ -13,11 +13,11 @@
     background: none;
   }
   .Mui-selected {
-    background-color: var(--color-gray-300);
+    background-color: var(--color-grey-lighten-2);
   }
   [role='tab'] {
-    border-right: 2px solid var(--color-gray-300);
-    border-bottom: 2px solid var(--color-gray-300);
+    border-right: 2px solid var(--color-grey-lighten-2);
+    border-bottom: 2px solid var(--color-grey-lighten-2);
   }
   [role='tab']:last-of-type {
     border-right: none;

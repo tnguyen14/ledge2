@@ -1,6 +1,6 @@
 .expense {
   .app-top {
-    background-color: var(--color-gray-100);
+    background-color: var(--color-grey-lighten-4);
     padding: 0.5rem 2.5%;
     margin-bottom: 1rem;
     display: flex;

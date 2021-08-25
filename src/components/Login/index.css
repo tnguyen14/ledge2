@@ -2,12 +2,12 @@
   padding-top: 5em;
   text-align: center;
   .btn {
-    background-color: var(--color-light-blue-600);
-    border-color: var(--color-light-blue-900);
-    color: var(--color-gray-100);
+    background-color: var(--color-light-blue-darken-1);
+    border-color: var(--color-light-blue-darken-4);
+    color: var(--color-grey-lighten-4);
     font-size: 1.5em;
     &:hover {
-      background-color: var(--color-light-blue-800);
+      background-color: var(--color-light-blue-darken-2);
     }
   }
 }

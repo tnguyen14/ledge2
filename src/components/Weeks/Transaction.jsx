@@ -74,8 +74,8 @@ function Transaction(props) {
         data-day={displayDay}
         data-date={date}
       >
-        <td data-field="day" {...bindTrigger(datePopupState)}>
-          {displayDay}
+        <td data-field="day">
+          <span {...bindTrigger(datePopupState)}>{displayDay}</span>
         </td>
         <td data-field="merchant">
           {merchant}

@@ -1,32 +1,9 @@
 .transaction {
-  border-left: 5px solid var(--color-gray-300);
   clear: left;
   cursor: pointer;
   @media (min-width: 42.5em) {
     cursor: default;
   }
-  &[data-day='Mon'] {
-    border-left-color: var(--color-light-blue-100);
-  }
-  &[data-day='Tue'] {
-    border-left-color: var(--color-light-blue-300);
-  }
-  &[data-day='Wed'] {
-    border-left-color: var(--color-light-blue);
-  }
-  &[data-day='Thu'] {
-    border-left-color: var(--color-light-blue-600);
-  }
-  &[data-day='Fri'] {
-    border-left-color: var(--color-light-blue-700);
-  }
-  &[data-day='Sat'] {
-    border-left-color: var(--color-light-blue-800);
-  }
-  &[data-day='Sun'] {
-    border-left-color: var(--color-light-blue-900);
-  }
-
   [data-field='amount'] {
     color: white;
   }
@@ -61,7 +38,7 @@
     cursor: pointer;
     padding: 0.5rem;
     &:hover {
-      background-color: var(--color-gray-100);
+      background-color: var(--color-grey-lighten-4);
     }
   }
 }
