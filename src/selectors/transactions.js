@@ -98,7 +98,7 @@ export const getMonths = createSelector(getTransactions, (transactions) => {
   const months = {};
   Object.keys(transactions).forEach(function processTransactionForMonth(id) {
     const transaction = transactions[id];
-    const montId = getMonthId({
+    const monthId = getMonthId({
       date: transaction.date
     });
     if (!months[monthId]) {
