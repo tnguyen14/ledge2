@@ -8,9 +8,16 @@
   @media (min-width: 68.75em) {
     width: 50%;
   }
+  .form-header {
+    display: flex;
+    margin-bottom: 1rem;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    width: 100%;
+  }
   h2 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin: 0;
     width: 100%;
     @media (min-width: 42.5em) {
       font-size: 2rem;
