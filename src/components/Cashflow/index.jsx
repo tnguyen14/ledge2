@@ -28,47 +28,6 @@ function Cashflow() {
     return aggregate;
   }, {});
 
-  const getTypeTotals = useCallback(
-    (type) =>
-      monthsIds.reduce((totals, monthId) => {
-        const transactionsOfType = months[monthId].filter(
-          (tx) => tx.type == type
-        );
-        totals[monthId] = sum(transactionsOfType.map((t) => t.amount));
-        return totals;
-      }, {}),
-    [months, monthsIds]
-  );
-
-  const flows = ['in', 'out'];
-
-  const inData = useMemo(
-    () =>
-      types.in.map((type) => ({
-        type: type.value,
-        ...getTypeTotals(type.slug)
-      })),
-    [months, monthsIds]
-  );
-
-  const outData = useMemo(
-    () =>
-      types.out.map((type) => ({
-        type: type.value,
-        ...getTypeTotals(type.slug)
-      })),
-    [months, monthsIds]
-  );
-
-  const getFlowTotals = useCallback(
-    (flow, flowData) =>
-      monthsIds.reduce((totals, monthId) => {
-        totals[monthId] = sum(flowData.map((typeData) => typeData[monthId]));
-        return totals;
-      }, {}),
-    [months, monthsIds]
-  );
-
   const columns = useMemo(
     () =>
       [
@@ -89,20 +48,43 @@ function Cashflow() {
       ),
     [monthsIds]
   );
+
+  const getTypeTotals = useCallback(
+    (type) =>
+      monthsIds.reduce((totals, monthId) => {
+        const transactionsOfType = months[monthId].filter(
+          (tx) => tx.type == type
+        );
+        totals[monthId] = sum(transactionsOfType.map((t) => t.amount));
+        return totals;
+      }, {}),
+    [months, monthsIds]
+  );
+
+  const flows = ['in', 'out'];
+
+  const getFlowTotals = useCallback(
+    (flow, flowData) =>
+      monthsIds.reduce((totals, monthId) => {
+        totals[monthId] = sum(flowData.map((typeData) => typeData[monthId]));
+        return totals;
+      }, {}),
+    [months, monthsIds]
+  );
+
   const data = useMemo(
     () =>
-      [
-        {
-          type: 'In',
-          ...getFlowTotals('in', inData)
-        }
-      ]
-        .concat(inData)
-        .concat({
-          type: 'Out',
-          ...getFlowTotals('out', outData)
-        })
-        .concat(outData),
+      flows.reduce((allData, flow) => {
+        const flowData = types[flow].map((type) => ({
+          type: type.value,
+          ...getTypeTotals(type.slug)
+        }));
+        allData.push({
+          type: flow.toUpperCase(),
+          ...getFlowTotals(flow, flowData)
+        });
+        return allData.concat(flowData);
+      }, []),
     [types, months, monthsIds]
   );
   const {
