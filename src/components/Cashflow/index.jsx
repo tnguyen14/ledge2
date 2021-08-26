@@ -20,6 +20,16 @@ function Cashflow() {
     numMonths: 24
   });
 
+  const years = monthsIds.reduce((aggregate, monthId) => {
+    const year = monthId.substr(0, 4);
+    if (!aggregate[year]) {
+      aggregate[year] = [monthId];
+    } else {
+      aggregate[year].push(monthId);
+    }
+    return aggregate;
+  }, {});
+
   const getTypeTotals = useCallback(
     (type) =>
       monthsIds.reduce((totals, monthId) => {
@@ -39,11 +49,16 @@ function Cashflow() {
           accessor: 'type'
         }
       ].concat(
-        monthsIds.map((monthId) => ({
-          Header: monthId,
-          accessor: monthId,
-          Cell: ({ value }) => usd(value)
-        }))
+        Object.entries(years)
+          .reverse()
+          .map(([year, months]) => ({
+            Header: year,
+            columns: months.map((month) => ({
+              Header: month,
+              accessor: month,
+              Cell: ({ value }) => usd(value)
+            }))
+          }))
       ),
     [monthsIds]
   );
