@@ -36,7 +36,7 @@ function Transaction(props) {
     merchant,
     category,
     source,
-    type = 'regular-expense',
+    type,
     description,
     span,
     handleEdit,

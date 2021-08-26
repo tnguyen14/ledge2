@@ -23,13 +23,9 @@ function Cashflow() {
   const getTypeTotals = useCallback(
     (type) =>
       monthsIds.reduce((totals, monthId) => {
-        const transactionsOfType = months[monthId].filter((tx) => {
-          if (type != 'regular-expense') {
-            return tx.type == type;
-          }
-          return tx.type == undefined || tx.type == 'regular-expense';
-        });
-        if (type == 'regular-expense') console.log(transactionsOfType);
+        const transactionsOfType = months[monthId].filter(
+          (tx) => tx.type == type
+        );
         totals[monthId] = sum(transactionsOfType.map((t) => t.amount));
         return totals;
       }, {}),

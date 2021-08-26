@@ -14,6 +14,9 @@ export default function transactions(state = {}, action) {
       return action.data.transactions.reduce(
         function addTransation(currentState, transaction) {
           if (!currentState[transaction.id]) {
+            if (!transaction.type) {
+              transaction.type = 'regular-expense';
+            }
             currentState[transaction.id] = transaction;
           }
           return currentState;
