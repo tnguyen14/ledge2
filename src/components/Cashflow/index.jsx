@@ -11,6 +11,9 @@ function getTypeTotal(type) {}
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
+  const types = useSelector((state) =>
+    [...state.account.types.in].concat(state.account.types.out)
+  );
   const months = getMonths({ transactions });
   const monthsIds = getPastMonthsIds({
     date: displayFrom,
@@ -49,33 +52,12 @@ function Cashflow() {
     [monthsIds]
   );
   const data = useMemo(
-    () => [
-      {
-        type: 'Regular Income',
-        ...getTypeTotals('regular-income')
-      },
-      {
-        type: 'Passive Income',
-        ...getTypeTotals('passive-income')
-      },
-      {
-        type: 'Transfer In',
-        ...getTypeTotals('transfer-in')
-      },
-      {
-        type: 'Regular Expense',
-        ...getTypeTotals('regular-expense')
-      },
-      {
-        type: 'Passive Investment',
-        ...getTypeTotals('passive-investment')
-      },
-      {
-        type: 'Transfer Out',
-        ...getTypeTotals('transfer-out')
-      }
-    ],
-    [months, monthsIds]
+    () =>
+      types.map((type) => ({
+        type: type.value,
+        ...getTypeTotals(type.slug)
+      })),
+    [types, months, monthsIds]
   );
   const {
     getTableProps,
