@@ -17,3 +17,11 @@
     padding-right: 5%;
   }
 }
+
+.app-bottom {
+  width: 95%;
+  margin: 0 auto 2em;
+  @media (min-width: 42.5em) {
+    width: 90%;
+  }
+}

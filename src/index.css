@@ -1,6 +1,5 @@
 @import './components/App/index.css';
 @import './components/Header/index.css';
-@import './components/Track/index.css';
 @import './components/Login/index.css';
 @import './components/Form/index.css';
 @import './components/Notification/index.css';
@@ -8,6 +7,7 @@
 @import './components/AccountStats/CategoriesChart.css';
 @import './components/Weeks/index.css';
 @import './components/Weeks/Transaction.css';
+@import './components/Cashflow/index.css';
 
 /* consult https://materializecss.com/color.html */
 :root {

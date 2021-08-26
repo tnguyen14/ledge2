@@ -72,7 +72,9 @@ function App() {
             <Form />
             <AccountStats />
           </div>
-          {showCashflow ? <Cashflow /> : <Weeks />}
+          <div className="app-bottom">
+            {showCashflow ? <Cashflow /> : <Weeks />}
+          </div>
           <Notification />
         </>
       )}

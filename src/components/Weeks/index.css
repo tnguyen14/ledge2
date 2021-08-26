@@ -6,11 +6,6 @@
 }
 
 .transactions {
-  width: 95%;
-  margin: 0 auto 2em;
-  @media (min-width: 42.5em) {
-    width: 90%;
-  }
   .top-actions {
     display: flex;
     justify-content: space-between;

@@ -8,13 +8,28 @@ function Cashflow() {
   const monthsIds = getPastMonthsIds({
     date: displayFrom,
     numMonths: 24
-  });
+  }).reverse();
   return (
-    <>
-      {monthsIds.map((monthId) => (
-        <div key={monthId}>{monthId}</div>
-      ))}
-    </>
+    <div className="cashflow">
+      <table className="table">
+        <thead>
+          <tr>
+            <th></th>
+            {monthsIds.map((monthId) => (
+              <th key={monthId}>{monthId}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            {monthsIds.map((monthId) => (
+              <td key={monthId}></td>
+            ))}
+          </tr>
+        </tbody>
+      </table>
+    </div>
   );
 }
 
