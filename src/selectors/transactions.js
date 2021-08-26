@@ -6,6 +6,7 @@ import {
 import { sortTransactions } from '../util/transaction.js';
 import { sum } from '../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from './week.js';
+import { getMonthId } from './month.js';
 
 const getTransactions = (state) => state.transactions;
 
@@ -56,13 +57,12 @@ function addTransactionToWeek(weeks, transaction, offset) {
       transactions: [transaction]
     };
   } else {
-    // TODO should this be dedup?
     weeks[weekId].transactions = weeks[weekId].transactions.concat(transaction);
   }
   return weeks;
 }
 
-export const getWeeks = createSelector(getTransactions, (transactions) => {
+const getWeeks = createSelector(getTransactions, (transactions) => {
   const weeks = {};
   Object.keys(transactions).forEach(function processTransactionForWeek(id) {
     const transaction = transactions[id];
@@ -93,3 +93,19 @@ export const getWeekById = createSelector(
       transactions: []
     }
 );
+
+export const getMonths = createSelector(getTransactions, (transactions) => {
+  const months = {};
+  Object.keys(transactions).forEach(function processTransactionForMonth(id) {
+    const transaction = transactions[id];
+    const montId = getMonthId({
+      date: transaction.date
+    });
+    if (!months[monthId]) {
+      months[monthId] = [transaction];
+    } else {
+      months[monthId] = months[monthId].concat(transaction);
+    }
+  });
+  return months;
+});
