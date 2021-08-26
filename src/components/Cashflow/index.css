@@ -1,4 +1,9 @@
 .cashflow {
-  width: 100%;
-  overflow-x: scroll;
+  th,
+  td {
+    border-right-width: 1px;
+    &:last-of-type {
+      border-right-width: 0;
+    }
+  }
 }
