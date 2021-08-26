@@ -3,7 +3,8 @@ import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
   REFRESH_APP,
-  INITIAL_LOAD_EXPENSE_SUCCESS
+  INITIAL_LOAD_EXPENSE_SUCCESS,
+  SHOW_CASHFLOW
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
@@ -24,7 +25,8 @@ const defaultState = {
     type: 'info'
   },
   lastRefreshed: 0,
-  loadedTransactions: false
+  loadedTransactions: false,
+  showCashflow: false
 };
 
 export default function app(state = defaultState, action) {
@@ -70,6 +72,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         displayFrom: action.data
+      };
+    case SHOW_CASHFLOW:
+      return {
+        ...state,
+        showCashflow: action.data
       };
     default:
       return state;

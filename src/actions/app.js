@@ -68,3 +68,11 @@ export function loadWeek({ weekId }) {
     );
   };
 }
+
+export const SHOW_CASHFLOW = 'SHOW_CASHFLOW';
+export function showCashflow(state) {
+  return {
+    type: SHOW_CASHFLOW,
+    data: state
+  };
+}

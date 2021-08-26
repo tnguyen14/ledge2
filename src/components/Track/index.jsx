@@ -7,11 +7,13 @@ import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Weeks from '../Weeks/index.js';
 import DeleteDialog from '../DeleteDialog/index.js';
+import Cashflow from '../Cashflow/index.js';
 import { setDisplayFrom } from '../../actions/app.js';
 import { resetForm } from '../../actions/form.js';
 
 function Track() {
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
+  const showCashflow = useSelector((state) => state.app.showCashflow);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetForm());
@@ -22,7 +24,7 @@ function Track() {
         <Form />
         <AccountStats />
       </div>
-      <Weeks />
+      {showCashflow ? <Cashflow /> : <Weeks />}
       <DeleteDialog />
     </div>
   );
