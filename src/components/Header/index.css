@@ -9,27 +9,10 @@
     color: var(--color-grey-lighten-4);
     font-family: 'Shadows Into Light Two', cursive;
     margin: 0 0 0 5%;
-    padding: 0.25em 0;
+    padding: 0.625rem 0;
   }
-  .menu {
-    display: flex;
-    margin-right: 5%;
-    align-items: center;
-    a {
-      color: var(--color-grey-lighten-4);
-      font-size: 1.2em;
-      margin-right: 1rem;
-      text-decoration: none;
-      &:hover {
-        color: var(--color-amber);
-      }
-      &.active {
-        background-color: var(--color-green-darken-2);
-        padding: 0.2em 0.5em;
-        @media (min-width: 42.5em) {
-          padding: 0.4em 0.75em;
-        }
-      }
-    }
+  .user {
+    margin: 0 5% 0 0;
+    padding: 0.625rem 0;
   }
 }

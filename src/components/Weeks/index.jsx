@@ -8,6 +8,7 @@ import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
 import { setFilter, setDisplayFrom } from '../../actions/app.js';
 import Week from './Week.js';
 import Field from '../Form/Field.js';
+import DeleteDialog from '../DeleteDialog/index.js';
 import { getPastWeeksIds } from '../../selectors/week.js';
 
 function Weeks(props) {
@@ -52,6 +53,7 @@ function Weeks(props) {
           })}
         </div>
       )}
+      <DeleteDialog />
     </div>
   );
 }

@@ -3,11 +3,6 @@ import {
   useDispatch,
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
-import {
-  HashRouter,
-  Switch,
-  Route
-} from 'https://cdn.skypack.dev/react-router-dom@5';
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
@@ -15,8 +10,10 @@ import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
 import Login from '../Login/index.js';
-import Track from '../Track/index.js';
 import Cashflow from '../Cashflow/index.js';
+import Form from '../Form/index.js';
+import AccountStats from '../AccountStats/index.js';
+import Weeks from '../Weeks/index.js';
 import {
   refreshApp,
   setToken,
@@ -26,19 +23,13 @@ import {
 import { loadAccount } from '../../actions/account.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
-function AuthenticatedRoute({ component: Component, ...rest }) {
-  const { isAuthenticated } = useAuth0();
-  if (!isAuthenticated) {
-    return null;
-  }
-  return <Route component={Component} {...rest} />;
-}
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const initialLoad = useSelector((state) => state.app.initialLoad);
   const token = useSelector((state) => state.app.token);
+  const showCashflow = useSelector((state) => state.app.showCashflow);
   const isVisible = usePageVisibility();
 
   async function updateToken() {
@@ -71,22 +62,21 @@ function App() {
   }, [isAuthenticated, isVisible]);
 
   return (
-    <HashRouter>
-      <div className="app">
-        <Header />
-        {!isAuthenticated &&
-          (isLoading ? (
-            <h2 className="auth-loading">Loading...</h2>
-          ) : (
-            <Login />
-          ))}
-        <Switch>
-          <AuthenticatedRoute exact path="/" component={Track} />
-          <AuthenticatedRoute exact path="/cashflow" component={Cashflow} />
-        </Switch>
-        <Notification />
-      </div>
-    </HashRouter>
+    <div className="app">
+      <Header />
+      {!isAuthenticated &&
+        (isLoading ? <h2 className="auth-loading">Loading...</h2> : <Login />)}
+      {isAuthenticated && (
+        <>
+          <div className="app-top">
+            <Form />
+            <AccountStats />
+          </div>
+          {showCashflow ? <Cashflow /> : <Weeks />}
+          <Notification />
+        </>
+      )}
+    </div>
   );
 }
 

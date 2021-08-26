@@ -21,10 +21,10 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    position: absolute;
     width: max-content;
-    top: 3.5em;
-    right: 0;
+    position: absolute;
+    top: 3.5rem;
+    right: 5%;
   }
   li {
     padding: 1rem;
