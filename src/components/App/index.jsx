@@ -15,7 +15,7 @@ import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
 import Login from '../Login/index.js';
-import Expense from '../Expense/index.js';
+import Track from '../Track/index.js';
 import Cashflow from '../Cashflow/index.js';
 import {
   refreshApp,
@@ -81,7 +81,7 @@ function App() {
             <Login />
           ))}
         <Switch>
-          <AuthenticatedRoute exact path="/" component={Expense} />
+          <AuthenticatedRoute exact path="/" component={Track} />
           <AuthenticatedRoute exact path="/cashflow" component={Cashflow} />
         </Switch>
         <Notification />

@@ -8,7 +8,7 @@ function Header() {
       <h1>Ledge</h1>
       <div className="menu">
         <NavLink activeClassname="active" exact to="/">
-          Expense
+          Track
         </NavLink>
         <NavLink activeClassname="active" exact to="/cashflow">
           Cashflow

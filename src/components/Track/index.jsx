@@ -10,14 +10,14 @@ import DeleteDialog from '../DeleteDialog/index.js';
 import { setDisplayFrom } from '../../actions/app.js';
 import { resetForm } from '../../actions/form.js';
 
-function Expense() {
+function Track() {
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(resetForm());
   }, [lastRefreshed]);
   return (
-    <div className="expense">
+    <div className="track">
       <div className="app-top">
         <Form />
         <AccountStats />
@@ -28,4 +28,4 @@ function Expense() {
   );
 }
 
-export default Expense;
+export default Track;
