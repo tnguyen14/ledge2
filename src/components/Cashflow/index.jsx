@@ -11,9 +11,7 @@ function getTypeTotal(type) {}
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
-  const types = useSelector((state) =>
-    [...state.account.types.in].concat(state.account.types.out)
-  );
+  const types = useSelector((state) => state.account.types);
   const months = getMonths({ transactions });
   const monthsIds = getPastMonthsIds({
     date: displayFrom,
@@ -42,6 +40,35 @@ function Cashflow() {
     [months, monthsIds]
   );
 
+  const flows = ['in', 'out'];
+
+  const inData = useMemo(
+    () =>
+      types.in.map((type) => ({
+        type: type.value,
+        ...getTypeTotals(type.slug)
+      })),
+    [months, monthsIds]
+  );
+
+  const outData = useMemo(
+    () =>
+      types.out.map((type) => ({
+        type: type.value,
+        ...getTypeTotals(type.slug)
+      })),
+    [months, monthsIds]
+  );
+
+  const getFlowTotals = useCallback(
+    (flow, flowData) =>
+      monthsIds.reduce((totals, monthId) => {
+        totals[monthId] = sum(flowData.map((typeData) => typeData[monthId]));
+        return totals;
+      }, {}),
+    [months, monthsIds]
+  );
+
   const columns = useMemo(
     () =>
       [
@@ -64,10 +91,18 @@ function Cashflow() {
   );
   const data = useMemo(
     () =>
-      types.map((type) => ({
-        type: type.value,
-        ...getTypeTotals(type.slug)
-      })),
+      [
+        {
+          type: 'In',
+          ...getFlowTotals('in', inData)
+        }
+      ]
+        .concat(inData)
+        .concat({
+          type: 'Out',
+          ...getFlowTotals('out', outData)
+        })
+        .concat(outData),
     [types, months, monthsIds]
   );
   const {
