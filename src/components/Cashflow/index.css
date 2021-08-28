@@ -6,4 +6,7 @@
       border-right-width: 0;
     }
   }
+  tr.highlight {
+    font-weight: bold;
+  }
 }

@@ -4,7 +4,7 @@ import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getPastMonthsIds } from '../../selectors/month.js';
 import { getMonths } from '../../selectors/transactions.js';
-import { useTable } from 'https://cdn.skypack.dev/react-table@7';
+import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
 import { sum } from '../../util/calculate.js';
 
 function getTypeTotal(type) {}
@@ -49,54 +49,106 @@ function Cashflow() {
     [monthsIds]
   );
 
-  const getTypeTotals = useCallback(
-    (type) =>
-      monthsIds.reduce((totals, monthId) => {
-        const transactionsOfType = months[monthId].filter(
-          (tx) => tx.type == type
-        );
-        totals[monthId] = sum(transactionsOfType.map((t) => t.amount));
-        return totals;
-      }, {}),
-    [months, monthsIds]
-  );
-
   const flows = ['in', 'out'];
 
-  const getFlowTotals = useCallback(
-    (flow, flowData) =>
-      monthsIds.reduce((totals, monthId) => {
-        totals[monthId] = sum(flowData.map((typeData) => typeData[monthId]));
-        return totals;
-      }, {}),
-    [months, monthsIds]
+  const getTypeTotal = useCallback(
+    (type, transactions) =>
+      sum(transactions.filter((t) => t.type == type).map((t) => t.amount)),
+    []
   );
 
-  const data = useMemo(
+  // shape of monthsData
+  // {
+  //   "2021-08": {
+  //     "Regular Income": 123456,
+  //     ...
+  //     "IN": 123456,
+  //     "Regular Expense": 123456,
+  //     ...
+  //     "OUT": 123456
+  //   },
+  //   ...
+  // }
+  const monthsData = useMemo(
     () =>
-      flows.reduce((allData, flow) => {
-        const flowData = types[flow].map((type) => ({
-          type: type.value,
-          ...getTypeTotals(type.slug)
-        }));
-        allData.push({
-          type: flow.toUpperCase(),
-          ...getFlowTotals(flow, flowData)
+      monthsIds.reduce((allMonths, monthId) => {
+        const monthData = {};
+        flows.forEach((flow) => {
+          types[flow].forEach((type) => {
+            monthData[type.value] = getTypeTotal(type.slug, months[monthId]);
+          });
+          monthData[flow.toUpperCase()] = sum(Object.values(monthData));
         });
-        return allData.concat(flowData);
-      }, []),
-    [types, months, monthsIds]
+        allMonths[monthId] = monthData;
+        return allMonths;
+      }, {}),
+    [types, monthsIds, months]
   );
+
+  // shape of data - array - each item is a row
+  // [
+  //   {
+  //     "type": "Regular Income",
+  //     "2021-08": 123456,
+  //     "2021-07": 78912,
+  //     ...
+  //   },
+  //   {
+  //     "type": "IN",
+  //     "2021-08": 123456,
+  //     ...
+  //   },
+  //   ...
+  // ]
+  const data = useMemo(() => {
+    // shape of categories
+    // {
+    //   "Regular Income": {
+    //     "2021-08": 123456,
+    //     "2021-07": 78912,
+    //   },
+    //   "Regular Expense": {
+    //   }
+    // }
+    const categories = {};
+    Object.entries(monthsData).forEach(([monthId, monthData]) => {
+      Object.entries(monthData).forEach(([category, total]) => {
+        if (!categories[category]) {
+          categories[category] = {};
+        }
+        categories[category][monthId] = total;
+      });
+    });
+    return Object.entries(categories).map(([category, row]) => {
+      row.type = category;
+      return row;
+    });
+  }, [monthsData]);
+
+  const rowStateData = useMemo(() => {
+    return data.map((rowData) => {
+      const rowState = {};
+      if (rowData.type == 'IN' || rowData.type == 'OUT') {
+        rowState.className = 'highlight';
+      }
+      return rowState;
+    });
+  }, [data]);
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
     rows,
     prepareRow
-  } = useTable({
-    columns,
-    data
-  });
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { rowState: rowStateData }
+    },
+    useRowState
+  );
   return (
     <div className="cashflow">
       <Table responsive {...getTableProps()}>
@@ -112,8 +164,9 @@ function Cashflow() {
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
+            console.log(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr className={row.state.className} {...row.getRowProps()}>
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
