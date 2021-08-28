@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
+import classNames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getPastMonthsIds } from '../../selectors/month.js';
 import { getMonths } from '../../selectors/transactions.js';
@@ -79,6 +80,7 @@ function Cashflow() {
           });
           monthData[flow.toUpperCase()] = sum(Object.values(monthData));
         });
+        monthData.Balance = monthData.IN - monthData.OUT;
         allMonths[monthId] = monthData;
         return allMonths;
       }, {}),
@@ -125,15 +127,18 @@ function Cashflow() {
     });
   }, [monthsData]);
 
-  const rowStateData = useMemo(() => {
-    return data.map((rowData) => {
-      const rowState = {};
-      if (rowData.type == 'IN' || rowData.type == 'OUT') {
-        rowState.className = 'highlight';
-      }
-      return rowState;
-    });
-  }, [data]);
+  const rowStateData = useMemo(
+    () =>
+      data.map((rowData) => {
+        const rowState = {};
+        const highlightRows = ['IN', 'OUT', 'Balance'];
+        if (highlightRows.includes(rowData.type)) {
+          rowState.highlight = true;
+        }
+        return rowState;
+      }),
+    [data]
+  );
 
   const {
     getTableProps,
@@ -164,9 +169,13 @@ function Cashflow() {
         <tbody {...getTableBodyProps()}>
           {rows.map((row) => {
             prepareRow(row);
-            console.log(row);
             return (
-              <tr className={row.state.className} {...row.getRowProps()}>
+              <tr
+                className={classNames({
+                  highlight: row.state.highlight
+                })}
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => (
                   <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 ))}
