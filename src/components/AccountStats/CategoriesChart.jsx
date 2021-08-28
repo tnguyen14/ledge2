@@ -10,7 +10,8 @@ import {
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import ChartBar from './ChartBar.js';
+import { TIMEZONE } from '../../util/constants.js';
+import CategoryBar from './CategoryBar.js';
 import { getCategoriesTotalsStats } from '../../selectors/stats.js';
 import {
   getWeekId,
@@ -18,7 +19,6 @@ import {
   getPastWeeksIds
 } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
-import { TIMEZONE } from '../../util/constants.js';
 import { setDisplayFrom } from '../../actions/app.js';
 import Chart from '../Chart/index.js';
 
@@ -110,7 +110,7 @@ function CategoriesChart() {
         chartBody={
           <div className="weeks-columns">
             {weeks.map((week) => (
-              <ChartBar categories={categories} week={week} />
+              <CategoryBar categories={categories} week={week} />
             ))}
           </div>
         }

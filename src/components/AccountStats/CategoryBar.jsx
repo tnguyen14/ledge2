@@ -6,7 +6,7 @@ import classnames from 'https://cdn.skypack.dev/classnames@2';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
-function ChartBar(props) {
+function CategoryBar(props) {
   const { categories, week } = props;
   const popupState = usePopupState({
     variant: 'popover',
@@ -83,4 +83,4 @@ function ChartBar(props) {
   );
 }
 
-export default ChartBar;
+export default CategoryBar;
