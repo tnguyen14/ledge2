@@ -17,6 +17,17 @@ function CashflowGraph(props) {
           ></div>
         ))}
       </div>
+      <div className="out-column">
+        {Object.entries(outData.categories).map(([category, total]) => (
+          <div
+            className="bar-piece"
+            data-type={category}
+            style={{
+              height: `calc(${total / 100} * var(--px-per-unit-height))`
+            }}
+          ></div>
+        ))}
+      </div>
     </div>
   );
 }

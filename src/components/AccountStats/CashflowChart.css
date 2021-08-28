@@ -8,6 +8,22 @@
       padding-left: 0.5rem;
     }
   }
+  .cashflow-graph {
+    display: grid;
+    grid-template-areas: 'main';
+    align-items: end;
+  }
+  .in-column {
+    grid-area: main;
+  }
+  .out-column {
+    grid-area: main;
+    width: 1rem;
+    margin: 0 auto; /* center the bar */
+    @media (min-width: 42.5em) {
+      width: 2rem;
+    }
+  }
   .in-column,
   .month-label {
     width: 1.5rem;

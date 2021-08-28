@@ -13,7 +13,7 @@
 
 /* consult https://materializecss.com/color.html */
 :root {
-  --color-red-accent-1: #ff8a80;
+  --color-red-lighten-4: #ffcdd2;
   --color-pink-lighten-2: #f06292;
   --color-purple: #9c27b0;
   --color-deep-purple: #673ab7;
@@ -125,7 +125,7 @@ a:not([href]) {
 [data-field='type'] {
   background-color: var(--color-blue-grey-lighten-4);
   &[data-type='regular-expense'] {
-    background-color: var(--color-red-accent-1);
+    background-color: var(--color-red-lighten-4);
   }
   &[data-type='regular-income'] {
     background-color: var(--color-light-green-accent-4);

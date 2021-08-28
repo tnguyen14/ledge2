@@ -60,6 +60,7 @@ export const getMonthsCashflow = createSelector(
   (transactionsByMonths, monthsIds, types) =>
     monthsIds.reduce((allMonths, monthId) => {
       const monthData = {};
+      const transactions = transactionsByMonths[monthId] || [];
       ['in', 'out'].forEach((flow) => {
         if (!monthData[flow]) {
           monthData[flow] = {
@@ -68,9 +69,7 @@ export const getMonthsCashflow = createSelector(
         }
         types[flow].forEach((type) => {
           monthData[flow].categories[type.slug] = sum(
-            transactionsByMonths[monthId]
-              .filter((t) => t.type == type.slug)
-              .map((t) => t.amount)
+            transactions.filter((t) => t.type == type.slug).map((t) => t.amount)
           );
         });
         monthData[flow].total = sum(Object.values(monthData[flow].categories));
