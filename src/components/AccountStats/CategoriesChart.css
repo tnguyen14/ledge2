@@ -1,62 +1,11 @@
 .categories-chart {
-  display: grid;
-  grid-template-columns: 38px 1fr;
-  grid-template-areas:
-    '. nav'
-    'y-axis chart'
-    'spacer x-axis';
-  width: 100%;
   .nav {
-    grid-area: nav;
     justify-self: center;
-  }
-  .y-axis {
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-    padding-right: 0.5rem;
-    grid-area: y-axis;
-    display: flex;
-    flex-direction: column-reverse;
-    .interval {
-      text-align: right;
-    }
-    .label {
-      top: -0.75rem;
-      position: relative;
-    }
-    .spacer {
-      height: 1.5rem; /* match the label height */
-    }
-  }
-  .x-axis {
-    grid-area: x-axis;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
-  }
-  .chart {
-    grid-area: chart;
-    .week-column {
-      display: flex;
-      flex-direction: column-reverse;
-      cursor: pointer;
-      &.has-popup-open,
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.2);
-      }
-    }
-  }
-  .grid-lines {
-    grid-area: chart;
-    .interval {
-      border-top: 1px dotted rgba(0, 0, 0, 0.2);
-    }
-  }
-  .chart,
-  .x-axis {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding-left: 0.25rem;
-    @media (min-width: 42.5em) {
-      padding-left: 0.5rem;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    width: 100%;
+    button {
+      border: 1px solid rgba(0, 0, 0, 0.2);
     }
   }
   .week-column,
@@ -65,12 +14,6 @@
     @media (min-width: 42.5em) {
       width: 2.5rem;
     }
-  }
-  .spacer {
-    grid-area: spacer;
-    border-top: 1px solid rgba(0, 0, 0, 0.2);
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-    padding-top: 0.5rem;
   }
 }
 

@@ -2,6 +2,7 @@
 @import './components/Header/index.css';
 @import './components/Login/index.css';
 @import './components/Form/index.css';
+@import './components/Chart/index.css';
 @import './components/Notification/index.css';
 @import './components/AccountStats/index.css';
 @import './components/AccountStats/CategoriesChart.css';

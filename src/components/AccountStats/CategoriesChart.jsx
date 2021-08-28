@@ -20,6 +20,7 @@ import {
 import { getWeekById } from '../../selectors/transactions.js';
 import { TIMEZONE } from '../../util/constants.js';
 import { setDisplayFrom } from '../../actions/app.js';
+import Chart from '../Chart/index.js';
 
 const numWeeksToShow = 12;
 
@@ -71,66 +72,47 @@ function CategoriesChart() {
 
   return (
     <div className="categories-chart">
-      <div className="nav">
-        <Button
-          variant="light"
-          onClick={() => {
-            dispatch(
-              setDisplayFrom(
-                getWeekId({
-                  date: getWeekStartFromWeekId({
-                    weekId: visibleWeeksIds[0]
-                  }),
-                  offset: -1
-                })
-              )
-            );
-          }}
-        >
-          <ChevronLeftIcon />
-        </Button>
-        <Button
-          variant="light"
-          onClick={() =>
-            dispatch(
-              setDisplayFrom(
-                getWeekId({
-                  date: getWeekStartFromWeekId({
-                    weekId: visibleWeeksIds[0]
-                  }),
-                  offset: 1
-                })
-              )
-            )
-          }
-        >
-          <ChevronRightIcon />
-        </Button>
-      </div>
-      <div className="y-axis">
-        {[...Array(NUM_INTERVALS).keys()].map((index) => {
-          return (
-            <div
-              className="interval"
-              style={{ height: `${INTERVAL_HEIGHT}px` }}
+      <Chart
+        maxHeight={2500}
+        chartTop={
+          <div className="nav">
+            <Button
+              variant="light"
+              onClick={() => {
+                dispatch(
+                  setDisplayFrom(
+                    getWeekId({
+                      date: getWeekStartFromWeekId({
+                        weekId: visibleWeeksIds[0]
+                      }),
+                      offset: -1
+                    })
+                  )
+                );
+              }}
             >
-              <span className="label">{INTERVAL_AMOUNT * (index + 1)}</span>
-            </div>
-          );
-        })}
-      </div>
-      <div className="grid-lines">
-        {[...Array(NUM_INTERVALS).keys()].map((index) => {
-          return (
-            <div
-              className="interval"
-              style={{ height: `${INTERVAL_HEIGHT}px` }}
-            ></div>
-          );
-        })}
-      </div>
-      <div className="chart">
-        {weeks.map((week) => {
+              <ChevronLeftIcon />
+            </Button>
+            <Button
+              variant="light"
+              onClick={() =>
+                dispatch(
+                  setDisplayFrom(
+                    getWeekId({
+                      date: getWeekStartFromWeekId({
+                        weekId: visibleWeeksIds[0]
+                      }),
+                      offset: 1
+                    })
+                  )
+                )
+              }
+            >
+              <ChevronRightIcon />
+            </Button>
+          </div>
+        }
+        chartBody={weeks.map((week) => {
           return (
             <ChartBar
               categories={categories}
@@ -139,13 +121,10 @@ function CategoriesChart() {
             />
           );
         })}
-      </div>
-      <div className="spacer"></div>
-      <div className="x-axis">
-        {weeks.map((week) => {
+        xLabels={weeks.map((week) => {
           return <div class="week-label">{week.label}</div>;
         })}
-      </div>
+      />
     </div>
   );
 }
