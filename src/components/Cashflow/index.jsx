@@ -4,11 +4,11 @@ import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
 import classNames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getPastMonthsIds } from '../../selectors/month.js';
+import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
 import { sum } from '../../util/calculate.js';
 
-function getTypeTotal(type) {}
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
@@ -17,6 +17,12 @@ function Cashflow() {
   const monthsIds = getPastMonthsIds({
     date: displayFrom,
     numMonths: 24
+  });
+
+  const monthsCashflow = getMonthsCashflow({
+    transactions: months,
+    monthsIds,
+    types
   });
 
   const years = monthsIds.reduce((aggregate, monthId) => {
@@ -50,43 +56,6 @@ function Cashflow() {
     [monthsIds]
   );
 
-  const flows = ['in', 'out'];
-
-  const getTypeTotal = useCallback(
-    (type, transactions) =>
-      sum(transactions.filter((t) => t.type == type).map((t) => t.amount)),
-    []
-  );
-
-  // shape of monthsData
-  // {
-  //   "2021-08": {
-  //     "Regular Income": 123456,
-  //     ...
-  //     "IN": 123456,
-  //     "Regular Expense": 123456,
-  //     ...
-  //     "OUT": 123456
-  //   },
-  //   ...
-  // }
-  const monthsData = useMemo(
-    () =>
-      monthsIds.reduce((allMonths, monthId) => {
-        const monthData = {};
-        flows.forEach((flow) => {
-          types[flow].forEach((type) => {
-            monthData[type.value] = getTypeTotal(type.slug, months[monthId]);
-          });
-          monthData[flow.toUpperCase()] = sum(Object.values(monthData));
-        });
-        monthData.Balance = monthData.IN - monthData.OUT;
-        allMonths[monthId] = monthData;
-        return allMonths;
-      }, {}),
-    [types, monthsIds, months]
-  );
-
   // shape of data - array - each item is a row
   // [
   //   {
@@ -113,7 +82,7 @@ function Cashflow() {
     //   }
     // }
     const categories = {};
-    Object.entries(monthsData).forEach(([monthId, monthData]) => {
+    Object.entries(monthsCashflow).forEach(([monthId, monthData]) => {
       Object.entries(monthData).forEach(([category, total]) => {
         if (!categories[category]) {
           categories[category] = {};
@@ -125,7 +94,7 @@ function Cashflow() {
       row.type = category;
       return row;
     });
-  }, [monthsData]);
+  }, [monthsCashflow]);
 
   const rowStateData = useMemo(
     () =>
