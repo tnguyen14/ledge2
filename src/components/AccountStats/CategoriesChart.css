@@ -39,6 +39,12 @@
       }
     }
   }
+  .grid-lines {
+    grid-area: chart;
+    .interval {
+      border-top: 1px dotted rgba(0, 0, 0, 0.2);
+    }
+  }
   .chart,
   .x-axis {
     display: flex;
@@ -58,6 +64,7 @@
   }
   .spacer {
     grid-area: spacer;
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     padding-top: 0.5rem;
   }

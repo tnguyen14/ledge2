@@ -30,9 +30,12 @@ function CategoriesChart() {
   );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
-  const MAX_WEEK_AMOUNT = 2000; // assumption
-  const INTERVAL_AMOUNT = 400;
-  const HEIGHT_FACTOR = 500 / MAX_WEEK_AMOUNT; // 500px is height of a bar
+  const MAX_WEEK_AMOUNT = 2500; // heuristic
+  const INTERVAL_AMOUNT = 500;
+  const NUM_INTERVALS = MAX_WEEK_AMOUNT / INTERVAL_AMOUNT;
+  const BAR_HEIGHT = 500; // bar height
+  const HEIGHT_FACTOR = BAR_HEIGHT / MAX_WEEK_AMOUNT;
+  const INTERVAL_HEIGHT = INTERVAL_AMOUNT * HEIGHT_FACTOR;
   const visibleWeeksIds = getPastWeeksIds({
     weekId: displayFrom,
     numWeeks: numWeeksToShow
@@ -105,14 +108,24 @@ function CategoriesChart() {
         </Button>
       </div>
       <div className="y-axis">
-        {[...Array(MAX_WEEK_AMOUNT / INTERVAL_AMOUNT).keys()].map((index) => {
+        {[...Array(NUM_INTERVALS).keys()].map((index) => {
           return (
             <div
               className="interval"
-              style={{ height: `${INTERVAL_AMOUNT * HEIGHT_FACTOR}px` }}
+              style={{ height: `${INTERVAL_HEIGHT}px` }}
             >
               {INTERVAL_AMOUNT * (index + 1)}
             </div>
+          );
+        })}
+      </div>
+      <div className="grid-lines">
+        {[...Array(NUM_INTERVALS).keys()].map((index) => {
+          return (
+            <div
+              className="interval"
+              style={{ height: `${INTERVAL_HEIGHT}px` }}
+            ></div>
           );
         })}
       </div>
