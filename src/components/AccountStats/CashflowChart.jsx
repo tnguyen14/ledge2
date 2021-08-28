@@ -1,7 +1,7 @@
 import React from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
 import { TIMEZONE } from '../../util/constants.js';
 import { getPastMonthsIds } from '../../selectors/month.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
@@ -41,10 +41,7 @@ function CashflowChart() {
           <div className="months-labels">
             {monthsIds.map((id) => (
               <div class="month-label">
-                {format(
-                  utcToZonedTime(new Date(`${id}-01`), TIMEZONE),
-                  'M/ yy'
-                )}
+                {format(getDateInTz(new Date(`${id}-01`), TIMEZONE), 'M/ yy')}
               </div>
             ))}
           </div>

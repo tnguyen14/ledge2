@@ -29,6 +29,7 @@
   --color-green-darken-2: #388e3c;
   --color-light-green: #8bc34a;
   --color-light-green-accent-1: #b9f6ca;
+  --color-light-green-accent-4: #64dd17;
   --color-lime: #cddc39;
   --color-yellow: #ffeb3b;
   --color-amber: #ffc107;
@@ -120,10 +121,14 @@ a:not([href]) {
   }
 }
 
+.bar-piece,
 [data-field='type'] {
   background-color: var(--color-blue-grey-lighten-4);
   &[data-type='regular-expense'] {
     background-color: var(--color-red-accent-1);
+  }
+  &[data-type='regular-income'] {
+    background-color: var(--color-light-green-accent-4);
   }
   &[data-type='passive-income'] {
     background-color: var(--color-light-green-accent-1);
