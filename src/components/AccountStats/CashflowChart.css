@@ -1,4 +1,5 @@
 .cashflow-chart {
+  .months-graph,
   .months-labels {
     display: flex;
     justify-content: space-between;
