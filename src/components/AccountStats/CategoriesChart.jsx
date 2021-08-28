@@ -1,4 +1,4 @@
-import React, { useState } from 'https://cdn.skypack.dev/react@17';
+import React from 'https://cdn.skypack.dev/react@17';
 import {
   useSelector,
   useDispatch
@@ -68,6 +68,7 @@ function CategoriesChart() {
     <div className="categories-chart">
       <Chart
         maxHeight={2500}
+        interval={500}
         chartTop={
           <div className="nav">
             <Button
@@ -108,16 +109,16 @@ function CategoriesChart() {
         }
         chartBody={
           <div className="weeks-columns">
-            {weeks.map((week) => {
-              return <ChartBar categories={categories} week={week} />;
-            })}
+            {weeks.map((week) => (
+              <ChartBar categories={categories} week={week} />
+            ))}
           </div>
         }
         xLabels={
           <div className="weeks-labels">
-            {weeks.map((week) => {
-              return <div class="week-label">{week.label}</div>;
-            })}
+            {weeks.map((week) => (
+              <div class="week-label">{week.label}</div>
+            ))}
           </div>
         }
       />

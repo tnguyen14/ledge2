@@ -1,12 +1,11 @@
 import React from 'https://cdn.skypack.dev/react@17';
 
 function Chart(props) {
-  const { maxHeight, chartTop, chartBody, xLabels } = props;
-  const INTERVAL_AMOUNT = 500;
-  const NUM_INTERVALS = maxHeight / INTERVAL_AMOUNT;
+  const { maxHeight, interval, chartTop, chartBody, xLabels } = props;
+  const NUM_INTERVALS = maxHeight / interval;
   const BAR_HEIGHT = 500; // bar height
   const HEIGHT_FACTOR = BAR_HEIGHT / maxHeight;
-  const INTERVAL_HEIGHT = INTERVAL_AMOUNT * HEIGHT_FACTOR;
+  const INTERVAL_HEIGHT = interval * HEIGHT_FACTOR;
   return (
     <div
       className="chart"
@@ -20,7 +19,7 @@ function Chart(props) {
               className="interval"
               style={{ height: `${INTERVAL_HEIGHT}px` }}
             >
-              <span className="label">{INTERVAL_AMOUNT * (index + 1)}</span>
+              <span className="label">{interval * (index + 1)}</span>
             </div>
           );
         })}

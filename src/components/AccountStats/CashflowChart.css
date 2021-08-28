@@ -1,0 +1,16 @@
+.cashflow-chart {
+  .months-labels {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 0.25rem;
+    @media (min-width: 42.5em) {
+      padding-left: 0.5rem;
+    }
+  }
+  .month-label {
+    width: 1.5rem;
+    @media (min-width: 42.5em) {
+      width: 2.5rem;
+    }
+  }
+}
