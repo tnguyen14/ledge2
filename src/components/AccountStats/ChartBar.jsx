@@ -37,7 +37,7 @@ function ChartBar(props) {
                 style={{
                   height: `calc(${
                     week.categoryTotals[cat.slug].amount / 100
-                  } * var(--pxPerUnitHeight)
+                  } * var(--px-per-unit-height)
                   )`
                 }}
               ></div>

@@ -10,7 +10,7 @@ function Chart(props) {
   return (
     <div
       className="chart"
-      style={{ '--pxPerUnitHeight': `${HEIGHT_FACTOR}px` }}
+      style={{ '--px-per-unit-height': `${HEIGHT_FACTOR}px` }}
     >
       <div className="chart-top">{chartTop}</div>
       <div className="y-axis">

@@ -10,9 +10,9 @@
     grid-area: chart-top;
   }
   .y-axis {
+    grid-area: y-axis;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
     padding-right: 0.5rem;
-    grid-area: y-axis;
     display: flex;
     flex-direction: column-reverse;
     .interval {
@@ -22,9 +22,6 @@
       top: -0.75rem;
       position: relative;
     }
-    .spacer {
-      height: 1.5rem; /* match the label height */
-    }
   }
   .x-axis {
     grid-area: x-axis;
@@ -32,6 +29,7 @@
   }
   .chart-body {
     grid-area: chart-body;
+    align-self: end;
     .week-column {
       display: flex;
       flex-direction: column-reverse;
@@ -46,16 +44,6 @@
     grid-area: chart-body;
     .interval {
       border-top: 1px dotted rgba(0, 0, 0, 0.2);
-    }
-  }
-  .chart-body,
-  .x-axis {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    padding-left: 0.25rem;
-    @media (min-width: 42.5em) {
-      padding-left: 0.5rem;
     }
   }
   .spacer {

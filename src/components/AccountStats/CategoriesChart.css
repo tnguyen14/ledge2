@@ -8,6 +8,16 @@
       border: 1px solid rgba(0, 0, 0, 0.2);
     }
   }
+  .weeks-columns,
+  .weeks-labels {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    padding-left: 0.25rem;
+    @media (min-width: 42.5em) {
+      padding-left: 0.5rem;
+    }
+  }
   .week-column,
   .week-label {
     width: 1.5rem;

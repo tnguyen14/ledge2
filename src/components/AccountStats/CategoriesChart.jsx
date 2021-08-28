@@ -106,12 +106,20 @@ function CategoriesChart() {
             </Button>
           </div>
         }
-        chartBody={weeks.map((week) => {
-          return <ChartBar categories={categories} week={week} />;
-        })}
-        xLabels={weeks.map((week) => {
-          return <div class="week-label">{week.label}</div>;
-        })}
+        chartBody={
+          <div className="weeks-columns">
+            {weeks.map((week) => {
+              return <ChartBar categories={categories} week={week} />;
+            })}
+          </div>
+        }
+        xLabels={
+          <div className="weeks-labels">
+            {weeks.map((week) => {
+              return <div class="week-label">{week.label}</div>;
+            })}
+          </div>
+        }
       />
     </div>
   );
