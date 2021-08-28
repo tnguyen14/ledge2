@@ -31,12 +31,6 @@ function CategoriesChart() {
   );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
-  const MAX_WEEK_AMOUNT = 2500; // heuristic
-  const INTERVAL_AMOUNT = 500;
-  const NUM_INTERVALS = MAX_WEEK_AMOUNT / INTERVAL_AMOUNT;
-  const BAR_HEIGHT = 500; // bar height
-  const HEIGHT_FACTOR = BAR_HEIGHT / MAX_WEEK_AMOUNT;
-  const INTERVAL_HEIGHT = INTERVAL_AMOUNT * HEIGHT_FACTOR;
   const visibleWeeksIds = getPastWeeksIds({
     weekId: displayFrom,
     numWeeks: numWeeksToShow
@@ -113,13 +107,7 @@ function CategoriesChart() {
           </div>
         }
         chartBody={weeks.map((week) => {
-          return (
-            <ChartBar
-              categories={categories}
-              week={week}
-              heightFactor={HEIGHT_FACTOR}
-            />
-          );
+          return <ChartBar categories={categories} week={week} />;
         })}
         xLabels={weeks.map((week) => {
           return <div class="week-label">{week.label}</div>;

@@ -7,7 +7,7 @@ import classnames from 'https://cdn.skypack.dev/classnames@2';
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function ChartBar(props) {
-  const { categories, heightFactor, week } = props;
+  const { categories, week } = props;
   const popupState = usePopupState({
     variant: 'popover',
     popupId: `${week.label}-chart-popup`
@@ -35,9 +35,10 @@ function ChartBar(props) {
               <div
                 className="bar-piece"
                 style={{
-                  height: `${
-                    (week.categoryTotals[cat.slug].amount / 100) * heightFactor
-                  }px`
+                  height: `calc(${
+                    week.categoryTotals[cat.slug].amount / 100
+                  } * var(--pxPerUnitHeight)
+                  )`
                 }}
               ></div>
             </div>

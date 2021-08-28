@@ -8,7 +8,10 @@ function Chart(props) {
   const HEIGHT_FACTOR = BAR_HEIGHT / maxHeight;
   const INTERVAL_HEIGHT = INTERVAL_AMOUNT * HEIGHT_FACTOR;
   return (
-    <div className="chart">
+    <div
+      className="chart"
+      style={{ '--pxPerUnitHeight': `${HEIGHT_FACTOR}px` }}
+    >
       <div className="chart-top">{chartTop}</div>
       <div className="y-axis">
         {[...Array(NUM_INTERVALS).keys()].map((index) => {
