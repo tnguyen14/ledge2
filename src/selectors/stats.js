@@ -36,12 +36,20 @@ const getTypes = (state) => state.types;
 // shape of cashflow
 // {
 //   "2021-08": {
-//     "Regular Income": 123456,
-//     ...
-//     "IN": 123456,
-//     "Regular Expense": 123456,
-//     ...
-//     "OUT": 123456
+//     "in": {
+//       "categories": {
+//         "Regular Income": 123456,
+//         ...
+//       },
+//       "total": 123456,
+//     },
+//     "out": {
+//       "categories": {
+//         "Regular Expense": 123456,
+//         ...
+//       },
+//       "total": 123456,
+//     },
 //   },
 //   ...
 // }
@@ -53,16 +61,20 @@ export const getMonthsCashflow = createSelector(
     monthsIds.reduce((allMonths, monthId) => {
       const monthData = {};
       ['in', 'out'].forEach((flow) => {
+        if (!monthData[flow]) {
+          monthData[flow] = {
+            categories: {}
+          };
+        }
         types[flow].forEach((type) => {
-          monthData[type.value] = sum(
+          monthData[flow].categories[type.slug] = sum(
             transactionsByMonths[monthId]
               .filter((t) => t.type == type.slug)
               .map((t) => t.amount)
           );
         });
-        monthData[flow.toUpperCase()] = sum(Object.values(monthData));
+        monthData[flow].total = sum(Object.values(monthData[flow].categories));
       });
-      monthData.Balance = monthData.IN - monthData.OUT;
       allMonths[monthId] = monthData;
       return allMonths;
     }, {})

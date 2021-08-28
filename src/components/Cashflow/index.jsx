@@ -72,7 +72,7 @@ function Cashflow() {
   //   ...
   // ]
   const data = useMemo(() => {
-    // shape of categories
+    // shape of rows
     // {
     //   "Regular Income": {
     //     "2021-08": 123456,
@@ -81,17 +81,28 @@ function Cashflow() {
     //   "Regular Expense": {
     //   }
     // }
-    const categories = {};
+    const rows = {};
     Object.entries(monthsCashflow).forEach(([monthId, monthData]) => {
-      Object.entries(monthData).forEach(([category, total]) => {
-        if (!categories[category]) {
-          categories[category] = {};
+      Object.entries(monthData).forEach(([flow, flowData]) => {
+        const flowLabel = flow.toUpperCase();
+        Object.entries(flowData.categories).forEach(([category, total]) => {
+          if (!rows[category]) {
+            rows[category] = {};
+          }
+          rows[category][monthId] = total;
+        });
+        if (!rows[flowLabel]) {
+          rows[flowLabel] = {};
         }
-        categories[category][monthId] = total;
+        rows[flowLabel][monthId] = flowData.total;
       });
+      if (!rows.Balance) {
+        rows.Balance = {};
+      }
+      rows.Balance[monthId] = rows.IN - rows.OUT;
     });
-    return Object.entries(categories).map(([category, row]) => {
-      row.type = category;
+    return Object.entries(rows).map(([rowLabel, row]) => {
+      row.type = rowLabel;
       return row;
     });
   }, [monthsCashflow]);
