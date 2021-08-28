@@ -114,7 +114,7 @@ function CategoriesChart() {
               className="interval"
               style={{ height: `${INTERVAL_HEIGHT}px` }}
             >
-              {INTERVAL_AMOUNT * (index + 1)}
+              <span className="label">{INTERVAL_AMOUNT * (index + 1)}</span>
             </div>
           );
         })}

@@ -19,6 +19,10 @@
     .interval {
       text-align: right;
     }
+    .label {
+      top: -0.75rem;
+      position: relative;
+    }
     .spacer {
       height: 1.5rem; /* match the label height */
     }
