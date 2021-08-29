@@ -32,4 +32,7 @@
       width: 2.5rem;
     }
   }
+  .month-label {
+    font-size: 0.8em;
+  }
 }
