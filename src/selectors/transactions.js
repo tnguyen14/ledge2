@@ -28,7 +28,9 @@ export const getYearAverages = createSelector(getYears, (years) => {
   return Object.keys(years)
     .reverse()
     .map((year) => {
-      const transactions = sortTransactions(years[year]);
+      const transactions = sortTransactions(years[year]).filter(
+        (tx) => tx.type == 'regular-expense'
+      );
       const numWeeks = differenceInCalendarWeeks(
         new Date(transactions[0].date),
         new Date(transactions[transactions.length - 1].date)
