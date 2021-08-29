@@ -2,6 +2,7 @@
   .months-graph,
   .months-labels {
     display: flex;
+    flex-direction: row-reverse;
     justify-content: space-between;
     padding-left: 0.25rem;
     @media (min-width: 42.5em) {
