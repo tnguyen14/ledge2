@@ -26,6 +26,11 @@
     }
   }
   .in-column,
+  .out-column {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .in-column,
   .month-label {
     width: 1.5rem;
     @media (min-width: 42.5em) {
