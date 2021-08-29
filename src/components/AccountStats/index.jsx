@@ -8,7 +8,6 @@ import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';
 import WeeklyAverages from './WeeklyAverages.js';
 import CategoriesChart from './CategoriesChart.js';
-import YearAverages from './YearAverages.js';
 import CashflowChart from './CashflowChart.js';
 import { showCashflow } from '../../actions/app.js';
 
@@ -58,7 +57,6 @@ function AccountStats(props) {
       </TabPanel>
       <TabPanel className="weekly-averages" value={tab} index={1}>
         <WeeklyAverages />
-        <YearAverages />
       </TabPanel>
       <TabPanel value={tab} index={2}>
         <CashflowChart />

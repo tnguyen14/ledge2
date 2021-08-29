@@ -7,11 +7,14 @@ import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
-import { getWeekById } from '../../selectors/transactions.js';
+import { getWeekById, getYearAverages } from '../../selectors/transactions.js';
 import { TIMEZONE } from '../../util/constants.js';
 
 function WeeklyAverages(props) {
   const transactions = useSelector((state) => state.transactions);
+  const yearAverages = getYearAverages({
+    transactions
+  });
   const timespans = [
     {
       start: -1,
@@ -59,6 +62,17 @@ function WeeklyAverages(props) {
                 </Tooltip>
               </td>
               <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
+            </tr>
+          ))}
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+          {yearAverages.map((average) => (
+            <tr className="stat" key={average.year}>
+              <td>
+                {average.year} ({average.numWeeks} weeks)
+              </td>
+              <td>{usd(average.weeklyAverage)}</td>
             </tr>
           ))}
         </tbody>
