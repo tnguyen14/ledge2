@@ -1,35 +1,22 @@
 @import './Week.css';
 
+.transactions {
+  position: relative;
+  .filter {
+    position: absolute;
+    right: 0;
+    width: 40%;
+    top: -0.5rem;
+    @media (min-width: 68.5em) {
+      width: auto;
+    }
+    @media (min-width: 68.75em) {
+      top: -2rem;
+    }
+  }
+}
+
 .transactions-loading {
   margin: 0 auto;
   width: 2rem;
-}
-
-.transactions {
-  .top-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-    .form-group {
-      margin-bottom: 0;
-      width: 48%;
-      @media (min-width: 42.5em) {
-        width: auto;
-      }
-    }
-    label {
-      margin-right: 0.5em;
-      text-align: right;
-      margin-top: 0.3rem;
-      width: 5em;
-    }
-    .input-group {
-      @media (min-width: 42.5em) {
-        width: calc(100% - 5.5em);
-      }
-    }
-  }
-  .weeks {
-    margin-top: 0.5rem;
-  }
 }

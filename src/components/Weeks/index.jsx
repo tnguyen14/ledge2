@@ -1,11 +1,11 @@
-import React, { useState } from 'https://cdn.skypack.dev/react@17';
+import React from 'https://cdn.skypack.dev/react@17';
 import {
-  useSelector,
-  useDispatch
+  useDispatch,
+  useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
-import { setFilter, setDisplayFrom } from '../../actions/app.js';
+import { setFilter } from '../../actions/app.js';
 import Week from './Week.js';
 import Field from '../Form/Field.js';
 import DeleteDialog from '../DeleteDialog/index.js';
@@ -24,25 +24,15 @@ function Weeks(props) {
 
   return (
     <div className="transactions">
-      <div className="top-actions">
-        <Field
-          type="date"
-          label="From"
-          value={displayFrom}
-          handleChange={(event) => {
-            dispatch(setDisplayFrom(event.target.value));
-          }}
-        />
-        <Field
-          type="text"
-          value={filter}
-          label="Filter"
-          placeholder="Filter"
-          handleChange={(event) => {
-            dispatch(setFilter(event.target.value.toLowerCase()));
-          }}
-        />
-      </div>
+      <Field
+        className="filter"
+        type="text"
+        value={filter}
+        placeholder="Filter"
+        handleChange={(event) => {
+          dispatch(setFilter(event.target.value.toLowerCase()));
+        }}
+      />
       <div className="transactions-loading">
         {isLoading && <Spinner animation="border" variant="success" />}
       </div>

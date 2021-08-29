@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
-import classNames from 'https://cdn.skypack.dev/classnames@2';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getPastMonthsIds } from '../../selectors/month.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
@@ -153,7 +153,7 @@ function Cashflow() {
             prepareRow(row);
             return (
               <tr
-                className={classNames({
+                className={classnames({
                   highlight: row.state.highlight
                 })}
                 {...row.getRowProps()}

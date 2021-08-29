@@ -72,9 +72,8 @@
     display: inline-block;
     vertical-align: text-top;
     font-size: 1.1rem;
-    width: 50%;
+    width: min-content;
     @media (min-width: 42.5em) {
-      width: 25%;
       vertical-align: top;
     }
   }

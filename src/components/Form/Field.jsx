@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'https://cdn.skypack.dev/react@17';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
@@ -6,6 +7,7 @@ import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden'];
 function Field(props) {
   const {
+    className,
     type,
     label,
     name,
@@ -77,8 +79,13 @@ function Field(props) {
     return inputEl;
   }
   return (
-    <div className="form-group" data-form-name={name}>
-      <label className="control-label">{label}</label>
+    <div
+      className={classnames('form-group', {
+        [className]: className
+      })}
+      data-form-name={name}
+    >
+      {label && <label className="control-label">{label}</label>}
       <div className="input-group">
         {hint && (
           <Tooltip title={hint}>

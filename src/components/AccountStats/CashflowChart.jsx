@@ -90,7 +90,7 @@ function CashflowChart() {
           <div className="months-labels">
             {monthsIds.map((id) => (
               <div class="month-label">
-                {format(new Date(`${id}-01 00:00`), 'M/ yy')}
+                {format(new Date(`${id}-01 00:00`), 'M- yy')}
               </div>
             ))}
           </div>
