@@ -15,18 +15,9 @@ import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import useToggle from '../../hooks/useToggle.js';
 import { TIMEZONE, DISPLAY_DATE_FORMAT } from '../../util/constants.js';
+import { getValueFromOptions } from '../../util/slug.js';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
-
-function getValueFromOptions(options, slug) {
-  if (!options) {
-    return;
-  }
-  let option = options.find((opt) => opt.slug === slug);
-  if (option) {
-    return option.value;
-  }
-}
 
 function Transaction(props) {
   const {

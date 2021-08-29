@@ -8,6 +8,7 @@ import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
 import { sum } from '../../util/calculate.js';
+import { getValueFromOptions } from '../../util/slug.js';
 
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
@@ -86,10 +87,11 @@ function Cashflow() {
       Object.entries(monthData).forEach(([flow, flowData]) => {
         const flowLabel = flow.toUpperCase();
         Object.entries(flowData.categories).forEach(([category, total]) => {
-          if (!rows[category]) {
-            rows[category] = {};
+          const categoryLabel = getValueFromOptions(types[flow], category);
+          if (!rows[categoryLabel]) {
+            rows[categoryLabel] = {};
           }
-          rows[category][monthId] = total;
+          rows[categoryLabel][monthId] = total;
         });
         if (!rows[flowLabel]) {
           rows[flowLabel] = {};
