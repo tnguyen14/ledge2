@@ -99,7 +99,7 @@ function Cashflow() {
       if (!rows.Balance) {
         rows.Balance = {};
       }
-      rows.Balance[monthId] = rows.IN - rows.OUT;
+      rows.Balance[monthId] = rows.IN[monthId] - rows.OUT[monthId];
     });
     return Object.entries(rows).map(([rowLabel, row]) => {
       row.type = rowLabel;
