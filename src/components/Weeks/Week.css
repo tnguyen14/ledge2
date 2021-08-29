@@ -1,21 +1,30 @@
 .weekly {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-areas:
+    'title'
+    'transactions'
+    'stats';
+  row-gap: 1rem;
+  @media (min-width: 68.75em) {
+    grid-template-areas:
+      'title title'
+      'transactions stats';
+    grid-template-columns: 2fr 1fr;
+    column-gap: 2rem;
+  }
+  padding-bottom: 1rem;
   border-bottom: 1px solid var(--color-grey-lighten-2);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
   &:last-of-type {
     border-bottom: none;
   }
 }
 .week-title {
-  margin-top: 1rem;
-  width: 100%;
+  grid-area: title;
 }
 .weekly-transactions {
-  height: 100%; /* prevent height from being stretched by flexbox */
-  @media (min-width: 68.75em) {
-    width: 65%;
-  }
+  grid-area: transactions;
+  margin: 0;
   tr {
     display: flex;
     flex-flow: row wrap;
@@ -50,12 +59,8 @@
   }
 }
 .week-stats {
+  grid-area: stats;
   margin-bottom: 1rem;
-  width: 100%;
-  @media (min-width: 68.75em) {
-    margin-left: 2rem;
-    width: 35%;
-  }
   h6 {
     margin: 1rem 0 0.75rem;
     svg {
