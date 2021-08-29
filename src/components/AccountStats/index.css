@@ -1,13 +1,7 @@
 @import './CategoriesChart.css';
 @import './CashflowChart.css';
+
 .account-stats {
-  width: 100%;
-  margin-top: 1rem;
-  @media (min-width: 68.75em) {
-    width: 50%;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-  }
   .tab-content {
     margin-top: 1rem;
   }
@@ -26,9 +20,6 @@
   }
 }
 .stats {
-  @media (min-width: 68.75em) {
-    padding-left: 2rem;
-  }
   .table {
     width: 100%;
     @media (min-width: 42.5em) {

@@ -8,13 +8,22 @@
   background-color: var(--color-grey-lighten-4);
   padding: 0.5rem 2.5%;
   margin-bottom: 1rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
+  display: grid;
+  grid-template-areas:
+    'form'
+    'stats';
   @media (min-width: 42.5em) {
     padding-left: 5%;
     padding-right: 5%;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 2rem;
+    grid-template-areas: 'stats form';
+  }
+  .new-transaction {
+    grid-area: form;
+  }
+  .account-stats {
+    grid-area: stats;
   }
 }
 

@@ -1,13 +1,10 @@
 @import './Field.css';
 
 .new-transaction {
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  @media (min-width: 68.75em) {
-    width: 50%;
-  }
+  align-content: baseline;
   .form-header {
     display: flex;
     margin-bottom: 1rem;
