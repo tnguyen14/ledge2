@@ -50,7 +50,7 @@ function CategoriesChart() {
       });
       // add a space after / to allow label to "break" to new line
       // on small screen
-      const label = format(utcToZonedTime(week.start, TIMEZONE), 'M/ d');
+      const label = format(utcToZonedTime(week.start, TIMEZONE), 'MMM dd');
       const categoryTotals = stats.reduce((totals, stat) => {
         totals[stat.slug] = {
           ...stat
