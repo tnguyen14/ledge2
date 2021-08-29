@@ -12,6 +12,7 @@
   grid-template-areas:
     'form'
     'stats';
+  row-gap: 1rem;
   @media (min-width: 42.5em) {
     padding-left: 5%;
     padding-right: 5%;
