@@ -50,7 +50,7 @@ function AccountStats(props) {
       >
         <Tab label="Weekly Chart" />
         <Tab label="Weekly Averages" />
-        <Tab label="Cashflow" />
+        <Tab label="Cash Flow" />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <CategoriesChart />
