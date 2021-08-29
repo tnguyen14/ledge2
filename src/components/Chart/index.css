@@ -9,6 +9,15 @@
   .chart-top {
     grid-area: chart-top;
   }
+  .nav {
+    justify-self: center;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+    width: 100%;
+    button {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+  }
   .y-axis {
     grid-area: y-axis;
     border-right: 1px solid rgba(0, 0, 0, 0.2);
@@ -19,6 +28,7 @@
       text-align: right;
     }
     .label {
+      font-size: 0.8em;
       top: -0.75rem;
       position: relative;
     }

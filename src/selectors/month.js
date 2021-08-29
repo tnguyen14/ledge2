@@ -20,8 +20,11 @@ export const getMonthStart = createSelector(
     )
 );
 
-export const getMonthEnd = createSelector(getDate, (date) =>
-  getDateInTz(endOfMonth(new Date(`${date} 23:59:59.999`)), TIMEZONE)
+export const getMonthEnd = createSelector(getOffset, getDate, (offset, date) =>
+  getDateInTz(
+    add(endOfMonth(new Date(`${date} 23:59:59.999`)), { months: offset }),
+    TIMEZONE
+  )
 );
 
 export const getMonthId = createSelector(getMonthStart, (date) =>

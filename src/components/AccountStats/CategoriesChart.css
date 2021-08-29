@@ -1,13 +1,4 @@
 .categories-chart {
-  .nav {
-    justify-self: center;
-    justify-content: space-around;
-    margin-bottom: 1rem;
-    width: 100%;
-    button {
-      border: 1px solid rgba(0, 0, 0, 0.2);
-    }
-  }
   .weeks-columns,
   .weeks-labels {
     display: flex;
