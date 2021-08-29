@@ -86,12 +86,12 @@ function Cashflow() {
     Object.entries(monthsCashflow).forEach(([monthId, monthData]) => {
       Object.entries(monthData).forEach(([flow, flowData]) => {
         const flowLabel = flow.toUpperCase();
-        Object.entries(flowData.categories).forEach(([category, total]) => {
-          const categoryLabel = getValueFromOptions(types[flow], category);
-          if (!rows[categoryLabel]) {
-            rows[categoryLabel] = {};
+        Object.entries(flowData.types).forEach(([type, total]) => {
+          const typeLabel = getValueFromOptions(types[flow], type);
+          if (!rows[typeLabel]) {
+            rows[typeLabel] = {};
           }
-          rows[categoryLabel][monthId] = total;
+          rows[typeLabel][monthId] = total;
         });
         if (!rows[flowLabel]) {
           rows[flowLabel] = {};
