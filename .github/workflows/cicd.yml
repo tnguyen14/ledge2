@@ -77,7 +77,7 @@ jobs:
   deploy:
     name: Deploy to GH Pages
     # needs: [unit-test-ny, unit-test, integration-test]
-    needs: [unit-test-ny, unit-test]
+    # needs: [unit-test-ny, unit-test]
     if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip-ci]')
     runs-on: ubuntu-latest
 
