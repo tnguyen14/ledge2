@@ -49,6 +49,9 @@
   }
   [data-field='amount'] {
     width: 4.5rem;
+    @media (min-width: 42.5em) {
+      width: 7rem;
+    }
   }
   [data-field='action'] {
     width: 4rem;
