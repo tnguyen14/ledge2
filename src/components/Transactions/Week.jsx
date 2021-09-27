@@ -41,7 +41,7 @@ function Week(props) {
   return (
     <div className="weekly transactions-container">
       <h3 className="week-title">
-        {format(start, 'MMM d')} - {format(end, 'MMM d')}
+        {format(start, 'MMM d')} - {format(end, 'MMM d, yyyy')}
       </h3>
       <table className="weekly-transactions transactions-list table table-striped">
         <tbody>

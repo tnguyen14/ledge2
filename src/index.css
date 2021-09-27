@@ -5,8 +5,8 @@
 @import './components/Chart/index.css';
 @import './components/Notification/index.css';
 @import './components/AccountStats/index.css';
-@import './components/Weeks/index.css';
-@import './components/Weeks/Transaction.css';
+@import './components/Transactions/index.css';
+@import './components/Transactions/Transaction.css';
 @import './components/Cashflow/index.css';
 
 /* consult https://materializecss.com/color.html */

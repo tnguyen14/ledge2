@@ -13,7 +13,7 @@ import Login from '../Login/index.js';
 import Cashflow from '../Cashflow/index.js';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
-import Weeks from '../Weeks/index.js';
+import Transactions from '../Transactions/index.js';
 import {
   refreshApp,
   setToken,
@@ -74,7 +74,7 @@ function App() {
             {!search && <AccountStats />}
           </div>
           <div className="app-bottom">
-            {showCashflow ? <Cashflow /> : <Weeks />}
+            {showCashflow ? <Cashflow /> : <Transactions />}
           </div>
           <Notification />
         </>
