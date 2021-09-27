@@ -4,12 +4,27 @@
   @media (min-width: 42.5em) {
     cursor: default;
   }
+  [data-field='day'] {
+    width: 3.5rem;
+  }
+  [data-field='action'] {
+    width: 4rem;
+  }
+  [data-field='merchant'] {
+    width: calc(100% - 3.5rem - 4.5rem - 4rem - 10px);
+    word-break: break-word;
+  }
   [data-field='type'] {
+    width: 10px;
     cursor: pointer;
     padding: 0;
   }
   [data-field='amount'] {
     color: white;
+    width: 4.5rem;
+    @media (min-width: 42.5em) {
+      width: 7rem;
+    }
   }
 
   [data-field='merchant'],

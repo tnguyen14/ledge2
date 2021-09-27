@@ -9,29 +9,23 @@ import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dial
 import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-import { CANCEL_REMOVE_TRANSACTION } from '../../actions/account.js';
+import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';
 
 function DeleteDialog(props) {
   const isRemovingTransaction = useSelector(
-    (state) => state.account.isRemovingTransaction
+    (state) => state.app.isRemovingTransaction
   );
   const transactionToBeRemoved = useSelector(
-    (state) => state.account.transactionToBeRemoved
+    (state) => state.app.transactionToBeRemoved
   );
   const dispatch = useDispatch();
-
-  function cancelRemoveTransaction() {
-    dispatch({
-      type: CANCEL_REMOVE_TRANSACTION
-    });
-  }
 
   return (
     <Dialog
       data-cy="delete-dialog"
       open={isRemovingTransaction}
-      onClose={cancelRemoveTransaction}
+      onClose={() => dispatch(cancelRemoveTransaction())}
     >
       <DialogTitle>Delete Transaction</DialogTitle>
       <DialogContent>
@@ -40,7 +34,10 @@ function DeleteDialog(props) {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button variant="secondary" onClick={cancelRemoveTransaction}>
+        <Button
+          variant="secondary"
+          onClick={() => dispatch(cancelRemoveTransaction())}
+        >
           Cancel
         </Button>
         <Button

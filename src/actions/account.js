@@ -16,10 +16,6 @@ export function loadAccount() {
   };
 }
 
-export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
-
-export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
-
 // TODO update merchant counts in account reducer
 const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
@@ -37,5 +33,3 @@ export function updateMerchantCounts(merchants_count) {
     });
   };
 }
-
-export const CANCEL_REMOVE_TRANSACTION = 'CANCEL_REMOVE_TRANSACTION';

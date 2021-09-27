@@ -13,7 +13,8 @@ import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
-import { EDIT_TRANSACTION, LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
+import { LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
+import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 
 // abstract this into a function so it can be called again later
@@ -214,6 +215,21 @@ export default function form(state = initialState, action) {
         // but also actual values and fields
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
+      };
+    case SET_SEARCH_MODE:
+      return {
+        ...state,
+        action: action.data ? 'search' : 'add',
+        // reset values, except for type
+        values: {
+          type: state.values.type
+        },
+        fields: updateFieldsWithValues(
+          state.fields,
+          createInitialValues(
+            action.data ? { date: '', time: '', span: '' } : undefined
+          )
+        )
       };
     default:
       return state;

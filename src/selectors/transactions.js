@@ -111,3 +111,31 @@ export const getMonths = createSelector(getTransactions, (transactions) => {
   });
   return months;
 });
+
+const getSearch = (state) => state.search;
+export const getSearchResult = createSelector(
+  getTransactions,
+  getSearch,
+  (transactions, search) => {
+    return Object.keys(transactions)
+      .map((id) => transactions[id])
+      .filter((tx) => {
+        // match all search fields
+        let match = false;
+        for (const [key, value] of Object.entries(search)) {
+          if (value) {
+            if (
+              String(tx[key])
+                .toLowerCase()
+                .includes(String(value).toLowerCase())
+            ) {
+              match = true;
+            } else {
+              match = false;
+            }
+          }
+        }
+        return match;
+      });
+  }
+);

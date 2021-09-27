@@ -4,12 +4,16 @@ import {
   SET_TOKEN,
   REFRESH_APP,
   INITIAL_LOAD_EXPENSE_SUCCESS,
-  SHOW_CASHFLOW
+  SHOW_CASHFLOW,
+  INTEND_TO_REMOVE_TRANSACTION,
+  CANCEL_REMOVE_TRANSACTION
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
-  LOAD_TRANSACTIONS_SUCCESS
+  LOAD_TRANSACTIONS_SUCCESS,
+  REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
+import { SET_SEARCH } from '../actions/form.js';
 
 const numVisibleWeeks = 12;
 
@@ -77,6 +81,24 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         showCashflow: action.data
+      };
+    case SET_SEARCH:
+      return {
+        ...state,
+        search: action.data
+      };
+    case INTEND_TO_REMOVE_TRANSACTION:
+      return {
+        ...state,
+        isRemovingTransaction: true,
+        transactionToBeRemoved: action.data
+      };
+    case REMOVE_TRANSACTION_SUCCESS:
+    case CANCEL_REMOVE_TRANSACTION:
+      return {
+        ...state,
+        isRemovingTransaction: false,
+        transactionToBeRemoved: undefined
       };
     default:
       return state;

@@ -20,3 +20,23 @@
   margin: 0 auto;
   width: 2rem;
 }
+
+.transactions-container {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-areas:
+    'title'
+    'primary'
+    'secondary';
+  row-gap: 1rem;
+  @media (min-width: 68.75em) {
+    grid-template-areas:
+      'title title'
+      'primary secondary';
+    grid-template-columns: 2fr 1fr;
+    column-gap: 2rem;
+  }
+  .transactions-list {
+    grid-area: primary;
+  }
+}

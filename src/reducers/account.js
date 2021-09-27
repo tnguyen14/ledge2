@@ -1,14 +1,7 @@
-import {
-  LOAD_ACCOUNT_SUCCESS,
-  INTEND_TO_REMOVE_TRANSACTION,
-  CANCEL_REMOVE_TRANSACTION
-} from '../actions/account.js';
-
-import { REMOVE_TRANSACTION_SUCCESS } from '../actions/transactions.js';
+import { LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
 
 const initialState = {
   merchants: [],
-  isRemovingTransaction: false,
   categories: {
     'regular-expense': []
   },
@@ -45,19 +38,6 @@ export default function account(state = initialState, action) {
         return merchants.concat(merchant.values);
       }, []);
       return { ...state, ...action.data, merchants: merchantsNames };
-    case INTEND_TO_REMOVE_TRANSACTION:
-      return {
-        ...state,
-        isRemovingTransaction: true,
-        transactionToBeRemoved: action.data
-      };
-    case REMOVE_TRANSACTION_SUCCESS:
-    case CANCEL_REMOVE_TRANSACTION:
-      return {
-        ...state,
-        isRemovingTransaction: false,
-        transactionToBeRemoved: undefined
-      };
     default:
       return state;
   }

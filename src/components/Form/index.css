@@ -20,6 +20,10 @@
       font-size: 2rem;
     }
   }
+  .form-modes {
+    display: flex;
+    column-gap: 0.5rem;
+  }
   fieldset {
     margin-top: 1.3rem;
   }

@@ -1,5 +1,8 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
@@ -16,10 +19,15 @@ import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks'
 import useToggle from '../../hooks/useToggle.js';
 import { TIMEZONE, DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
+import {
+  editTransaction,
+  intendToRemoveTransaction
+} from '../../actions/app.js';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function Transaction(props) {
+  const dispatch = useDispatch();
   const {
     id,
     date,
@@ -29,10 +37,8 @@ function Transaction(props) {
     source,
     type,
     description,
-    span,
-    handleEdit,
-    handleRemove
-  } = props;
+    span
+  } = props.transaction;
 
   const categories = useSelector((state) => state.account.categories[type]);
   const sources = useSelector((state) => state.account.sources[type]);
@@ -68,6 +74,9 @@ function Transaction(props) {
   // show day as in origin timezone, while date in local timezone
   const displayDay = format(utcToZonedTime(date, TIMEZONE), 'EEE');
   const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
+  if (!props.transaction) {
+    return null;
+  }
   return (
     <>
       <tr
@@ -195,7 +204,8 @@ function Transaction(props) {
           <div
             onClick={() => {
               actionsPopupState.close();
-              handleEdit();
+              dispatch(editTransaction(props.transaction));
+              document.querySelector('.new-transaction').scrollIntoView();
             }}
           >
             Edit
@@ -203,7 +213,7 @@ function Transaction(props) {
           <div
             onClick={() => {
               actionsPopupState.close();
-              handleRemove();
+              dispatch(intendToRemoveTransaction(props.transaction));
             }}
           >
             Delete

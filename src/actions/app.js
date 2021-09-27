@@ -76,3 +76,34 @@ export function showCashflow(state) {
     data: state
   };
 }
+
+export const SET_SEARCH_MODE = 'SET_SEARCH_MODE';
+export function setSearchMode(state) {
+  return {
+    type: SET_SEARCH_MODE,
+    data: state
+  };
+}
+
+export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
+export function editTransaction(transaction) {
+  return {
+    type: EDIT_TRANSACTION,
+    data: transaction
+  };
+}
+
+export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
+export function intendToRemoveTransaction(transaction) {
+  return {
+    type: INTEND_TO_REMOVE_TRANSACTION,
+    data: transaction
+  };
+}
+
+export const CANCEL_REMOVE_TRANSACTION = 'CANCEL_REMOVE_TRANSACTION';
+export function cancelRemoveTransaction() {
+  return {
+    type: CANCEL_REMOVE_TRANSACTION
+  };
+}

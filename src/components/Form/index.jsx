@@ -11,7 +11,8 @@ import {
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import {
   FoldUpIcon,
-  FoldDownIcon
+  FoldDownIcon,
+  SearchIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
@@ -19,12 +20,14 @@ import {
   submitFailure,
   inputChange,
   resetForm,
-  updateDefaultValue
+  updateDefaultValue,
+  setSearch
 } from '../../actions/form.js';
 import {
   addTransaction,
   updateTransaction
 } from '../../actions/transactions.js';
+import { setSearchMode } from '../../actions/app.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -103,11 +106,14 @@ function Form(props) {
   const submitForm = useCallback(
     (event) => {
       event.preventDefault();
-      dispatch(submit());
       try {
-        if (action == 'update') {
+        if (action == 'search') {
+          dispatch(setSearch(values));
+        } else if (action == 'update') {
+          dispatch(submit());
           dispatch(updateTransaction(values, prevMerchantRef.current));
         } else {
+          dispatch(submit());
           dispatch(addTransaction(values));
         }
       } catch (err) {
@@ -120,7 +126,15 @@ function Form(props) {
   return (
     <form className="new-transaction" method="POST">
       <div className="form-header">
-        <div>
+        <div className="form-modes">
+          <Button
+            variant={action == 'search' ? 'info' : 'outline-info'}
+            onClick={() => {
+              dispatch(setSearchMode(action != 'search'));
+            }}
+          >
+            <SearchIcon />
+          </Button>
           <Button
             variant="outline-secondary"
             onClick={() => {

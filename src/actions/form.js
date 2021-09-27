@@ -41,3 +41,11 @@ export function resetForm() {
     type: RESET_FORM
   };
 }
+
+export const SET_SEARCH = 'SET_SEARCH';
+export function setSearch(searchData) {
+  return {
+    type: SET_SEARCH,
+    data: searchData
+  };
+}
