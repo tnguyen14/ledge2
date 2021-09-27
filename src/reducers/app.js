@@ -4,6 +4,7 @@ import {
   REFRESH_APP,
   INITIAL_LOAD_EXPENSE_SUCCESS,
   SHOW_CASHFLOW,
+  SET_SEARCH_MODE,
   INTEND_TO_REMOVE_TRANSACTION,
   CANCEL_REMOVE_TRANSACTION
 } from '../actions/app.js';
@@ -75,6 +76,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         showCashflow: action.data
+      };
+    case SET_SEARCH_MODE:
+      return {
+        ...state,
+        search: action.data ? {} : undefined
       };
     case SET_SEARCH:
       return {

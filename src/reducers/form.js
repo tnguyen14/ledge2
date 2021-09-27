@@ -170,8 +170,7 @@ export default function form(state = initialState, action) {
         focus: true,
         pending: false,
         fields: updateFieldsWithValues(state.fields, newValues),
-        values: newValues,
-        action: 'add'
+        values: newValues
       };
     case INPUT_CHANGE:
       newValues = {
@@ -217,6 +216,11 @@ export default function form(state = initialState, action) {
         fields: updateFieldsWithValues(state.fields, newValues)
       };
     case SET_SEARCH_MODE:
+      const searchDefaultValues = {
+        date: '',
+        time: '',
+        span: ''
+      };
       return {
         ...state,
         action: action.data ? 'search' : 'add',
@@ -224,11 +228,10 @@ export default function form(state = initialState, action) {
         values: {
           type: state.values.type
         },
+        defaultValues: action.data ? searchDefaultValues : {},
         fields: updateFieldsWithValues(
           state.fields,
-          createInitialValues(
-            action.data ? { date: '', time: '', span: '' } : undefined
-          )
+          createInitialValues(action.data ? searchDefaultValues : undefined)
         )
       };
     default:

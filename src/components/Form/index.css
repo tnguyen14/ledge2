@@ -57,6 +57,9 @@
       margin-right: 0.7rem; /* create gap between buttons */
     }
   }
+  .title-action {
+    text-transform: capitalize;
+  }
   .input-group {
     width: 100%;
     @media (min-width: 42.5em) {

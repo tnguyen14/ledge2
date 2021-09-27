@@ -148,7 +148,8 @@ function Form(props) {
           ''
         ) : (
           <h2>
-            Add a <TypeSelector value={type} options={fieldOptions.types} />
+            <span className="title-action">{action}</span>{' '}
+            <TypeSelector value={type} options={fieldOptions.types} />
           </h2>
         )}
       </div>
