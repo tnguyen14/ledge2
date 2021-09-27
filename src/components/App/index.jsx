@@ -30,6 +30,7 @@ function App() {
   const initialLoad = useSelector((state) => state.app.initialLoad);
   const token = useSelector((state) => state.app.token);
   const showCashflow = useSelector((state) => state.app.showCashflow);
+  const search = useSelector((state) => state.app.search);
   const isVisible = usePageVisibility();
 
   async function updateToken() {
@@ -70,7 +71,7 @@ function App() {
         <>
           <div className="app-top">
             <Form />
-            <AccountStats />
+            {!search && <AccountStats />}
           </div>
           <div className="app-bottom">
             {showCashflow ? <Cashflow /> : <Weeks />}

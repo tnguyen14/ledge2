@@ -28,6 +28,7 @@ const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function Transaction(props) {
   const dispatch = useDispatch();
+  const { transaction, dateFormat } = props;
   const {
     id,
     date,
@@ -38,7 +39,7 @@ function Transaction(props) {
     type,
     description,
     span
-  } = props.transaction;
+  } = transaction;
 
   const categories = useSelector((state) => state.account.categories[type]);
   const sources = useSelector((state) => state.account.sources[type]);
@@ -72,9 +73,12 @@ function Transaction(props) {
   });
 
   // show day as in origin timezone, while date in local timezone
-  const displayDay = format(utcToZonedTime(date, TIMEZONE), 'EEE');
+  const displayDay = format(
+    utcToZonedTime(date, TIMEZONE),
+    dateFormat || 'EEE'
+  );
   const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
-  if (!props.transaction) {
+  if (!transaction) {
     return null;
   }
   return (
@@ -204,7 +208,7 @@ function Transaction(props) {
           <div
             onClick={() => {
               actionsPopupState.close();
-              dispatch(editTransaction(props.transaction));
+              dispatch(editTransaction(transaction));
               document.querySelector('.new-transaction').scrollIntoView();
             }}
           >
@@ -213,7 +217,7 @@ function Transaction(props) {
           <div
             onClick={() => {
               actionsPopupState.close();
-              dispatch(intendToRemoveTransaction(props.transaction));
+              dispatch(intendToRemoveTransaction(transaction));
             }}
           >
             Delete

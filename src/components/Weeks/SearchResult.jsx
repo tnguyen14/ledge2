@@ -19,7 +19,11 @@ function SearchResult() {
       <table className="transactions-list table table-striped">
         <tbody>
           {displayTransactions.map((tx) => (
-            <Transaction key={tx.id} transaction={tx} />
+            <Transaction
+              key={tx.id}
+              transaction={tx}
+              dateFormat="MM/dd/yyyy (EEE)"
+            />
           ))}
         </tbody>
       </table>
