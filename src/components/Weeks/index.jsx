@@ -5,7 +5,6 @@ import {
 } from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
-import { setFilter } from '../../actions/app.js';
 import Week from './Week.js';
 import SearchResult from './SearchResult.js';
 import Field from '../Form/Field.js';

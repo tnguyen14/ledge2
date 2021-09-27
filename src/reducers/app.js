@@ -1,5 +1,4 @@
 import {
-  SET_FILTER,
   SET_DISPLAY_FROM,
   SET_TOKEN,
   REFRESH_APP,
@@ -61,11 +60,6 @@ export default function app(state = defaultState, action) {
         ...state,
         appReady: true,
         lastRefreshed: new Date().valueOf()
-      };
-    case SET_FILTER:
-      return {
-        ...state,
-        filter: action.data
       };
     case SET_TOKEN:
       return {

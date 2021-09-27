@@ -7,14 +7,6 @@ import {
   getWeekStartFromWeekId
 } from '../selectors/week.js';
 
-export const SET_FILTER = 'SET_FILTER';
-export function setFilter(filter) {
-  return {
-    type: SET_FILTER,
-    data: filter
-  };
-}
-
 export const SET_DISPLAY_FROM = 'SET_DISPLAY_FROM';
 export function setDisplayFrom(date) {
   return {
