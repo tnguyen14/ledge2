@@ -33,28 +33,6 @@ function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
 }
 
-function TypeSelector(props) {
-  const { value, options } = props;
-  const dispatch = useDispatch();
-  return (
-    <select
-      placeholder="transaction"
-      className="form-control type-selector"
-      name="type"
-      onChange={(event) => {
-        dispatch(inputChange('type', event.target.value));
-      }}
-      value={value}
-    >
-      {options.map((option) => (
-        <option key={option.slug} value={option.slug}>
-          {option.value}
-        </option>
-      ))}
-    </select>
-  );
-}
-
 function Form(props) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
@@ -147,10 +125,16 @@ function Form(props) {
         {collapsed ? (
           ''
         ) : (
-          <h2>
-            <span className="title-action">{action}</span>{' '}
-            <TypeSelector value={type} options={fieldOptions.types} />
-          </h2>
+          <Field
+            handleChange={(event) => {
+              dispatch(inputChange('type', event.target.value));
+            }}
+            type="select"
+            label="Type"
+            disabled={!appReady}
+            value={type}
+            options={fieldOptions.types}
+          />
         )}
       </div>
       {!collapsed && (

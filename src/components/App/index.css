@@ -20,7 +20,7 @@
   @media (min-width: 68.75em) {
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
-    grid-template-areas: 'stats form';
+    grid-template-areas: 'form stats';
   }
   .new-transaction {
     grid-area: form;

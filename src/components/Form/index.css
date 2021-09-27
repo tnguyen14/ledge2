@@ -1,44 +1,24 @@
 @import './Field.css';
 
 .new-transaction {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
   justify-content: space-between;
   align-content: baseline;
+  grid-template-columns: 48% 48%;
+  row-gap: 1rem;
   .form-header {
+    grid-column: span 2;
     display: flex;
-    margin-bottom: 1rem;
     flex-direction: row-reverse;
     justify-content: space-between;
     width: 100%;
-  }
-  h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    width: 100%;
-    @media (min-width: 42.5em) {
-      font-size: 2rem;
-    }
   }
   .form-modes {
     display: flex;
     column-gap: 0.5rem;
   }
-  fieldset {
-    margin-top: 1.3rem;
-  }
-  [data-form-name='amount'],
-  [data-form-name='calculate'],
-  [data-form-name='date'],
-  [data-form-name='time'],
-  [data-form-name='span'],
-  [data-form-name='source'],
-  [data-form-name='merchant'],
-  [data-form-name='category'] {
-    width: 48%;
-  }
   [data-form-name='description'] {
-    width: 100%;
+    grid-column: span 2;
     textarea {
       height: calc(
         2.25rem + 2px
@@ -46,7 +26,7 @@
     }
   }
   .actions {
-    width: 100%;
+    grid-column: 2;
     display: flex;
     justify-content: flex-end;
     [type='submit'] {
@@ -56,9 +36,6 @@
     button + button {
       margin-right: 0.7rem; /* create gap between buttons */
     }
-  }
-  .title-action {
-    text-transform: capitalize;
   }
   .input-group {
     width: 100%;
@@ -74,14 +51,5 @@
   }
   .react-hint__content {
     font-size: 0.8rem;
-  }
-  .type-selector {
-    display: inline-block;
-    vertical-align: text-top;
-    font-size: 1.1rem;
-    width: min-content;
-    @media (min-width: 42.5em) {
-      vertical-align: top;
-    }
   }
 }
