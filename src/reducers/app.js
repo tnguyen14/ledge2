@@ -1,3 +1,4 @@
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
@@ -13,6 +14,7 @@ import {
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
 import { SET_SEARCH } from '../actions/form.js';
+import { DISPLAY_DATE_FORMAT } from '../util/constants.js';
 
 const numVisibleWeeks = 12;
 
@@ -45,7 +47,10 @@ export default function app(state = defaultState, action) {
         loadedTransactions: true,
         notification: {
           title: 'App',
-          content: `Finished loading transactions from ${action.data.start} to ${action.data.end}`,
+          content: `Finished loading transactions from ${format(
+            action.data.start,
+            DISPLAY_DATE_FORMAT
+          )} to ${format(action.data.end, DISPLAY_DATE_FORMAT)}`,
           autohide: 3000
         }
       };
