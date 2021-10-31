@@ -6,6 +6,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   h1 {
     color: var(--color-grey-lighten-4);
     font-family: 'Shadows Into Light Two', cursive;
