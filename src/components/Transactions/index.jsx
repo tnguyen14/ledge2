@@ -14,7 +14,6 @@ import { getPastWeeksIds } from '../../selectors/week.js';
 function Weeks(props) {
   const dispatch = useDispatch();
   const isLoading = useSelector((state) => state.app.isLoading);
-  const initialLoad = useSelector((state) => state.app.initialLoad);
   const search = useSelector((state) => state.app.search);
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const visibleWeeksIds = getPastWeeksIds({
@@ -27,16 +26,15 @@ function Weeks(props) {
       <div className="transactions-loading">
         {isLoading && <Spinner animation="border" variant="success" />}
       </div>
-      {initialLoad &&
-        (search ? (
-          <SearchResult />
-        ) : (
-          <div className="weeks">
-            {visibleWeeksIds.map((weekId) => {
-              return <Week key={weekId} weekId={weekId} />;
-            })}
-          </div>
-        ))}
+      {search ? (
+        <SearchResult />
+      ) : (
+        <div className="weeks">
+          {visibleWeeksIds.map((weekId) => {
+            return <Week key={weekId} weekId={weekId} />;
+          })}
+        </div>
+      )}
       <DeleteDialog />
     </div>
   );

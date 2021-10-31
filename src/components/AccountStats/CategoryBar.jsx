@@ -13,9 +13,6 @@ function CategoryBar(props) {
     popupId: `${week.label}-chart-popup`
   });
 
-  if (!week.categoryTotals) {
-    return null;
-  }
   // make bar-piece a child of data-cat to use styles
   // defined in style.css
   return (
@@ -26,24 +23,25 @@ function CategoryBar(props) {
         })}
         {...bindTrigger(popupState)}
       >
-        {categories.map((cat) => {
-          if (!week.categoryTotals[cat.slug]) {
-            return null;
-          }
-          return (
-            <div data-cat={cat.slug}>
-              <div
-                className="bar-piece"
-                style={{
-                  height: `calc(${
-                    week.categoryTotals[cat.slug].amount / 100
-                  } * var(--px-per-unit-height)
+        {week.categoryTotals &&
+          categories.map((cat) => {
+            if (!week.categoryTotals[cat.slug]) {
+              return null;
+            }
+            return (
+              <div data-cat={cat.slug}>
+                <div
+                  className="bar-piece"
+                  style={{
+                    height: `calc(${
+                      week.categoryTotals[cat.slug].amount / 100
+                    } * var(--px-per-unit-height)
                   )`
-                }}
-              ></div>
-            </div>
-          );
-        })}
+                  }}
+                ></div>
+              </div>
+            );
+          })}
       </div>
       <Popover
         {...bindPopover(popupState)}
@@ -59,23 +57,24 @@ function CategoryBar(props) {
         <div className="chart-bar-popover">
           <h5>{week.label}</h5>
           <div className="explanation">
-            {categories
-              .map((cat) => {
-                if (!week.categoryTotals[cat.slug]) {
-                  return null;
-                }
-                const stat = week.categoryTotals[cat.slug];
-                return (
-                  <>
-                    <span data-cat={stat.slug}>
-                      <span className="legend">&nbsp;</span>
-                      {stat.label}
-                    </span>
-                    <span>{usd(stat.amount)}</span>
-                  </>
-                );
-              })
-              .reverse()}
+            {week.categoryTotals &&
+              categories
+                .map((cat) => {
+                  if (!week.categoryTotals[cat.slug]) {
+                    return null;
+                  }
+                  const stat = week.categoryTotals[cat.slug];
+                  return (
+                    <>
+                      <span data-cat={stat.slug}>
+                        <span className="legend">&nbsp;</span>
+                        {stat.label}
+                      </span>
+                      <span>{usd(stat.amount)}</span>
+                    </>
+                  );
+                })
+                .reverse()}
           </div>
         </div>
       </Popover>

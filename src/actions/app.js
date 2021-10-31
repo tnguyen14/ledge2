@@ -31,12 +31,8 @@ export function refreshApp() {
   };
 }
 
-export const INITIAL_LOAD_EXPENSE_SUCCESS = 'INITIAL_LOAD_EXPENSE_SUCCESS';
-export function initialLoadExpense() {
-  return async function initialLoadExpenseAsync(dispatch, getState) {
-    const {
-      app: { yearsToLoad }
-    } = getState();
+export function loadPastYears(yearsToLoad) {
+  return async function loadPastYearsAsync(dispatch) {
     const now = new Date();
     const start = sub(now, {
       years: yearsToLoad
@@ -44,9 +40,6 @@ export function initialLoadExpense() {
     const startMonday = startOfDay(setISODay(start, 1));
     const endMonday = startOfDay(setISODay(now, 8));
     await dispatch(loadTransactions(startMonday, endMonday));
-    dispatch({
-      type: INITIAL_LOAD_EXPENSE_SUCCESS
-    });
   };
 }
 

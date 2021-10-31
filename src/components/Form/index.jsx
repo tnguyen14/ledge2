@@ -27,7 +27,7 @@ import {
   addTransaction,
   updateTransaction
 } from '../../actions/transactions.js';
-import { setSearchMode } from '../../actions/app.js';
+import { setSearchMode, loadPastYears } from '../../actions/app.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -37,6 +37,8 @@ function Form(props) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
+  const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
+  const isLoading = useSelector((state) => state.app.isLoading);
   const datalists = useSelector((state) => ({
     'merchants-list': state.account.merchants
   }));
@@ -174,6 +176,17 @@ function Form(props) {
               />
             );
           })}
+          <div>
+            <Button
+              disabled={isLoading}
+              variant="outline-secondary"
+              onClick={() => {
+                dispatch(loadPastYears(yearsToLoad));
+              }}
+            >
+              Load {yearsToLoad} years
+            </Button>
+          </div>
           <div className="actions">
             <Button
               variant="primary"

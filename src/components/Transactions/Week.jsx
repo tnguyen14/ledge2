@@ -14,7 +14,6 @@ function Week(props) {
   const dispatch = useDispatch();
   const { weekId } = props;
   const displayFrom = useSelector((state) => state.app.displayFrom);
-  const initialLoad = useSelector((state) => state.app.initialLoad);
   const transactions = useSelector((state) => state.transactions);
   const { transactions: weekTransactions, start, end } = getWeekById({
     transactions,
@@ -26,9 +25,6 @@ function Week(props) {
   );
 
   useEffect(() => {
-    if (!initialLoad) {
-      return;
-    }
     if (!displayTransactions.length) {
       dispatch(loadWeek({ weekId }));
     }

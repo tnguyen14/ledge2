@@ -14,12 +14,7 @@ import Cashflow from '../Cashflow/index.js';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Transactions from '../Transactions/index.js';
-import {
-  refreshApp,
-  setToken,
-  initialLoadExpense,
-  setDisplayFrom
-} from '../../actions/app.js';
+import { refreshApp, setToken, setDisplayFrom } from '../../actions/app.js';
 import { loadAccount } from '../../actions/account.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
@@ -27,7 +22,6 @@ function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
-  const initialLoad = useSelector((state) => state.app.initialLoad);
   const token = useSelector((state) => state.app.token);
   const showCashflow = useSelector((state) => state.app.showCashflow);
   const search = useSelector((state) => state.app.search);
@@ -53,11 +47,6 @@ function App() {
         await dispatch(loadAccount());
         dispatch(refreshApp());
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-        if (!initialLoad) {
-          requestIdleCallback(() => {
-            dispatch(initialLoadExpense());
-          });
-        }
       }
     })();
   }, [isAuthenticated, isVisible]);

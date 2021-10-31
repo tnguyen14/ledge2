@@ -2,7 +2,6 @@ import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
   REFRESH_APP,
-  INITIAL_LOAD_EXPENSE_SUCCESS,
   SHOW_CASHFLOW,
   SET_SEARCH_MODE,
   INTEND_TO_REMOVE_TRANSACTION,
@@ -20,7 +19,6 @@ const numVisibleWeeks = 12;
 const defaultState = {
   appReady: false,
   isLoading: false,
-  initialLoad: false,
   filter: '',
   yearsToLoad: 3,
   notification: {
@@ -50,11 +48,6 @@ export default function app(state = defaultState, action) {
           content: `Finished loading transactions from ${action.data.start} to ${action.data.end}`,
           autohide: 3000
         }
-      };
-    case INITIAL_LOAD_EXPENSE_SUCCESS:
-      return {
-        ...state,
-        initialLoad: true
       };
     case REFRESH_APP:
       return {

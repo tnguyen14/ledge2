@@ -31,7 +31,6 @@ function AccountStats(props) {
   const dispatch = useDispatch();
   const [tab, setTab] = useState(0);
   const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
-  const initialLoad = useSelector((state) => state.app.initialLoad);
 
   return (
     <div className="stats account-stats">
