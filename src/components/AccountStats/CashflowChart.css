@@ -22,7 +22,7 @@
     width: 1rem;
     margin: 0 auto; /* center the bar */
     @media (min-width: 42.5em) {
-      width: 2rem;
+      width: 1.5rem;
     }
   }
   .in-column,

@@ -11,7 +11,10 @@
 
 /* consult https://materializecss.com/color.html */
 :root {
+  --color-red-lighten-5: #ffebee;
   --color-red-lighten-4: #ffcdd2;
+  --color-red-lighten-3: #ef9a9a;
+  --color-red-lighten-2: #ef5350;
   --color-pink-lighten-2: #f06292;
   --color-purple: #9c27b0;
   --color-deep-purple: #673ab7;
@@ -29,9 +32,13 @@
   --color-green: #4caf50;
   --color-green-darken-2: #388e3c;
   --color-green-darken-4: #1b5e20;
+  --color-green-accent-2: #69f0ae;
+  --color-green-accent-3: #00e676;
   --color-light-green-lighten-4: #dcedc8;
   --color-light-green: #8bc34a;
   --color-light-green-accent-1: #b9f6ca;
+  --color-light-green-accent-2: #b2ff59;
+  --color-light-green-accent-3: #76ff03;
   --color-light-green-accent-4: #64dd17;
   --color-lime-lighten-4: #f0f4c3;
   --color-lime: #cddc39;
@@ -142,22 +149,22 @@ a:not([href]) {
 [data-field='type'] {
   background-color: var(--color-blue-grey-lighten-4);
   &[data-type='regular-expense'] {
-    background-color: var(--color-red-lighten-4);
+    background-color: var(--color-red-lighten-3);
   }
   &[data-type='passive-investment'] {
-    background-color: var(--color-blue-lighten-4);
+    background-color: var(--color-red-lighten-4);
   }
   &[data-type='withdrawal'] {
-    background-color: var(--color-deep-orange-lighten-4);
+    background-color: var(--color-red-lighten-5);
   }
   &[data-type='regular-income'] {
     background-color: var(--color-light-green-accent-4);
   }
   &[data-type='passive-income'] {
-    background-color: var(--color-light-green-accent-1);
+    background-color: var(--color-light-green-accent-3);
   }
   &[data-type='deposit'] {
-    background-color: var(--color-light-green-lighten-4);
+    background-color: var(--color-light-green-accent-2);
   }
 }
 
