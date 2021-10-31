@@ -12,7 +12,7 @@ import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { TIMEZONE } from '../../util/constants.js';
 import CategoryBar from './CategoryBar.js';
-import { getCategoriesTotalsStats } from '../../selectors/stats.js';
+import { getCategoriesTotals } from '../../selectors/stats.js';
 import {
   getWeekId,
   getWeekStartFromWeekId,
@@ -24,10 +24,12 @@ import Chart from '../Chart/index.js';
 
 const numWeeksToShow = 12;
 
+const filterType = 'regular-expense';
+
 function CategoriesChart() {
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
-    [...state.account.categories['regular-expense']].reverse()
+    [...state.account.categories[filterType]].reverse()
   );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
@@ -44,8 +46,11 @@ function CategoriesChart() {
       if (!week || !week.start) {
         return {};
       }
-      const stats = getCategoriesTotalsStats({
-        transactions: week.transactions,
+      const transactions = week.transactions.filter(
+        (tx) => tx.type == filterType
+      );
+      const stats = getCategoriesTotals({
+        transactions,
         categories
       });
       // add a space after / to allow label to "break" to new line
@@ -59,6 +64,7 @@ function CategoriesChart() {
       }, {});
       return {
         ...week,
+        transactions,
         categoryTotals,
         label
       };

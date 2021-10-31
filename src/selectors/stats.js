@@ -5,7 +5,7 @@ const getTransactions = (state) => state.transactions;
 
 const getCategories = (state) => state.categories;
 
-export const getCategoriesTotalsStats = createSelector(
+export const getCategoriesTotals = createSelector(
   getTransactions,
   getCategories,
   (transactions, categories) => {
