@@ -16,7 +16,7 @@ export const getDate = (state) => {
 };
 
 export const getDayStart = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${date.toISODate()}T00:00`, { zone: TIMEZONE })
+  DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).startOf('day')
 );
 
 export const getWeekStart = createSelector(
@@ -26,7 +26,7 @@ export const getWeekStart = createSelector(
 );
 
 export const getDayEnd = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${date.toISODate()}T23:59:59.999`, { zone: TIMEZONE })
+  DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).endOf('day')
 );
 
 export const getWeekEnd = createSelector(
