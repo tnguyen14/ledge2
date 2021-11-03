@@ -19,7 +19,6 @@ export const getDate = (state) => {
   return DateTime.fromISO(dateStr).setZone(TIMEZONE).toISODate();
 };
 
-// exporting for testing purpose
 export const getDayStart = createSelector(getDate, (date) =>
   DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
 );
@@ -30,7 +29,6 @@ export const getWeekStart = createSelector(
   (offset, dayStart) => setISODay(dayStart, 1 + offset * 7)
 );
 
-// exporting for testing purpose
 export const getDayEnd = createSelector(getDate, (date) =>
   DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
 );
