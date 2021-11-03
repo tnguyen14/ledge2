@@ -28,7 +28,7 @@ export const getPastMonthsIds = createSelector(
   getNumMonths,
   (date, numMonths) => {
     return [...Array(numMonths).keys()].map((offset) =>
-      getMonthId({ date, offset: -offset })
+      getMonthId({ date: date.toISO(), offset: -offset })
     );
   }
 );
