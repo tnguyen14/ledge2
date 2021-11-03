@@ -16,10 +16,7 @@ export const getDate = (state) => {
   if (state.date instanceof Date) {
     dateStr = state.date.toISOString();
   }
-  return format(
-    parseISO(DateTime.fromISO(dateStr).setZone(TIMEZONE).toISO()),
-    DATE_FIELD_FORMAT
-  );
+  return DateTime.fromISO(dateStr).setZone(TIMEZONE).toISODate();
 };
 
 // exporting for testing purpose
