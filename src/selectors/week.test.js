@@ -1,4 +1,5 @@
 import {
+  getDate,
   getWeekStart,
   getWeekEnd,
   getWeekId,
@@ -8,6 +9,7 @@ import {
 import { expect } from 'https://cdn.skypack.dev/chai';
 
 // Sunday night 11pm NY after midnight UTC
+// May 3rd is a Monday
 const date = '2021-05-03T03:04:00.000Z';
 
 describe('selectors/week', () => {
@@ -16,6 +18,7 @@ describe('selectors/week', () => {
       date
     };
 
+    expect(getDate(state)).to.equal('2021-05-02');
     expect(getWeekStart(state).toISOString()).to.equal(
       '2021-04-26T04:00:00.000Z'
     );
