@@ -14,23 +14,13 @@ export const getMonthStart = createSelector(
   getOffset,
   getDayStart,
   (offset, dayStart) =>
-    add(
-      DateTime.fromJSDate(dayStart)
-        .setZone(TIMEZONE)
-        .startOf('month')
-        .toJSDate(),
-      { months: offset }
-    )
+    add(dayStart.startOf('month').toJSDate(), { months: offset })
 );
 
 export const getMonthEnd = createSelector(
   getOffset,
   getDayEnd,
-  (offset, dayEnd) =>
-    add(
-      DateTime.fromJSDate(dayEnd).setZone(TIMEZONE).endOf('month').toJSDate(),
-      { months: offset }
-    )
+  (offset, dayEnd) => add(dayEnd.endOf('month').toJSDate(), { months: offset })
 );
 
 export const getMonthId = createSelector(getMonthStart, (date) =>

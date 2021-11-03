@@ -21,10 +21,10 @@ describe('selectors/week', () => {
     };
 
     expect(getDate(state)).to.equal('2021-05-02');
-    expect(getDayStart(state).toISOString()).to.equal(
-      '2021-05-02T04:00:00.000Z'
+    expect(getDayStart(state).toISO()).to.equal(
+      '2021-05-02T00:00:00.000-04:00'
     );
-    expect(getDayEnd(state).toISOString()).to.equal('2021-05-03T03:59:59.999Z');
+    expect(getDayEnd(state).toISO()).to.equal('2021-05-02T23:59:59.999-04:00');
   });
   it('getWeekStart & getWeekEnd', () => {
     const state = {
