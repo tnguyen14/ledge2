@@ -20,7 +20,7 @@ describe('selectors/week', () => {
       date
     };
 
-    expect(getDate(state)).to.equal('2021-05-02');
+    expect(getDate(state).toISOString()).to.equal('2021-05-03T03:04:00.000Z');
     expect(getDayStart(state).toISOString()).to.equal(
       '2021-05-02T04:00:00.000Z'
     );

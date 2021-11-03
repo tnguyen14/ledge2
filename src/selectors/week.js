@@ -6,19 +6,21 @@ import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;
 export const getDate = (state) => {
-  let date = new Date();
-  if (state && state.date) {
-    date = new Date(state.date);
+  if (!state.date) {
+    throw new Error('date is missing');
   }
+  return new Date(state.date);
+
   return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
 // exporting for testing purpose
 export const getDayStart = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
+  DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T00:00`, {
+    zone: TIMEZONE
+  }).toJSDate()
 );
 
-// TODO instead of getDate, define a format of date explicitly
 export const getWeekStart = createSelector(
   getOffset,
   getDayStart,
@@ -27,13 +29,18 @@ export const getWeekStart = createSelector(
 
 // exporting for testing purpose
 export const getDayEnd = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
+  DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T23:59:59.999`, {
+    zone: TIMEZONE
+  }).toJSDate()
 );
 
 export const getWeekEnd = createSelector(
   getOffset,
-  getDayEnd,
-  (offset, dayEnd) => setISODay(dayEnd, 7 + offset * 7)
+  getWeekStart,
+  (offset, weekStart) =>
+    getDayEnd({
+      date: setISODay(weekStart, 7 + offset * 7)
+    })
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>

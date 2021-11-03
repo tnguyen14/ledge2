@@ -36,8 +36,8 @@ function WeeklyAverages(props) {
     }
     return {
       ...span,
-      startWeekEnd: getWeekEnd({ offset: span.start }),
-      endWeekStart: getWeekStart({ offset: span.end }),
+      startWeekEnd: getWeekEnd({ date: new Date(), offset: span.start }),
+      endWeekStart: getWeekStart({ date: new Date(), offset: span.end }),
       weeks
     };
   });
