@@ -6,7 +6,7 @@ import {
   add
 } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
 import { TIMEZONE, MONTH_FORMAT } from '../util/constants.js';
 import { getDate, getOffset } from './week.js';
 
@@ -14,16 +14,20 @@ export const getMonthStart = createSelector(
   getOffset,
   getDate,
   (offset, date) =>
-    getDateInTz(
-      add(startOfMonth(new Date(`${date} 00:00`)), { months: offset }),
-      TIMEZONE
+    add(
+      startOfMonth(
+        DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
+      ),
+      { months: offset }
     )
 );
 
 export const getMonthEnd = createSelector(getOffset, getDate, (offset, date) =>
-  getDateInTz(
-    add(endOfMonth(new Date(`${date} 23:59:59.999`)), { months: offset }),
-    TIMEZONE
+  add(
+    endOfMonth(
+      DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
+    ),
+    { months: offset }
   )
 );
 
