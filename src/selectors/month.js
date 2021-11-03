@@ -1,30 +1,20 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import {
-  format,
-  startOfMonth,
-  endOfMonth,
-  add
-} from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
-import getDateInTz from 'https://cdn.skypack.dev/@tridnguyen/date-tz@1';
-import { TIMEZONE, MONTH_FORMAT } from '../util/constants.js';
-import { getDate, getOffset } from './week.js';
+import { format, add } from 'https://cdn.skypack.dev/date-fns@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
+import { MONTH_FORMAT } from '../util/constants.js';
+import { getDayStart, getDayEnd, getDate, getOffset } from './week.js';
 
 export const getMonthStart = createSelector(
   getOffset,
-  getDate,
-  (offset, date) =>
-    getDateInTz(
-      add(startOfMonth(new Date(`${date} 00:00`)), { months: offset }),
-      TIMEZONE
-    )
+  getDayStart,
+  (offset, dayStart) =>
+    add(dayStart.startOf('month').toJSDate(), { months: offset })
 );
 
-export const getMonthEnd = createSelector(getOffset, getDate, (offset, date) =>
-  getDateInTz(
-    add(endOfMonth(new Date(`${date} 23:59:59.999`)), { months: offset }),
-    TIMEZONE
-  )
+export const getMonthEnd = createSelector(
+  getOffset,
+  getDayEnd,
+  (offset, dayEnd) => add(dayEnd.endOf('month').toJSDate(), { months: offset })
 );
 
 export const getMonthId = createSelector(getMonthStart, (date) =>
@@ -38,7 +28,7 @@ export const getPastMonthsIds = createSelector(
   getNumMonths,
   (date, numMonths) => {
     return [...Array(numMonths).keys()].map((offset) =>
-      getMonthId({ date, offset: -offset })
+      getMonthId({ date: date.toISO(), offset: -offset })
     );
   }
 );
