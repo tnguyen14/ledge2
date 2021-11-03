@@ -13,7 +13,7 @@ export const getDate = (state) => {
     dateStr = state.date.toISOString();
   }
   return format(
-    DateTime.fromISO(dateStr, { zone: TIMEZONE }).toJSDate(),
+    DateTime.fromISO(dateStr, { zone: 'UTC' }).setZone(TIMEZONE).toJSDate(),
     DATE_FIELD_FORMAT
   );
 };
