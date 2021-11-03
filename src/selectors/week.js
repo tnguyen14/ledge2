@@ -13,19 +13,27 @@ export const getDate = (state) => {
   return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
 };
 
-// TODO instead of getDate, define a format of date explicitly
-export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  setISODay(
-    DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate(),
-    1 + offset * 7
-  )
+// exporting for testing purpose
+export const getDayStart = createSelector(getDate, (date) =>
+  DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
 );
 
-export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  setISODay(
-    DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate(),
-    7 + offset * 7
-  )
+// TODO instead of getDate, define a format of date explicitly
+export const getWeekStart = createSelector(
+  getOffset,
+  getDayStart,
+  (offset, dayStart) => setISODay(dayStart, 1 + offset * 7)
+);
+
+// exporting for testing purpose
+export const getDayEnd = createSelector(getDate, (date) =>
+  DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
+);
+
+export const getWeekEnd = createSelector(
+  getOffset,
+  getDayEnd,
+  (offset, dayEnd) => setISODay(dayEnd, 7 + offset * 7)
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>

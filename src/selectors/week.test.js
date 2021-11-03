@@ -1,5 +1,7 @@
 import {
   getDate,
+  getDayStart,
+  getDayEnd,
   getWeekStart,
   getWeekEnd,
   getWeekId,
@@ -13,12 +15,21 @@ import { expect } from 'https://cdn.skypack.dev/chai';
 const date = '2021-05-03T03:04:00.000Z';
 
 describe('selectors/week', () => {
-  it('getWeekStart & getWeekEnd', () => {
+  it('date parsing', () => {
     const state = {
       date
     };
 
     expect(getDate(state)).to.equal('2021-05-02');
+    expect(getDayStart(state).toISOString()).to.equal(
+      '2021-05-02T04:00:00.000Z'
+    );
+    expect(getDayEnd(state).toISOString()).to.equal('2021-05-03T03:59:59.999Z');
+  });
+  it('getWeekStart & getWeekEnd', () => {
+    const state = {
+      date
+    };
     expect(getWeekStart(state).toISOString()).to.equal(
       '2021-04-26T04:00:00.000Z'
     );
