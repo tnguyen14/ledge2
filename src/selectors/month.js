@@ -20,9 +20,7 @@ export const getMonthStart = createSelector(
   (offset, date) =>
     add(
       startOfMonth(
-        DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T00:00`, {
-          zone: TIMEZONE
-        }).toJSDate()
+        DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
       ),
       { months: offset }
     )
@@ -31,9 +29,7 @@ export const getMonthStart = createSelector(
 export const getMonthEnd = createSelector(getOffset, getDate, (offset, date) =>
   add(
     endOfMonth(
-      DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T23:59:59.999`, {
-        zone: TIMEZONE
-      }).toJSDate()
+      DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
     ),
     { months: offset }
   )

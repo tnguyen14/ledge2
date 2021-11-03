@@ -1,6 +1,5 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
 import { setISODay, format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
@@ -9,16 +8,19 @@ export const getDate = (state) => {
   if (!state.date) {
     throw new Error('date is missing');
   }
-  return new Date(state.date);
-
-  return format(utcToZonedTime(date, TIMEZONE), DATE_FIELD_FORMAT);
+  let dateStr = state.date;
+  if (state.date instanceof Date) {
+    dateStr = state.date.toISOString();
+  }
+  return format(
+    DateTime.fromISO(dateStr, { zone: TIMEZONE }).toJSDate(),
+    DATE_FIELD_FORMAT
+  );
 };
 
 // exporting for testing purpose
 export const getDayStart = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T00:00`, {
-    zone: TIMEZONE
-  }).toJSDate()
+  DateTime.fromISO(`${date}T00:00`, { zone: TIMEZONE }).toJSDate()
 );
 
 export const getWeekStart = createSelector(
@@ -29,9 +31,7 @@ export const getWeekStart = createSelector(
 
 // exporting for testing purpose
 export const getDayEnd = createSelector(getDate, (date) =>
-  DateTime.fromISO(`${format(date, DATE_FIELD_FORMAT)}T23:59:59.999`, {
-    zone: TIMEZONE
-  }).toJSDate()
+  DateTime.fromISO(`${date}T23:59:59.999`, { zone: TIMEZONE }).toJSDate()
 );
 
 export const getWeekEnd = createSelector(
