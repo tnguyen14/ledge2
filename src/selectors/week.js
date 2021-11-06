@@ -31,11 +31,8 @@ export const getDayEnd = createSelector(getDate, (date) =>
 
 export const getWeekEnd = createSelector(
   getOffset,
-  getWeekStart,
-  (offset, weekStart) =>
-    getDayEnd({
-      date: setISODay(weekStart, 7 + offset * 7)
-    }).toJSDate()
+  getDayEnd,
+  (offset, dayEnd) => setISODay(dayEnd.toJSDate(), 7 + offset * 7)
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
