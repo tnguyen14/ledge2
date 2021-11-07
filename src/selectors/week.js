@@ -12,31 +12,27 @@ export const getDate = (state) => {
   if (state.date instanceof Date) {
     dateStr = state.date.toISOString();
   }
-  return DateTime.fromISO(dateStr).setZone(TIMEZONE);
+  return DateTime.fromISO(dateStr, { zone: TIMEZONE });
 };
 
 export const getDayStart = createSelector(getDate, (date) =>
   DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).startOf('day')
 );
 
-export const getWeekStart = createSelector(
-  getOffset,
-  getDayStart,
-  (offset, dayStart) => setISODay(dayStart.toJSDate(), 1 + offset * 7)
+export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
+  date.startOf('week').plus({ weeks: offset }).toJSDate()
 );
 
 export const getDayEnd = createSelector(getDate, (date) =>
   DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).endOf('day')
 );
 
-export const getWeekEnd = createSelector(
-  getOffset,
-  getDayEnd,
-  (offset, dayEnd) => setISODay(dayEnd.toJSDate(), 7 + offset * 7)
+export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
+  date.endOf('week').plus({ weeks: offset }).toJSDate()
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
-  format(weekStart, DATE_FIELD_FORMAT)
+  DateTime.fromJSDate(weekStart, { zone: TIMEZONE }).toISODate()
 );
 
 export const getWeekStartFromWeekId = (state) => {
@@ -45,7 +41,9 @@ export const getWeekStartFromWeekId = (state) => {
   }
   return DateTime.fromISO(`${state.weekId}T00:00`, {
     zone: TIMEZONE
-  }).toJSDate();
+  })
+    .startOf('week')
+    .toJSDate();
 };
 
 const getNumWeeks = (state) => state.numWeeks;

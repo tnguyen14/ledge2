@@ -44,6 +44,20 @@ describe('selectors/week', () => {
       }).toISOString()
     ).to.equal('2021-04-26T04:00:00.000Z');
   });
+  it('getWeekStart with offset', () => {
+    expect(
+      getWeekStart({
+        date,
+        offset: 1
+      }).toISOString()
+    ).to.equal('2021-05-03T04:00:00.000Z');
+    expect(
+      getWeekStart({
+        date,
+        offset: -1
+      }).toISOString()
+    ).to.equal('2021-04-19T04:00:00.000Z');
+  });
   it('getWeekId', () => {
     const state = {
       date
@@ -52,7 +66,7 @@ describe('selectors/week', () => {
   });
   it('getWeekStartFromWeekId', () => {
     const state = {
-      weekId: '2021-05-31'
+      weekId: '2021-06-02'
     };
     expect(getWeekStartFromWeekId(state).toISOString()).to.equal(
       '2021-05-31T04:00:00.000Z'

@@ -51,11 +51,14 @@ function addTransactionToWeek(weeks, transaction, offset) {
     date: transaction.date
   };
   const weekId = getWeekId(state);
+  const start = getWeekStart(state);
+  const end = getWeekEnd(state);
+  // console.log(`${state.date} ${state.offset}, ${start.toISOString()} - ${end.toISOString()}`)
   if (!weeks[weekId]) {
     weeks[weekId] = {
       weekId,
-      start: getWeekStart(state),
-      end: getWeekEnd(state),
+      start,
+      end,
       transactions: [transaction]
     };
   } else {
