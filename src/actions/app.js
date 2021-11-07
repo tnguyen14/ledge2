@@ -47,8 +47,8 @@ export function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch) {
     dispatch(
       loadTransactions(
-        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
-        getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) })
+        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }).toJSDate(),
+        getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) }).toJSDate()
       )
     );
   };

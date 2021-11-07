@@ -30,33 +30,31 @@ describe('selectors/week', () => {
     const state = {
       date
     };
-    expect(getWeekStart(state).toISOString()).to.equal(
-      '2021-04-26T04:00:00.000Z'
+    expect(getWeekStart(state).toISO()).to.equal(
+      '2021-04-26T00:00:00.000-04:00'
     );
-    expect(getWeekEnd(state).toISOString()).to.equal(
-      '2021-05-03T03:59:59.999Z'
-    );
+    expect(getWeekEnd(state).toISO()).to.equal('2021-05-02T23:59:59.999-04:00');
 
     // Date object
     expect(
       getWeekStart({
         date: new Date(date)
-      }).toISOString()
-    ).to.equal('2021-04-26T04:00:00.000Z');
+      }).toISO()
+    ).to.equal('2021-04-26T00:00:00.000-04:00');
   });
   it('getWeekStart with offset', () => {
     expect(
       getWeekStart({
         date,
         offset: 1
-      }).toISOString()
-    ).to.equal('2021-05-03T04:00:00.000Z');
+      }).toISO()
+    ).to.equal('2021-05-03T00:00:00.000-04:00');
     expect(
       getWeekStart({
         date,
         offset: -1
-      }).toISOString()
-    ).to.equal('2021-04-19T04:00:00.000Z');
+      }).toISO()
+    ).to.equal('2021-04-19T00:00:00.000-04:00');
   });
   it('getWeekId', () => {
     const state = {

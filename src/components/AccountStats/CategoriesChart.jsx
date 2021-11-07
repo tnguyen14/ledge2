@@ -8,8 +8,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import { TIMEZONE } from '../../util/constants.js';
 import CategoryBar from './CategoryBar.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';
@@ -55,7 +53,7 @@ function CategoriesChart() {
       });
       // add a space after / to allow label to "break" to new line
       // on small screen
-      const label = format(utcToZonedTime(week.start, TIMEZONE), 'MMM dd');
+      const label = week.start.toFormat('LLL dd');
       const categoryTotals = stats.reduce((totals, stat) => {
         totals[stat.slug] = {
           ...stat

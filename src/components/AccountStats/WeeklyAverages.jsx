@@ -1,8 +1,6 @@
 import React from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
@@ -31,7 +29,7 @@ function WeeklyAverages(props) {
   ].map((span) => {
     const weeks = [];
     for (let offset = span.start; offset > span.end; offset--) {
-      const weekId = getWeekId({ offset });
+      const weekId = getWeekId({ date: new Date(), offset });
       weeks.push(getWeekById({ transactions, weekId }));
     }
     return {
@@ -50,13 +48,9 @@ function WeeklyAverages(props) {
             <tr className="stat" key={index}>
               <td>
                 <Tooltip
-                  title={`${format(
-                    utcToZonedTime(span.startWeekEnd, TIMEZONE),
-                    'MMM d'
-                  )} - ${format(
-                    utcToZonedTime(span.endWeekStart, TIMEZONE),
-                    'MMM d'
-                  )}`}
+                  title={`${span.startWeekEnd.toFormat(
+                    'LLL d'
+                  )} - ${span.endWeekStart.toFormat('LLL d')}`}
                 >
                   <span>Last {span.start - span.end} weeks</span>
                 </Tooltip>

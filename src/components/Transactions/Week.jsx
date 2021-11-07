@@ -3,7 +3,6 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { loadWeek } from '../../actions/app.js';
 import { sortTransactions } from '../../util/transaction.js';
 import { getWeekById } from '../../selectors/transactions.js';
@@ -37,7 +36,7 @@ function Week(props) {
   return (
     <div className="weekly transactions-container">
       <h3 className="week-title">
-        {format(start, 'MMM d')} - {format(end, 'MMM d, yyyy')}
+        {start.toFormat('LLL d')} - {end.toFormat('LLL d, yyyy')}
       </h3>
       <table className="weekly-transactions transactions-list table table-striped">
         <tbody>

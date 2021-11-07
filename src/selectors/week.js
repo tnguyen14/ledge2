@@ -1,5 +1,4 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import { setISODay, format } from 'https://cdn.skypack.dev/date-fns@2';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
@@ -20,7 +19,7 @@ export const getDayStart = createSelector(getDate, (date) =>
 );
 
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
-  date.startOf('week').plus({ weeks: offset }).toJSDate()
+  date.startOf('week').plus({ weeks: offset })
 );
 
 export const getDayEnd = createSelector(getDate, (date) =>
@@ -28,11 +27,11 @@ export const getDayEnd = createSelector(getDate, (date) =>
 );
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
-  date.endOf('week').plus({ weeks: offset }).toJSDate()
+  date.endOf('week').plus({ weeks: offset })
 );
 
 export const getWeekId = createSelector(getWeekStart, (weekStart) =>
-  DateTime.fromJSDate(weekStart, { zone: TIMEZONE }).toISODate()
+  weekStart.toISODate()
 );
 
 export const getWeekStartFromWeekId = (state) => {
