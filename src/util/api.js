@@ -1,7 +1,6 @@
 import qs from 'https://cdn.skypack.dev/qs@6';
 import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
 import { SERVER_URL } from './constants.js';
-import { startOfDay } from 'https://cdn.skypack.dev/date-fns@2';
 
 export async function getTransaction(idToken, id) {
   return await getJson(idToken, `${SERVER_URL}/items/${id}`);
@@ -14,12 +13,12 @@ export async function getTransactions(idToken, start, end) {
       {
         field: 'date',
         op: '>=',
-        value: startOfDay(start).toISOString()
+        value: start.toISO()
       },
       {
         field: 'date',
         op: '<',
-        value: startOfDay(end).toISOString()
+        value: end.toISO()
       }
     ]
   });

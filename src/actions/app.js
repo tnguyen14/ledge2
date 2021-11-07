@@ -1,5 +1,7 @@
 import { startOfDay, setISODay, sub } from 'https://cdn.skypack.dev/date-fns@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
 import { loadTransactions } from './transactions.js';
+import { TIMEZONE } from '../util/constants.js';
 
 import {
   getWeekStart,
@@ -33,12 +35,12 @@ export function refreshApp() {
 
 export function loadPastYears(yearsToLoad) {
   return async function loadPastYearsAsync(dispatch) {
-    const now = new Date();
-    const start = sub(now, {
+    const now = DateTime.now().setZone(TIMEZONE);
+    const start = now.minus({
       years: yearsToLoad
     });
-    const startMonday = startOfDay(setISODay(start, 1));
-    const endMonday = startOfDay(setISODay(now, 8));
+    const startMonday = start.startOf('week');
+    const endMonday = now.startOf('week').plus({ weeks: 1 });
     await dispatch(loadTransactions(startMonday, endMonday));
   };
 }
@@ -47,8 +49,8 @@ export function loadWeek({ weekId }) {
   return async function loadWeekAsync(dispatch) {
     dispatch(
       loadTransactions(
-        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }).toJSDate(),
-        getWeekEnd({ date: getWeekStartFromWeekId({ weekId }) }).toJSDate()
+        getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+        getWeekStart({ date: getWeekStartFromWeekId({ weekId }), offset: 1 })
       )
     );
   };

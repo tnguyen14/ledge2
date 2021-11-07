@@ -1,4 +1,4 @@
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
 import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
@@ -47,10 +47,9 @@ export default function app(state = defaultState, action) {
         loadedTransactions: true,
         notification: {
           title: 'App',
-          content: `Finished loading transactions from ${format(
-            action.data.start,
-            DISPLAY_DATE_FORMAT
-          )} to ${format(action.data.end, DISPLAY_DATE_FORMAT)}`,
+          content: `Finished loading transactions from ${action.data.start.toLocaleString(
+            DateTime.DATETIME_FULL
+          )} to ${action.data.end.toLocaleString(DateTime.DATETIME_FULL)}`,
           autohide: 3000
         }
       };
