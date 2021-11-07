@@ -14,17 +14,11 @@ export const getDate = (state) => {
   return DateTime.fromISO(dateStr, { zone: TIMEZONE });
 };
 
-export const getDayStart = createSelector(getDate, (date) =>
-  DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).startOf('day')
-);
-
 export const getWeekStart = createSelector(getOffset, getDate, (offset, date) =>
   date.startOf('week').plus({ weeks: offset })
 );
 
-export const getDayEnd = createSelector(getDate, (date) =>
-  DateTime.fromISO(date.toISODate(), { zone: TIMEZONE }).endOf('day')
-);
+export const getDayEnd = createSelector(getDate, (date) => date.endOf('day'));
 
 export const getWeekEnd = createSelector(getOffset, getDate, (offset, date) =>
   date.endOf('week').plus({ weeks: offset })
@@ -56,6 +50,32 @@ export const getPastWeeksIds = createSelector(
     }
     return [...Array(numWeeks).keys()].map((offset) =>
       getWeekId({ date: weekStart, offset: -offset })
+    );
+  }
+);
+
+export const getMonthStart = createSelector(
+  getOffset,
+  getDate,
+  (offset, date) => date.startOf('month').plus({ months: offset })
+);
+
+export const getMonthEnd = createSelector(getOffset, getDate, (offset, date) =>
+  date.endOf('month').plus({ months: offset })
+);
+
+export const getMonthId = createSelector(getMonthStart, (monthStart) =>
+  monthStart.toFormat('yyyy-MM')
+);
+
+const getNumMonths = (state) => state.numMonths;
+
+export const getPastMonthsIds = createSelector(
+  getDate,
+  getNumMonths,
+  (date, numMonths) => {
+    return [...Array(numMonths).keys()].map((offset) =>
+      getMonthId({ date: date.toISO(), offset: -offset })
     );
   }
 );

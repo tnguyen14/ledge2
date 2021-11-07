@@ -5,8 +5,7 @@ import {
 } from 'https://cdn.skypack.dev/date-fns@2';
 import { sortTransactions } from '../util/transaction.js';
 import { sum } from '../util/calculate.js';
-import { getWeekStart, getWeekEnd, getWeekId } from './week.js';
-import { getMonthId } from './month.js';
+import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
 
 const getTransactions = (state) => state.transactions;
 

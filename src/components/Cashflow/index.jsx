@@ -1,9 +1,17 @@
-import React, { useMemo, useCallback } from 'https://cdn.skypack.dev/react@17';
+import React, {
+  useMemo,
+  useCallback,
+  useState,
+  useEffect
+} from 'https://cdn.skypack.dev/react@17';
 import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import { getPastMonthsIds } from '../../selectors/month.js';
+import {
+  getPastMonthsIds,
+  getWeekStartFromWeekId
+} from '../../selectors/week.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
@@ -15,16 +23,29 @@ function Cashflow() {
   const transactions = useSelector((state) => state.transactions);
   const types = useSelector((state) => state.account.types);
   const months = getMonths({ transactions });
-  const monthsIds = getPastMonthsIds({
-    date: displayFrom,
-    numMonths: 24
-  });
+  const [monthsIds, setMonthsIds] = useState([]);
+  useEffect(() => {
+    setMonthsIds(
+      getPastMonthsIds({
+        date: getWeekStartFromWeekId({
+          weekId: displayFrom
+        }),
+        numMonths: 24
+      })
+    );
+  }, [displayFrom]);
 
-  const monthsCashflow = getMonthsCashflow({
-    transactions: months,
-    monthsIds,
-    types
-  });
+  const [monthsCashflow, setMonthsCashflow] = useState({});
+
+  useEffect(() => {
+    setMonthsCashflow(
+      getMonthsCashflow({
+        transactions: months,
+        monthsIds,
+        types
+      })
+    );
+  }, [monthsIds, types, months]);
 
   const years = monthsIds.reduce((aggregate, monthId) => {
     const year = monthId.substr(0, 4);

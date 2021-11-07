@@ -2,6 +2,9 @@ import React from 'https://cdn.skypack.dev/react@17';
 
 function CashflowGraph(props) {
   const { monthId, data } = props;
+  if (!data) {
+    return null;
+  }
   const inData = data.in;
   const outData = data.out;
   return (

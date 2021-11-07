@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@17';
+import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@17';
 import {
   useSelector,
   useDispatch
@@ -10,7 +10,11 @@ import {
   ChevronRightIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { setDisplayFrom } from '../../actions/app.js';
-import { getPastMonthsIds, getMonthEnd } from '../../selectors/month.js';
+import {
+  getPastMonthsIds,
+  getMonthEnd,
+  getWeekStartFromWeekId
+} from '../../selectors/week.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
@@ -23,16 +27,30 @@ function CashflowChart() {
   const transactions = useSelector((state) => state.transactions);
   const types = useSelector((state) => state.account.types);
   const months = getMonths({ transactions });
-  const monthsIds = getPastMonthsIds({
-    date: displayFrom,
-    numMonths: 12
-  });
 
-  const monthsCashflow = getMonthsCashflow({
-    transactions: months,
-    monthsIds,
-    types
-  });
+  const [monthsIds, setMonthsIds] = useState([]);
+  useEffect(() => {
+    setMonthsIds(
+      getPastMonthsIds({
+        date: getWeekStartFromWeekId({
+          weekId: displayFrom
+        }),
+        numMonths: 12
+      })
+    );
+  }, [displayFrom]);
+
+  const [monthsCashflow, setMonthsCashflow] = useState({});
+
+  useEffect(() => {
+    setMonthsCashflow(
+      getMonthsCashflow({
+        transactions: months,
+        monthsIds,
+        types
+      })
+    );
+  }, [monthsIds, types, months]);
 
   return (
     <div className="cashflow-chart">
@@ -46,13 +64,12 @@ function CashflowChart() {
               onClick={() => {
                 dispatch(
                   setDisplayFrom(
-                    format(
-                      getMonthEnd({
-                        date: displayFrom,
-                        offset: -1
+                    getMonthEnd({
+                      date: getWeekStartFromWeekId({
+                        weekId: displayFrom
                       }),
-                      DATE_FIELD_FORMAT
-                    )
+                      offset: -1
+                    }).toISODate()
                   )
                 );
               }}
@@ -64,13 +81,12 @@ function CashflowChart() {
               onClick={() =>
                 dispatch(
                   setDisplayFrom(
-                    format(
-                      getMonthEnd({
-                        date: displayFrom,
-                        offset: 1
+                    getMonthEnd({
+                      date: getWeekStartFromWeekId({
+                        weekId: displayFrom
                       }),
-                      DATE_FIELD_FORMAT
-                    )
+                      offset: 1
+                    }).toISODate()
                   )
                 )
               }

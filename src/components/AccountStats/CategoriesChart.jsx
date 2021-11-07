@@ -12,7 +12,7 @@ import { TIMEZONE } from '../../util/constants.js';
 import CategoryBar from './CategoryBar.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import {
-  getWeekId,
+  getWeekStart,
   getWeekStartFromWeekId,
   getPastWeeksIds
 } from '../../selectors/week.js';
@@ -80,12 +80,12 @@ function CategoriesChart() {
               onClick={() => {
                 dispatch(
                   setDisplayFrom(
-                    getWeekId({
+                    getWeekStart({
                       date: getWeekStartFromWeekId({
                         weekId: visibleWeeksIds[0]
                       }),
                       offset: -1
-                    })
+                    }).toISODate()
                   )
                 );
               }}
@@ -97,12 +97,12 @@ function CategoriesChart() {
               onClick={() =>
                 dispatch(
                   setDisplayFrom(
-                    getWeekId({
+                    getWeekStart({
                       date: getWeekStartFromWeekId({
                         weekId: visibleWeeksIds[0]
                       }),
                       offset: 1
-                    })
+                    }).toISODate()
                   )
                 )
               }
