@@ -18,7 +18,7 @@ function Weeks(props) {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const visibleWeeksIds = getPastWeeksIds({
     weekId: displayFrom,
-    numWeeks: 3
+    numWeeks: 4
   });
 
   return (
