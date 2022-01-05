@@ -6,6 +6,8 @@ import {
 import { sortTransactions } from '../util/transaction.js';
 import { sum } from '../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
+import { TIMEZONE } from '../util/constants.js';
 
 const getTransactions = (state) => state.transactions;
 
@@ -31,8 +33,11 @@ export const getYearAverages = createSelector(getYears, (years) => {
         (tx) => tx.type == 'regular-expense'
       );
       const numWeeks = differenceInCalendarWeeks(
-        new Date(transactions[0].date),
-        new Date(transactions[transactions.length - 1].date)
+        DateTime.fromISO(transactions[0].date, { zone: TIMEZONE }).toJSDate(),
+        DateTime.fromISO(transactions[transactions.length - 1].date, {
+          zone: TIMEZONE
+        }).toJSDate(),
+        { weekStartsOn: 1 }
       );
 
       return {
