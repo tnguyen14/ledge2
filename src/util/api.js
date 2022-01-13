@@ -13,12 +13,12 @@ export async function getTransactions(idToken, start, end) {
       {
         field: 'date',
         op: '>=',
-        value: start.toISO()
+        value: start
       },
       {
         field: 'date',
         op: '<',
-        value: end.toISO()
+        value: end
       }
     ]
   });
