@@ -25,6 +25,7 @@ function Cashflow() {
   const months = getMonths({ transactions });
   const [monthsIds, setMonthsIds] = useState([]);
   useEffect(() => {
+    // months will start with the month of the start of the week for displayFrom
     setMonthsIds(
       getPastMonthsIds({
         date: getWeekStartFromWeekId({

@@ -1,4 +1,4 @@
-import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import {
   SET_DISPLAY_FROM,
   SET_TOKEN,

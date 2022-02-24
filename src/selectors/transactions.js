@@ -6,7 +6,7 @@ import {
 import { sortTransactions } from '../util/transaction.js';
 import { sum } from '../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { TIMEZONE } from '../util/constants.js';
 
 const getTransactions = (state) => state.transactions;

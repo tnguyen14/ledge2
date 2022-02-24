@@ -1,5 +1,5 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@2';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { TIMEZONE, DATE_FIELD_FORMAT } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;
