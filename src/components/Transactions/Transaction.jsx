@@ -4,7 +4,7 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1';
+import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1/esm';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import classnames from 'https://cdn.skypack.dev/classnames@2';

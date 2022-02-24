@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npm run clean && npm run static && npm run watch",
-    "watch": "npm run js:watch & npm run css:watch & http-server -p 4003 dist",
+    "dev": "npm run js:watch & npm run css:watch & http-server -p 4003 dist",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "clean": "rm -rf dist",
