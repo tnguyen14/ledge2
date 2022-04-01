@@ -79,3 +79,13 @@ export const getPastMonthsIds = createSelector(
     );
   }
 );
+
+export const getYearStart = (year) => {
+  return DateTime.fromISO(`${year}0101T00:00`, {
+    zone: TIMEZONE
+  });
+};
+
+export const getYearEnd = createSelector(getYearStart, (yearStart) =>
+  yearStart.endOf('year')
+);

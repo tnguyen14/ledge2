@@ -6,7 +6,9 @@ import { TIMEZONE } from '../util/constants.js';
 import {
   getWeekStart,
   getWeekEnd,
-  getWeekStartFromWeekId
+  getWeekStartFromWeekId,
+  getYearStart,
+  getYearEnd
 } from '../selectors/week.js';
 
 export const SET_DISPLAY_FROM = 'SET_DISPLAY_FROM';
@@ -53,6 +55,12 @@ export function loadWeek({ weekId }) {
         getWeekStart({ date: getWeekStartFromWeekId({ weekId }), offset: 1 })
       )
     );
+  };
+}
+
+export function loadYear(year) {
+  return async function loadYearAsync(dispatch) {
+    dispatch(loadTransactions(getYearStart(year), getYearEnd(year)));
   };
 }
 

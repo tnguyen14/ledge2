@@ -1,14 +1,19 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
 import { getWeekById, getYearAverages } from '../../selectors/transactions.js';
+import { loadYear } from '../../actions/app.js';
 import { TIMEZONE } from '../../util/constants.js';
 
 function WeeklyAverages(props) {
+  const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions);
   const yearAverages = getYearAverages({
     transactions
@@ -71,6 +76,13 @@ function WeeklyAverages(props) {
           ))}
         </tbody>
       </table>
+      <button
+        onClick={() => {
+          dispatch(loadYear(2021));
+        }}
+      >
+        Get transactions for 2021
+      </button>
     </div>
   );
 }
