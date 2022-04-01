@@ -4,8 +4,10 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { loadWeek } from '../../actions/app.js';
-import { sortTransactions } from '../../util/transaction.js';
-import { getWeekById } from '../../selectors/transactions.js';
+import {
+  getWeekById,
+  getSortedTransactions
+} from '../../selectors/transactions.js';
 import Transaction from './Transaction.js';
 import WeekStats from './WeekStats.js';
 
@@ -19,9 +21,9 @@ function Week(props) {
     weekId
   });
 
-  const displayTransactions = sortTransactions(weekTransactions).filter(
-    (tx) => !tx.carriedOver
-  );
+  const displayTransactions = getSortedTransactions({
+    transactions: weekTransactions
+  }).filter((tx) => !tx.carriedOver);
 
   useEffect(() => {
     if (!displayTransactions.length) {

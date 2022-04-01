@@ -46,13 +46,3 @@ export function decorateTransaction(params) {
     span
   };
 }
-
-export function sortTransactions(transactions) {
-  if (!transactions) {
-    return;
-  }
-  return transactions.sort((a, b) => {
-    // sort by id, which is the transaction timestamp
-    return new Date(b.date).valueOf() - new Date(a.date).valueOf();
-  });
-}

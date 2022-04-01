@@ -25,6 +25,19 @@ const getYears = createSelector(getTransactions, (transactions) => {
   return years;
 });
 
+export const getSortedTransactions = createSelector(
+  getTransactions,
+  (transactions) => {
+    if (!transactions) {
+      return;
+    }
+    return transactions.sort((a, b) => {
+      // sort by id, which is the transaction timestamp
+      return new Date(b.date).valueOf() - new Date(a.date).valueOf();
+    });
+  }
+);
+
 export const getYearAverages = createSelector(getYears, (years) => {
   return Object.keys(years)
     .reverse()
@@ -121,17 +134,15 @@ export const getMonths = createSelector(getTransactions, (transactions) => {
 
 const getSearch = (state) => state.search;
 export const getSearchResult = createSelector(
-  getTransactions,
+  getSortedTransactions,
   getSearch,
   (transactions, search) => {
-    return Object.keys(transactions)
-      .map((id) => transactions[id])
-      .filter((tx) =>
-        Object.entries(search)
-          .filter(([key, value]) => !!value)
-          .every(([key, value]) =>
-            String(tx[key]).toLowerCase().includes(String(value).toLowerCase())
-          )
-      );
+    return transactions.filter((tx) =>
+      Object.entries(search)
+        .filter(([key, value]) => !!value)
+        .every(([key, value]) =>
+          String(tx[key]).toLowerCase().includes(String(value).toLowerCase())
+        )
+    );
   }
 );
