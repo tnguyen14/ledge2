@@ -3,11 +3,10 @@ import {
   getYear,
   differenceInCalendarWeeks
 } from 'https://cdn.skypack.dev/date-fns@2';
-import { sortTransactions } from '../util/transaction.js';
-import { sum } from '../util/calculate.js';
-import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
+import { sum } from '../util/calculate.js';
 import { TIMEZONE } from '../util/constants.js';
+import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
 
 const getTransactions = (state) => state.transactions;
 
@@ -38,28 +37,39 @@ export const getSortedTransactions = createSelector(
   }
 );
 
+const getWeeksDifference = createSelector(
+  getSortedTransactions,
+  (transactions) => {
+    return differenceInCalendarWeeks(
+      DateTime.fromISO(transactions[0].date, { zone: TIMEZONE }).toJSDate(),
+      DateTime.fromISO(transactions[transactions.length - 1].date, {
+        zone: TIMEZONE
+      }).toJSDate(),
+      { weekStartsOn: 1 }
+    );
+  }
+);
+
+export const calculateWeeklyAverages = createSelector(
+  getSortedTransactions,
+  (transactions) => {
+    const expenses = transactions.filter((tx) => tx.type == 'regular-expense');
+    const numWeeks = getWeeksDifference({ transactions: expenses });
+    return {
+      numWeeks,
+      transactions: expenses,
+      weeklyAverage: sum(expenses.map((t) => t.amount)) / numWeeks
+    };
+  }
+);
+
 export const getYearAverages = createSelector(getYears, (years) => {
   return Object.keys(years)
     .reverse()
-    .map((year) => {
-      const transactions = sortTransactions(years[year]).filter(
-        (tx) => tx.type == 'regular-expense'
-      );
-      const numWeeks = differenceInCalendarWeeks(
-        DateTime.fromISO(transactions[0].date, { zone: TIMEZONE }).toJSDate(),
-        DateTime.fromISO(transactions[transactions.length - 1].date, {
-          zone: TIMEZONE
-        }).toJSDate(),
-        { weekStartsOn: 1 }
-      );
-
-      return {
-        numWeeks,
-        transactions,
-        year,
-        weeklyAverage: sum(transactions.map((t) => t.amount)) / numWeeks
-      };
-    });
+    .map((year) => ({
+      ...calculateWeeklyAverages({ transactions: years[year] }),
+      year
+    }));
 });
 
 function addTransactionToWeek(weeks, transaction, offset) {
