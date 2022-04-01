@@ -26,19 +26,12 @@ export function loadTransactions(startDate, endDate) {
     dispatch({
       type: LOAD_TRANSACTIONS
     });
-    // convert time to UTC first, because time is stored in UTC on the server
-    // as UTC is the value returned by JavaScript Date's toISOString method
-    const transactions = await getTransactions(
-      token,
-      startDate.toUTC().toISO(),
-      endDate.toUTC().toISO()
-    );
     dispatch({
       type: LOAD_TRANSACTIONS_SUCCESS,
       data: {
         start: startDate,
         end: endDate,
-        transactions
+        transactions: await getTransactions(token, startDate, endDate)
       }
     });
   };

@@ -6,7 +6,11 @@ export async function getTransaction(idToken, id) {
   return await getJson(idToken, `${SERVER_URL}/items/${id}`);
 }
 
-export async function getTransactions(idToken, start, end) {
+export async function getTransactions(idToken, startDate, endDate) {
+  // convert time to UTC first, because time is stored in UTC on the server
+  // as UTC is the value returned by JavaScript Date's toISOString method
+  const start = startDate.toUTC().toISO();
+  const end = endDate.toUTC().toISO();
   console.log(`Getting transactions from ${start} to ${end}`);
   const query = qs.stringify({
     where: [
