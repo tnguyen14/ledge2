@@ -43,8 +43,12 @@ function App() {
     const shouldReload = now.valueOf() - lastRefreshed > 3600000;
     (async () => {
       if (shouldReload) {
-        await updateToken();
-        await dispatch(loadAccount());
+        try {
+          await updateToken();
+        } catch (e) {
+          console.error(e);
+        }
+        dispatch(loadAccount());
         dispatch(refreshApp());
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
       }

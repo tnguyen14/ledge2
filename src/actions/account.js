@@ -8,11 +8,15 @@ export function loadAccount() {
       app: { token }
     } = getState();
     const state = getState();
-    const account = await getAccount(token);
-    dispatch({
-      type: LOAD_ACCOUNT_SUCCESS,
-      data: account
-    });
+    try {
+      const account = await getAccount(token);
+      dispatch({
+        type: LOAD_ACCOUNT_SUCCESS,
+        data: account
+      });
+    } catch (e) {
+      console.error(e);
+    }
   };
 }
 
