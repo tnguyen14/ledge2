@@ -12,9 +12,12 @@ import { getWeekById, getYearAverages } from '../../selectors/transactions.js';
 import { loadYear } from '../../actions/app.js';
 import { TIMEZONE } from '../../util/constants.js';
 
+const YEARS = [2021, 2020, 2019, 2018];
+
 function WeeklyAverages(props) {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions);
+  const yearStats = useSelector((state) => state.account.stats);
   const yearAverages = getYearAverages({
     transactions
   });
@@ -66,6 +69,16 @@ function WeeklyAverages(props) {
           <tr>
             <td>&nbsp;</td>
           </tr>
+          {YEARS.map((year) => (
+            <tr className="stat" key={year}>
+              <td>{year}</td>
+              <td>
+                {usd(
+                  yearStats && yearStats[year] && yearStats[year].weeklyAverage
+                )}
+              </td>
+            </tr>
+          ))}
           {yearAverages.map((average) => (
             <tr className="stat" key={average.year}>
               <td>
