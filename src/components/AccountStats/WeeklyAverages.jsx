@@ -81,6 +81,7 @@ function WeeklyAverages(props) {
             <tr className="stat" key={year}>
               <td>{year}</td>
               <td
+                style={{ cursor: 'pointer' }}
                 title="Double click to re-calculate"
                 onDoubleClick={() => {
                   dispatch(recalculateYearStats(year));
