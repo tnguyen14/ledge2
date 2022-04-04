@@ -4,7 +4,6 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { SyncIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 
@@ -59,13 +58,13 @@ function WeeklyAverages(props) {
           {timespans.map((span, index) => (
             <tr className="stat" key={index}>
               <td>
-                <Tooltip
-                  title={`${span.startWeekEnd.toFormat(
+                <span>
+                  Last {span.start - span.end} weeks (
+                  {`${span.startWeekEnd.toFormat(
                     'LLL d'
                   )} - ${span.endWeekStart.toFormat('LLL d')}`}
-                >
-                  <span>Last {span.start - span.end} weeks</span>
-                </Tooltip>
+                  )
+                </span>
               </td>
               <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
             </tr>
