@@ -1,4 +1,7 @@
-import { LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
+import {
+  LOAD_ACCOUNT_SUCCESS,
+  UPDATE_ACCOUNT_YEAR_STATS_SUCCESS
+} from '../actions/account.js';
 
 const initialState = {
   merchants: [],
@@ -38,6 +41,11 @@ export default function account(state = initialState, action) {
         return merchants.concat(merchant.values);
       }, []);
       return { ...state, ...action.data, merchants: merchantsNames };
+    case UPDATE_ACCOUNT_YEAR_STATS_SUCCESS:
+      return {
+        ...state,
+        stats: action.data.stats
+      };
     default:
       return state;
   }
