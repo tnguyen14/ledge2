@@ -14,7 +14,12 @@ import Cashflow from '../Cashflow/index.js';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Transactions from '../Transactions/index.js';
-import { refreshApp, setToken, setDisplayFrom } from '../../actions/app.js';
+import {
+  refreshApp,
+  setToken,
+  setDisplayFrom,
+  loadPastYears
+} from '../../actions/app.js';
 import { loadAccount } from '../../actions/account.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 
@@ -51,6 +56,9 @@ function App() {
         dispatch(loadAccount());
         dispatch(refreshApp());
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
+        requestIdleCallback(() => {
+          dispatch(loadPastYears(1));
+        });
       }
     })();
   }, [isAuthenticated, isVisible]);

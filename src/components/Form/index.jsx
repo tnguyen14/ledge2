@@ -27,7 +27,7 @@ import {
   addTransaction,
   updateTransaction
 } from '../../actions/transactions.js';
-import { setSearchMode, loadPastYears } from '../../actions/app.js';
+import { setSearchMode } from '../../actions/app.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -176,17 +176,6 @@ function Form(props) {
               />
             );
           })}
-          <div>
-            <Button
-              disabled={isLoading}
-              variant="outline-secondary"
-              onClick={() => {
-                dispatch(loadPastYears(yearsToLoad));
-              }}
-            >
-              Load {yearsToLoad} years
-            </Button>
-          </div>
           <div className="actions">
             <Button
               variant="primary"
