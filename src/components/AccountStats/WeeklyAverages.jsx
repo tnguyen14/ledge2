@@ -5,7 +5,6 @@ import {
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-import { SyncIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
@@ -59,7 +58,7 @@ function WeeklyAverages(props) {
             <tr className="stat" key={index}>
               <td>
                 <span>
-                  Last {span.start - span.end} weeks (
+                  {span.start - span.end} weeks (
                   {`${span.startWeekEnd.toFormat(
                     'LLL d'
                   )} - ${span.endWeekStart.toFormat('LLL d')}`}
@@ -81,21 +80,17 @@ function WeeklyAverages(props) {
           {YEARS.map((year) => (
             <tr className="stat" key={year}>
               <td>{year}</td>
-              <td>
+              <td
+                title="Double click to re-calculate"
+                onDoubleClick={() => {
+                  dispatch(recalculateYearStats(year));
+                }}
+              >
                 {yearStats &&
                   yearStats[year] &&
                   (yearStats[year].updating
                     ? 'Updating...'
                     : usd(yearStats[year].weeklyAverage))}
-                <Button
-                  variant="outline-secondary"
-                  title={`Recalculate ${year}`}
-                  onClick={() => {
-                    dispatch(recalculateYearStats(year));
-                  }}
-                >
-                  <SyncIcon />
-                </Button>
               </td>
             </tr>
           ))}
