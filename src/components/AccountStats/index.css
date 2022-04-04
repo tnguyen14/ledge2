@@ -38,6 +38,13 @@
   .total {
     font-weight: bold;
   }
+  td {
+    vertical-align: middle;
+  }
+  button {
+    margin-left: 2rem;
+    padding-top: 0;
+  }
 }
 
 .carousel-indicators li {

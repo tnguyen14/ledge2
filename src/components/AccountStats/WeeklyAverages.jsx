@@ -88,10 +88,8 @@ function WeeklyAverages(props) {
                   (yearStats[year].updating
                     ? 'Updating...'
                     : usd(yearStats[year].weeklyAverage))}
-              </td>
-              <td>
                 <Button
-                  variant="light"
+                  variant="outline-secondary"
                   title={`Recalculate ${year}`}
                   onClick={() => {
                     dispatch(recalculateYearStats(year));
