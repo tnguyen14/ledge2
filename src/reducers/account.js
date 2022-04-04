@@ -1,5 +1,6 @@
 import {
   LOAD_ACCOUNT_SUCCESS,
+  UPDATE_ACCOUNT_YEAR_STATS,
   UPDATE_ACCOUNT_YEAR_STATS_SUCCESS
 } from '../actions/account.js';
 
@@ -41,10 +42,23 @@ export default function account(state = initialState, action) {
         return merchants.concat(merchant.values);
       }, []);
       return { ...state, ...action.data, merchants: merchantsNames };
+    case UPDATE_ACCOUNT_YEAR_STATS:
+      return {
+        ...state,
+        stats: {
+          ...state.stats,
+          [action.data.year]: {
+            updating: true
+          }
+        }
+      };
     case UPDATE_ACCOUNT_YEAR_STATS_SUCCESS:
       return {
         ...state,
-        stats: action.data.stats
+        stats: {
+          ...state.stats,
+          [action.data.year]: action.data.stat
+        }
       };
     default:
       return state;

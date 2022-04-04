@@ -76,9 +76,11 @@ function WeeklyAverages(props) {
             <tr className="stat" key={year}>
               <td>{year}</td>
               <td>
-                {usd(
-                  yearStats && yearStats[year] && yearStats[year].weeklyAverage
-                )}
+                {yearStats &&
+                  yearStats[year] &&
+                  (yearStats[year].updating
+                    ? 'Updating...'
+                    : usd(yearStats[year].weeklyAverage))}
               </td>
               <td>
                 <Button

@@ -40,6 +40,7 @@ export function updateMerchantCounts(merchants_count) {
   };
 }
 
+export const UPDATE_ACCOUNT_YEAR_STATS = 'UPDATE_ACCOUNT_YEAR_STATS';
 export const UPDATE_ACCOUNT_YEAR_STATS_SUCCESS =
   'UPDATE_ACCOUNT_YEAR_STATS_SUCCESS';
 export function recalculateYearStats(year) {
@@ -48,6 +49,12 @@ export function recalculateYearStats(year) {
       app: { token },
       account
     } = getState();
+    dispatch({
+      type: UPDATE_ACCOUNT_YEAR_STATS,
+      data: {
+        year
+      }
+    });
     const yearTransactions = (
       await getTransactions(token, getYearStart(year), getYearEnd(year))
     ).map((tx) => {
@@ -72,7 +79,7 @@ export function recalculateYearStats(year) {
       type: UPDATE_ACCOUNT_YEAR_STATS_SUCCESS,
       data: {
         year,
-        stats
+        stat: stats[year]
       }
     });
   };
