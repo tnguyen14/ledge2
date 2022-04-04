@@ -10,9 +10,11 @@ import { SyncIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
-import { getWeekById, getYearAverages } from '../../selectors/transactions.js';
+import {
+  getWeekById,
+  getCurrentYearWeeklyAverage
+} from '../../selectors/transactions.js';
 import { recalculateYearStats } from '../../actions/account.js';
-import { TIMEZONE } from '../../util/constants.js';
 
 const YEARS = [2021, 2020, 2019, 2018];
 
@@ -20,7 +22,7 @@ function WeeklyAverages(props) {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions);
   const yearStats = useSelector((state) => state.account.stats);
-  const yearAverages = getYearAverages({
+  const currentYearAverage = getCurrentYearWeeklyAverage({
     transactions
   });
   const timespans = [
@@ -71,6 +73,12 @@ function WeeklyAverages(props) {
           <tr>
             <td>&nbsp;</td>
           </tr>
+          <tr className="stat" key={average.year}>
+            <td>
+              {currentYearAverage.year} ({currentYearAverage.numWeeks} weeks)
+            </td>
+            <td>{usd(currentYearAverage.weeklyAverage)}</td>
+          </tr>
           {YEARS.map((year) => (
             <tr className="stat" key={year}>
               <td>{year}</td>
@@ -92,14 +100,6 @@ function WeeklyAverages(props) {
                   <SyncIcon />
                 </Button>
               </td>
-            </tr>
-          ))}
-          {yearAverages.map((average) => (
-            <tr className="stat" key={average.year}>
-              <td>
-                {average.year} ({average.numWeeks} weeks)
-              </td>
-              <td>{usd(average.weeklyAverage)}</td>
             </tr>
           ))}
         </tbody>

@@ -35,6 +35,7 @@ export function refreshApp() {
 
 export function loadPastYears(yearsToLoad) {
   return async function loadPastYearsAsync(dispatch) {
+    console.log('loading past year');
     const now = DateTime.now().setZone(TIMEZONE);
     const start = now.minus({
       years: yearsToLoad

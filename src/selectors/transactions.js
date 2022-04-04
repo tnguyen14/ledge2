@@ -10,19 +10,22 @@ import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
 
 const getTransactions = (state) => state.transactions;
 
-const getYears = createSelector(getTransactions, (transactions) => {
-  const years = {};
-  Object.keys(transactions).forEach(function processTransactionForYear(id) {
-    const transaction = transactions[id];
-    const year = getYear(new Date(transaction.date));
-    if (!years[year]) {
-      years[year] = [transaction];
-    } else {
-      years[year] = years[year].concat(transaction);
-    }
-  });
-  return years;
-});
+const getTransactionsByYears = createSelector(
+  getTransactions,
+  (transactions) => {
+    const years = {};
+    Object.keys(transactions).forEach(function processTransactionForYear(id) {
+      const transaction = transactions[id];
+      const year = getYear(new Date(transaction.date));
+      if (!years[year]) {
+        years[year] = [transaction];
+      } else {
+        years[year] = years[year].concat(transaction);
+      }
+    });
+    return years;
+  }
+);
 
 export const getSortedTransactions = createSelector(
   getTransactions,
@@ -63,14 +66,16 @@ export const calculateWeeklyAverages = createSelector(
   }
 );
 
-export const getYearAverages = createSelector(getYears, (years) => {
-  return Object.keys(years)
-    .reverse()
-    .map((year) => ({
-      ...calculateWeeklyAverages({ transactions: years[year] }),
-      year
-    }));
-});
+export const getCurrentYearWeeklyAverage = createSelector(
+  getTransactionsByYears,
+  (years) => {
+    const now = DateTime.fromJSDate(new Date(), { zone: TIMEZONE });
+    return {
+      ...calculateWeeklyAverages({ transactions: years[now.year] }),
+      year: now.year
+    };
+  }
+);
 
 function addTransactionToWeek(weeks, transaction, offset) {
   const state = {
