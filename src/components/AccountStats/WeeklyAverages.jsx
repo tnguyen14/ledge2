@@ -11,7 +11,6 @@ import { SyncIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
 import { getWeekById, getYearAverages } from '../../selectors/transactions.js';
-import { loadYear } from '../../actions/app.js';
 import { recalculateYearStats } from '../../actions/account.js';
 import { TIMEZONE } from '../../util/constants.js';
 
@@ -105,13 +104,6 @@ function WeeklyAverages(props) {
           ))}
         </tbody>
       </table>
-      <button
-        onClick={() => {
-          dispatch(loadYear(2021));
-        }}
-      >
-        Get transactions for 2021
-      </button>
     </div>
   );
 }
