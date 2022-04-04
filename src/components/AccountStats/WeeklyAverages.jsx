@@ -58,7 +58,7 @@ function WeeklyAverages(props) {
             <tr className="stat" key={index}>
               <td>
                 <span>
-                  {span.start - span.end} weeks (
+                  Prev. {span.start - span.end} weeks (
                   {`${span.startWeekEnd.toFormat(
                     'LLL d'
                   )} - ${span.endWeekStart.toFormat('LLL d')}`}
