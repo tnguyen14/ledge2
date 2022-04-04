@@ -31,7 +31,7 @@ function Cashflow() {
         date: getWeekStartFromWeekId({
           weekId: displayFrom
         }),
-        numMonths: 24
+        numMonths: 12
       })
     );
   }, [displayFrom]);
