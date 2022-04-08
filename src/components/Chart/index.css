@@ -52,6 +52,9 @@
   }
   .grid-lines {
     grid-area: chart-body;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     .interval {
       border-top: 1px dotted rgba(0, 0, 0, 0.2);
     }

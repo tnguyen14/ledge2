@@ -71,8 +71,6 @@ function CategoriesChart() {
   return (
     <div className="categories-chart">
       <Chart
-        maxHeight={2500}
-        interval={500}
         chartTop={
           <div className="nav">
             <Button
