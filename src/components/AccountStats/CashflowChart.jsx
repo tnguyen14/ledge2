@@ -17,7 +17,6 @@ import {
 } from '../../selectors/week.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
-import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 import Chart from '../Chart/index.js';
 import CashflowGraph from './CashflowGraph.js';
 
@@ -55,8 +54,8 @@ function CashflowChart() {
   return (
     <div className="cashflow-chart">
       <Chart
-        maxHeight={18000}
-        interval={3000}
+        maxAmount={18000}
+        intervalAmount={3000}
         chartTop={
           <div className="nav">
             <Button
@@ -98,14 +97,14 @@ function CashflowChart() {
         chartBody={
           <div className="months-graph">
             {monthsIds.map((id) => (
-              <CashflowGraph monthId={id} data={monthsCashflow[id]} />
+              <CashflowGraph key={id} monthId={id} data={monthsCashflow[id]} />
             ))}
           </div>
         }
         xLabels={
           <div className="months-labels">
             {monthsIds.map((id) => (
-              <div class="month-label">
+              <div key={id} className="month-label">
                 {format(new Date(`${id}-01 00:00`), 'MMM yy')}
               </div>
             ))}

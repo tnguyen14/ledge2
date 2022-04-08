@@ -1,13 +1,11 @@
 import React from 'https://cdn.skypack.dev/react@17';
 
 function Chart(props) {
-  const { chartTop, chartBody, xLabels } = props;
-  const MAX_AMOUNT = 2500;
-  const GRID_INTERVAL_AMOUNT = 500;
+  const { chartTop, chartBody, xLabels, maxAmount, intervalAmount } = props;
   const MAX_BAR_HEIGHT = 500;
-  const PX_PER_UNIT = MAX_BAR_HEIGHT / MAX_AMOUNT;
-  const NUM_INTERVALS = MAX_AMOUNT / GRID_INTERVAL_AMOUNT;
-  const INTERVAL_HEIGHT = GRID_INTERVAL_AMOUNT * PX_PER_UNIT;
+  const PX_PER_UNIT = MAX_BAR_HEIGHT / maxAmount;
+  const NUM_INTERVALS = maxAmount / intervalAmount;
+  const INTERVAL_HEIGHT = intervalAmount * PX_PER_UNIT;
   return (
     <div
       className="chart"
@@ -18,12 +16,11 @@ function Chart(props) {
         {[...Array(NUM_INTERVALS).keys()].map((index) => {
           return (
             <div
+              key={index}
               className="interval"
               style={{ height: `${INTERVAL_HEIGHT}px` }}
             >
-              <span className="label">
-                {GRID_INTERVAL_AMOUNT * (index + 1)}
-              </span>
+              <span className="label">{intervalAmount * (index + 1)}</span>
             </div>
           );
         })}
@@ -32,6 +29,7 @@ function Chart(props) {
         {[...Array(NUM_INTERVALS).keys()].map((index) => {
           return (
             <div
+              key={index}
               className="interval"
               style={{ height: `${INTERVAL_HEIGHT}px` }}
             ></div>

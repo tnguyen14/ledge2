@@ -8,7 +8,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@11';
-import { TIMEZONE } from '../../util/constants.js';
 import CategoryBar from './CategoryBar.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import {
@@ -71,6 +70,8 @@ function CategoriesChart() {
   return (
     <div className="categories-chart">
       <Chart
+        maxAmount={2500}
+        intervalAmount={500}
         chartTop={
           <div className="nav">
             <Button
