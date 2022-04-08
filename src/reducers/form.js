@@ -13,7 +13,6 @@ import {
   ADD_TRANSACTION_SUCCESS,
   UPDATE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
-import { LOAD_ACCOUNT_SUCCESS } from '../actions/account.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 

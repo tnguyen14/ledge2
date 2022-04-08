@@ -37,8 +37,6 @@ function Form(props) {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
-  const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
-  const isLoading = useSelector((state) => state.app.isLoading);
   const datalists = useSelector((state) => ({
     'merchants-list': state.account.merchants
   }));
@@ -64,7 +62,7 @@ function Form(props) {
     if (fieldOptions.source.length) {
       dispatch(updateDefaultValue('source', fieldOptions.source[0].slug));
     }
-  }, [type]);
+  }, [type, fieldOptions.category, fieldOptions.source]);
 
   const prevMerchantRef = useRef();
   useEffect(() => {
