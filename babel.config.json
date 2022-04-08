@@ -4,7 +4,7 @@
     [
       "transform-inline-environment-variables",
       {
-        "include": ["SERVER_URL"]
+        "include": ["LISTS_URL"]
       }
     ]
   ]

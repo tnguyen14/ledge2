@@ -19,6 +19,7 @@ import { DISPLAY_DATE_FORMAT } from '../util/constants.js';
 const numVisibleWeeks = 12;
 
 const defaultState = {
+  listName: 'tri',
   appReady: false,
   isLoading: false,
   filter: '',

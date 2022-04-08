@@ -18,11 +18,7 @@ import {
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
 export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 export function loadTransactions(startDate, endDate) {
-  return async function loadTransactionsAsync(dispatch, getState) {
-    const {
-      app: { token }
-    } = getState();
-
+  return async function loadTransactionsAsync(dispatch) {
     dispatch({
       type: LOAD_TRANSACTIONS
     });
@@ -31,7 +27,7 @@ export function loadTransactions(startDate, endDate) {
       data: {
         start: startDate,
         end: endDate,
-        transactions: await getTransactions(token, startDate, endDate)
+        transactions: await getTransactions(startDate, endDate)
       }
     });
   };
@@ -44,17 +40,15 @@ export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 export function addTransaction(transaction) {
   return async function addTransactionAsync(dispatch, getState) {
     const {
-      app: { token },
       account: { merchants_count }
     } = getState();
 
     const decoratedTransaction = decorateTransaction(transaction);
     const id = await getUniqueTransactionId(
-      token,
       new Date(decoratedTransaction.date).valueOf()
     );
     // TODO handle error
-    await postTransaction(token, {
+    await postTransaction({
       ...decoratedTransaction,
       id
     });
@@ -76,7 +70,6 @@ export function addTransaction(transaction) {
 export function updateTransaction(transaction, oldMerchant) {
   return async function updateTransactionAsync(dispatch, getState) {
     const {
-      app: { token },
       account: { merchants_count }
     } = getState();
 
@@ -84,7 +77,7 @@ export function updateTransaction(transaction, oldMerchant) {
     const id = transaction.id;
 
     // TODO handle error
-    await patchTransaction(token, {
+    await patchTransaction({
       ...decoratedTransaction,
       id
     });
@@ -97,7 +90,6 @@ export function updateTransaction(transaction, oldMerchant) {
     });
     if (transaction.merchant != oldMerchant) {
       const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
-        token,
         oldMerchant
       );
       const updatedMerchantsCount = addMerchantToCounts(
@@ -116,17 +108,15 @@ export function updateTransaction(transaction, oldMerchant) {
 export function removeTransaction(transaction) {
   return async function removeTransactionAsync(dispatch, getState) {
     const {
-      app: { token },
       account: { merchants_count }
     } = getState();
 
-    await deleteTransaction(token, transaction.id);
+    await deleteTransaction(transaction.id);
     dispatch({
       type: REMOVE_TRANSACTION_SUCCESS,
       data: transaction.id
     });
     const transactionsWithMerchantName = await getTransactionsWithMerchantName(
-      token,
       transaction.merchant
     );
     const updatedMerchantsCount = removeMerchantFromCounts(

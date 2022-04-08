@@ -1,11 +1,15 @@
 import simpleFetch from 'https://cdn.skypack.dev/simple-fetch@2';
+import store from '../store.js';
 
 function createFetchMethod(method) {
-  return function fetchMethod(idToken, url, data, opts) {
+  return function fetchMethod(url, data, opts) {
+    const {
+      app: { token }
+    } = store.getState();
     return simpleFetch(method, url, data, {
       ...opts,
       headers: {
-        Authorization: `Bearer ${idToken}`
+        Authorization: `Bearer ${token}`
       }
     });
   };

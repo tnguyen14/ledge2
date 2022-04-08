@@ -18,7 +18,7 @@
     "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel src --out-dir dist",
-    "js:watch": "SERVER_URL=http://localhost:13050/ledge/tri npm run js -- --watch",
+    "js:watch": "LISTS_URL=http://localhost:13050 npm run js -- --watch",
     "test": "cp node_modules/mocha/bin/mocha node_modules/mocha/bin/mocha.js && node --experimental-loader ./https-loader.js node_modules/mocha/bin/mocha.js ./src/**/*.test.js"
   },
   "browser": {

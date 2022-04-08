@@ -5,13 +5,9 @@ import { calculateWeeklyAverages } from '../selectors/transactions.js';
 export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 
 export function loadAccount() {
-  return async function loadAccountAsync(dispatch, getState) {
-    const {
-      app: { token }
-    } = getState();
-    const state = getState();
+  return async function loadAccountAsync(dispatch) {
     try {
-      const account = await getAccount(token);
+      const account = await getAccount();
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
         data: account
@@ -26,11 +22,8 @@ export function loadAccount() {
 const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
 export function updateMerchantCounts(merchants_count) {
-  return async function updateMerchantCountsAsync(dispatch, getState) {
-    const {
-      app: { token }
-    } = getState();
-    await patchAccount(token, {
+  return async function updateMerchantCountsAsync(dispatch) {
+    await patchAccount({
       merchants_count
     });
     dispatch({
@@ -45,10 +38,7 @@ export const UPDATE_ACCOUNT_YEAR_STATS_SUCCESS =
   'UPDATE_ACCOUNT_YEAR_STATS_SUCCESS';
 export function recalculateYearStats(year) {
   return async function recalculateYearStatsAsync(dispatch, getState) {
-    const {
-      app: { token },
-      account
-    } = getState();
+    const { account } = getState();
     dispatch({
       type: UPDATE_ACCOUNT_YEAR_STATS,
       data: {
@@ -56,7 +46,7 @@ export function recalculateYearStats(year) {
       }
     });
     const yearTransactions = (
-      await getTransactions(token, getYearStart(year), getYearEnd(year))
+      await getTransactions(getYearStart(year), getYearEnd(year))
     ).map((tx) => {
       if (!tx.type) {
         tx.type = 'regular-expense';
@@ -72,7 +62,7 @@ export function recalculateYearStats(year) {
     } else {
       stats[year].weeklyAverage = stat.weeklyAverage;
     }
-    await patchAccount(token, {
+    await patchAccount({
       stats
     });
     dispatch({
