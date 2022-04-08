@@ -1,0 +1,5 @@
+.user-settings {
+  [role='dialog'] {
+    max-width: 70vw;
+  }
+}

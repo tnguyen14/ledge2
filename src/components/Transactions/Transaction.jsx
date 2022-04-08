@@ -7,16 +7,13 @@ import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1/esm';
 import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
 import {
   KebabHorizontalIcon,
   ClockIcon,
   NoteIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
-import Tooltip from 'https://cdn.skypack.dev/@material-ui/core@4/Tooltip';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
-import useToggle from '../../hooks/useToggle.js';
 import { TIMEZONE, DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
 import {
@@ -26,9 +23,8 @@ import {
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
-function Transaction(props) {
+function Transaction({ transaction, dateFormat }) {
   const dispatch = useDispatch();
-  const { transaction, dateFormat } = props;
   const {
     id,
     date,

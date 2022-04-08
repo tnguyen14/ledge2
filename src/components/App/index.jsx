@@ -14,6 +14,7 @@ import Cashflow from '../Cashflow/index.js';
 import Form from '../Form/index.js';
 import AccountStats from '../AccountStats/index.js';
 import Transactions from '../Transactions/index.js';
+import UserSettings from '../UserSettings/index.js';
 import {
   refreshApp,
   setToken,
@@ -85,6 +86,7 @@ function App() {
             {showCashflow ? <Cashflow /> : <Transactions />}
           </div>
           <Notification />
+          <UserSettings />
         </>
       )}
     </div>
