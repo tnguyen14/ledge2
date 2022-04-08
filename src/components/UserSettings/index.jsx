@@ -16,6 +16,7 @@ function UserSettings() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
   const account = useSelector((state) => state.account);
+  const flows = ['in', 'out'];
 
   return (
     <Dialog
@@ -25,7 +26,39 @@ function UserSettings() {
     >
       <DialogTitle>User Settings</DialogTitle>
       <DialogContent>
-        <DialogContentText>test</DialogContentText>
+        <DialogContentText>
+          <h3>Types</h3>
+          {flows.map((flow) => (
+            <>
+              <h4>{flow}</h4>
+              {account.types[flow].map((type) => (
+                <div key={type.slug}>{type.value}</div>
+              ))}
+            </>
+          ))}
+          <h3>Categories</h3>
+          {flows.map((flow) =>
+            account.types[flow].map((type) => (
+              <>
+                <h4>{type.value}</h4>
+                {account.categories[type.slug].map((cat) => (
+                  <div key={cat.slug}>{cat.value}</div>
+                ))}
+              </>
+            ))
+          )}
+          <h3>Sources</h3>
+          {flows.map((flow) =>
+            account.types[flow].map((type) => (
+              <>
+                <h4>{type.value}</h4>
+                {account.sources[type.slug].map((source) => (
+                  <div key={source.slug}>{source.value}</div>
+                ))}
+              </>
+            ))
+          )}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button
