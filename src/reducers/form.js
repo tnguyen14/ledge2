@@ -135,6 +135,11 @@ const initialState = {
 };
 
 export default function form(state = initialState, action) {
+  const searchDefaultValues = {
+    date: '',
+    time: '',
+    span: ''
+  };
   let newValues;
   switch (action.type) {
     case SUBMIT_TRANSACTION:
@@ -215,11 +220,6 @@ export default function form(state = initialState, action) {
         fields: updateFieldsWithValues(state.fields, newValues)
       };
     case SET_SEARCH_MODE:
-      const searchDefaultValues = {
-        date: '',
-        time: '',
-        span: ''
-      };
       return {
         ...state,
         action: action.data ? 'search' : 'add',

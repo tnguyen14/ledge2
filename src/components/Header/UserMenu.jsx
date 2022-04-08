@@ -1,12 +1,16 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import {
+  useSelector,
+  useDispatch
+} from 'https://cdn.skypack.dev/react-redux@7';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
+import { setUserSettingsOpen } from '../../actions/app.js';
 
-function UserMenu(props) {
+function UserMenu() {
   const [profileActive, setProfileActive] = useState(false);
   const { isAuthenticated, user, logout } = useAuth0();
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.app.token);
 
   if (!isAuthenticated) {
@@ -26,6 +30,12 @@ function UserMenu(props) {
       />
       <ul className="profile">
         <li>{user.name}</li>
+        <li
+          className="settings"
+          onClick={() => dispatch(setUserSettingsOpen(true))}
+        >
+          Settings
+        </li>
         <li className="jwt-token">
           <details>
             <summary>JWT Token</summary>

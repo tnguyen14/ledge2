@@ -29,6 +29,9 @@
   li {
     padding: 1rem;
   }
+  .settings {
+    cursor: pointer;
+  }
   .jwt-token {
     /* don't show token on mobile, show on desktop */
     display: none;

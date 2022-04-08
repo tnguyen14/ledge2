@@ -7,7 +7,8 @@ import {
   SHOW_CASHFLOW,
   SET_SEARCH_MODE,
   INTEND_TO_REMOVE_TRANSACTION,
-  CANCEL_REMOVE_TRANSACTION
+  CANCEL_REMOVE_TRANSACTION,
+  SET_USER_SETTINGS_OPEN
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
@@ -28,7 +29,8 @@ const defaultState = {
   },
   lastRefreshed: 0,
   loadedTransactions: false,
-  showCashflow: false
+  showCashflow: false,
+  isUserSettingsOpen: false
 };
 
 export default function app(state = defaultState, action) {
@@ -99,6 +101,11 @@ export default function app(state = defaultState, action) {
         ...state,
         isRemovingTransaction: false,
         transactionToBeRemoved: undefined
+      };
+    case SET_USER_SETTINGS_OPEN:
+      return {
+        ...state,
+        isUserSettingsOpen: action.data
       };
     default:
       return state;

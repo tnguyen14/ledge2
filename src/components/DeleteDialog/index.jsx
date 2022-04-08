@@ -12,7 +12,7 @@ import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';
 
-function DeleteDialog(props) {
+function DeleteDialog() {
   const isRemovingTransaction = useSelector(
     (state) => state.app.isRemovingTransaction
   );
@@ -23,7 +23,6 @@ function DeleteDialog(props) {
 
   return (
     <Dialog
-      data-cy="delete-dialog"
       open={isRemovingTransaction}
       onClose={() => dispatch(cancelRemoveTransaction())}
     >

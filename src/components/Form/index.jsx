@@ -33,7 +33,7 @@ function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
 }
 
-function Form(props) {
+function Form() {
   const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);

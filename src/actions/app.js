@@ -99,3 +99,11 @@ export function cancelRemoveTransaction() {
     type: CANCEL_REMOVE_TRANSACTION
   };
 }
+
+export const SET_USER_SETTINGS_OPEN = 'SET_USER_SETTINGS_OPEN';
+export function setUserSettingsOpen(isOpen) {
+  return {
+    type: SET_USER_SETTINGS_OPEN,
+    data: isOpen
+  };
+}
