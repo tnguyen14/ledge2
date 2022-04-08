@@ -19,9 +19,7 @@
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel src --out-dir dist",
     "js:watch": "SERVER_URL=http://localhost:13050/ledge/tri npm run js -- --watch",
-    "test": "cp node_modules/mocha/bin/mocha node_modules/mocha/bin/mocha.js && node --experimental-loader ./https-loader.js node_modules/mocha/bin/mocha.js ./src/**/*.test.js",
-    "test:cypress": "cypress open",
-    "test:production": "CYPRESS_SERVER_URL=https://lists.cloud.tridnguyen.com/ledge/tri CYPRESS_BASE_URL=https://tridnguyen.com/ledge cypress run --record"
+    "test": "cp node_modules/mocha/bin/mocha node_modules/mocha/bin/mocha.js && node --experimental-loader ./https-loader.js node_modules/mocha/bin/mocha.js ./src/**/*.test.js"
   },
   "browser": {
     "config": "./config.json"
@@ -40,9 +38,6 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-react": "^7.9.4",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "cypress": "^6.9.1",
-    "cypress-failed-log": "^2.9.1",
-    "cypress-localstorage-commands": "^1.3.1",
     "gh-pages": "^3.2.0",
     "http-server": "^0.12.3",
     "husky": "^4.2.3",

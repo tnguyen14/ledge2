@@ -1,4 +1,4 @@
 module.exports = {
-  testPathIgnorePatterns: ['/node_modules/', 'cypress/'],
+  testPathIgnorePatterns: ['/node_modules/'],
   transform: {}
 };
