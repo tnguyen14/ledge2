@@ -17,26 +17,33 @@ import Transactions from '../Transactions/index.js';
 import {
   refreshApp,
   setToken,
+  setListName,
   setDisplayFrom,
   loadPastYears
 } from '../../actions/app.js';
 import { loadAccount } from '../../actions/account.js';
-import { DATE_FIELD_FORMAT } from '../../util/constants.js';
+import { DATE_FIELD_FORMAT, AUTH0_DOMAIN } from '../../util/constants.js';
+import { getJson } from '../../util/fetch.js';
 
 function App() {
   const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
-  const token = useSelector((state) => state.app.token);
   const showCashflow = useSelector((state) => state.app.showCashflow);
   const search = useSelector((state) => state.app.search);
   const isVisible = usePageVisibility();
 
   async function updateToken() {
     const accessToken = await getAccessTokenSilently({
-      audience: 'https://lists.cloud.tridnguyen.com'
+      audience: 'https://lists.cloud.tridnguyen.com',
+      scope: 'openid profile email user_metadata'
     });
     dispatch(setToken(accessToken));
+    const userInfo = await getJson(`https://${AUTH0_DOMAIN}/userinfo`);
+    const {
+      ledge: { listName }
+    } = userInfo[`https://${AUTH0_DOMAIN.replaceAll('.', ':')}/user_metadata`];
+    dispatch(setListName(listName));
   }
 
   useEffect(() => {

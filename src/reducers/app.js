@@ -2,6 +2,7 @@ import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
+  SET_LISTNAME,
   REFRESH_APP,
   SHOW_CASHFLOW,
   SET_SEARCH_MODE,
@@ -14,12 +15,8 @@ import {
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
 import { SET_SEARCH } from '../actions/form.js';
-import { DISPLAY_DATE_FORMAT } from '../util/constants.js';
-
-const numVisibleWeeks = 12;
 
 const defaultState = {
-  listName: 'tri',
   appReady: false,
   isLoading: false,
   filter: '',
@@ -64,6 +61,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         token: action.data
+      };
+    case SET_LISTNAME:
+      return {
+        ...state,
+        listName: action.data
       };
     case SET_DISPLAY_FROM:
       return {

@@ -3,11 +3,7 @@ import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { loadTransactions } from './transactions.js';
 import { TIMEZONE } from '../util/constants.js';
 
-import {
-  getWeekStart,
-  getWeekEnd,
-  getWeekStartFromWeekId
-} from '../selectors/week.js';
+import { getWeekStart, getWeekStartFromWeekId } from '../selectors/week.js';
 
 export const SET_DISPLAY_FROM = 'SET_DISPLAY_FROM';
 export function setDisplayFrom(date) {
@@ -22,6 +18,14 @@ export function setToken(token) {
   return {
     type: SET_TOKEN,
     data: token
+  };
+}
+
+export const SET_LISTNAME = 'SET_LISTNAME';
+export function setListName(listName) {
+  return {
+    type: SET_LISTNAME,
+    data: listName
   };
 }
 
