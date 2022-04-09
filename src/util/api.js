@@ -79,14 +79,14 @@ export async function deleteTransaction(id) {
   return await deleteJson(`${SERVER_URL}/${listName}/items/${id}`);
 }
 
-export async function getAccount() {
+export async function getMeta() {
   const {
     app: { listName }
   } = store.getState();
   return await getJson(`${SERVER_URL}/${listName}/meta`);
 }
 
-export async function patchAccount(data) {
+export async function patchMeta(data) {
   const {
     app: { listName }
   } = store.getState();

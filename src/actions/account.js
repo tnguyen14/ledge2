@@ -1,4 +1,4 @@
-import { getAccount, patchAccount, getTransactions } from '../util/api.js';
+import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
 import { calculateWeeklyAverages } from '../selectors/transactions.js';
 
@@ -7,7 +7,7 @@ export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
 export function loadAccount() {
   return async function loadAccountAsync(dispatch) {
     try {
-      const account = await getAccount();
+      const account = await getMeta();
       dispatch({
         type: LOAD_ACCOUNT_SUCCESS,
         data: account
@@ -23,7 +23,7 @@ const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
 export function updateMerchantCounts(merchants_count) {
   return async function updateMerchantCountsAsync(dispatch) {
-    await patchAccount({
+    await patchMeta({
       merchants_count
     });
     dispatch({
@@ -62,7 +62,7 @@ export function recalculateYearStats(year) {
     } else {
       stats[year].weeklyAverage = stat.weeklyAverage;
     }
-    await patchAccount({
+    await patchMeta({
       stats
     });
     dispatch({
