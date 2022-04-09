@@ -24,11 +24,16 @@ import {
   setAppError
 } from '../../actions/app.js';
 import { loadMeta } from '../../actions/meta.js';
-import { DATE_FIELD_FORMAT, AUTH0_DOMAIN } from '../../util/constants.js';
-import { getJson } from '../../util/fetch.js';
+import { DATE_FIELD_FORMAT } from '../../util/constants.js';
+import { getUserMeta } from '../../util/api.js';
 
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const {
+    isLoading,
+    isAuthenticated,
+    user,
+    getAccessTokenSilently
+  } = useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const showCashflow = useSelector((state) => state.app.showCashflow);
@@ -43,12 +48,9 @@ function App() {
         scope: 'openid profile email user_metadata'
       });
       dispatch(setToken(accessToken));
-      const userInfo = await getJson(`https://${AUTH0_DOMAIN}/userinfo`);
       const {
         ledge: { listName }
-      } = userInfo[
-        `https://${AUTH0_DOMAIN.replaceAll('.', ':')}/user_metadata`
-      ];
+      } = await getUserMeta(user.sub);
       dispatch(setListName(listName));
     } catch (e) {
       console.error(e);

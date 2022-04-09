@@ -1,5 +1,8 @@
+/* global process */
 export const TIMEZONE = 'America/New_York';
-export const SERVER_URL = `${process.env.LISTS_URL}/ledge`;
+export const LISTS_URL = process.env.LISTS_URL;
+export const LEDGE_URL = `${process.env.LISTS_URL}/ledge`;
+export const USERMETA_URL = `${process.env.LISTS_URL}/meta/users`;
 export const AUTH0_DOMAIN = 'tridnguyen.auth0.com';
 
 export const DATE_FIELD_FORMAT = 'yyyy-MM-dd';
