@@ -4,6 +4,11 @@
   margin-top: 2em;
 }
 
+.app-error {
+  text-align: center;
+  padding: 1rem;
+}
+
 .app-top {
   background-color: var(--color-grey-lighten-4);
   padding: 0.5rem 2.5%;

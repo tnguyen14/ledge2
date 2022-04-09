@@ -8,7 +8,8 @@ import {
   SET_SEARCH_MODE,
   INTEND_TO_REMOVE_TRANSACTION,
   CANCEL_REMOVE_TRANSACTION,
-  SET_USER_SETTINGS_OPEN
+  SET_USER_SETTINGS_OPEN,
+  SET_APP_ERROR
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
@@ -29,7 +30,8 @@ const defaultState = {
   lastRefreshed: 0,
   loadedTransactions: false,
   showCashflow: false,
-  isUserSettingsOpen: false
+  isUserSettingsOpen: false,
+  error: null
 };
 
 export default function app(state = defaultState, action) {
@@ -105,6 +107,11 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         isUserSettingsOpen: action.data
+      };
+    case SET_APP_ERROR:
+      return {
+        ...state,
+        error: action.data
       };
     default:
       return state;

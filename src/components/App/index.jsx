@@ -20,7 +20,8 @@ import {
   setToken,
   setListName,
   setDisplayFrom,
-  loadPastYears
+  loadPastYears,
+  setAppError
 } from '../../actions/app.js';
 import { loadMeta } from '../../actions/meta.js';
 import { DATE_FIELD_FORMAT, AUTH0_DOMAIN } from '../../util/constants.js';
@@ -32,19 +33,27 @@ function App() {
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const showCashflow = useSelector((state) => state.app.showCashflow);
   const search = useSelector((state) => state.app.search);
+  const appError = useSelector((state) => state.app.error);
   const isVisible = usePageVisibility();
 
   async function updateToken() {
-    const accessToken = await getAccessTokenSilently({
-      audience: 'https://lists.cloud.tridnguyen.com',
-      scope: 'openid profile email user_metadata'
-    });
-    dispatch(setToken(accessToken));
-    const userInfo = await getJson(`https://${AUTH0_DOMAIN}/userinfo`);
-    const {
-      ledge: { listName }
-    } = userInfo[`https://${AUTH0_DOMAIN.replaceAll('.', ':')}/user_metadata`];
-    dispatch(setListName(listName));
+    try {
+      const accessToken = await getAccessTokenSilently({
+        audience: 'https://lists.cloud.tridnguyen.com',
+        scope: 'openid profile email user_metadata'
+      });
+      dispatch(setToken(accessToken));
+      const userInfo = await getJson(`https://${AUTH0_DOMAIN}/userinfo`);
+      const {
+        ledge: { listName }
+      } = userInfo[
+        `https://${AUTH0_DOMAIN.replaceAll('.', ':')}/user_metadata`
+      ];
+      dispatch(setListName(listName));
+    } catch (e) {
+      console.error(e);
+      dispatch(setAppError(e));
+    }
   }
 
   useEffect(() => {
@@ -76,7 +85,15 @@ function App() {
       <Header />
       {!isAuthenticated &&
         (isLoading ? <h2 className="auth-loading">Loading...</h2> : <Login />)}
-      {isAuthenticated && (
+      {appError && (
+        <div className="app-error">
+          <p>Error loading app</p>
+          <p>
+            <pre>{appError.message}</pre>
+          </p>
+        </div>
+      )}
+      {isAuthenticated && !appError && (
         <>
           <div className="app-top">
             <Form />

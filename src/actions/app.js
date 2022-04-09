@@ -106,3 +106,11 @@ export function setUserSettingsOpen(isOpen) {
     data: isOpen
   };
 }
+
+export const SET_APP_ERROR = 'SET_APP_ERROR';
+export function setAppError(err) {
+  return {
+    type: SET_APP_ERROR,
+    data: err
+  };
+}
