@@ -2,15 +2,15 @@ import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
 import { calculateWeeklyAverages } from '../selectors/transactions.js';
 
-export const LOAD_ACCOUNT_SUCCESS = 'LOAD_ACCOUNT_SUCCESS';
+export const LOAD_META_SUCCESS = 'LOAD_META_SUCCESS';
 
-export function loadAccount() {
-  return async function loadAccountAsync(dispatch) {
+export function loadMeta() {
+  return async function loadMetaAsync(dispatch) {
     try {
-      const account = await getMeta();
+      const meta = await getMeta();
       dispatch({
-        type: LOAD_ACCOUNT_SUCCESS,
-        data: account
+        type: LOAD_META_SUCCESS,
+        data: meta
       });
     } catch (e) {
       console.error(e);
@@ -18,7 +18,7 @@ export function loadAccount() {
   };
 }
 
-// TODO update merchant counts in account reducer
+// TODO update merchant counts in meta reducer
 const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
 export function updateMerchantCounts(merchants_count) {
@@ -33,14 +33,13 @@ export function updateMerchantCounts(merchants_count) {
   };
 }
 
-export const UPDATE_ACCOUNT_YEAR_STATS = 'UPDATE_ACCOUNT_YEAR_STATS';
-export const UPDATE_ACCOUNT_YEAR_STATS_SUCCESS =
-  'UPDATE_ACCOUNT_YEAR_STATS_SUCCESS';
+export const UPDATE_YEAR_STATS = 'UPDATE_YEAR_STATS';
+export const UPDATE_YEAR_STATS_SUCCESS = 'UPDATE_YEAR_STATS_SUCCESS';
 export function recalculateYearStats(year) {
   return async function recalculateYearStatsAsync(dispatch, getState) {
-    const { account } = getState();
+    const { meta } = getState();
     dispatch({
-      type: UPDATE_ACCOUNT_YEAR_STATS,
+      type: UPDATE_YEAR_STATS,
       data: {
         year
       }
@@ -54,7 +53,7 @@ export function recalculateYearStats(year) {
       return tx;
     });
     const stat = calculateWeeklyAverages({ transactions: yearTransactions });
-    const stats = account.stats || {};
+    const stats = meta.stats || {};
     if (!stats[year]) {
       stats[year] = {
         weeklyAverage: stat.weeklyAverage
@@ -66,7 +65,7 @@ export function recalculateYearStats(year) {
       stats
     });
     dispatch({
-      type: UPDATE_ACCOUNT_YEAR_STATS_SUCCESS,
+      type: UPDATE_YEAR_STATS_SUCCESS,
       data: {
         year,
         stat: stats[year]

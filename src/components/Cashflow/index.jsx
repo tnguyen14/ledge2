@@ -19,7 +19,7 @@ import { getValueFromOptions } from '../../util/slug.js';
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
-  const types = useSelector((state) => state.account.types);
+  const types = useSelector((state) => state.meta.types);
   const months = getMonths({ transactions });
   const [monthsIds, setMonthsIds] = useState([]);
   useEffect(() => {

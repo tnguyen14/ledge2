@@ -7,10 +7,9 @@ import { getPastWeeksIds } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { sum, average, weeklyTotal } from '../../util/calculate.js';
 
-function WeekStats(props) {
-  const { weekId, label } = props;
+function WeekStats({ weekId, label }) {
   const categories = useSelector(
-    (state) => state.account.categories['regular-expense']
+    (state) => state.meta.categories['regular-expense']
   );
   const past4Weeks = useSelector((state) =>
     getPastWeeksIds({

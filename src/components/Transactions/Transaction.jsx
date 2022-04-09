@@ -37,10 +37,10 @@ function Transaction({ transaction, dateFormat }) {
     span
   } = transaction;
 
-  const categories = useSelector((state) => state.account.categories[type]);
-  const sources = useSelector((state) => state.account.sources[type]);
+  const categories = useSelector((state) => state.meta.categories[type]);
+  const sources = useSelector((state) => state.meta.sources[type]);
   const types = useSelector((state) =>
-    state.account.types.in.concat(state.account.types.out)
+    state.meta.types.in.concat(state.meta.types.out)
   );
 
   const typePopupState = usePopupState({

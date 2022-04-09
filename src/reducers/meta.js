@@ -1,8 +1,8 @@
 import {
-  LOAD_ACCOUNT_SUCCESS,
-  UPDATE_ACCOUNT_YEAR_STATS,
-  UPDATE_ACCOUNT_YEAR_STATS_SUCCESS
-} from '../actions/account.js';
+  LOAD_META_SUCCESS,
+  UPDATE_YEAR_STATS,
+  UPDATE_YEAR_STATS_SUCCESS
+} from '../actions/meta.js';
 
 const initialState = {
   merchants: [],
@@ -19,10 +19,11 @@ const initialState = {
   }
 };
 
-export default function account(state = initialState, action) {
+export default function meta(state = initialState, action) {
+  let merchants, merchantsNames;
   switch (action.type) {
-    case LOAD_ACCOUNT_SUCCESS:
-      const merchants = Object.keys(action.data.merchants_count)
+    case LOAD_META_SUCCESS:
+      merchants = Object.keys(action.data.merchants_count)
         .filter((merchant) => {
           return action.data.merchants_count[merchant] != null;
         })
@@ -38,11 +39,11 @@ export default function account(state = initialState, action) {
           return b.count - a.count;
         });
       // create an array of all merchant names
-      const merchantsNames = merchants.reduce((merchants, merchant) => {
+      merchantsNames = merchants.reduce((merchants, merchant) => {
         return merchants.concat(merchant.values);
       }, []);
       return { ...state, ...action.data, merchants: merchantsNames };
-    case UPDATE_ACCOUNT_YEAR_STATS:
+    case UPDATE_YEAR_STATS:
       return {
         ...state,
         stats: {
@@ -52,7 +53,7 @@ export default function account(state = initialState, action) {
           }
         }
       };
-    case UPDATE_ACCOUNT_YEAR_STATS_SUCCESS:
+    case UPDATE_YEAR_STATS_SUCCESS:
       return {
         ...state,
         stats: {

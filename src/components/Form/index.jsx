@@ -38,16 +38,16 @@ function Form() {
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
   const datalists = useSelector((state) => ({
-    'merchants-list': state.account.merchants
+    'merchants-list': state.meta.merchants
   }));
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
   );
   const type = values.type;
   const fieldOptions = useSelector((state) => ({
-    category: state.account.categories[type] || [],
-    source: state.account.sources[type] || [],
-    types: [...state.account.types.out].concat(state.account.types.in)
+    category: state.meta.categories[type] || [],
+    source: state.meta.sources[type] || [],
+    types: [...state.meta.types.out].concat(state.meta.types.in)
   }));
 
   useEffect(() => {

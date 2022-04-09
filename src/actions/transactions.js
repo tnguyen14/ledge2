@@ -6,7 +6,7 @@ import {
   addMerchantToCounts,
   removeMerchantFromCounts
 } from '../util/merchants.js';
-import { updateMerchantCounts } from './account.js';
+import { updateMerchantCounts } from './meta.js';
 import {
   getTransactions,
   getTransactionsWithMerchantName,
@@ -40,7 +40,7 @@ export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 export function addTransaction(transaction) {
   return async function addTransactionAsync(dispatch, getState) {
     const {
-      account: { merchants_count }
+      meta: { merchants_count }
     } = getState();
 
     const decoratedTransaction = decorateTransaction(transaction);
@@ -70,7 +70,7 @@ export function addTransaction(transaction) {
 export function updateTransaction(transaction, oldMerchant) {
   return async function updateTransactionAsync(dispatch, getState) {
     const {
-      account: { merchants_count }
+      meta: { merchants_count }
     } = getState();
 
     const decoratedTransaction = decorateTransaction(transaction);
@@ -108,7 +108,7 @@ export function updateTransaction(transaction, oldMerchant) {
 export function removeTransaction(transaction) {
   return async function removeTransactionAsync(dispatch, getState) {
     const {
-      account: { merchants_count }
+      meta: { merchants_count }
     } = getState();
 
     await deleteTransaction(transaction.id);

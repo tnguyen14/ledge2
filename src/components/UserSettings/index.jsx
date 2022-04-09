@@ -15,7 +15,7 @@ import { setUserSettingsOpen } from '../../actions/app.js';
 function UserSettings() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
-  const account = useSelector((state) => state.account);
+  const meta = useSelector((state) => state.meta);
   const flows = ['in', 'out'];
 
   return (
@@ -31,17 +31,17 @@ function UserSettings() {
           {flows.map((flow) => (
             <>
               <h4>{flow}</h4>
-              {account.types[flow].map((type) => (
+              {meta.types[flow].map((type) => (
                 <div key={type.slug}>{type.value}</div>
               ))}
             </>
           ))}
           <h3>Categories</h3>
           {flows.map((flow) =>
-            account.types[flow].map((type) => (
+            meta.types[flow].map((type) => (
               <>
                 <h4>{type.value}</h4>
-                {account.categories[type.slug].map((cat) => (
+                {meta.categories[type.slug].map((cat) => (
                   <div key={cat.slug}>{cat.value}</div>
                 ))}
               </>
@@ -49,10 +49,10 @@ function UserSettings() {
           )}
           <h3>Sources</h3>
           {flows.map((flow) =>
-            account.types[flow].map((type) => (
+            meta.types[flow].map((type) => (
               <>
                 <h4>{type.value}</h4>
-                {account.sources[type.slug].map((source) => (
+                {meta.sources[type.slug].map((source) => (
                   <div key={source.slug}>{source.value}</div>
                 ))}
               </>

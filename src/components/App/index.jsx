@@ -22,7 +22,7 @@ import {
   setDisplayFrom,
   loadPastYears
 } from '../../actions/app.js';
-import { loadAccount } from '../../actions/account.js';
+import { loadMeta } from '../../actions/meta.js';
 import { DATE_FIELD_FORMAT, AUTH0_DOMAIN } from '../../util/constants.js';
 import { getJson } from '../../util/fetch.js';
 
@@ -61,7 +61,7 @@ function App() {
         } catch (e) {
           console.error(e);
         }
-        dispatch(loadAccount());
+        dispatch(loadMeta());
         dispatch(refreshApp());
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
         requestIdleCallback(() => {

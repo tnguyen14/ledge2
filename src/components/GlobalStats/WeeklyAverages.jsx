@@ -4,7 +4,6 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 
 import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
@@ -12,14 +11,14 @@ import {
   getWeekById,
   getCurrentYearWeeklyAverage
 } from '../../selectors/transactions.js';
-import { recalculateYearStats } from '../../actions/account.js';
+import { recalculateYearStats } from '../../actions/meta.js';
 
 const YEARS = [2021, 2020, 2019, 2018];
 
-function WeeklyAverages(props) {
+function WeeklyAverages() {
   const dispatch = useDispatch();
   const transactions = useSelector((state) => state.transactions);
-  const yearStats = useSelector((state) => state.account.stats);
+  const yearStats = useSelector((state) => state.meta.stats);
   const currentYearAverage = getCurrentYearWeeklyAverage({
     transactions
   });
