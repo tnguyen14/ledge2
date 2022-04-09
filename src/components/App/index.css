@@ -25,7 +25,7 @@
   .new-transaction {
     grid-area: form;
   }
-  .account-stats {
+  .global-stats {
     grid-area: stats;
   }
 }

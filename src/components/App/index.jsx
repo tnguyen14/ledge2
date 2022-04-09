@@ -12,7 +12,7 @@ import Header from '../Header/index.js';
 import Login from '../Login/index.js';
 import Cashflow from '../Cashflow/index.js';
 import Form from '../Form/index.js';
-import AccountStats from '../AccountStats/index.js';
+import GlobalStats from '../GlobalStats/index.js';
 import Transactions from '../Transactions/index.js';
 import UserSettings from '../UserSettings/index.js';
 import {
@@ -80,7 +80,7 @@ function App() {
         <>
           <div className="app-top">
             <Form />
-            {!search && <AccountStats />}
+            {!search && <GlobalStats />}
           </div>
           <div className="app-bottom">
             {showCashflow ? <Cashflow /> : <Transactions />}

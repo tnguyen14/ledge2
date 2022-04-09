@@ -1,6 +1,5 @@
 import React, {
   useMemo,
-  useCallback,
   useState,
   useEffect
 } from 'https://cdn.skypack.dev/react@17';
@@ -15,7 +14,6 @@ import {
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
-import { sum } from '../../util/calculate.js';
 import { getValueFromOptions } from '../../util/slug.js';
 
 function Cashflow() {

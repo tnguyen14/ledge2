@@ -21,7 +21,6 @@ const defaultState = {
   appReady: false,
   isLoading: false,
   filter: '',
-  yearsToLoad: 3,
   notification: {
     content: '',
     title: '',

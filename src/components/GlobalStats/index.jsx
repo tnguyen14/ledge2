@@ -1,8 +1,5 @@
 import React, { useState } from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
+import { useDispatch } from 'https://cdn.skypack.dev/react-redux@7';
 import Tabs from 'https://cdn.skypack.dev/@material-ui/core@4/Tabs';
 import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';
@@ -27,13 +24,12 @@ function TabPanel(props) {
   );
 }
 
-function AccountStats(props) {
+function GlobalStats() {
   const dispatch = useDispatch();
   const [tab, setTab] = useState(0);
-  const yearsToLoad = useSelector((state) => state.app.yearsToLoad);
 
   return (
-    <div className="stats account-stats">
+    <div className="stats global-stats">
       <Tabs
         className="tabs-selector"
         value={tab}
@@ -64,4 +60,4 @@ function AccountStats(props) {
   );
 }
 
-export default AccountStats;
+export default GlobalStats;

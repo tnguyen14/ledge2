@@ -1,5 +1,5 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import { sum, average } from '../util/calculate.js';
+import { sum } from '../util/calculate.js';
 
 const getTransactions = (state) => state.transactions;
 

@@ -1,7 +1,7 @@
 @import './CategoriesChart.css';
 @import './CashflowChart.css';
 
-.account-stats {
+.global-stats {
   .tab-content {
     margin-top: 1rem;
   }
