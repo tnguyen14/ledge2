@@ -1,7 +1,6 @@
 import React, {
   useEffect,
   useRef,
-  useState,
   useCallback
 } from 'https://cdn.skypack.dev/react@17';
 import {
@@ -9,11 +8,7 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-import {
-  FoldUpIcon,
-  FoldDownIcon,
-  SearchIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+import { SearchIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
   submit,
@@ -34,7 +29,6 @@ function calculateString(str) {
 }
 
 function Form() {
-  const [collapsed, setCollapsed] = useState(false);
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
   const datalists = useSelector((state) => ({
@@ -105,81 +99,67 @@ function Form() {
           >
             <SearchIcon />
           </Button>
+        </div>
+        <Field
+          handleChange={(event) => {
+            dispatch(inputChange('type', event.target.value));
+          }}
+          type="select"
+          label="Type"
+          disabled={!appReady}
+          value={type}
+          options={fieldOptions.types}
+        />
+      </div>
+      <>
+        {fields.map((field) => {
+          if (field.attributes && field.attributes.list) {
+            field.datalist = datalists[field.attributes.list];
+          }
+          if (fieldOptions[field.name]) {
+            field.options = fieldOptions[field.name];
+          }
+          return (
+            <Field
+              key={field.name}
+              handleChange={(event) => {
+                dispatch(inputChange(field.name, event.target.value));
+              }}
+              afterButtonAction={() => {
+                if (field.name == 'calculate') {
+                  if (!values.calculate) {
+                    return;
+                  }
+                  const newAmount = calculateString(values.calculate).toFixed(
+                    2
+                  );
+
+                  dispatch(inputChange('amount', newAmount));
+                }
+              }}
+              disabled={!appReady}
+              {...field}
+            />
+          );
+        })}
+        <div className="actions">
+          <Button
+            variant="primary"
+            type="submit"
+            onClick={submitForm}
+            {...buttonAttrs}
+          >
+            {action}
+          </Button>
           <Button
             variant="outline-secondary"
-            onClick={() => {
-              setCollapsed(!collapsed);
-            }}
+            onClick={() => dispatch(resetForm())}
+            {...buttonAttrs}
           >
-            {collapsed ? <FoldDownIcon /> : <FoldUpIcon />}
+            Reset
           </Button>
         </div>
-        {collapsed ? (
-          ''
-        ) : (
-          <Field
-            handleChange={(event) => {
-              dispatch(inputChange('type', event.target.value));
-            }}
-            type="select"
-            label="Type"
-            disabled={!appReady}
-            value={type}
-            options={fieldOptions.types}
-          />
-        )}
-      </div>
-      {!collapsed && (
-        <>
-          {fields.map((field) => {
-            if (field.attributes && field.attributes.list) {
-              field.datalist = datalists[field.attributes.list];
-            }
-            if (fieldOptions[field.name]) {
-              field.options = fieldOptions[field.name];
-            }
-            return (
-              <Field
-                key={field.name}
-                handleChange={(event) => {
-                  dispatch(inputChange(field.name, event.target.value));
-                }}
-                afterButtonAction={() => {
-                  if (field.name == 'calculate') {
-                    if (!values.calculate) {
-                      return;
-                    }
-                    const newAmount = calculateString(values.calculate).toFixed(
-                      2
-                    );
-
-                    dispatch(inputChange('amount', newAmount));
-                  }
-                }}
-                disabled={!appReady}
-                {...field}
-              />
-            );
-          })}
-          <div className="actions">
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={submitForm}
-              {...buttonAttrs}
-            >
-              {action}
-            </Button>
-            <Button
-              variant="outline-secondary"
-              onClick={() => dispatch(resetForm())}
-              {...buttonAttrs}
-            >
-              Reset
-            </Button>
-          </div>
-        </>
-      )}
+      </>
     </form>
   );
 }
