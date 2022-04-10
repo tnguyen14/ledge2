@@ -40,16 +40,16 @@ export const getSortedTransactions = createSelector(
   }
 );
 
+const getDateStart = (state) =>
+  DateTime.fromISO(state.dateStart, { zone: TIMEZONE }).toJSDate();
+const getDateEnd = (state) =>
+  DateTime.fromISO(state.dateEnd, { zone: TIMEZONE }).toJSDate();
+
 const getWeeksDifference = createSelector(
-  getSortedTransactions,
-  (transactions) => {
-    return differenceInCalendarWeeks(
-      DateTime.fromISO(transactions[0].date, { zone: TIMEZONE }).toJSDate(),
-      DateTime.fromISO(transactions[transactions.length - 1].date, {
-        zone: TIMEZONE
-      }).toJSDate(),
-      { weekStartsOn: 1 }
-    );
+  getDateStart,
+  getDateEnd,
+  (dateStart, dateEnd) => {
+    return differenceInCalendarWeeks(dateStart, dateEnd, { weekStartsOn: 1 });
   }
 );
 
@@ -57,7 +57,10 @@ export const calculateWeeklyAverages = createSelector(
   getSortedTransactions,
   (transactions) => {
     const expenses = transactions.filter((tx) => tx.type == 'regular-expense');
-    const numWeeks = getWeeksDifference({ transactions: expenses });
+    const numWeeks = getWeeksDifference({
+      dateStart: expenses[0].date,
+      dateEnd: expenses[expenses.length - 1].date
+    });
     return {
       numWeeks,
       transactions: expenses,
