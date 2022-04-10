@@ -44,14 +44,10 @@ export function recalculateYearStats(year) {
         year
       }
     });
-    const yearTransactions = (
-      await getTransactions(getYearStart(year), getYearEnd(year))
-    ).map((tx) => {
-      if (!tx.type) {
-        tx.type = 'regular-expense';
-      }
-      return tx;
-    });
+    const yearTransactions = await getTransactions(
+      getYearStart(year),
+      getYearEnd(year)
+    );
     const stat = calculateWeeklyAverages({ transactions: yearTransactions });
     const stats = meta.stats || {};
     if (!stats[year]) {

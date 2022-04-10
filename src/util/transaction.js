@@ -30,14 +30,14 @@ export function decorateTransaction(params) {
     throw new Error('Span is required for transaction');
   }
 
-  const { description, merchant, type, category } = params;
+  const { memo, merchant, type, category } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
   const amount = toCents(params.amount);
   const span = parseInt(params.span, 10);
   return {
     date,
     amount,
-    description,
+    memo,
     merchant,
     type,
     category,

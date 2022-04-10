@@ -6,6 +6,7 @@ import {
 } from '../actions/transactions.js';
 
 export default function transactions(state = {}, action) {
+  let newState;
   switch (action.type) {
     case LOAD_TRANSACTIONS_SUCCESS:
       if (!action.data.transactions) {
@@ -14,9 +15,6 @@ export default function transactions(state = {}, action) {
       return action.data.transactions.reduce(
         function addTransation(currentState, transaction) {
           if (!currentState[transaction.id]) {
-            if (!transaction.type) {
-              transaction.type = 'regular-expense';
-            }
             currentState[transaction.id] = transaction;
           }
           return currentState;
@@ -29,7 +27,7 @@ export default function transactions(state = {}, action) {
         [action.data.id]: action.data
       };
     case REMOVE_TRANSACTION_SUCCESS:
-      const newState = { ...state };
+      newState = { ...state };
       delete newState[action.data];
       return newState;
     case UPDATE_TRANSACTION_SUCCESS:

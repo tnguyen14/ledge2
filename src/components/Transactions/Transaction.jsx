@@ -32,7 +32,7 @@ function Transaction({ transaction, dateFormat }) {
     merchant,
     category,
     type,
-    description,
+    memo,
     span
   } = transaction;
 
@@ -93,7 +93,7 @@ function Transaction({ transaction, dateFormat }) {
         </td>
         <td data-field="merchant">
           {merchant}
-          {description && (
+          {memo && (
             <button className="note" {...bindTrigger(notesPopupState)}>
               <NoteIcon />
             </button>
@@ -183,7 +183,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="notes-popover">{description}</div>
+        <div className="notes-popover">{memo}</div>
       </Popover>
       <Popover
         {...bindPopover(actionsPopupState)}

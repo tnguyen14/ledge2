@@ -13,6 +13,14 @@ export async function getTransaction(id) {
   return await getJson(`${LEDGE_URL}/${listName}/items/${id}`);
 }
 
+// used to migrate/ decorate over old schema
+function transformTransaction(transaction) {
+  return {
+    ...transaction,
+    type: transaction.type || 'regular-expense',
+    memo: transaction.memo || transaction.description
+  };
+}
 export async function getTransactions(startDate, endDate) {
   const {
     app: { listName }
@@ -42,7 +50,7 @@ export async function getTransactions(startDate, endDate) {
   console.log(
     `Received ${transactions.length} transactions for ${start} to ${end}`
   );
-  return transactions;
+  return transactions.map(transformTransaction);
 }
 
 export async function getTransactionsWithMerchantName(merchant) {

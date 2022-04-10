@@ -28,7 +28,7 @@ function createInitialValues(defaults = {}) {
     date: format(now, DATE_FIELD_FORMAT),
     time: format(now, TIME_FIELD_FORMAT),
     span: 1,
-    description: '',
+    memo: '',
     id: '',
     type: '',
     ...defaults
@@ -109,9 +109,9 @@ const fields = [
   },
   {
     type: 'textarea',
-    name: 'description',
-    label: 'Description',
-    placeholder: 'Description'
+    name: 'memo',
+    label: 'Memo',
+    placeholder: 'Memo'
   },
   {
     type: 'hidden',

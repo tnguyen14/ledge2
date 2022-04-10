@@ -16,7 +16,7 @@ describe('decorateTransaction', () => {
       amount: 10456,
       span: 4,
       category: undefined,
-      description: undefined,
+      memo: undefined,
       type: undefined
     });
   });
