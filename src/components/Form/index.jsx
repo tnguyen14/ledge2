@@ -40,7 +40,6 @@ function Form() {
   const type = values.type;
   const fieldOptions = useSelector((state) => ({
     category: state.meta.categories[type] || [],
-    source: state.meta.sources[type] || [],
     types: [...state.meta.types.out].concat(state.meta.types.in)
   }));
 
@@ -53,10 +52,7 @@ function Form() {
     if (fieldOptions.category.length) {
       dispatch(updateDefaultValue('category', fieldOptions.category[0].slug));
     }
-    if (fieldOptions.source.length) {
-      dispatch(updateDefaultValue('source', fieldOptions.source[0].slug));
-    }
-  }, [type, fieldOptions.category, fieldOptions.source]);
+  }, [type, fieldOptions.category]);
 
   const prevMerchantRef = useRef();
   useEffect(() => {

@@ -31,14 +31,12 @@ function Transaction({ transaction, dateFormat }) {
     amount,
     merchant,
     category,
-    source,
     type,
     description,
     span
   } = transaction;
 
   const categories = useSelector((state) => state.meta.categories[type]);
-  const sources = useSelector((state) => state.meta.sources[type]);
   const types = useSelector((state) =>
     state.meta.types.in.concat(state.meta.types.out)
   );
@@ -159,8 +157,6 @@ function Transaction({ transaction, dateFormat }) {
         <div className="category-popover">
           <h4>Category</h4>
           <div>{getValueFromOptions(categories, category)}</div>
-          <h4>Source</h4>
-          <div>{getValueFromOptions(sources, source)}</div>
         </div>
       </Popover>
       <Popover

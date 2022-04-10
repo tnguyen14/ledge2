@@ -20,7 +20,6 @@ export async function getUniqueTransactionId(id) {
 }
 
 export function decorateTransaction(params) {
-  const opts = {};
   if (!(params.date && params.time)) {
     throw new Error('Date and time are required for a transaction');
   }
@@ -31,7 +30,7 @@ export function decorateTransaction(params) {
     throw new Error('Span is required for transaction');
   }
 
-  const { description, merchant, type, category, source } = params;
+  const { description, merchant, type, category } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
   const amount = toCents(params.amount);
   const span = parseInt(params.span, 10);
@@ -42,7 +41,6 @@ export function decorateTransaction(params) {
     merchant,
     type,
     category,
-    source,
     span
   };
 }

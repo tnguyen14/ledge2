@@ -47,17 +47,6 @@ function UserSettings() {
               </>
             ))
           )}
-          <h3>Sources</h3>
-          {flows.map((flow) =>
-            meta.types[flow].map((type) => (
-              <>
-                <h4>{type.value}</h4>
-                {meta.sources[type.slug].map((source) => (
-                  <div key={source.slug}>{source.value}</div>
-                ))}
-              </>
-            ))
-          )}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

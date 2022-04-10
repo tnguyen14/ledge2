@@ -27,7 +27,6 @@ function createInitialValues(defaults = {}) {
     category: '',
     date: format(now, DATE_FIELD_FORMAT),
     time: format(now, TIME_FIELD_FORMAT),
-    source: '',
     span: 1,
     description: '',
     id: '',
@@ -96,11 +95,6 @@ const fields = [
     attributes: {
       required: true
     }
-  },
-  {
-    type: 'select',
-    label: 'Source',
-    name: 'source'
   },
   {
     type: 'number',

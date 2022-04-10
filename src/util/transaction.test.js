@@ -17,7 +17,6 @@ describe('decorateTransaction', () => {
       span: 4,
       category: undefined,
       description: undefined,
-      source: undefined,
       type: undefined
     });
   });
