@@ -7,10 +7,10 @@ import { getTransaction } from './api.js';
  * @param {string} idToken JWT token
  * @param {number} id The id as a number to check
  */
-export async function getUniqueTransactionId(idToken, id) {
+export async function getUniqueTransactionId(id) {
   try {
-    await getTransaction(idToken, String(id));
-    return await getUniqueTransactionId(idToken, ++id);
+    await getTransaction(String(id));
+    return await getUniqueTransactionId(++id);
   } catch (e) {
     if (e.response.status == 404) {
       return String(id);
