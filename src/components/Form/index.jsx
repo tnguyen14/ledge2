@@ -69,14 +69,6 @@ function Form() {
     prevMerchantRef.current = values.merchant;
   }, [action]);
 
-  let amountFieldRef = null;
-
-  useEffect(() => {
-    if (amountFieldRef) {
-      amountFieldRef.focus();
-    }
-  }, [values.amount]);
-
   const buttonAttrs = {
     disabled: Boolean(pending)
   };
@@ -148,11 +140,6 @@ function Form() {
             }
             return (
               <Field
-                inputRef={(input) => {
-                  if (field.name == 'amount') {
-                    amountFieldRef = input;
-                  }
-                }}
                 key={field.name}
                 handleChange={(event) => {
                   dispatch(inputChange(field.name, event.target.value));

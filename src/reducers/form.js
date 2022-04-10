@@ -54,8 +54,7 @@ const fields = [
     attributes: {
       min: 0,
       step: 'any',
-      required: true,
-      autoFocus: true
+      required: true
     }
   },
   {
@@ -128,7 +127,6 @@ const fields = [
 
 const initialState = {
   action: 'add',
-  focus: true,
   defaultValues: {},
   values: createInitialValues(),
   fields: updateFieldsWithValues(fields, createInitialValues())
@@ -145,14 +143,12 @@ export default function form(state = initialState, action) {
     case SUBMIT_TRANSACTION:
       return {
         ...state,
-        focus: false,
         pending: true,
         action: state.action === 'add' ? 'adding...' : 'updating...'
       };
     case SUBMIT_TRANSACTION_FAILURE:
       return {
         ...state,
-        focus: false,
         pending: false,
         action: state.action === 'adding...' ? 'add' : 'update'
       };
@@ -171,7 +167,6 @@ export default function form(state = initialState, action) {
       newValues = createInitialValues(state.defaultValues);
       return {
         ...state,
-        focus: true,
         pending: false,
         fields: updateFieldsWithValues(state.fields, newValues),
         values: newValues
@@ -184,7 +179,6 @@ export default function form(state = initialState, action) {
 
       return {
         ...state,
-        focus: false,
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
       };
@@ -199,7 +193,6 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         action: 'update',
-        focus: true,
         values: newValues,
         fields: updateFieldsWithValues(state.fields, newValues)
       };
