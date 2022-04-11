@@ -14,7 +14,11 @@ import {
 } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
-import { TIMEZONE, DISPLAY_DATE_FORMAT } from '../../util/constants.js';
+import {
+  TIMEZONE,
+  DISPLAY_DATE_FORMAT,
+  DATE_FIELD_FORMAT
+} from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
 import {
   editTransaction,
@@ -33,7 +37,9 @@ function Transaction({ transaction, dateFormat }) {
     category,
     type,
     memo,
-    span
+    budgetStart,
+    budgetEnd,
+    budgetSpan
   } = transaction;
 
   const categories = useSelector((state) => state.meta.categories[type]);
@@ -103,7 +109,7 @@ function Transaction({ transaction, dateFormat }) {
           <Badge pill {...bindTrigger(categoryPopupState)}>
             {usd(amount)}
           </Badge>
-          {span > 1 ? (
+          {budgetSpan > 1 ? (
             <span className="span-hint" {...bindTrigger(spanPopupState)}>
               <ClockIcon />
             </span>
@@ -170,7 +176,10 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="span-popover">Span {span} weeks</div>
+        <div className="budget-span-popover">
+          Effective from {format(new Date(budgetStart), DATE_FIELD_FORMAT)} to{' '}
+          {format(new Date(budgetEnd), DATE_FIELD_FORMAT)} ({budgetSpan} weeks)
+        </div>
       </Popover>
       <Popover
         {...bindPopover(notesPopupState)}

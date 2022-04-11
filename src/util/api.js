@@ -2,6 +2,11 @@ import qs from 'https://cdn.skypack.dev/qs@6';
 import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
 import { LEDGE_URL, USERMETA_URL } from './constants.js';
 import store from '../store.js';
+import {
+  getWeekStart,
+  getWeekEnd,
+  getWeeksDifference
+} from '../selectors/week.js';
 
 export async function getTransaction(id) {
   const {
@@ -15,10 +20,30 @@ export async function getTransaction(id) {
 
 // used to migrate/ decorate over old schema
 function transformTransaction(transaction) {
+  const budgetStartDate = transaction.budgetStart
+    ? new Date(transaction.budgetStart)
+    : getWeekStart({ date: transaction.date }).toJSDate();
+  // use span as offset for budgetEnd
+  const budgetEndDate = transaction.budgetEnd
+    ? new Date(transaction.budgetEnd)
+    : getWeekEnd({
+        date: transaction.date,
+        offset: transaction.span - 1
+      }).toJSDate();
   return {
-    ...transaction,
-    type: transaction.type || 'regular-expense',
-    memo: transaction.memo || transaction.description
+    ...{
+      type: 'regular-expense',
+      memo: transaction.description, // TODO remove when items are migrated
+      // TODO remove budgetStart and budgetEnd when span is migrated
+      budgetStart: budgetStartDate.toISOString(),
+      budgetEnd: budgetEndDate.toISOString(),
+      budgetSpan:
+        getWeeksDifference({
+          dateStart: budgetEndDate.toISOString(),
+          dateEnd: budgetStartDate.toISOString()
+        }) + 1
+    },
+    ...transaction
   };
 }
 export async function getTransactions(startDate, endDate) {

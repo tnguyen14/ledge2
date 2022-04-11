@@ -27,7 +27,8 @@ function createInitialValues(defaults = {}) {
     category: '',
     date: format(now, DATE_FIELD_FORMAT),
     time: format(now, TIME_FIELD_FORMAT),
-    span: 1,
+    budgetStart: format(now, DATE_FIELD_FORMAT),
+    budgetEnd: format(now, DATE_FIELD_FORMAT),
     memo: '',
     id: '',
     type: '',
@@ -97,14 +98,21 @@ const fields = [
     }
   },
   {
-    type: 'number',
-    label: 'Span',
-    name: 'span',
-    hint:
-      'Number of weeks the transaction should be spread over, such as 1, 4, 13, 52',
+    type: 'date',
+    label: 'From',
+    name: 'budgetStart',
+    hint: 'The beginning date of the budget period',
     attributes: {
-      min: 0,
-      step: 1
+      required: true
+    }
+  },
+  {
+    type: 'date',
+    label: 'Until',
+    name: 'budgetEnd',
+    hint: 'The end date of the budget period',
+    attributes: {
+      required: true
     }
   },
   {
@@ -130,7 +138,8 @@ export default function form(state = initialState, action) {
   const searchDefaultValues = {
     date: '',
     time: '',
-    span: ''
+    budgetStart: '',
+    budgetEnd: ''
   };
   let newValues;
   switch (action.type) {

@@ -26,14 +26,19 @@ export function decorateTransaction(params) {
   if (!params.amount) {
     throw new Error('Amount is required for transaction');
   }
-  if (!params.span) {
-    throw new Error('Span is required for transaction');
+  if (!params.budgetStart) {
+    throw new Error('Budget start is required for transaction');
+  }
+  if (!params.budgetEnd) {
+    throw new Error('Budget end is required for transaction');
   }
 
   const { memo, merchant, type, category } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
+  const budgetStart = new Date(`${params.budgetStart} 00:00`).toISOString();
+  const budgetEnd = new Date(`${params.budgetEnd} 00:00`).toISOString();
   const amount = toCents(params.amount);
-  const span = parseInt(params.span, 10);
+  // TODO convert budgetStart and budgetEnd to ISOString
   return {
     date,
     amount,
@@ -41,6 +46,7 @@ export function decorateTransaction(params) {
     merchant,
     type,
     category,
-    span
+    budgetStart,
+    budgetEnd
   };
 }

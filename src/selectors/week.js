@@ -1,5 +1,6 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
+import { differenceInCalendarWeeks } from 'https://cdn.skypack.dev/date-fns@2';
 import { TIMEZONE } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;
@@ -88,4 +89,17 @@ export const getYearStart = (year) => {
 
 export const getYearEnd = createSelector(getYearStart, (yearStart) =>
   yearStart.endOf('year')
+);
+
+const getDateStart = (state) =>
+  DateTime.fromISO(state.dateStart, { zone: TIMEZONE }).toJSDate();
+const getDateEnd = (state) =>
+  DateTime.fromISO(state.dateEnd, { zone: TIMEZONE }).toJSDate();
+
+export const getWeeksDifference = createSelector(
+  getDateStart,
+  getDateEnd,
+  (dateStart, dateEnd) => {
+    return differenceInCalendarWeeks(dateStart, dateEnd, { weekStartsOn: 1 });
+  }
 );

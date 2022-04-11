@@ -1,12 +1,15 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import {
-  getYear,
-  differenceInCalendarWeeks
-} from 'https://cdn.skypack.dev/date-fns@2';
+import { getYear } from 'https://cdn.skypack.dev/date-fns@2';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { sum } from '../util/calculate.js';
 import { TIMEZONE } from '../util/constants.js';
-import { getWeekStart, getWeekEnd, getWeekId, getMonthId } from './week.js';
+import {
+  getWeekStart,
+  getWeekEnd,
+  getWeekId,
+  getMonthId,
+  getWeeksDifference
+} from './week.js';
 
 const getTransactions = (state) => state.transactions;
 
@@ -40,19 +43,6 @@ export const getSortedTransactions = createSelector(
   }
 );
 
-const getDateStart = (state) =>
-  DateTime.fromISO(state.dateStart, { zone: TIMEZONE }).toJSDate();
-const getDateEnd = (state) =>
-  DateTime.fromISO(state.dateEnd, { zone: TIMEZONE }).toJSDate();
-
-const getWeeksDifference = createSelector(
-  getDateStart,
-  getDateEnd,
-  (dateStart, dateEnd) => {
-    return differenceInCalendarWeeks(dateStart, dateEnd, { weekStartsOn: 1 });
-  }
-);
-
 export const calculateWeeklyAverages = createSelector(
   getSortedTransactions,
   (transactions) => {
@@ -80,14 +70,10 @@ export const getCurrentYearWeeklyAverage = createSelector(
   }
 );
 
-function addTransactionToWeek(weeks, transaction, offset) {
-  const state = {
-    offset,
-    date: transaction.date
-  };
-  const weekId = getWeekId(state);
-  const start = getWeekStart(state);
-  const end = getWeekEnd(state);
+function addTransactionToWeek(weeks, transaction, weekState) {
+  const weekId = getWeekId(weekState);
+  const start = getWeekStart(weekState);
+  const end = getWeekEnd(weekState);
   // console.log(`${state.date} ${state.offset}, ${start.toISOString()} - ${end.toISOString()}`)
   if (!weeks[weekId]) {
     weeks[weekId] = {
@@ -106,16 +92,21 @@ const getWeeks = createSelector(getTransactions, (transactions) => {
   const weeks = {};
   Object.keys(transactions).forEach(function processTransactionForWeek(id) {
     const transaction = transactions[id];
-    addTransactionToWeek(weeks, transaction);
+    addTransactionToWeek(weeks, transaction, {
+      date: transaction.date
+    });
     // account for multi-week transaction
-    for (let i = 1; i < transaction.span; i++) {
+    for (let i = 1; i < transaction.budgetSpan; i++) {
       addTransactionToWeek(
         weeks,
         {
           ...transaction,
           carriedOver: true
         },
-        i
+        {
+          date: transaction.budgetStart,
+          offset: i
+        }
       );
     }
   });
