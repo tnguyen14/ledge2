@@ -46,6 +46,7 @@ function Form() {
   useEffect(() => {
     if (appReady) {
       dispatch(updateDefaultValue('type', 'regular-expense'));
+      dispatch(updateDefaultValue('syntheticType', 'expense'));
     }
   }, [appReady]);
   useEffect(() => {

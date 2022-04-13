@@ -122,6 +122,34 @@ const fields = [
     placeholder: 'Memo'
   },
   {
+    type: 'select',
+    label: 'Type',
+    name: 'syntheticType',
+    placeholder: 'Select a type',
+    options: [
+      {
+        slug: 'expense',
+        value: 'Expense'
+      },
+      {
+        slug: 'income',
+        value: 'Income'
+      },
+      {
+        slug: 'deposit',
+        value: 'Deposit'
+      },
+      {
+        slug: 'withdrawal',
+        value: 'Withdrawal'
+      },
+      {
+        slug: 'transfer',
+        value: 'Transfer'
+      }
+    ]
+  },
+  {
     type: 'hidden',
     name: 'id'
   }

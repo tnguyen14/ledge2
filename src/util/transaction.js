@@ -33,7 +33,7 @@ export function decorateTransaction(params) {
     throw new Error('Budget end is required for transaction');
   }
 
-  const { memo, merchant, type, category } = params;
+  const { memo, merchant, type, category, syntheticType } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
   const budgetStart = new Date(`${params.budgetStart} 00:00`).toISOString();
   const budgetEnd = new Date(`${params.budgetEnd} 00:00`).toISOString();
@@ -47,6 +47,7 @@ export function decorateTransaction(params) {
     type,
     category,
     budgetStart,
-    budgetEnd
+    budgetEnd,
+    syntheticType
   };
 }

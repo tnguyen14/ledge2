@@ -9,9 +9,6 @@ const initialState = {
   categories: {
     'regular-expense': []
   },
-  sources: {
-    'regular-expense': []
-  },
   merchants_count: {},
   types: {
     in: [],
