@@ -247,6 +247,7 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         action: 'update',
+        fields: getFormFields(newValues.syntheticType),
         values: newValues
       };
     case SET_SEARCH_MODE:
