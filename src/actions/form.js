@@ -24,17 +24,6 @@ export function inputChange(name, value) {
   };
 }
 
-export const UPDATE_DEFAULT_VALUE = 'UPDATE_DEFAULT_VALUE';
-export function updateDefaultValue(name, value) {
-  return {
-    type: UPDATE_DEFAULT_VALUE,
-    data: {
-      name,
-      value
-    }
-  };
-}
-
 export const RESET_FORM = 'RESET_FORM';
 export function resetForm() {
   return {

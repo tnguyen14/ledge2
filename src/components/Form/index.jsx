@@ -38,15 +38,9 @@ function Form() {
     (state) => state.form
   );
   const fieldOptions = useSelector((state) => ({
-    category: state.meta.categories['regular-expense'] || [],
-    types: [...state.meta.types.out].concat(state.meta.types.in)
+    category: state.meta.categories['regular-expense'] || []
   }));
 
-  useEffect(() => {
-    if (appReady) {
-      dispatch(inputChange('syntheticType', 'expense'));
-    }
-  }, [appReady]);
   useEffect(() => {
     if (fieldOptions.category.length) {
       dispatch(inputChange('category', fieldOptions.category[0].slug));

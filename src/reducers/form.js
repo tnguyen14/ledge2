@@ -6,8 +6,7 @@ import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
   SUBMIT_TRANSACTION_FAILURE,
-  RESET_FORM,
-  UPDATE_DEFAULT_VALUE
+  RESET_FORM
 } from '../actions/form.js';
 import {
   ADD_TRANSACTION_SUCCESS,
@@ -18,24 +17,21 @@ import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
-function createInitialValues(defaults = {}) {
+function createInitialValues(isSearch) {
   const now = new Date();
   return {
     amount: '',
     calculate: '',
     merchant: '',
     category: '',
-    date: format(now, DATE_FIELD_FORMAT),
-    time: format(now, TIME_FIELD_FORMAT),
-    budgetStart: format(now, DATE_FIELD_FORMAT),
-    budgetEnd: format(now, DATE_FIELD_FORMAT),
+    date: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
+    time: isSearch ? '' : format(now, TIME_FIELD_FORMAT),
+    budgetStart: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
+    budgetEnd: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
     memo: '',
     id: '',
-    type: '',
-    syntheticType: '',
     debitAccount: '',
-    creditAccount: '',
-    ...defaults
+    creditAccount: ''
   };
 }
 
@@ -171,18 +167,14 @@ function getFormFields(syntheticType) {
 
 const initialState = {
   action: 'add',
-  defaultValues: {},
-  values: createInitialValues(),
-  fields: getFormFields()
+  values: {
+    ...createInitialValues(),
+    syntheticType: 'expense'
+  },
+  fields: getFormFields('expense')
 };
 
 export default function form(state = initialState, action) {
-  const searchDefaultValues = {
-    date: '',
-    time: '',
-    budgetStart: '',
-    budgetEnd: ''
-  };
   let newValues, newFields;
   switch (action.type) {
     case SUBMIT_TRANSACTION:
@@ -200,7 +192,7 @@ export default function form(state = initialState, action) {
     case ADD_TRANSACTION_SUCCESS:
     case UPDATE_TRANSACTION_SUCCESS:
       // after successful save to the server, reset to initial values
-      newValues = createInitialValues(state.defaultValues);
+      newValues = createInitialValues(state.action == 'search');
       return {
         ...state,
         pending: false,
@@ -208,7 +200,7 @@ export default function form(state = initialState, action) {
         action: 'add'
       };
     case RESET_FORM:
-      newValues = createInitialValues(state.defaultValues);
+      newValues = createInitialValues(state.action == 'search');
       return {
         ...state,
         pending: false,
@@ -242,30 +234,12 @@ export default function form(state = initialState, action) {
         action: 'update',
         values: newValues
       };
-    case UPDATE_DEFAULT_VALUE:
-      newValues = {
-        ...state.values,
-        [action.data.name]: action.data.value
-      };
-      return {
-        ...state,
-        defaultValues: {
-          ...state.defaultValues,
-          [action.data.name]: action.data.value
-        },
-        // not just update the default values,
-        // but also actual values and fields
-        values: newValues
-      };
     case SET_SEARCH_MODE:
       return {
         ...state,
         action: action.data ? 'search' : 'add',
         // reset values, except for type
-        values: {
-          type: state.values.type
-        },
-        defaultValues: action.data ? searchDefaultValues : {}
+        values: createInitialValues(action.data == 'search')
       };
     default:
       return state;
