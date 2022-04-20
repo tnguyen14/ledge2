@@ -110,11 +110,11 @@ export function decorateTransaction(params) {
     budgetStart,
     budgetEnd,
     syntheticType,
+    debitAccount,
+    creditAccount,
     ...getCreditDebitAccounts({
       syntheticType,
       merchant
-    }),
-    debitAccount,
-    creditAccount
+    })
   };
 }

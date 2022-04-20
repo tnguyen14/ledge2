@@ -20,6 +20,7 @@ import {
   DATE_FIELD_FORMAT
 } from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
+import { SYNTHETIC_TYPES } from '../../util/transaction.js';
 import {
   editTransaction,
   intendToRemoveTransaction
@@ -35,21 +36,20 @@ function Transaction({ transaction, dateFormat }) {
     amount,
     merchant,
     category,
-    type,
+    syntheticType,
     memo,
     budgetStart,
     budgetEnd,
     budgetSpan
   } = transaction;
 
-  const categories = useSelector((state) => state.meta.categories[type]);
-  const types = useSelector((state) =>
-    state.meta.types.in.concat(state.meta.types.out)
+  const categories = useSelector(
+    (state) => state.meta.categories['regular-expense']
   );
 
-  const typePopupState = usePopupState({
+  const syntheticTypePopupState = usePopupState({
     variant: 'popover',
-    popupId: `${id}-type`
+    popupId: `${id}-synthetic-type`
   });
   const notesPopupState = usePopupState({
     variant: 'popover',
@@ -90,9 +90,9 @@ function Transaction({ transaction, dateFormat }) {
         data-date={date}
       >
         <td
-          data-field="type"
-          data-type={type}
-          {...bindTrigger(typePopupState)}
+          data-field="synthetic-type"
+          data-synthetic-type={syntheticType}
+          {...bindTrigger(syntheticTypePopupState)}
         ></td>
         <td data-field="day">
           <span {...bindTrigger(datePopupState)}>{displayDay}</span>
@@ -122,7 +122,7 @@ function Transaction({ transaction, dateFormat }) {
         </td>
       </tr>
       <Popover
-        {...bindPopover(typePopupState)}
+        {...bindPopover(syntheticTypePopupState)}
         anchorOrigin={{
           vertical: 'top',
           horizonal: 'center'
@@ -132,8 +132,8 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="type-popover">
-          <h4>{getValueFromOptions(types, type)}</h4>
+        <div className="synthetic-type-popover">
+          <h4>{getValueFromOptions(SYNTHETIC_TYPES, syntheticType)}</h4>
         </div>
       </Popover>
       <Popover

@@ -14,7 +14,7 @@
     width: calc(100% - 3.5rem - 4.5rem - 4rem - 10px);
     word-break: break-word;
   }
-  [data-field='type'] {
+  [data-field='synthetic-type'] {
     width: 10px;
     cursor: pointer;
     padding: 0;
@@ -40,7 +40,7 @@
     }
   }
 }
-.type-popover,
+.synthetic-type-popover,
 .notes-popover,
 .date-popover,
 .budget-span-popover,

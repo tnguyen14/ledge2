@@ -1,7 +1,7 @@
 import React from 'https://cdn.skypack.dev/react@17';
 
 function CashflowGraph(props) {
-  const { monthId, data } = props;
+  const { data } = props;
   if (!data) {
     return null;
   }
