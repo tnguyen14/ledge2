@@ -74,6 +74,20 @@ const categoryField = {
   placeholder: 'Select a category'
 };
 
+const debitAccountField = {
+  type: 'select',
+  label: 'To',
+  name: 'debitAccount',
+  placeholder: 'To'
+};
+
+const creditAccountField = {
+  type: 'select',
+  label: 'From',
+  name: 'creditAccount',
+  placeholder: 'From'
+};
+
 const dateField = {
   type: 'date',
   label: 'Date',
@@ -143,7 +157,8 @@ function getFormFields(syntheticType) {
       return [
         amountField,
         calculateField,
-        // TODO add credit and debit account fields,
+        debitAccountField,
+        creditAccountField,
         dateField,
         timeField,
         memoField,

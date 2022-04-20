@@ -59,7 +59,7 @@ export default function meta(state = initialState, action) {
         ...state,
         ...action.data,
         merchants: merchantsNames,
-        accounts: [...builtinAccounts, ...[action.data.accounts || []]]
+        accounts: [...builtinAccounts, ...(action.data.accounts || [])]
       };
     case UPDATE_YEAR_STATS:
       return {
