@@ -4,6 +4,21 @@ import {
   UPDATE_YEAR_STATS_SUCCESS
 } from '../actions/meta.js';
 
+const builtinAccounts = [
+  {
+    slug: 'cash',
+    value: 'Cash'
+  },
+  {
+    slug: 'expense',
+    value: 'Expense'
+  },
+  {
+    slug: 'income',
+    value: 'Income'
+  }
+];
+
 const initialState = {
   merchants: [],
   categories: {
@@ -13,7 +28,8 @@ const initialState = {
   types: {
     in: [],
     out: []
-  }
+  },
+  accounts: builtinAccounts
 };
 
 export default function meta(state = initialState, action) {
@@ -39,7 +55,12 @@ export default function meta(state = initialState, action) {
       merchantsNames = merchants.reduce((merchants, merchant) => {
         return merchants.concat(merchant.values);
       }, []);
-      return { ...state, ...action.data, merchants: merchantsNames };
+      return {
+        ...state,
+        ...action.data,
+        merchants: merchantsNames,
+        accounts: [...builtinAccounts, ...[action.data.accounts || []]]
+      };
     case UPDATE_YEAR_STATS:
       return {
         ...state,

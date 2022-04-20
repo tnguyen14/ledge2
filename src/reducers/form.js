@@ -15,6 +15,7 @@ import {
 } from '../actions/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
+import { SYNTHETIC_TYPES } from '../util/transaction.js';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -126,28 +127,7 @@ const fields = [
     label: 'Type',
     name: 'syntheticType',
     placeholder: 'Select a type',
-    options: [
-      {
-        slug: 'expense',
-        value: 'Expense'
-      },
-      {
-        slug: 'income',
-        value: 'Income'
-      },
-      {
-        slug: 'deposit',
-        value: 'Deposit'
-      },
-      {
-        slug: 'withdrawal',
-        value: 'Withdrawal'
-      },
-      {
-        slug: 'transfer',
-        value: 'Transfer'
-      }
-    ]
+    options: SYNTHETIC_TYPES
   },
   {
     type: 'hidden',

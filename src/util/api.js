@@ -1,4 +1,5 @@
 import qs from 'https://cdn.skypack.dev/qs@6';
+import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
 import { LEDGE_URL, USERMETA_URL } from './constants.js';
 import store from '../store.js';
@@ -16,6 +17,55 @@ export async function getTransaction(id) {
     throw new Error('listName is required to get transaction');
   }
   return await getJson(`${LEDGE_URL}/${listName}/items/${id}`);
+}
+
+function mapTypeToSyntheticType(transaction) {
+  switch (transaction.type) {
+    case 'regular-expense':
+      return {
+        syntheticType: 'expense',
+        debitAccount: 'expense',
+        creditAccount: 'cash'
+      };
+    case 'passive-investment':
+      return {
+        syntheticType: 'transfer',
+        debitAccount: 'schwab',
+        creditAccount: 'cash'
+      };
+    case 'withdrawal':
+      return {
+        syntheticType:
+          transaction.category == 'travel' ? 'transfer' : 'withdrawal',
+        debitAccount:
+          transaction.category == 'travel'
+            ? 'travel'
+            : slugify(transaction.merchant),
+        creditAccount: 'cash'
+      };
+    case 'regular-income':
+      return {
+        syntheticType: 'income',
+        debitAccount: 'cash',
+        creditAccount: 'income'
+      };
+    case 'passive-income':
+      return {
+        syntheticType: 'transfer',
+        debitAccount: 'cash',
+        creditAccount: 'schwab'
+      };
+    case 'deposit':
+      return {
+        syntheticType:
+          transaction.category == 'side-job' ? 'transfer' : 'deposit',
+        debitAccount: 'cash',
+        creditAccount:
+          transaction.category == 'side-job'
+            ? 'side-job'
+            : slugify(transaction.merchant)
+      };
+  }
 }
 
 // used to migrate/ decorate over old schema
@@ -43,6 +93,7 @@ function transformTransaction(transaction) {
           dateEnd: budgetStartDate.toISOString()
         }) + 1
     },
+    ...mapTypeToSyntheticType(transaction),
     ...transaction
   };
 }

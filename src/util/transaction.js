@@ -1,3 +1,4 @@
+import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import { toCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getTransaction } from './api.js';
 
@@ -19,6 +20,58 @@ export async function getUniqueTransactionId(id) {
   }
 }
 
+export const SYNTHETIC_TYPES = [
+  {
+    slug: 'expense',
+    value: 'Expense'
+  },
+  {
+    slug: 'income',
+    value: 'Income'
+  },
+  {
+    slug: 'deposit',
+    value: 'Deposit'
+  },
+  {
+    slug: 'withdrawal',
+    value: 'Withdrawal'
+  },
+  {
+    slug: 'transfer',
+    value: 'Transfer'
+  }
+];
+
+function getCreditDebitAccounts(transaction) {
+  if (!transaction.syntheticType) {
+    throw new Error('syntheticType is required');
+  }
+  switch (transaction.syntheticType) {
+    case 'expense':
+      return {
+        debitAccount: 'expense',
+        creditAccount: 'cash'
+      };
+    case 'income':
+      return {
+        debitAccount: 'cash',
+        creditAccount: 'income'
+      };
+    case 'deposit':
+      return {
+        debitAccount: 'cash',
+        creditAccount: slugify(transaction.merchant)
+      };
+    case 'withdrawal':
+      return {
+        debitAccount: slugify(transaction.merchant),
+        creditAccount: 'cash'
+      };
+  }
+  return {};
+}
+
 export function decorateTransaction(params) {
   if (!(params.date && params.time)) {
     throw new Error('Date and time are required for a transaction');
@@ -33,7 +86,15 @@ export function decorateTransaction(params) {
     throw new Error('Budget end is required for transaction');
   }
 
-  const { memo, merchant, type, category, syntheticType } = params;
+  const {
+    memo,
+    merchant,
+    type,
+    category,
+    syntheticType,
+    creditAccount,
+    debitAccount
+  } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
   const budgetStart = new Date(`${params.budgetStart} 00:00`).toISOString();
   const budgetEnd = new Date(`${params.budgetEnd} 00:00`).toISOString();
@@ -48,6 +109,12 @@ export function decorateTransaction(params) {
     category,
     budgetStart,
     budgetEnd,
-    syntheticType
+    syntheticType,
+    ...getCreditDebitAccounts({
+      syntheticType,
+      merchant
+    }),
+    debitAccount,
+    creditAccount
   };
 }
