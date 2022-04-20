@@ -15,7 +15,6 @@ import {
   submitFailure,
   inputChange,
   resetForm,
-  updateDefaultValue,
   setSearch
 } from '../../actions/form.js';
 import {
@@ -23,6 +22,7 @@ import {
   updateTransaction
 } from '../../actions/transactions.js';
 import { setSearchMode } from '../../actions/app.js';
+import { SYNTHETIC_TYPES } from '../../util/transaction.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -37,23 +37,21 @@ function Form() {
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
   );
-  const type = values.type;
   const fieldOptions = useSelector((state) => ({
-    category: state.meta.categories[type] || [],
+    category: state.meta.categories['regular-expense'] || [],
     types: [...state.meta.types.out].concat(state.meta.types.in)
   }));
 
   useEffect(() => {
     if (appReady) {
-      dispatch(updateDefaultValue('type', 'regular-expense'));
-      dispatch(updateDefaultValue('syntheticType', 'expense'));
+      dispatch(inputChange('syntheticType', 'expense'));
     }
   }, [appReady]);
   useEffect(() => {
     if (fieldOptions.category.length) {
-      dispatch(updateDefaultValue('category', fieldOptions.category[0].slug));
+      dispatch(inputChange('category', fieldOptions.category[0].slug));
     }
-  }, [type, fieldOptions.category]);
+  }, [fieldOptions.category]);
 
   const prevMerchantRef = useRef();
   useEffect(() => {
@@ -99,13 +97,13 @@ function Form() {
         </div>
         <Field
           handleChange={(event) => {
-            dispatch(inputChange('type', event.target.value));
+            dispatch(inputChange('syntheticType', event.target.value));
           }}
           type="select"
           label="Type"
           disabled={!appReady}
-          value={type}
-          options={fieldOptions.types}
+          value={values.syntheticType}
+          options={SYNTHETIC_TYPES}
         />
       </div>
       <>
@@ -135,6 +133,7 @@ function Form() {
                 }
               }}
               disabled={!appReady}
+              value={values[field.name]}
               {...field}
             />
           );

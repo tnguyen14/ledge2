@@ -15,7 +15,6 @@ import {
 } from '../actions/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
-import { SYNTHETIC_TYPES } from '../util/transaction.js';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -33,113 +32,148 @@ function createInitialValues(defaults = {}) {
     memo: '',
     id: '',
     type: '',
+    syntheticType: '',
+    debitAccount: '',
+    creditAccount: '',
     ...defaults
   };
 }
 
-function updateFieldsWithValues(fields, values) {
-  return fields.map((field) => {
-    return {
-      ...field,
-      value: values[field.name]
-    };
-  });
-}
-
-const fields = [
-  {
-    type: 'number',
-    label: 'Amount',
-    name: 'amount',
-    placeholder: 'Amount',
-    attributes: {
-      min: 0,
-      step: 'any',
-      required: true
-    }
-  },
-  {
-    type: 'text',
-    label: 'Calculate',
-    name: 'calculate',
-    placeholder: 'Calculate amount',
-    afterButton: <ZapIcon />,
-    tabindex: -1
-  },
-  {
-    type: 'text',
-    label: 'Merchant',
-    name: 'merchant',
-    placeholder: 'Merchant',
-    attributes: {
-      required: true,
-      list: 'merchants-list'
-    }
-  },
-  {
-    type: 'select',
-    label: 'Category',
-    name: 'category',
-    placeholder: 'Select a category'
-  },
-  {
-    type: 'date',
-    label: 'Date',
-    name: 'date',
-    attributes: {
-      required: true
-    }
-  },
-  {
-    type: 'time',
-    label: 'Time',
-    name: 'time',
-    attributes: {
-      required: true
-    }
-  },
-  {
-    type: 'date',
-    label: 'From',
-    name: 'budgetStart',
-    hint: 'The beginning date of the budget period',
-    attributes: {
-      required: true
-    }
-  },
-  {
-    type: 'date',
-    label: 'Until',
-    name: 'budgetEnd',
-    hint: 'The end date of the budget period',
-    attributes: {
-      required: true
-    }
-  },
-  {
-    type: 'textarea',
-    name: 'memo',
-    label: 'Memo',
-    placeholder: 'Memo'
-  },
-  {
-    type: 'select',
-    label: 'Type',
-    name: 'syntheticType',
-    placeholder: 'Select a type',
-    options: SYNTHETIC_TYPES
-  },
-  {
-    type: 'hidden',
-    name: 'id'
+const amountField = {
+  type: 'number',
+  label: 'Amount',
+  name: 'amount',
+  placeholder: 'Amount',
+  attributes: {
+    min: 0,
+    step: 'any',
+    required: true
   }
-];
+};
+
+const calculateField = {
+  type: 'text',
+  label: 'Calculate',
+  name: 'calculate',
+  placeholder: 'Calculate amount',
+  afterButton: <ZapIcon />,
+  tabindex: -1
+};
+
+const merchantField = {
+  type: 'text',
+  label: 'Merchant',
+  name: 'merchant',
+  placeholder: 'Merchant',
+  attributes: {
+    required: true,
+    list: 'merchants-list'
+  }
+};
+
+const categoryField = {
+  type: 'select',
+  label: 'Category',
+  name: 'category',
+  placeholder: 'Select a category'
+};
+
+const dateField = {
+  type: 'date',
+  label: 'Date',
+  name: 'date',
+  attributes: {
+    required: true
+  }
+};
+
+const timeField = {
+  type: 'time',
+  label: 'Time',
+  name: 'time',
+  attributes: {
+    required: true
+  }
+};
+
+const budgetStartField = {
+  type: 'date',
+  label: 'From',
+  name: 'budgetStart',
+  hint: 'The beginning date of the budget period',
+  attributes: {
+    required: true
+  }
+};
+
+const budgetEndField = {
+  type: 'date',
+  label: 'Until',
+  name: 'budgetEnd',
+  hint: 'The end date of the budget period',
+  attributes: {
+    required: true
+  }
+};
+
+const memoField = {
+  type: 'textarea',
+  name: 'memo',
+  label: 'Memo',
+  placeholder: 'Memo'
+};
+
+const idField = {
+  type: 'hidden',
+  name: 'id'
+};
+
+function getFormFields(syntheticType) {
+  switch (syntheticType) {
+    case 'expense':
+      return [
+        amountField,
+        calculateField,
+        merchantField,
+        categoryField,
+        dateField,
+        timeField,
+        budgetStartField,
+        budgetEndField,
+        memoField,
+        idField
+      ];
+    case 'transfer':
+      return [
+        amountField,
+        calculateField,
+        // TODO add credit and debit account fields,
+        dateField,
+        timeField,
+        memoField,
+        idField
+      ];
+    case 'income':
+    case 'deposit':
+    case 'withdrawal':
+    default:
+      return [
+        amountField,
+        calculateField,
+        merchantField,
+        dateField,
+        timeField,
+        memoField,
+        idField
+      ];
+  }
+}
 
 const initialState = {
   action: 'add',
   defaultValues: {},
   values: createInitialValues(),
-  fields: updateFieldsWithValues(fields, createInitialValues())
+  fields: getFormFields()
 };
 
 export default function form(state = initialState, action) {
@@ -149,7 +183,7 @@ export default function form(state = initialState, action) {
     budgetStart: '',
     budgetEnd: ''
   };
-  let newValues;
+  let newValues, newFields;
   switch (action.type) {
     case SUBMIT_TRANSACTION:
       return {
@@ -170,7 +204,6 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         pending: false,
-        fields: updateFieldsWithValues(state.fields, newValues),
         values: newValues,
         action: 'add'
       };
@@ -179,7 +212,6 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         pending: false,
-        fields: updateFieldsWithValues(state.fields, newValues),
         values: newValues
       };
     case INPUT_CHANGE:
@@ -187,11 +219,15 @@ export default function form(state = initialState, action) {
         ...state.values,
         [action.data.name]: action.data.value
       };
+      newFields =
+        action.data.name == 'syntheticType'
+          ? getFormFields(action.data.value)
+          : state.fields;
 
       return {
         ...state,
         values: newValues,
-        fields: updateFieldsWithValues(state.fields, newValues)
+        fields: newFields
       };
     case EDIT_TRANSACTION:
       newValues = {
@@ -204,8 +240,7 @@ export default function form(state = initialState, action) {
       return {
         ...state,
         action: 'update',
-        values: newValues,
-        fields: updateFieldsWithValues(state.fields, newValues)
+        values: newValues
       };
     case UPDATE_DEFAULT_VALUE:
       newValues = {
@@ -220,8 +255,7 @@ export default function form(state = initialState, action) {
         },
         // not just update the default values,
         // but also actual values and fields
-        values: newValues,
-        fields: updateFieldsWithValues(state.fields, newValues)
+        values: newValues
       };
     case SET_SEARCH_MODE:
       return {
@@ -231,11 +265,7 @@ export default function form(state = initialState, action) {
         values: {
           type: state.values.type
         },
-        defaultValues: action.data ? searchDefaultValues : {},
-        fields: updateFieldsWithValues(
-          state.fields,
-          createInitialValues(action.data ? searchDefaultValues : undefined)
-        )
+        defaultValues: action.data ? searchDefaultValues : {}
       };
     default:
       return state;
