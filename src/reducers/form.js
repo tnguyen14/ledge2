@@ -210,14 +210,15 @@ export default function form(state = initialState, action) {
       newValues = createInitialValues(state.action == 'search');
       return {
         ...state,
+        action: 'add',
         pending: false,
-        values: newValues,
-        action: 'add'
+        values: newValues
       };
     case RESET_FORM:
       newValues = createInitialValues(state.action == 'search');
       return {
         ...state,
+        action: 'add',
         pending: false,
         values: newValues
       };

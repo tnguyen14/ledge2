@@ -43,12 +43,6 @@ function Form() {
     creditAccount: state.meta.accounts
   }));
 
-  useEffect(() => {
-    if (fieldOptions.category.length) {
-      dispatch(inputChange('category', fieldOptions.category[0].slug));
-    }
-  }, [fieldOptions.category]);
-
   const prevMerchantRef = useRef();
   useEffect(() => {
     prevMerchantRef.current = values.merchant;
