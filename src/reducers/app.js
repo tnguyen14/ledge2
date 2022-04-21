@@ -14,6 +14,7 @@ import {
 import {
   LOAD_TRANSACTIONS,
   LOAD_TRANSACTIONS_SUCCESS,
+  REMOVING_TRANSACTION,
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
 import { SET_SEARCH } from '../actions/form.js';
@@ -93,14 +94,20 @@ export default function app(state = defaultState, action) {
     case INTEND_TO_REMOVE_TRANSACTION:
       return {
         ...state,
-        isRemovingTransaction: true,
+        transactionRemovalIntended: true,
         transactionToBeRemoved: action.data
+      };
+    case REMOVING_TRANSACTION:
+      return {
+        ...state,
+        waitingTransactionRemoval: true
       };
     case REMOVE_TRANSACTION_SUCCESS:
     case CANCEL_REMOVE_TRANSACTION:
       return {
         ...state,
-        isRemovingTransaction: false,
+        transactionRemovalIntended: false,
+        waitingTransactionRemoval: false,
         transactionToBeRemoved: undefined
       };
     case SET_USER_SETTINGS_OPEN:

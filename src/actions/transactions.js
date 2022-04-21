@@ -35,7 +35,6 @@ export function loadTransactions(startDate, endDate) {
 
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
-export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 
 export function addTransaction(transaction) {
   return async function addTransactionAsync(dispatch, getState) {
@@ -105,12 +104,17 @@ export function updateTransaction(transaction, oldMerchant) {
   };
 }
 
+export const REMOVING_TRANSACTION = 'REMOVING_TRANSACTION';
+export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 export function removeTransaction(transaction) {
   return async function removeTransactionAsync(dispatch, getState) {
     const {
       meta: { merchants_count }
     } = getState();
 
+    dispatch({
+      type: REMOVING_TRANSACTION
+    });
     await deleteTransaction(transaction.id);
     dispatch({
       type: REMOVE_TRANSACTION_SUCCESS,

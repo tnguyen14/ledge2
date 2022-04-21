@@ -13,17 +13,16 @@ import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';
 
 function DeleteDialog() {
-  const isRemovingTransaction = useSelector(
-    (state) => state.app.isRemovingTransaction
-  );
-  const transactionToBeRemoved = useSelector(
-    (state) => state.app.transactionToBeRemoved
-  );
+  const {
+    transactionRemovalIntended,
+    waitingTransactionRemoval,
+    transactionToBeRemoved
+  } = useSelector((state) => state.app);
   const dispatch = useDispatch();
 
   return (
     <Dialog
-      open={isRemovingTransaction}
+      open={transactionRemovalIntended}
       onClose={() => dispatch(cancelRemoveTransaction())}
     >
       <DialogTitle>Delete Transaction</DialogTitle>
@@ -34,16 +33,18 @@ function DeleteDialog() {
       </DialogContent>
       <DialogActions>
         <Button
+          disabled={waitingTransactionRemoval}
           variant="secondary"
           onClick={() => dispatch(cancelRemoveTransaction())}
         >
           Cancel
         </Button>
         <Button
+          disabled={waitingTransactionRemoval}
           variant="danger"
           onClick={() => dispatch(removeTransaction(transactionToBeRemoved))}
         >
-          Delete
+          {waitingTransactionRemoval ? 'Deleting...' : 'Delete'}
         </Button>
       </DialogActions>
     </Dialog>
