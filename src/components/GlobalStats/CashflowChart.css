@@ -14,10 +14,10 @@
     grid-template-areas: 'main';
     align-items: end;
   }
-  .in-column {
+  .debit-column {
     grid-area: main;
   }
-  .out-column {
+  .credit-column {
     grid-area: main;
     width: 1rem;
     margin: 0 auto; /* center the bar */
@@ -25,12 +25,12 @@
       width: 1.5rem;
     }
   }
-  .in-column,
-  .out-column {
+  .debit-column,
+  .credit-column {
     display: flex;
     flex-direction: column-reverse;
   }
-  .in-column,
+  .debit-column,
   .month-label {
     width: 1.5rem;
     @media (min-width: 42.5em) {

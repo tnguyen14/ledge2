@@ -1,4 +1,6 @@
 @import './Week.css';
+@import './Transaction.css';
+@import './CompactTransaction.css';
 
 .transactions {
   position: relative;

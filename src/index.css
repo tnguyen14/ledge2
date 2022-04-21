@@ -6,8 +6,6 @@
 @import './components/Notification/index.css';
 @import './components/GlobalStats/index.css';
 @import './components/Transactions/index.css';
-@import './components/Transactions/Transaction.css';
-@import './components/Transactions/CompactTransaction.css';
 @import './components/Cashflow/index.css';
 @import './components/UserSettings/index.css';
 
@@ -147,7 +145,6 @@ a:not([href]) {
   }
 }
 
-.bar-piece,
 [data-field='synthetic-type'] {
   background-color: var(--color-blue-grey-lighten-4);
   &[data-synthetic-type='expense'] {

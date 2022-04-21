@@ -5,26 +5,28 @@ function CashflowGraph(props) {
   if (!data) {
     return null;
   }
-  const inData = data.debit;
-  const outData = data.credit;
   return (
     <div className="cashflow-graph">
-      <div className="in-column">
-        {Object.entries(inData.accounts).map(([account, total]) => (
+      <div className="debit-column">
+        {Object.entries(data.debit.accounts).map(([account, total], index) => (
           <div
+            key={account}
             className="bar-piece"
-            data-type={account}
+            data-account={account}
+            data-account-index={index}
             style={{
               height: `calc(${total / 100} * var(--px-per-unit-height))`
             }}
           ></div>
         ))}
       </div>
-      <div className="out-column">
-        {Object.entries(outData.accounts).map(([account, total]) => (
+      <div className="credit-column">
+        {Object.entries(data.credit.accounts).map(([account, total], index) => (
           <div
+            key={account}
             className="bar-piece"
-            data-type={account}
+            data-account={account}
+            data-account-index={index}
             style={{
               height: `calc(${total / 100} * var(--px-per-unit-height))`
             }}

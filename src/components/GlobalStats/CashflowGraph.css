@@ -1,0 +1,34 @@
+.cashflow-graph {
+  .bar-piece {
+    background-color: var(--color-blue-grey-lighten-4);
+  }
+  .debit-column {
+    [data-account-index='0'] {
+      background-color: var(--color-light-green-accent-4);
+    }
+    [data-account-index='1'] {
+      background-color: var(--color-light-green-accent-3);
+    }
+    [data-account-index='2'] {
+      background-color: var(--color-light-green-accent-2);
+    }
+    [data-account-index='3'] {
+      background-color: var(--color-light-green-accent-1);
+    }
+  }
+
+  .credit-column {
+    [data-account-index='0'] {
+      background-color: var(--color-red-lighten-2);
+    }
+    [data-account-index='1'] {
+      background-color: var(--color-red-lighten-3);
+    }
+    [data-account-index='2'] {
+      background-color: var(--color-red-lighten-4);
+    }
+    [data-account-index='3'] {
+      background-color: var(--color-red-lighten-5);
+    }
+  }
+}
