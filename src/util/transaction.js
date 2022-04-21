@@ -79,12 +79,6 @@ export function decorateTransaction(params) {
   if (!params.amount) {
     throw new Error('Amount is required for transaction');
   }
-  if (!params.budgetStart) {
-    throw new Error('Budget start is required for transaction');
-  }
-  if (!params.budgetEnd) {
-    throw new Error('Budget end is required for transaction');
-  }
 
   const {
     memo,
@@ -96,8 +90,12 @@ export function decorateTransaction(params) {
     debitAccount
   } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
-  const budgetStart = new Date(`${params.budgetStart} 00:00`).toISOString();
-  const budgetEnd = new Date(`${params.budgetEnd} 00:00`).toISOString();
+  const budgetStart = params.budgetStart
+    ? new Date(`${params.budgetStart} 00:00`).toISOString()
+    : undefined;
+  const budgetEnd = params.budgetEnd
+    ? new Date(`${params.budgetEnd} 00:00`).toISOString()
+    : undefined;
   const amount = toCents(params.amount);
   // TODO convert budgetStart and budgetEnd to ISOString
   return {

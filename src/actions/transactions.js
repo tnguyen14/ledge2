@@ -33,6 +33,8 @@ export function loadTransactions(startDate, endDate) {
   };
 }
 
+export const ADD_TRANSACTION_FAILURE = 'ADD_TRANSACTION_FAILURE';
+export const UPDATE_TRANSACTION_FAILURE = 'UPDATE_TRANSACTION_FAILURE';
 export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
 export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 
@@ -42,27 +44,33 @@ export function addTransaction(transaction) {
       meta: { merchants_count }
     } = getState();
 
-    const decoratedTransaction = decorateTransaction(transaction);
-    const id = await getUniqueTransactionId(
-      new Date(decoratedTransaction.date).valueOf()
-    );
-    // TODO handle error
-    await postTransaction({
-      ...decoratedTransaction,
-      id
-    });
-    dispatch({
-      type: ADD_TRANSACTION_SUCCESS,
-      data: {
+    try {
+      const decoratedTransaction = decorateTransaction(transaction);
+      const id = await getUniqueTransactionId(
+        new Date(decoratedTransaction.date).valueOf()
+      );
+      await postTransaction({
         ...decoratedTransaction,
         id
-      }
-    });
-    dispatch(
-      updateMerchantCounts(
-        addMerchantToCounts(transaction.merchant, merchants_count)
-      )
-    );
+      });
+      dispatch({
+        type: ADD_TRANSACTION_SUCCESS,
+        data: {
+          ...decoratedTransaction,
+          id
+        }
+      });
+      dispatch(
+        updateMerchantCounts(
+          addMerchantToCounts(transaction.merchant, merchants_count)
+        )
+      );
+    } catch (e) {
+      console.error(e);
+      dispatch({
+        type: ADD_TRANSACTION_FAILURE
+      });
+    }
   };
 }
 
@@ -72,34 +80,40 @@ export function updateTransaction(transaction, oldMerchant) {
       meta: { merchants_count }
     } = getState();
 
-    const decoratedTransaction = decorateTransaction(transaction);
-    const id = transaction.id;
+    try {
+      const decoratedTransaction = decorateTransaction(transaction);
+      const id = transaction.id;
 
-    // TODO handle error
-    await patchTransaction({
-      ...decoratedTransaction,
-      id
-    });
-    dispatch({
-      type: UPDATE_TRANSACTION_SUCCESS,
-      data: {
+      await patchTransaction({
         ...decoratedTransaction,
         id
+      });
+      dispatch({
+        type: UPDATE_TRANSACTION_SUCCESS,
+        data: {
+          ...decoratedTransaction,
+          id
+        }
+      });
+      if (transaction.merchant != oldMerchant) {
+        const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
+          oldMerchant
+        );
+        const updatedMerchantsCount = addMerchantToCounts(
+          transaction.merchant,
+          removeMerchantFromCounts(
+            oldMerchant,
+            merchants_count,
+            transactionsWithOldMerchantName.length
+          )
+        );
+        dispatch(updateMerchantCounts(updatedMerchantsCount));
       }
-    });
-    if (transaction.merchant != oldMerchant) {
-      const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
-        oldMerchant
-      );
-      const updatedMerchantsCount = addMerchantToCounts(
-        transaction.merchant,
-        removeMerchantFromCounts(
-          oldMerchant,
-          merchants_count,
-          transactionsWithOldMerchantName.length
-        )
-      );
-      dispatch(updateMerchantCounts(updatedMerchantsCount));
+    } catch (e) {
+      console.error(e);
+      dispatch({
+        type: UPDATE_TRANSACTION_FAILURE
+      });
     }
   };
 }

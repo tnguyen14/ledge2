@@ -10,7 +10,9 @@ import {
 } from '../actions/form.js';
 import {
   ADD_TRANSACTION_SUCCESS,
-  UPDATE_TRANSACTION_SUCCESS
+  UPDATE_TRANSACTION_SUCCESS,
+  ADD_TRANSACTION_FAILURE,
+  UPDATE_TRANSACTION_FAILURE
 } from '../actions/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
@@ -214,6 +216,12 @@ export default function form(state = initialState, action) {
         pending: false,
         values: newValues
       };
+    case ADD_TRANSACTION_FAILURE:
+    case UPDATE_TRANSACTION_FAILURE:
+      return {
+        ...state,
+        pending: false
+      };
     case RESET_FORM:
       newValues = createInitialValues(state.action == 'search');
       return {
@@ -243,6 +251,11 @@ export default function form(state = initialState, action) {
         amount: fromCents(action.data.amount),
         date: format(new Date(action.data.date), DATE_FIELD_FORMAT),
         time: format(new Date(action.data.date), TIME_FIELD_FORMAT),
+        budgetStart: format(
+          new Date(action.data.budgetStart),
+          DATE_FIELD_FORMAT
+        ),
+        budgetEnd: format(new Date(action.data.budgetEnd), DATE_FIELD_FORMAT),
         calculate: ''
       };
       return {
