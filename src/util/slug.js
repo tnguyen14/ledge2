@@ -6,4 +6,5 @@ export function getValueFromOptions(options, slug) {
   if (option) {
     return option.value;
   }
+  return slug;
 }

@@ -97,7 +97,11 @@ function CashflowChart() {
         chartBody={
           <div className="months-graph">
             {monthsIds.map((id) => (
-              <CashflowGraph key={id} monthId={id} data={monthsCashflow[id]} />
+              <CashflowGraph
+                key={id}
+                monthId={id}
+                data={monthsCashflow.months[id]}
+              />
             ))}
           </div>
         }

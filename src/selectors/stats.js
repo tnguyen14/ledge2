@@ -1,4 +1,5 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
+import groupBy from 'https://cdn.skypack.dev/lodash.groupby';
 import { sum } from '../util/calculate.js';
 
 const getTransactions = (state) => state.transactions;
@@ -31,34 +32,47 @@ export const getCategoriesTotals = createSelector(
 );
 
 const getMonthsIds = (state) => state.monthsIds;
-const getAccounts = (state) => state.accounts;
 
 // shape of cashflow
-// {
-//   "2021-08": {
-//     "debit": {
-//       "accounts": {
-//         "income": 123456,
-//         ...
-//       },
-//       "total": 123456,
-//     },
-//     "credit": {
-//       "accounts": {
-//         "expense": 123456,
-//         ...
-//       },
-//       "total": 123456,
-//     },
-//   },
-//   ...
-// }
+/*
+{
+  accounts: {
+    debit: ['income', 'schwab'],
+    credit: ['expense', 'mark']
+  },
+  months: {
+    "2021-08": {
+      "debit": {
+        "accounts": {
+          "income": 123456,
+          ...
+        },
+        "total": 123456,
+      },
+      "credit": {
+        "accounts": {
+          "expense": 123456,
+          ...
+        },
+        "total": 123456,
+      },
+    },
+    ...
+  }
+}
+*/
 export const getMonthsCashflow = createSelector(
   getTransactions,
   getMonthsIds,
-  getAccounts,
-  (transactionsByMonths, monthsIds, accounts) =>
-    monthsIds.reduce((allMonths, monthId) => {
+  (transactionsByMonths, monthsIds) => {
+    const cashflow = {
+      accounts: {
+        debit: new Set(),
+        credit: new Set()
+      },
+      months: {}
+    };
+    cashflow.months = monthsIds.reduce((allMonths, monthId) => {
       const selectedAccount = 'cash';
       const monthData = {
         debit: {
@@ -68,34 +82,29 @@ export const getMonthsCashflow = createSelector(
           accounts: {}
         }
       };
-      const transactions = (transactionsByMonths[monthId] || []).filter(
-        (txn) =>
-          txn.debitAccount == selectedAccount ||
-          txn.creditAccount == selectedAccount
+      const transactions = transactionsByMonths[monthId] || [];
+      const debitTransactions = groupBy(
+        transactions.filter((t) => t.debitAccount == selectedAccount),
+        'creditAccount'
       );
-      accounts
-        .filter((acct) => acct.slug != selectedAccount)
-        .forEach((account) => {
-          const debitSum = sum(
-            transactions
-              .filter((t) => t.creditAccount == account.slug)
-              .map((t) => t.amount)
-          );
-          if (debitSum) {
-            monthData.debit.accounts[account.slug] = debitSum;
-          }
-          const creditSum = sum(
-            transactions
-              .filter((t) => t.debitAccount == account.slug)
-              .map((t) => t.amount)
-          );
-          if (creditSum) {
-            monthData.credit.accounts[account.slug] = creditSum;
-          }
-        });
+      const creditTransactions = groupBy(
+        transactions.filter((t) => t.creditAccount == selectedAccount),
+        'debitAccount'
+      );
+
+      Object.entries(debitTransactions).forEach(([account, txns]) => {
+        monthData.debit.accounts[account] = sum(txns.map((t) => t.amount));
+        cashflow.accounts.debit.add(account);
+      });
+      Object.entries(creditTransactions).forEach(([account, txns]) => {
+        monthData.credit.accounts[account] = sum(txns.map((t) => t.amount));
+        cashflow.accounts.credit.add(account);
+      });
       monthData.debit.total = sum(Object.values(monthData.debit.accounts));
       monthData.credit.total = sum(Object.values(monthData.credit.accounts));
       allMonths[monthId] = monthData;
       return allMonths;
-    }, {})
+    }, {});
+    return cashflow;
+  }
 );

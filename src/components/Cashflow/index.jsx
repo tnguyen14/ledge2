@@ -34,17 +34,16 @@ function Cashflow() {
     );
   }, [displayFrom]);
 
-  const [monthsCashflow, setMonthsCashflow] = useState({});
+  const [monthsCashflow, setMonthsCashflow] = useState({ months: {} });
 
   useEffect(() => {
     setMonthsCashflow(
       getMonthsCashflow({
         transactions: months,
-        monthsIds,
-        accounts
+        monthsIds
       })
     );
-  }, [monthsIds, accounts, months]);
+  }, [monthsIds, months]);
 
   const years = monthsIds.reduce((aggregate, monthId) => {
     const year = monthId.substr(0, 4);
@@ -86,7 +85,7 @@ function Cashflow() {
   //     ...
   //   },
   //   {
-  //     "type": "debit",
+  //     "label": "debit",
   //     "2021-08": 123456,
   //     ...
   //   },
@@ -99,19 +98,23 @@ function Cashflow() {
     //     "2021-08": 123456,
     //     "2021-07": 78912,
     //   },
+    //   ...
+    //   "debit": {
+    //     "2021-08": 123456,
+    //   },
     //   "Expense - credit": {
     //   }
     // }
     const rows = {};
-    Object.entries(monthsCashflow).forEach(([monthId, monthData]) => {
+    Object.entries(monthsCashflow.months).forEach(([monthId, monthData]) => {
       Object.entries(monthData).forEach(([flow, flowData]) => {
-        Object.entries(flowData.accounts).forEach(([account, total]) => {
+        monthsCashflow.accounts[flow].forEach((account) => {
           const accountName = getValueFromOptions(accounts, account);
           const rowLabel = `${accountName}-${flow}`;
           if (!rows[rowLabel]) {
             rows[rowLabel] = {};
           }
-          rows[rowLabel][monthId] = total;
+          rows[rowLabel][monthId] = flowData.accounts[account];
         });
         if (!rows[flow]) {
           rows[flow] = {};
