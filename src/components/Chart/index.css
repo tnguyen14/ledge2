@@ -64,3 +64,14 @@
     padding-top: 0.5rem;
   }
 }
+
+.chart-bar-popover {
+  padding: 1rem;
+  .explanation {
+    display: inline-grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    column-gap: 2rem;
+    row-gap: 1rem;
+  }
+}

@@ -1,12 +1,15 @@
 import React from 'https://cdn.skypack.dev/react@17';
+import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { getValueFromOptions } from '../../util/slug.js';
 
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function CashflowBar({ data, monthId }) {
+  const accounts = useSelector((state) => state.meta.accounts);
   const popupState = usePopupState({
     variant: 'popover',
     popupId: `${monthId}-cashflow-bar-popup`
@@ -22,36 +25,23 @@ function CashflowBar({ data, monthId }) {
         })}
         {...bindTrigger(popupState)}
       >
-        <div className="debit-column">
-          {Object.entries(data.debit.accounts).map(
-            ([account, total], index) => (
-              <div
-                key={account}
-                className="bar-piece"
-                data-account={account}
-                data-account-index={index}
-                style={{
-                  height: `calc(${total / 100} * var(--px-per-unit-height))`
-                }}
-              ></div>
-            )
-          )}
-        </div>
-        <div className="credit-column">
-          {Object.entries(data.credit.accounts).map(
-            ([account, total], index) => (
-              <div
-                key={account}
-                className="bar-piece"
-                data-account={account}
-                data-account-index={index}
-                style={{
-                  height: `calc(${total / 100} * var(--px-per-unit-height))`
-                }}
-              ></div>
-            )
-          )}
-        </div>
+        {['debit', 'credit'].map((flow) => (
+          <div key={flow} className={`${flow}-column`}>
+            {Object.entries(data[flow].accounts).map(
+              ([account, total], index) => (
+                <div
+                  key={account}
+                  className="bar-piece"
+                  data-account={account}
+                  data-account-index={index}
+                  style={{
+                    height: `calc(${total / 100} * var(--px-per-unit-height))`
+                  }}
+                ></div>
+              )
+            )}
+          </div>
+        ))}
       </div>
       <Popover
         {...bindPopover(popupState)}
@@ -65,19 +55,28 @@ function CashflowBar({ data, monthId }) {
         }}
       >
         <div className="chart-bar-popover">
-          <h5>{monthId}</h5>
-          <div className="explanation">
-            {Object.entries(data.debit.accounts).map(
-              ([account, accountTotal]) => {
-                return (
-                  <>
-                    <span key={account}>{account}</span>
-                    <span>{usd(accountTotal)}</span>
-                  </>
-                );
-              }
-            )}
-          </div>
+          <h4>{monthId}</h4>
+          {['debit', 'credit'].map((flow) => (
+            <div key={flow} className="flow-details">
+              <h5>{flow}</h5>
+              <div className="explanation">
+                {Object.entries(data[flow].accounts).map(
+                  ([account, accountTotal]) => {
+                    return (
+                      <>
+                        <span key={account}>
+                          {getValueFromOptions(accounts, account)}
+                        </span>
+                        <span>{usd(accountTotal)}</span>
+                      </>
+                    );
+                  }
+                )}
+                <span className="total">Total</span>
+                <span className="total">{usd(data[flow].total)}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </Popover>
     </>

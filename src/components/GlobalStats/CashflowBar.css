@@ -32,3 +32,14 @@
     }
   }
 }
+
+.flow-details {
+  margin-bottom: 1rem;
+  h5 {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  .total {
+    font-weight: 600;
+  }
+}
