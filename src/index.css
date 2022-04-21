@@ -7,6 +7,7 @@
 @import './components/GlobalStats/index.css';
 @import './components/Transactions/index.css';
 @import './components/Transactions/Transaction.css';
+@import './components/Transactions/CompactTransaction.css';
 @import './components/Cashflow/index.css';
 @import './components/UserSettings/index.css';
 

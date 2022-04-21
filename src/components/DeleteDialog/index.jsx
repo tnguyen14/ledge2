@@ -9,6 +9,7 @@ import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dial
 import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import CompactTransaction from '../Transactions/CompactTransaction.js';
 import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';
 
@@ -28,7 +29,10 @@ function DeleteDialog() {
       <DialogTitle>Delete Transaction</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Are you sure you want to delete this transaction?
+          <h4>Are you sure you want to delete this transaction?</h4>
+          <p>
+            <CompactTransaction transaction={transactionToBeRemoved} />
+          </p>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
