@@ -110,7 +110,7 @@ function Cashflow() {
       Object.entries(monthData).forEach(([flow, flowData]) => {
         monthsCashflow.accounts[flow].forEach((account) => {
           const accountName = getValueFromOptions(accounts, account);
-          const rowLabel = `${accountName}-${flow}`;
+          const rowLabel = `${accountName}|${flow}`;
           if (!rows[rowLabel]) {
             rows[rowLabel] = {};
           }
@@ -127,7 +127,7 @@ function Cashflow() {
       rows.balance[monthId] = rows.debit[monthId] - rows.credit[monthId];
     });
     return Object.entries(rows).map(([rowLabel, row]) => {
-      row.label = rowLabel.split('-')[0];
+      row.label = rowLabel.split('|')[0];
       return row;
     });
   }, [monthsCashflow]);
