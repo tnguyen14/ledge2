@@ -40,12 +40,15 @@ function Transaction({ transaction, dateFormat }) {
     memo,
     budgetStart,
     budgetEnd,
-    budgetSpan
+    budgetSpan,
+    debitAccount,
+    creditAccount
   } = transaction;
 
   const categories = useSelector(
     (state) => state.meta.categories['regular-expense']
   );
+  const accounts = useSelector((state) => state.meta.accounts);
 
   const syntheticTypePopupState = usePopupState({
     variant: 'popover',
@@ -59,9 +62,9 @@ function Transaction({ transaction, dateFormat }) {
     variant: 'popover',
     popupId: `${id}-date`
   });
-  const categoryPopupState = usePopupState({
+  const amountPopupState = usePopupState({
     variant: 'popover',
-    popupId: `${id}-category`
+    popupId: `${id}-amount`
   });
   const spanPopupState = usePopupState({
     variant: 'popover',
@@ -98,7 +101,7 @@ function Transaction({ transaction, dateFormat }) {
           <span {...bindTrigger(datePopupState)}>{displayDay}</span>
         </td>
         <td data-field="merchant">
-          {merchant}
+          {merchant ? merchant : getValueFromOptions(accounts, debitAccount)}
           {memo && (
             <button className="note" {...bindTrigger(notesPopupState)}>
               <NoteIcon />
@@ -106,7 +109,7 @@ function Transaction({ transaction, dateFormat }) {
           )}
         </td>
         <td data-field="amount" data-cat={category}>
-          <Badge pill {...bindTrigger(categoryPopupState)}>
+          <Badge pill {...bindTrigger(amountPopupState)}>
             {usd(amount)}
           </Badge>
           {budgetSpan > 1 ? (
@@ -150,7 +153,7 @@ function Transaction({ transaction, dateFormat }) {
         <div className="date-popover">{displayDate}</div>
       </Popover>
       <Popover
-        {...bindPopover(categoryPopupState)}
+        {...bindPopover(amountPopupState)}
         anchorOrigin={{
           vertical: 'top',
           horizonal: 'center'
@@ -160,9 +163,18 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="category-popover">
-          <h4>Category</h4>
-          <div>{getValueFromOptions(categories, category)}</div>
+        <div className="amount-popover">
+          {category ? (
+            <>
+              <h4>Category</h4>
+              <div>{getValueFromOptions(categories, category)}</div>
+            </>
+          ) : (
+            <>
+              <h4>From</h4>
+              <div>{getValueFromOptions(accounts, creditAccount)}</div>
+            </>
+          )}
         </div>
       </Popover>
       <Popover
