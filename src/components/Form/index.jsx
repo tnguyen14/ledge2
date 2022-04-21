@@ -38,7 +38,7 @@ function Form() {
     (state) => state.form
   );
   const fieldOptions = useSelector((state) => ({
-    category: state.meta.categories['regular-expense'] || [],
+    category: state.meta.expenseCategories,
     debitAccount: state.meta.accounts,
     creditAccount: state.meta.accounts
   }));

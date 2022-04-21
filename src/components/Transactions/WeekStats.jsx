@@ -8,9 +8,7 @@ import { getWeekById } from '../../selectors/transactions.js';
 import { sum, average, weeklyTotal } from '../../util/calculate.js';
 
 function WeekStats({ weekId, label }) {
-  const categories = useSelector(
-    (state) => state.meta.categories['regular-expense']
-  );
+  const categories = useSelector((state) => state.meta.expenseCategories);
   const past4Weeks = useSelector((state) =>
     getPastWeeksIds({
       weekId,
@@ -28,9 +26,8 @@ function WeekStats({ weekId, label }) {
   const rawTotal = weeklyTotal(thisWeek);
   const rawTotalId = `raw-total-${weekId}`;
 
-  const filterType = 'regular-expense';
   const transactions = thisWeek.transactions.filter(
-    (tx) => tx.type == filterType
+    (tx) => tx.syntheticType == 'expense'
   );
   const transactionsByCategory = transactions.reduce((txnsByCat, txn) => {
     if (!txnsByCat[txn.category]) {

@@ -45,9 +45,7 @@ function Transaction({ transaction, dateFormat }) {
     creditAccount
   } = transaction;
 
-  const categories = useSelector(
-    (state) => state.meta.categories['regular-expense']
-  );
+  const categories = useSelector((state) => state.meta.expenseCategories);
   const accounts = useSelector((state) => state.meta.accounts);
 
   const syntheticTypePopupState = usePopupState({

@@ -21,9 +21,7 @@ const builtinAccounts = [
 
 const initialState = {
   merchants: [],
-  categories: {
-    'regular-expense': []
-  },
+  expenseCategories: [],
   merchants_count: {},
   accounts: builtinAccounts
 };
@@ -55,7 +53,10 @@ export default function meta(state = initialState, action) {
         ...state,
         ...action.data,
         merchants: merchantsNames,
-        accounts: [...builtinAccounts, ...(action.data.accounts || [])]
+        accounts: [
+          ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
+          ...(action.data.accounts || [])
+        ]
       };
     case UPDATE_YEAR_STATS:
       return {

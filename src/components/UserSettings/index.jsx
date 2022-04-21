@@ -14,7 +14,7 @@ import { setUserSettingsOpen } from '../../actions/app.js';
 function UserSettings() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
-  const { accounts, categories } = useSelector((state) => state.meta);
+  const { accounts, expenseCategories } = useSelector((state) => state.meta);
 
   return (
     <Dialog
@@ -30,7 +30,7 @@ function UserSettings() {
             <div key={account.slug}>{account.value}</div>
           ))}
           <h4>Expense Categories</h4>
-          {categories['regular-expense'].map((cat) => (
+          {expenseCategories.map((cat) => (
             <div key={cat.slug}>{cat.value}</div>
           ))}
         </DialogContentText>

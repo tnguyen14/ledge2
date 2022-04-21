@@ -82,7 +82,6 @@ function transformTransaction(transaction) {
       }).toJSDate();
   return {
     ...{
-      type: 'regular-expense',
       memo: transaction.description, // TODO remove when items are migrated
       // TODO remove budgetStart and budgetEnd when span is migrated
       budgetStart: budgetStartDate.toISOString(),

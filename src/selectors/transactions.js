@@ -46,7 +46,7 @@ export const getSortedTransactions = createSelector(
 export const calculateWeeklyAverages = createSelector(
   getSortedTransactions,
   (transactions) => {
-    const expenses = transactions.filter((tx) => tx.type == 'regular-expense');
+    const expenses = transactions.filter((tx) => tx.syntheticType == 'expense');
     const numWeeks = getWeeksDifference({
       dateStart: expenses[0].date,
       dateEnd: expenses[expenses.length - 1].date

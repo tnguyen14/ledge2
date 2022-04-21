@@ -21,12 +21,10 @@ import Chart from '../Chart/index.js';
 
 const numWeeksToShow = 12;
 
-const filterType = 'regular-expense';
-
 function CategoriesChart() {
   const dispatch = useDispatch();
   const categories = useSelector((state) =>
-    [...state.meta.categories[filterType]].reverse()
+    [...state.meta.expenseCategories].reverse()
   );
   const transactions = useSelector((state) => state.transactions);
   const displayFrom = useSelector((state) => state.app.displayFrom);
@@ -44,7 +42,7 @@ function CategoriesChart() {
         return {};
       }
       const transactions = week.transactions.filter(
-        (tx) => tx.type == filterType
+        (tx) => tx.syntheticType == 'expense'
       );
       const stats = getCategoriesTotals({
         transactions,

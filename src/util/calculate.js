@@ -26,7 +26,7 @@ export const weeklyTotal = function (week) {
         if (txn.carriedOver) {
           return false;
         }
-        if (txn.type != 'regular-expense') {
+        if (txn.syntheticType != 'expense') {
           return false;
         }
         return true;
