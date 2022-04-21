@@ -5,15 +5,15 @@ function CashflowGraph(props) {
   if (!data) {
     return null;
   }
-  const inData = data.in;
-  const outData = data.out;
+  const inData = data.debit;
+  const outData = data.credit;
   return (
     <div className="cashflow-graph">
       <div className="in-column">
-        {Object.entries(inData.types).map(([type, total]) => (
+        {Object.entries(inData.accounts).map(([account, total]) => (
           <div
             className="bar-piece"
-            data-type={type}
+            data-type={account}
             style={{
               height: `calc(${total / 100} * var(--px-per-unit-height))`
             }}
@@ -21,10 +21,10 @@ function CashflowGraph(props) {
         ))}
       </div>
       <div className="out-column">
-        {Object.entries(outData.types).map(([type, total]) => (
+        {Object.entries(outData.accounts).map(([account, total]) => (
           <div
             className="bar-piece"
-            data-type={type}
+            data-type={account}
             style={{
               height: `calc(${total / 100} * var(--px-per-unit-height))`
             }}

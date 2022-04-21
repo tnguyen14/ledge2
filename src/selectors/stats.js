@@ -31,21 +31,21 @@ export const getCategoriesTotals = createSelector(
 );
 
 const getMonthsIds = (state) => state.monthsIds;
-const getTypes = (state) => state.types;
+const getAccounts = (state) => state.accounts;
 
 // shape of cashflow
 // {
 //   "2021-08": {
-//     "in": {
-//       "types": {
-//         "Regular Income": 123456,
+//     "debit": {
+//       "accounts": {
+//         "income": 123456,
 //         ...
 //       },
 //       "total": 123456,
 //     },
-//     "out": {
-//       "types": {
-//         "Regular Expense": 123456,
+//     "credit": {
+//       "accounts": {
+//         "expense": 123456,
 //         ...
 //       },
 //       "total": 123456,
@@ -56,24 +56,45 @@ const getTypes = (state) => state.types;
 export const getMonthsCashflow = createSelector(
   getTransactions,
   getMonthsIds,
-  getTypes,
-  (transactionsByMonths, monthsIds, types) =>
+  getAccounts,
+  (transactionsByMonths, monthsIds, accounts) =>
     monthsIds.reduce((allMonths, monthId) => {
-      const monthData = {};
-      const transactions = transactionsByMonths[monthId] || [];
-      ['in', 'out'].forEach((flow) => {
-        if (!monthData[flow]) {
-          monthData[flow] = {
-            types: {}
-          };
+      const selectedAccount = 'cash';
+      const monthData = {
+        debit: {
+          accounts: {}
+        },
+        credit: {
+          accounts: {}
         }
-        types[flow].forEach((type) => {
-          monthData[flow].types[type.slug] = sum(
-            transactions.filter((t) => t.type == type.slug).map((t) => t.amount)
+      };
+      const transactions = (transactionsByMonths[monthId] || []).filter(
+        (txn) =>
+          txn.debitAccount == selectedAccount ||
+          txn.creditAccount == selectedAccount
+      );
+      accounts
+        .filter((acct) => acct.slug != selectedAccount)
+        .forEach((account) => {
+          const debitSum = sum(
+            transactions
+              .filter((t) => t.creditAccount == account.slug)
+              .map((t) => t.amount)
           );
+          if (debitSum) {
+            monthData.debit.accounts[account.slug] = debitSum;
+          }
+          const creditSum = sum(
+            transactions
+              .filter((t) => t.debitAccount == account.slug)
+              .map((t) => t.amount)
+          );
+          if (creditSum) {
+            monthData.credit.accounts[account.slug] = creditSum;
+          }
         });
-        monthData[flow].total = sum(Object.values(monthData[flow].types));
-      });
+      monthData.debit.total = sum(Object.values(monthData.debit.accounts));
+      monthData.credit.total = sum(Object.values(monthData.credit.accounts));
       allMonths[monthId] = monthData;
       return allMonths;
     }, {})

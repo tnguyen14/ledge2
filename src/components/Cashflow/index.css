@@ -8,5 +8,6 @@
   }
   tr.highlight {
     font-weight: bold;
+    text-transform: capitalize;
   }
 }

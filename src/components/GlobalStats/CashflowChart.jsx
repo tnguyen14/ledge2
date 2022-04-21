@@ -24,7 +24,7 @@ function CashflowChart() {
   const dispatch = useDispatch();
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
-  const types = useSelector((state) => state.meta.types);
+  const accounts = useSelector((state) => state.meta.accounts);
   const months = getMonths({ transactions });
 
   const [monthsIds, setMonthsIds] = useState([]);
@@ -46,10 +46,10 @@ function CashflowChart() {
       getMonthsCashflow({
         transactions: months,
         monthsIds,
-        types
+        accounts
       })
     );
-  }, [monthsIds, types, months]);
+  }, [monthsIds, accounts, months]);
 
   return (
     <div className="cashflow-chart">

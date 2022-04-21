@@ -19,7 +19,7 @@ import { getValueFromOptions } from '../../util/slug.js';
 function Cashflow() {
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
-  const types = useSelector((state) => state.meta.types);
+  const accounts = useSelector((state) => state.meta.accounts);
   const months = getMonths({ transactions });
   const [monthsIds, setMonthsIds] = useState([]);
   useEffect(() => {
@@ -41,10 +41,10 @@ function Cashflow() {
       getMonthsCashflow({
         transactions: months,
         monthsIds,
-        types
+        accounts
       })
     );
-  }, [monthsIds, types, months]);
+  }, [monthsIds, accounts, months]);
 
   const years = monthsIds.reduce((aggregate, monthId) => {
     const year = monthId.substr(0, 4);
@@ -60,7 +60,7 @@ function Cashflow() {
     () =>
       [
         {
-          accessor: 'type'
+          accessor: 'label'
         }
       ].concat(
         Object.entries(years)
@@ -80,13 +80,13 @@ function Cashflow() {
   // shape of data - array - each item is a row
   // [
   //   {
-  //     "type": "Regular Income",
+  //     "label": "Cash",
   //     "2021-08": 123456,
   //     "2021-07": 78912,
   //     ...
   //   },
   //   {
-  //     "type": "IN",
+  //     "type": "debit",
   //     "2021-08": 123456,
   //     ...
   //   },
@@ -95,36 +95,36 @@ function Cashflow() {
   const data = useMemo(() => {
     // shape of rows
     // {
-    //   "Regular Income": {
+    //   "Income - debit": {
     //     "2021-08": 123456,
     //     "2021-07": 78912,
     //   },
-    //   "Regular Expense": {
+    //   "Expense - credit": {
     //   }
     // }
     const rows = {};
     Object.entries(monthsCashflow).forEach(([monthId, monthData]) => {
       Object.entries(monthData).forEach(([flow, flowData]) => {
-        const flowLabel = flow.toUpperCase();
-        Object.entries(flowData.types).forEach(([type, total]) => {
-          const typeLabel = getValueFromOptions(types[flow], type);
-          if (!rows[typeLabel]) {
-            rows[typeLabel] = {};
+        Object.entries(flowData.accounts).forEach(([account, total]) => {
+          const accountName = getValueFromOptions(accounts, account);
+          const rowLabel = `${accountName}-${flow}`;
+          if (!rows[rowLabel]) {
+            rows[rowLabel] = {};
           }
-          rows[typeLabel][monthId] = total;
+          rows[rowLabel][monthId] = total;
         });
-        if (!rows[flowLabel]) {
-          rows[flowLabel] = {};
+        if (!rows[flow]) {
+          rows[flow] = {};
         }
-        rows[flowLabel][monthId] = flowData.total;
+        rows[flow][monthId] = flowData.total;
       });
-      if (!rows.Balance) {
-        rows.Balance = {};
+      if (!rows.balance) {
+        rows.balance = {};
       }
-      rows.Balance[monthId] = rows.IN[monthId] - rows.OUT[monthId];
+      rows.balance[monthId] = rows.debit[monthId] - rows.credit[monthId];
     });
     return Object.entries(rows).map(([rowLabel, row]) => {
-      row.type = rowLabel;
+      row.label = rowLabel.split('-')[0];
       return row;
     });
   }, [monthsCashflow]);
@@ -133,8 +133,8 @@ function Cashflow() {
     () =>
       data.map((rowData) => {
         const rowState = {};
-        const highlightRows = ['IN', 'OUT', 'Balance'];
-        if (highlightRows.includes(rowData.type)) {
+        const highlightRows = ['debit', 'credit', 'balance'];
+        if (highlightRows.includes(rowData.label)) {
           rowState.highlight = true;
         }
         return rowState;
@@ -160,26 +160,34 @@ function Cashflow() {
     <div className="cashflow">
       <Table responsive {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+          {headerGroups.map((headerGroup, j) => (
+            <tr
+              key={`header-group-${j}`}
+              {...headerGroup.getHeaderGroupProps()}
+            >
+              {headerGroup.headers.map((column, k) => (
+                <th key={`column-${k}`} {...column.getHeaderProps()}>
+                  {column.render('Header')}
+                </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {rows.map((row, l) => {
             prepareRow(row);
             return (
               <tr
+                key={`row-${l}`}
                 className={classnames({
                   highlight: row.state.highlight
                 })}
                 {...row.getRowProps()}
               >
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                {row.cells.map((cell, m) => (
+                  <td key={`cell-${m}`} {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
             );
