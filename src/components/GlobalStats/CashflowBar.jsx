@@ -1,6 +1,6 @@
 import React from 'https://cdn.skypack.dev/react@17';
 
-function CashflowGraph(props) {
+function CashflowBar(props) {
   const { data } = props;
   if (!data) {
     return null;
@@ -37,4 +37,4 @@ function CashflowGraph(props) {
   );
 }
 
-export default CashflowGraph;
+export default CashflowBar;

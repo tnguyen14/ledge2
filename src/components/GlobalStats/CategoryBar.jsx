@@ -18,7 +18,7 @@ function CategoryBar(props) {
   return (
     <>
       <div
-        class={classnames('week-column', {
+        className={classnames('week-column', {
           'has-popup-open': popupState.isOpen
         })}
         {...bindTrigger(popupState)}
@@ -29,7 +29,7 @@ function CategoryBar(props) {
               return null;
             }
             return (
-              <div data-cat={cat.slug}>
+              <div key={cat.slug} data-cat={cat.slug}>
                 <div
                   className="bar-piece"
                   style={{

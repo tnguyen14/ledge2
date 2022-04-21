@@ -1,6 +1,6 @@
 @import './CategoriesChart.css';
 @import './CashflowChart.css';
-@import './CashflowGraph.css';
+@import './CashflowBar.css';
 
 .global-stats {
   .tab-content {

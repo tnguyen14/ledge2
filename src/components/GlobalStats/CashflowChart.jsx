@@ -18,7 +18,7 @@ import {
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
 import Chart from '../Chart/index.js';
-import CashflowGraph from './CashflowGraph.js';
+import CashflowBar from './CashflowBar.js';
 
 function CashflowChart() {
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ function CashflowChart() {
         chartBody={
           <div className="months-graph">
             {monthsIds.map((id) => (
-              <CashflowGraph
+              <CashflowBar
                 key={id}
                 monthId={id}
                 data={monthsCashflow.months[id]}
