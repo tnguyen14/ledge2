@@ -1,0 +1,4 @@
+.week-column {
+  display: flex;
+  flex-direction: column-reverse;
+}

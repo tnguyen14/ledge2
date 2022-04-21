@@ -40,9 +40,7 @@
   .chart-body {
     grid-area: chart-body;
     align-self: end;
-    .week-column {
-      display: flex;
-      flex-direction: column-reverse;
+    .chart-column {
       cursor: pointer;
       &.has-popup-open,
       &:hover {

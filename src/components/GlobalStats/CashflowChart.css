@@ -9,7 +9,7 @@
       padding-left: 0.5rem;
     }
   }
-  .cashflow-graph {
+  .cashflow-column {
     display: grid;
     grid-template-areas: 'main';
     align-items: end;
