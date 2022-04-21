@@ -22,6 +22,7 @@ export async function getTransaction(id) {
 function mapTypeToSyntheticType(transaction) {
   switch (transaction.type) {
     case 'regular-expense':
+    default:
       return {
         syntheticType: 'expense',
         debitAccount: 'expense',
