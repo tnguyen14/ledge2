@@ -4,6 +4,7 @@ import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
+import { DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 
 function CompactTransaction({ transaction }) {
   const accounts = useSelector((state) => state.meta.accounts);
@@ -13,7 +14,7 @@ function CompactTransaction({ transaction }) {
   const { date, merchant, amount, debitAccount, carriedOver } = transaction;
   return (
     <div className="compact-transaction">
-      <div>{format(new Date(date), 'MM/dd/yy')}</div>
+      <div>{format(new Date(date), DISPLAY_DATE_FORMAT)}</div>
       <div>
         {merchant ? merchant : getValueFromOptions(accounts, debitAccount)}
       </div>

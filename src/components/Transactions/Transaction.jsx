@@ -16,7 +16,7 @@ import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import {
   TIMEZONE,
-  DISPLAY_DATE_FORMAT,
+  DISPLAY_DATE_TIME_FORMAT,
   DATE_FIELD_FORMAT
 } from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
@@ -78,7 +78,7 @@ function Transaction({ transaction, dateFormat }) {
     utcToZonedTime(date, TIMEZONE),
     dateFormat || 'EEE'
   );
-  const displayDate = format(new Date(date), DISPLAY_DATE_FORMAT);
+  const displayDate = format(new Date(date), DISPLAY_DATE_TIME_FORMAT);
   if (!transaction) {
     return null;
   }

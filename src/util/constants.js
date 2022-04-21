@@ -8,4 +8,6 @@ export const AUTH0_DOMAIN = 'tridnguyen.auth0.com';
 export const DATE_FIELD_FORMAT = 'yyyy-MM-dd';
 export const TIME_FIELD_FORMAT = 'HH:mm';
 
-export const DISPLAY_DATE_FORMAT = 'MM/dd/yy hh:mm a z';
+export const DISPLAY_DATE_FORMAT = 'MM/dd/yy';
+export const DISPLAY_DATE_WITH_DAY_FORMAT = `${DISPLAY_DATE_FORMAT} (EEE)`;
+export const DISPLAY_DATE_TIME_FORMAT = `${DISPLAY_DATE_FORMAT} hh:mm a z`;
