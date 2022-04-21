@@ -9,14 +9,12 @@ import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dial
 import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-//
 import { setUserSettingsOpen } from '../../actions/app.js';
 
 function UserSettings() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
-  const meta = useSelector((state) => state.meta);
-  const flows = ['in', 'out'];
+  const { accounts, categories } = useSelector((state) => state.meta);
 
   return (
     <Dialog
@@ -27,26 +25,14 @@ function UserSettings() {
       <DialogTitle>User Settings</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <h3>Types</h3>
-          {flows.map((flow) => (
-            <>
-              <h4>{flow}</h4>
-              {meta.types[flow].map((type) => (
-                <div key={type.slug}>{type.value}</div>
-              ))}
-            </>
+          <h4>Accounts</h4>
+          {accounts.map((account) => (
+            <div key={account.slug}>{account.value}</div>
           ))}
-          <h3>Categories</h3>
-          {flows.map((flow) =>
-            meta.types[flow].map((type) => (
-              <>
-                <h4>{type.value}</h4>
-                {meta.categories[type.slug].map((cat) => (
-                  <div key={cat.slug}>{cat.value}</div>
-                ))}
-              </>
-            ))
-          )}
+          <h4>Expense Categories</h4>
+          {categories['regular-expense'].map((cat) => (
+            <div key={cat.slug}>{cat.value}</div>
+          ))}
         </DialogContentText>
       </DialogContent>
       <DialogActions>

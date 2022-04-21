@@ -25,10 +25,6 @@ const initialState = {
     'regular-expense': []
   },
   merchants_count: {},
-  types: {
-    in: [],
-    out: []
-  },
   accounts: builtinAccounts
 };
 
