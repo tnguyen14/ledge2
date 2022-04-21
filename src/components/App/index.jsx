@@ -45,7 +45,7 @@ function App() {
     try {
       const accessToken = await getAccessTokenSilently({
         audience: 'https://lists.cloud.tridnguyen.com',
-        scope: 'openid profile email user_metadata'
+        scope: 'openid profile email'
       });
       dispatch(setToken(accessToken));
       const {
