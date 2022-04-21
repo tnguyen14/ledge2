@@ -92,6 +92,7 @@ function App() {
           <p>Error loading app</p>
           <p>
             <pre>{appError.message}</pre>
+            <pre>{JSON.stringify(appError)}</pre>
           </p>
         </div>
       )}
