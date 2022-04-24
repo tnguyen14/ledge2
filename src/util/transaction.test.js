@@ -1,5 +1,5 @@
 import { decorateTransaction } from './transaction.js';
-import { expect } from 'https://cdn.skypack.dev/chai';
+import { expect } from 'https://cdn.skypack.dev/chai@4.3.4';
 
 describe('decorateTransaction', () => {
   it('parse date and time', () => {
