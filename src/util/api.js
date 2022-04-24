@@ -4,6 +4,7 @@ import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
 import { LEDGE_URL, USERMETA_URL } from './constants.js';
 import store from '../store.js';
 import {
+  getDate,
   getWeekStart,
   getWeekEnd,
   getWeeksDifference
@@ -72,11 +73,11 @@ function mapTypeToSyntheticType(transaction) {
 // used to migrate/ decorate over old schema
 function transformTransaction(transaction) {
   const budgetStartDate = transaction.budgetStart
-    ? new Date(transaction.budgetStart)
+    ? getDate({ date: transaction.budgetStart }).toJSDate()
     : getWeekStart({ date: transaction.date }).toJSDate();
   // use span as offset for budgetEnd
   const budgetEndDate = transaction.budgetEnd
-    ? new Date(transaction.budgetEnd)
+    ? getDate({ date: transaction.budgetEnd }).toJSDate()
     : getWeekEnd({
         date: transaction.date,
         offset: transaction.span - 1
