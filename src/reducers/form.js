@@ -17,6 +17,7 @@ import {
 } from '../actions/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
+import { getWeeksDifference } from '../selectors/week.js';
 import Span from '../components/Form/Span.js';
 
 // abstract this into a function so it can be called again later
@@ -262,6 +263,16 @@ export default function form(state = initialState, action) {
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
+      }
+      if (
+        action.data.name == 'budgetStart' ||
+        action.data.name == 'budgetEnd'
+      ) {
+        newValues.budgetSpan =
+          getWeeksDifference({
+            dateStart: new Date(`${newValues.budgetEnd} 00:00`).toISOString(),
+            dateEnd: new Date(`${newValues.budgetStart} 00:00`).toISOString()
+          }) + 1;
       }
       return {
         ...state,
