@@ -42,12 +42,12 @@ function UserSettings() {
     >
       <DialogTitle>User Settings</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        <div className="list">
           <h4>Accounts</h4>
           {accounts.map((account) => (
             <div
               key={account.slug}
-              className={classnames({
+              className={classnames('item', {
                 'to-be-added': account.toBeAdded,
                 'to-be-removed': account.toBeRemoved
               })}
@@ -55,6 +55,8 @@ function UserSettings() {
               <span>{account.value}</span>
               {!account.builtIn && account.toBeRemoved ? (
                 <Button
+                  size="sm"
+                  variant="outline-secondary"
                   title="Put back"
                   onClick={() => {
                     dispatch(cancelRemoveAccount(account.value));
@@ -65,6 +67,8 @@ function UserSettings() {
               ) : null}
               {!account.builtIn && !account.toBeRemoved ? (
                 <Button
+                  size="sm"
+                  variant="outline-danger"
                   title="Remove"
                   onClick={() => {
                     dispatch(removeAccount(account.value));
@@ -76,25 +80,29 @@ function UserSettings() {
             </div>
           ))}
 
-          <Field
-            type="text"
-            placeholder="Add a new account"
-            value={newAccount}
-            handleChange={(e) => setNewAccount(e.target.value)}
-          />
-          <Button
-            onClick={() => {
-              dispatch(addAccount(newAccount));
-              setNewAccount('');
-            }}
-          >
-            Add
-          </Button>
+          <div className="item">
+            <Field
+              type="text"
+              placeholder="New account"
+              value={newAccount}
+              handleChange={(e) => setNewAccount(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                dispatch(addAccount(newAccount));
+                setNewAccount('');
+              }}
+            >
+              Add
+            </Button>
+          </div>
+        </div>
+        <div className="list">
           <h4>Expense Categories</h4>
           {expenseCategories.map((cat) => (
             <div
               key={cat.slug}
-              className={classnames({
+              className={classnames('item', {
                 'to-be-added': cat.toBeAdded,
                 'to-be-removed': cat.toBeRemoved
               })}
@@ -102,6 +110,8 @@ function UserSettings() {
               <span>{cat.value}</span>
               {cat.toBeRemoved ? (
                 <Button
+                  size="sm"
+                  variant="outline-secondary"
                   title="Put back"
                   onClick={() => {
                     dispatch(cancelRemoveCategory(cat.value));
@@ -111,6 +121,8 @@ function UserSettings() {
                 </Button>
               ) : (
                 <Button
+                  size="sm"
+                  variant="outline-danger"
                   title="Remove"
                   onClick={() => {
                     dispatch(removeCategory(cat.value));
@@ -121,21 +133,23 @@ function UserSettings() {
               )}
             </div>
           ))}
-          <Field
-            type="text"
-            placeholder="Add a new expense category"
-            value={newCategory}
-            handleChange={(e) => setNewCategory(e.target.value)}
-          />
-          <Button
-            onClick={() => {
-              dispatch(addCategory(newCategory));
-              setNewCategory('');
-            }}
-          >
-            Add
-          </Button>
-        </DialogContentText>
+          <div className="item">
+            <Field
+              type="text"
+              placeholder="New expense category"
+              value={newCategory}
+              handleChange={(e) => setNewCategory(e.target.value)}
+            />
+            <Button
+              onClick={() => {
+                dispatch(addCategory(newCategory));
+                setNewCategory('');
+              }}
+            >
+              Add
+            </Button>
+          </div>
+        </div>
       </DialogContent>
       <DialogActions>
         <Button
