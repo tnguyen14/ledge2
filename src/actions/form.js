@@ -5,14 +5,6 @@ export function submit() {
   };
 }
 
-export const SUBMIT_TRANSACTION_FAILURE = 'SUBMIT_TRANSACTION_FAILURE';
-export function submitFailure(err) {
-  return {
-    type: SUBMIT_TRANSACTION_FAILURE,
-    data: err
-  };
-}
-
 export const INPUT_CHANGE = 'INPUT_CHANGE';
 export function inputChange(name, value) {
   return {

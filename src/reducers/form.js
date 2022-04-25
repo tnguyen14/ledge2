@@ -6,7 +6,6 @@ import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,
-  SUBMIT_TRANSACTION_FAILURE,
   RESET_FORM
 } from '../actions/form.js';
 import {
@@ -213,19 +212,15 @@ export default function form(state = initialState, action) {
     case SUBMIT_TRANSACTION:
       return {
         ...state,
-        pending: true,
-        action: state.action === 'add' ? 'adding...' : 'updating...'
-      };
-    case SUBMIT_TRANSACTION_FAILURE:
-      return {
-        ...state,
-        pending: false,
-        action: state.action === 'adding...' ? 'add' : 'update'
+        pending: true
       };
     case ADD_TRANSACTION_SUCCESS:
     case UPDATE_TRANSACTION_SUCCESS:
       // after successful save to the server, reset to initial values
-      newValues = createInitialValues(state.action == 'search');
+      newValues = {
+        syntheticType: state.values.syntheticType,
+        ...createInitialValues(state.action == 'search')
+      };
       return {
         ...state,
         action: 'add',
@@ -239,7 +234,10 @@ export default function form(state = initialState, action) {
         pending: false
       };
     case RESET_FORM:
-      newValues = createInitialValues(state.action == 'search');
+      newValues = {
+        syntheticType: state.values.syntheticType,
+        ...createInitialValues(state.action == 'search')
+      };
       return {
         ...state,
         action: 'add',

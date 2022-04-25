@@ -12,7 +12,6 @@ import { SearchIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
   submit,
-  submitFailure,
   inputChange,
   resetForm,
   setSearch
@@ -56,22 +55,31 @@ function Form() {
   const submitForm = useCallback(
     (event) => {
       event.preventDefault();
-      try {
-        if (action == 'search') {
-          dispatch(setSearch(values));
-        } else if (action == 'update') {
-          dispatch(submit());
-          dispatch(updateTransaction(values, prevMerchantRef.current));
-        } else {
-          dispatch(submit());
-          dispatch(addTransaction(values));
-        }
-      } catch (err) {
-        dispatch(submitFailure(err));
+      if (action == 'search') {
+        dispatch(setSearch(values));
+      } else if (action == 'update') {
+        dispatch(submit());
+        dispatch(updateTransaction(values, prevMerchantRef.current));
+      } else {
+        dispatch(submit());
+        dispatch(addTransaction(values));
       }
     },
     [action, values]
   );
+
+  let actionText;
+  switch (action) {
+    case 'add':
+      actionText = pending ? 'adding...' : 'add';
+      break;
+    case 'update':
+      actionText = pending ? 'updating...' : 'update';
+      break;
+    case 'search':
+      actionText = pending ? 'searching...' : 'search';
+      break;
+  }
 
   return (
     <form className="new-transaction" method="POST">
@@ -136,7 +144,7 @@ function Form() {
             onClick={submitForm}
             {...buttonAttrs}
           >
-            {action}
+            {actionText}
           </Button>
           <Button
             variant="outline-secondary"
