@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@17';
+import React, { useState } from 'https://cdn.skypack.dev/react@17';
 import {
   useSelector,
   useDispatch
@@ -9,9 +9,21 @@ import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dial
 import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-import { setUserSettingsOpen } from '../../actions/app.js';
+import classnames from 'https://cdn.skypack.dev/classnames@2';
+import {
+  TrashIcon,
+  XCircleIcon
+} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+import {
+  setUserSettingsOpen,
+  addAccount,
+  removeAccount,
+  cancelRemoveAccount
+} from '../../actions/app.js';
+import Field from '../Form/Field.js';
 
 function UserSettings() {
+  const [newAccount, setNewAccount] = useState('');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
   const { accounts, expenseCategories } = useSelector((state) => state.meta);
@@ -27,8 +39,48 @@ function UserSettings() {
         <DialogContentText>
           <h4>Accounts</h4>
           {accounts.map((account) => (
-            <div key={account.slug}>{account.value}</div>
+            <div
+              key={account.slug}
+              className={classnames({
+                'to-be-added': account.toBeAdded,
+                'to-be-removed': account.toBeRemoved
+              })}
+            >
+              <span>{account.value}</span>
+              {!account.builtIn && account.toBeRemoved ? (
+                <Button
+                  onClick={() => {
+                    dispatch(cancelRemoveAccount(account.value));
+                  }}
+                >
+                  <XCircleIcon />
+                </Button>
+              ) : null}
+              {!account.builtIn && !account.toBeRemoved ? (
+                <Button
+                  onClick={() => {
+                    dispatch(removeAccount(account.value));
+                  }}
+                >
+                  <TrashIcon />
+                </Button>
+              ) : null}
+            </div>
           ))}
+
+          <Field
+            type="text"
+            value={newAccount}
+            handleChange={(e) => setNewAccount(e.target.value)}
+          />
+          <Button
+            onClick={() => {
+              dispatch(addAccount(newAccount));
+              setNewAccount('');
+            }}
+          >
+            Add
+          </Button>
           <h4>Expense Categories</h4>
           {expenseCategories.map((cat) => (
             <div key={cat.slug}>{cat.value}</div>

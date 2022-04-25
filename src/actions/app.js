@@ -106,6 +106,28 @@ export function setUserSettingsOpen(isOpen) {
   };
 }
 
+export const ADD_ACCOUNT = 'ADD_ACCOUNT';
+export function addAccount(account) {
+  return {
+    type: ADD_ACCOUNT,
+    data: account
+  };
+}
+export const REMOVE_ACCOUNT = 'REMOVE_ACCOUNT';
+export function removeAccount(account) {
+  return {
+    type: REMOVE_ACCOUNT,
+    data: account
+  };
+}
+export const CANCEL_REMOVE_ACCOUNT = 'CANCEL_REMOVE_ACCOUNT';
+export function cancelRemoveAccount(account) {
+  return {
+    type: CANCEL_REMOVE_ACCOUNT,
+    data: account
+  };
+}
+
 export const SET_APP_ERROR = 'SET_APP_ERROR';
 export function setAppError(err) {
   return {

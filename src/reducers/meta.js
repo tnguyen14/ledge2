@@ -1,8 +1,14 @@
+import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import {
   LOAD_META_SUCCESS,
   UPDATE_YEAR_STATS,
   UPDATE_YEAR_STATS_SUCCESS
 } from '../actions/meta.js';
+import {
+  ADD_ACCOUNT,
+  REMOVE_ACCOUNT,
+  CANCEL_REMOVE_ACCOUNT
+} from '../actions/app.js';
 
 const builtinAccounts = [
   {
@@ -75,6 +81,51 @@ export default function meta(state = initialState, action) {
           ...state.stats,
           [action.data.year]: action.data.stat
         }
+      };
+    case ADD_ACCOUNT:
+      return {
+        ...state,
+        accounts: [
+          ...state.accounts,
+          {
+            value: action.data,
+            slug: slugify(action.data),
+            toBeAdded: true
+          }
+        ]
+      };
+    case REMOVE_ACCOUNT:
+      return {
+        ...state,
+        accounts: state.accounts
+          .filter((acct) => {
+            if (acct.value === action.data && acct.toBeAdded) {
+              return false;
+            }
+            return true;
+          })
+          .map((acct) => {
+            if (acct.value === action.data) {
+              return {
+                ...acct,
+                toBeRemoved: true
+              };
+            }
+            return acct;
+          })
+      };
+    case CANCEL_REMOVE_ACCOUNT:
+      return {
+        ...state,
+        accounts: state.accounts.map((acct) => {
+          if (acct.value === action.data) {
+            return {
+              ...acct,
+              toBeRemoved: false
+            };
+          }
+          return acct;
+        })
       };
     default:
       return state;

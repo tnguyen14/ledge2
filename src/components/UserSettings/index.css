@@ -2,4 +2,11 @@
   [role='dialog'] {
     max-width: 70vw;
   }
+  .to-be-added {
+    color: var(--color-green);
+  }
+  .to-be-removed {
+    color: var(--color-red-lighten-3);
+    text-decoration: line-through;
+  }
 }
