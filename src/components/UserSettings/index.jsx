@@ -18,12 +18,16 @@ import {
   setUserSettingsOpen,
   addAccount,
   removeAccount,
-  cancelRemoveAccount
+  cancelRemoveAccount,
+  addCategory,
+  removeCategory,
+  cancelRemoveCategory
 } from '../../actions/app.js';
 import Field from '../Form/Field.js';
 
 function UserSettings() {
   const [newAccount, setNewAccount] = useState('');
+  const [newCategory, setNewCategory] = useState('');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
   const { accounts, expenseCategories } = useSelector((state) => state.meta);
@@ -83,8 +87,46 @@ function UserSettings() {
           </Button>
           <h4>Expense Categories</h4>
           {expenseCategories.map((cat) => (
-            <div key={cat.slug}>{cat.value}</div>
+            <div
+              key={cat.slug}
+              className={classnames({
+                'to-be-added': cat.toBeAdded,
+                'to-be-removed': cat.toBeRemoved
+              })}
+            >
+              <span>{cat.value}</span>
+              {cat.toBeRemoved ? (
+                <Button
+                  onClick={() => {
+                    dispatch(cancelRemoveCategory(cat.value));
+                  }}
+                >
+                  <XCircleIcon />
+                </Button>
+              ) : (
+                <Button
+                  onClick={() => {
+                    dispatch(removeCategory(cat.value));
+                  }}
+                >
+                  <TrashIcon />
+                </Button>
+              )}
+            </div>
           ))}
+          <Field
+            type="text"
+            value={newCategory}
+            handleChange={(e) => setNewCategory(e.target.value)}
+          />
+          <Button
+            onClick={() => {
+              dispatch(addCategory(newCategory));
+              setNewCategory('');
+            }}
+          >
+            Add
+          </Button>
         </DialogContentText>
       </DialogContent>
       <DialogActions>

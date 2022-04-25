@@ -7,7 +7,10 @@ import {
 import {
   ADD_ACCOUNT,
   REMOVE_ACCOUNT,
-  CANCEL_REMOVE_ACCOUNT
+  CANCEL_REMOVE_ACCOUNT,
+  ADD_CATEGORY,
+  REMOVE_CATEGORY,
+  CANCEL_REMOVE_CATEGORY
 } from '../actions/app.js';
 
 const builtinAccounts = [
@@ -125,6 +128,51 @@ export default function meta(state = initialState, action) {
             };
           }
           return acct;
+        })
+      };
+    case ADD_CATEGORY:
+      return {
+        ...state,
+        expenseCategories: [
+          ...state.expenseCategories,
+          {
+            value: action.data,
+            slug: slugify(action.data),
+            toBeAdded: true
+          }
+        ]
+      };
+    case REMOVE_CATEGORY:
+      return {
+        ...state,
+        expenseCategories: state.expenseCategories
+          .filter((cat) => {
+            if (cat.value === action.data && cat.toBeAdded) {
+              return false;
+            }
+            return true;
+          })
+          .map((cat) => {
+            if (cat.value === action.data) {
+              return {
+                ...cat,
+                toBeRemoved: true
+              };
+            }
+            return cat;
+          })
+      };
+    case CANCEL_REMOVE_CATEGORY:
+      return {
+        ...state,
+        expenseCategories: state.expenseCategories.map((cat) => {
+          if (cat.value === action.data) {
+            return {
+              ...cat,
+              toBeRemoved: false
+            };
+          }
+          return cat;
         })
       };
     default:

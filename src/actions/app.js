@@ -128,6 +128,27 @@ export function cancelRemoveAccount(account) {
   };
 }
 
+export const ADD_CATEGORY = 'ADD_CATEGORY';
+export function addCategory(cat) {
+  return {
+    type: ADD_CATEGORY,
+    data: cat
+  };
+}
+export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
+export function removeCategory(cat) {
+  return {
+    type: REMOVE_CATEGORY,
+    data: cat
+  };
+}
+export const CANCEL_REMOVE_CATEGORY = 'CANCEL_REMOVE_CATEGORY';
+export function cancelRemoveCategory(cat) {
+  return {
+    type: CANCEL_REMOVE_CATEGORY,
+    data: cat
+  };
+}
 export const SET_APP_ERROR = 'SET_APP_ERROR';
 export function setAppError(err) {
   return {
