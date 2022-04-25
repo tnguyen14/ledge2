@@ -1,4 +1,5 @@
 import React from 'https://cdn.skypack.dev/react@17';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
@@ -16,6 +17,7 @@ import {
 } from '../actions/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
+import Span from '../components/Form/Span.js';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -28,6 +30,7 @@ function createInitialValues(isSearch) {
     category: '',
     date: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
     time: isSearch ? '' : format(now, TIME_FIELD_FORMAT),
+    budgetSpan: 1,
     budgetStart: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
     budgetEnd: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
     memo: '',
@@ -108,11 +111,23 @@ const timeField = {
   }
 };
 
+const budgetSpanField = {
+  type: 'range',
+  name: 'budgetSpan',
+  label: 'Span',
+  afterButton: <Span />,
+  attributes: {
+    min: 1,
+    step: 1,
+    max: 52,
+    list: 'budget-span'
+  }
+};
+
 const budgetStartField = {
   type: 'date',
   label: 'From',
   name: 'budgetStart',
-  hint: 'The beginning date of the budget period',
   attributes: {
     required: true
   }
@@ -122,7 +137,6 @@ const budgetEndField = {
   type: 'date',
   label: 'Until',
   name: 'budgetEnd',
-  hint: 'The end date of the budget period',
   attributes: {
     required: true
   }
@@ -150,6 +164,7 @@ function getFormFields(syntheticType) {
         categoryField,
         dateField,
         timeField,
+        budgetSpanField,
         budgetStartField,
         budgetEndField,
         memoField,
@@ -240,6 +255,14 @@ export default function form(state = initialState, action) {
           ? getFormFields(action.data.value)
           : state.fields;
 
+      if (action.data.name == 'budgetSpan') {
+        newValues.budgetEnd = format(
+          DateTime.fromJSDate(new Date(`${state.values.budgetStart} 00:00`))
+            .plus({ weeks: action.data.value - 1 })
+            .toJSDate(),
+          DATE_FIELD_FORMAT
+        );
+      }
       return {
         ...state,
         values: newValues,

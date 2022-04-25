@@ -32,7 +32,8 @@ function Form() {
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
   const datalists = useSelector((state) => ({
-    'merchants-list': state.meta.merchants
+    'merchants-list': state.meta.merchants,
+    'budget-span': ['1', '4', '12', '26']
   }));
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
