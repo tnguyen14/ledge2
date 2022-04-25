@@ -23,6 +23,7 @@ import {
   removeCategory,
   cancelRemoveCategory
 } from '../../actions/app.js';
+import { saveUserSettings } from '../../actions/meta.js';
 import Field from '../Form/Field.js';
 
 function UserSettings() {
@@ -30,6 +31,7 @@ function UserSettings() {
   const [newCategory, setNewCategory] = useState('');
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
+  const saving = useSelector((state) => state.app.savingUserSettings);
   const { accounts, expenseCategories } = useSelector((state) => state.meta);
 
   return (
@@ -53,6 +55,7 @@ function UserSettings() {
               <span>{account.value}</span>
               {!account.builtIn && account.toBeRemoved ? (
                 <Button
+                  title="Put back"
                   onClick={() => {
                     dispatch(cancelRemoveAccount(account.value));
                   }}
@@ -62,6 +65,7 @@ function UserSettings() {
               ) : null}
               {!account.builtIn && !account.toBeRemoved ? (
                 <Button
+                  title="Remove"
                   onClick={() => {
                     dispatch(removeAccount(account.value));
                   }}
@@ -74,6 +78,7 @@ function UserSettings() {
 
           <Field
             type="text"
+            placeholder="Add a new account"
             value={newAccount}
             handleChange={(e) => setNewAccount(e.target.value)}
           />
@@ -97,6 +102,7 @@ function UserSettings() {
               <span>{cat.value}</span>
               {cat.toBeRemoved ? (
                 <Button
+                  title="Put back"
                   onClick={() => {
                     dispatch(cancelRemoveCategory(cat.value));
                   }}
@@ -105,6 +111,7 @@ function UserSettings() {
                 </Button>
               ) : (
                 <Button
+                  title="Remove"
                   onClick={() => {
                     dispatch(removeCategory(cat.value));
                   }}
@@ -116,6 +123,7 @@ function UserSettings() {
           ))}
           <Field
             type="text"
+            placeholder="Add a new expense category"
             value={newCategory}
             handleChange={(e) => setNewCategory(e.target.value)}
           />
@@ -136,7 +144,11 @@ function UserSettings() {
         >
           Cancel
         </Button>
-        <Button variant="primary" onClick={() => dispatch()}>
+        <Button
+          variant="primary"
+          onClick={() => dispatch(saveUserSettings())}
+          disabled={saving}
+        >
           Save
         </Button>
       </DialogActions>

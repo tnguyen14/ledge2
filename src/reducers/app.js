@@ -17,6 +17,11 @@ import {
   REMOVING_TRANSACTION,
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
+import {
+  SAVE_USER_SETTINGS,
+  SAVE_USER_SETTINGS_SUCCESS,
+  SAVE_USER_SETTINGS_FAILURE
+} from '../actions/meta.js';
 import { SET_SEARCH } from '../actions/form.js';
 
 const defaultState = {
@@ -114,6 +119,22 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         isUserSettingsOpen: action.data
+      };
+    case SAVE_USER_SETTINGS:
+      return {
+        ...state,
+        savingUserSettings: true
+      };
+    case SAVE_USER_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        savingUserSettings: false
+      };
+    case SAVE_USER_SETTINGS_FAILURE:
+      return {
+        ...state,
+        savingUserSettings: false,
+        userSettingsError: action.data
       };
     case SET_APP_ERROR:
       return {

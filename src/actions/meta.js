@@ -69,3 +69,47 @@ export function recalculateYearStats(year) {
     });
   };
 }
+
+export const SAVE_USER_SETTINGS = 'SAVE_USER_SETTINGS';
+export const SAVE_USER_SETTINGS_SUCCESS = 'SAVE_USER_SETTINGS_SUCCESS';
+export const SAVE_USER_SETTINGS_FAILURE = 'SAVE_USER_SETTINGS_FAILURE';
+export function saveUserSettings() {
+  return async function saveUserSettingsAsync(dispatch, getState) {
+    const {
+      meta: { accounts, expenseCategories }
+    } = getState();
+    const newAccounts = accounts
+      .filter((acct) => !acct.toBeRemoved && !acct.builtIn)
+      .map((acct) => ({
+        slug: acct.slug,
+        value: acct.value
+      }));
+    const newExpenseCategories = expenseCategories
+      .filter((cat) => !cat.toBeRemoved)
+      .map((cat) => ({
+        slug: cat.slug,
+        value: cat.value
+      }));
+    dispatch({
+      type: SAVE_USER_SETTINGS
+    });
+    try {
+      await patchMeta({
+        accounts: newAccounts,
+        expenseCategories: newExpenseCategories
+      });
+      dispatch({
+        type: SAVE_USER_SETTINGS_SUCCESS,
+        data: {
+          accounts: newAccounts,
+          expenseCategories: newExpenseCategories
+        }
+      });
+    } catch (e) {
+      dispatch({
+        type: SAVE_USER_SETTINGS_FAILURE,
+        data: e
+      });
+    }
+  };
+}

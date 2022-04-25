@@ -2,7 +2,8 @@ import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import {
   LOAD_META_SUCCESS,
   UPDATE_YEAR_STATS,
-  UPDATE_YEAR_STATS_SUCCESS
+  UPDATE_YEAR_STATS_SUCCESS,
+  SAVE_USER_SETTINGS_SUCCESS
 } from '../actions/meta.js';
 import {
   ADD_ACCOUNT,
@@ -62,6 +63,15 @@ export default function meta(state = initialState, action) {
         ...state,
         ...action.data,
         merchants: merchantsNames,
+        accounts: [
+          ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
+          ...(action.data.accounts || [])
+        ]
+      };
+    case SAVE_USER_SETTINGS_SUCCESS:
+      return {
+        ...state,
+        ...action.data,
         accounts: [
           ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
           ...(action.data.accounts || [])
