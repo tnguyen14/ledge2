@@ -1,3 +1,4 @@
+import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import {
   LOAD_TRANSACTIONS_SUCCESS,
   ADD_TRANSACTION_SUCCESS,
@@ -5,37 +6,25 @@ import {
   REMOVE_TRANSACTION_SUCCESS
 } from '../actions/transactions.js';
 
-export default function transactions(state = {}, action) {
-  let newState;
-  switch (action.type) {
-    case LOAD_TRANSACTIONS_SUCCESS:
+export default createReducer({}, (builder) => {
+  builder
+    .addCase(LOAD_TRANSACTIONS_SUCCESS, (state, action) => {
       if (!action.payload.transactions) {
-        return state;
+        return;
       }
-      return action.payload.transactions.reduce(
-        function addTransation(currentState, transaction) {
-          if (!currentState[transaction.id]) {
-            currentState[transaction.id] = transaction;
-          }
-          return currentState;
-        },
-        { ...state }
-      );
-    case ADD_TRANSACTION_SUCCESS:
-      return {
-        ...state,
-        [action.payload.id]: action.payload
-      };
-    case REMOVE_TRANSACTION_SUCCESS:
-      newState = { ...state };
-      delete newState[action.payload];
-      return newState;
-    case UPDATE_TRANSACTION_SUCCESS:
-      return {
-        ...state,
-        [action.payload.id]: action.payload
-      };
-    default:
-      return state;
-  }
-}
+      action.payload.transactions.forEach((transaction) => {
+        if (!state[transaction.id]) {
+          state[transaction.id] = transaction;
+        }
+      });
+    })
+    .addCase(ADD_TRANSACTION_SUCCESS, (state, action) => {
+      state[action.payload.id] = action.payload;
+    })
+    .addCase(REMOVE_TRANSACTION_SUCCESS, (state, action) => {
+      delete state[action.payload];
+    })
+    .addCase(UPDATE_TRANSACTION_SUCCESS, (state, action) => {
+      state[action.payload.id] = action.payload;
+    });
+});
