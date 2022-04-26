@@ -247,24 +247,24 @@ export default function form(state = initialState, action) {
     case INPUT_CHANGE:
       newValues = {
         ...state.values,
-        [action.data.name]: action.data.value
+        [action.payload.name]: action.payload.value
       };
       newFields =
-        action.data.name == 'syntheticType'
-          ? getFormFields(action.data.value)
+        action.payload.name == 'syntheticType'
+          ? getFormFields(action.payload.value)
           : state.fields;
 
-      if (action.data.name == 'budgetSpan') {
+      if (action.payload.name == 'budgetSpan') {
         newValues.budgetEnd = format(
           DateTime.fromJSDate(new Date(`${state.values.budgetStart} 00:00`))
-            .plus({ weeks: action.data.value - 1 })
+            .plus({ weeks: action.payload.value - 1 })
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
       }
       if (
-        action.data.name == 'budgetStart' ||
-        action.data.name == 'budgetEnd'
+        action.payload.name == 'budgetStart' ||
+        action.payload.name == 'budgetEnd'
       ) {
         newValues.budgetSpan =
           getWeeksDifference({
@@ -279,15 +279,18 @@ export default function form(state = initialState, action) {
       };
     case EDIT_TRANSACTION:
       newValues = {
-        ...action.data,
-        amount: fromCents(action.data.amount),
-        date: format(new Date(action.data.date), DATE_FIELD_FORMAT),
-        time: format(new Date(action.data.date), TIME_FIELD_FORMAT),
+        ...action.payload,
+        amount: fromCents(action.payload.amount),
+        date: format(new Date(action.payload.date), DATE_FIELD_FORMAT),
+        time: format(new Date(action.payload.date), TIME_FIELD_FORMAT),
         budgetStart: format(
-          new Date(action.data.budgetStart),
+          new Date(action.payload.budgetStart),
           DATE_FIELD_FORMAT
         ),
-        budgetEnd: format(new Date(action.data.budgetEnd), DATE_FIELD_FORMAT),
+        budgetEnd: format(
+          new Date(action.payload.budgetEnd),
+          DATE_FIELD_FORMAT
+        ),
         calculate: ''
       };
       return {
@@ -299,9 +302,9 @@ export default function form(state = initialState, action) {
     case SET_SEARCH_MODE:
       return {
         ...state,
-        action: action.data ? 'search' : 'add',
+        action: action.payload ? 'search' : 'add',
         // reset values, except for type
-        values: createInitialValues(action.data == 'search')
+        values: createInitialValues(action.payload == 'search')
       };
     default:
       return state;

@@ -9,10 +9,10 @@ export default function transactions(state = {}, action) {
   let newState;
   switch (action.type) {
     case LOAD_TRANSACTIONS_SUCCESS:
-      if (!action.data.transactions) {
+      if (!action.payload.transactions) {
         return state;
       }
-      return action.data.transactions.reduce(
+      return action.payload.transactions.reduce(
         function addTransation(currentState, transaction) {
           if (!currentState[transaction.id]) {
             currentState[transaction.id] = transaction;
@@ -24,16 +24,16 @@ export default function transactions(state = {}, action) {
     case ADD_TRANSACTION_SUCCESS:
       return {
         ...state,
-        [action.data.id]: action.data
+        [action.payload.id]: action.payload
       };
     case REMOVE_TRANSACTION_SUCCESS:
       newState = { ...state };
-      delete newState[action.data];
+      delete newState[action.payload];
       return newState;
     case UPDATE_TRANSACTION_SUCCESS:
       return {
         ...state,
-        [action.data.id]: action.data
+        [action.payload.id]: action.payload
       };
     default:
       return state;

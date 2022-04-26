@@ -54,9 +54,9 @@ export default function app(state = defaultState, action) {
         loadedTransactions: true,
         notification: {
           title: 'App',
-          content: `Finished loading transactions from ${action.data.start.toLocaleString(
+          content: `Finished loading transactions from ${action.payload.start.toLocaleString(
             DateTime.DATETIME_FULL
-          )} to ${action.data.end.toLocaleString(DateTime.DATETIME_FULL)}`,
+          )} to ${action.payload.end.toLocaleString(DateTime.DATETIME_FULL)}`,
           autohide: 3000
         }
       };
@@ -69,38 +69,38 @@ export default function app(state = defaultState, action) {
     case SET_TOKEN:
       return {
         ...state,
-        token: action.data
+        token: action.payload
       };
     case SET_LISTNAME:
       return {
         ...state,
-        listName: action.data
+        listName: action.payload
       };
     case SET_DISPLAY_FROM:
       return {
         ...state,
-        displayFrom: action.data
+        displayFrom: action.payload
       };
     case SHOW_CASHFLOW:
       return {
         ...state,
-        showCashflow: action.data
+        showCashflow: action.payload
       };
     case SET_SEARCH_MODE:
       return {
         ...state,
-        search: action.data ? {} : undefined
+        search: action.payload ? {} : undefined
       };
     case SET_SEARCH:
       return {
         ...state,
-        search: action.data
+        search: action.payload
       };
     case INTEND_TO_REMOVE_TRANSACTION:
       return {
         ...state,
         transactionRemovalIntended: true,
-        transactionToBeRemoved: action.data
+        transactionToBeRemoved: action.payload
       };
     case REMOVING_TRANSACTION:
       return {
@@ -118,7 +118,7 @@ export default function app(state = defaultState, action) {
     case SET_USER_SETTINGS_OPEN:
       return {
         ...state,
-        isUserSettingsOpen: action.data
+        isUserSettingsOpen: action.payload
       };
     case SAVE_USER_SETTINGS:
       return {
@@ -134,12 +134,12 @@ export default function app(state = defaultState, action) {
       return {
         ...state,
         savingUserSettings: false,
-        userSettingsError: action.data
+        userSettingsError: action.payload
       };
     case SET_APP_ERROR:
       return {
         ...state,
-        error: action.data
+        error: action.payload
       };
     default:
       return state;

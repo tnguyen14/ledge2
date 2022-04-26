@@ -10,7 +10,7 @@ export function loadMeta() {
       const meta = await getMeta();
       dispatch({
         type: LOAD_META_SUCCESS,
-        data: meta
+        payload: meta
       });
     } catch (e) {
       console.error(e);
@@ -28,7 +28,7 @@ export function updateMerchantCounts(merchants_count) {
     });
     dispatch({
       type: UPDATE_MERCHANT_COUNTS_SUCCESS,
-      data: merchants_count
+      payload: merchants_count
     });
   };
 }
@@ -40,7 +40,7 @@ export function recalculateYearStats(year) {
     const { meta } = getState();
     dispatch({
       type: UPDATE_YEAR_STATS,
-      data: {
+      payload: {
         year
       }
     });
@@ -62,7 +62,7 @@ export function recalculateYearStats(year) {
     });
     dispatch({
       type: UPDATE_YEAR_STATS_SUCCESS,
-      data: {
+      payload: {
         year,
         stat: stats[year]
       }
@@ -100,7 +100,7 @@ export function saveUserSettings() {
       });
       dispatch({
         type: SAVE_USER_SETTINGS_SUCCESS,
-        data: {
+        payload: {
           accounts: newAccounts,
           expenseCategories: newExpenseCategories
         }
@@ -108,7 +108,7 @@ export function saveUserSettings() {
     } catch (e) {
       dispatch({
         type: SAVE_USER_SETTINGS_FAILURE,
-        data: e
+        payload: e
       });
     }
   };

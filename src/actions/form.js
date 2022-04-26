@@ -9,7 +9,7 @@ export const INPUT_CHANGE = 'INPUT_CHANGE';
 export function inputChange(name, value) {
   return {
     type: INPUT_CHANGE,
-    data: {
+    payload: {
       name,
       value
     }
@@ -27,6 +27,6 @@ export const SET_SEARCH = 'SET_SEARCH';
 export function setSearch(searchData) {
   return {
     type: SET_SEARCH,
-    data: searchData
+    payload: searchData
   };
 }

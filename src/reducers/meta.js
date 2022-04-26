@@ -40,15 +40,15 @@ export default function meta(state = initialState, action) {
   let merchants, merchantsNames;
   switch (action.type) {
     case LOAD_META_SUCCESS:
-      merchants = Object.keys(action.data.merchants_count)
+      merchants = Object.keys(action.payload.merchants_count)
         .filter((merchant) => {
-          return action.data.merchants_count[merchant] != null;
+          return action.payload.merchants_count[merchant] != null;
         })
         .map((merchant) => {
           return {
             // pass along slug
             slug: merchant,
-            ...action.data.merchants_count[merchant]
+            ...action.payload.merchants_count[merchant]
           };
         })
         .sort((a, b) => {
@@ -61,20 +61,20 @@ export default function meta(state = initialState, action) {
       }, []);
       return {
         ...state,
-        ...action.data,
+        ...action.payload,
         merchants: merchantsNames,
         accounts: [
           ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
-          ...(action.data.accounts || [])
+          ...(action.payload.accounts || [])
         ]
       };
     case SAVE_USER_SETTINGS_SUCCESS:
       return {
         ...state,
-        ...action.data,
+        ...action.payload,
         accounts: [
           ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
-          ...(action.data.accounts || [])
+          ...(action.payload.accounts || [])
         ]
       };
     case UPDATE_YEAR_STATS:
@@ -82,7 +82,7 @@ export default function meta(state = initialState, action) {
         ...state,
         stats: {
           ...state.stats,
-          [action.data.year]: {
+          [action.payload.year]: {
             updating: true
           }
         }
@@ -92,7 +92,7 @@ export default function meta(state = initialState, action) {
         ...state,
         stats: {
           ...state.stats,
-          [action.data.year]: action.data.stat
+          [action.payload.year]: action.payload.stat
         }
       };
     case ADD_ACCOUNT:
@@ -101,8 +101,8 @@ export default function meta(state = initialState, action) {
         accounts: [
           ...state.accounts,
           {
-            value: action.data,
-            slug: slugify(action.data),
+            value: action.payload,
+            slug: slugify(action.payload),
             toBeAdded: true
           }
         ]
@@ -112,13 +112,13 @@ export default function meta(state = initialState, action) {
         ...state,
         accounts: state.accounts
           .filter((acct) => {
-            if (acct.value === action.data && acct.toBeAdded) {
+            if (acct.value === action.payload && acct.toBeAdded) {
               return false;
             }
             return true;
           })
           .map((acct) => {
-            if (acct.value === action.data) {
+            if (acct.value === action.payload) {
               return {
                 ...acct,
                 toBeRemoved: true
@@ -131,7 +131,7 @@ export default function meta(state = initialState, action) {
       return {
         ...state,
         accounts: state.accounts.map((acct) => {
-          if (acct.value === action.data) {
+          if (acct.value === action.payload) {
             return {
               ...acct,
               toBeRemoved: false
@@ -146,8 +146,8 @@ export default function meta(state = initialState, action) {
         expenseCategories: [
           ...state.expenseCategories,
           {
-            value: action.data,
-            slug: slugify(action.data),
+            value: action.payload,
+            slug: slugify(action.payload),
             toBeAdded: true
           }
         ]
@@ -157,13 +157,13 @@ export default function meta(state = initialState, action) {
         ...state,
         expenseCategories: state.expenseCategories
           .filter((cat) => {
-            if (cat.value === action.data && cat.toBeAdded) {
+            if (cat.value === action.payload && cat.toBeAdded) {
               return false;
             }
             return true;
           })
           .map((cat) => {
-            if (cat.value === action.data) {
+            if (cat.value === action.payload) {
               return {
                 ...cat,
                 toBeRemoved: true
@@ -176,7 +176,7 @@ export default function meta(state = initialState, action) {
       return {
         ...state,
         expenseCategories: state.expenseCategories.map((cat) => {
-          if (cat.value === action.data) {
+          if (cat.value === action.payload) {
             return {
               ...cat,
               toBeRemoved: false

@@ -24,7 +24,7 @@ export function loadTransactions(startDate, endDate) {
     });
     dispatch({
       type: LOAD_TRANSACTIONS_SUCCESS,
-      data: {
+      payload: {
         start: startDate,
         end: endDate,
         transactions: await getTransactions(startDate, endDate)
@@ -55,7 +55,7 @@ export function addTransaction(transaction) {
       });
       dispatch({
         type: ADD_TRANSACTION_SUCCESS,
-        data: {
+        payload: {
           ...decoratedTransaction,
           id
         }
@@ -90,7 +90,7 @@ export function updateTransaction(transaction, oldMerchant) {
       });
       dispatch({
         type: UPDATE_TRANSACTION_SUCCESS,
-        data: {
+        payload: {
           ...decoratedTransaction,
           id
         }
@@ -132,7 +132,7 @@ export function removeTransaction(transaction) {
     await deleteTransaction(transaction.id);
     dispatch({
       type: REMOVE_TRANSACTION_SUCCESS,
-      data: transaction.id
+      payload: transaction.id
     });
     const transactionsWithMerchantName = await getTransactionsWithMerchantName(
       transaction.merchant
