@@ -1,3 +1,4 @@
+import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import {
   SET_DISPLAY_FROM,
@@ -24,7 +25,7 @@ import {
 } from '../actions/meta.js';
 import { SET_SEARCH } from '../actions/form.js';
 
-const defaultState = {
+const initialState = {
   appReady: false,
   isLoading: false,
   filter: '',
@@ -40,108 +41,74 @@ const defaultState = {
   error: null
 };
 
-export default function app(state = defaultState, action) {
-  switch (action.type) {
-    case LOAD_TRANSACTIONS:
-      return {
-        ...state,
-        isLoading: true
-      };
-    case LOAD_TRANSACTIONS_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        loadedTransactions: true,
-        notification: {
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(LOAD_TRANSACTIONS, (state) => {
+      state.isLoading = true;
+    })
+    .addCase(LOAD_TRANSACTIONS_SUCCESS, (state, action) => {
+      (state.isLoading = false),
+        (state.loadedTransactions = true),
+        (state.notification = {
           title: 'App',
           content: `Finished loading transactions from ${action.payload.start.toLocaleString(
             DateTime.DATETIME_FULL
           )} to ${action.payload.end.toLocaleString(DateTime.DATETIME_FULL)}`,
           autohide: 3000
-        }
-      };
-    case REFRESH_APP:
-      return {
-        ...state,
-        appReady: true,
-        lastRefreshed: new Date().valueOf()
-      };
-    case SET_TOKEN:
-      return {
-        ...state,
-        token: action.payload
-      };
-    case SET_LISTNAME:
-      return {
-        ...state,
-        listName: action.payload
-      };
-    case SET_DISPLAY_FROM:
-      return {
-        ...state,
-        displayFrom: action.payload
-      };
-    case SHOW_CASHFLOW:
-      return {
-        ...state,
-        showCashflow: action.payload
-      };
-    case SET_SEARCH_MODE:
-      return {
-        ...state,
-        search: action.payload ? {} : undefined
-      };
-    case SET_SEARCH:
-      return {
-        ...state,
-        search: action.payload
-      };
-    case INTEND_TO_REMOVE_TRANSACTION:
-      return {
-        ...state,
-        transactionRemovalIntended: true,
-        transactionToBeRemoved: action.payload
-      };
-    case REMOVING_TRANSACTION:
-      return {
-        ...state,
-        waitingTransactionRemoval: true
-      };
-    case REMOVE_TRANSACTION_SUCCESS:
-    case CANCEL_REMOVE_TRANSACTION:
-      return {
-        ...state,
-        transactionRemovalIntended: false,
-        waitingTransactionRemoval: false,
-        transactionToBeRemoved: undefined
-      };
-    case SET_USER_SETTINGS_OPEN:
-      return {
-        ...state,
-        isUserSettingsOpen: action.payload
-      };
-    case SAVE_USER_SETTINGS:
-      return {
-        ...state,
-        savingUserSettings: true
-      };
-    case SAVE_USER_SETTINGS_SUCCESS:
-      return {
-        ...state,
-        savingUserSettings: false
-      };
-    case SAVE_USER_SETTINGS_FAILURE:
-      return {
-        ...state,
-        savingUserSettings: false,
-        userSettingsError: action.payload
-      };
-    case SET_APP_ERROR:
-      return {
-        ...state,
-        error: action.payload
-      };
-    default:
-      return state;
-  }
-}
+        });
+    })
+    .addCase(REFRESH_APP, (state) => {
+      (state.appReady = true), (state.lastRefreshed = new Date().valueOf());
+    })
+    .addCase(SET_TOKEN, (state, action) => {
+      state.token = action.payload;
+    })
+    .addCase(SET_LISTNAME, (state, action) => {
+      state.listName = action.payload;
+    })
+    .addCase(SET_DISPLAY_FROM, (state, action) => {
+      state.displayFrom = action.payload;
+    })
+    .addCase(SHOW_CASHFLOW, (state, action) => {
+      state.showCashflow = action.payload;
+    })
+    .addCase(SET_SEARCH_MODE, (state, action) => {
+      state.search = action.payload ? {} : undefined;
+    })
+    .addCase(SET_SEARCH, (state, action) => {
+      state.search = action.payload;
+    })
+    .addCase(INTEND_TO_REMOVE_TRANSACTION, (state, action) => {
+      (state.transactionRemovalIntended = true),
+        (state.transactionToBeRemoved = action.payload);
+    })
+    .addCase(REMOVING_TRANSACTION, (state) => {
+      state.waitingTransactionRemoval = true;
+    })
+    .addCase(REMOVE_TRANSACTION_SUCCESS, (state) => {
+      state.transactionRemovalIntended = false;
+      state.waitingTransactionRemoval = false;
+      state.transactionToBeRemoved = undefined;
+    })
+    .addCase(CANCEL_REMOVE_TRANSACTION, (state) => {
+      state.transactionRemovalIntended = false;
+      state.waitingTransactionRemoval = false;
+      state.transactionToBeRemoved = undefined;
+    })
+    .addCase(SET_USER_SETTINGS_OPEN, (state, action) => {
+      state.isUserSettingsOpen = action.payload;
+    })
+    .addCase(SAVE_USER_SETTINGS, (state) => {
+      state.savingUserSettings = true;
+    })
+    .addCase(SAVE_USER_SETTINGS_SUCCESS, (state) => {
+      state.savingUserSettings = false;
+    })
+    .addCase(SAVE_USER_SETTINGS_FAILURE, (state, action) => {
+      state.savingUserSettings = false;
+      state.userSettingsError = action.payload;
+    })
+    .addCase(SET_APP_ERROR, (state, action) => {
+      state.error = action.payload;
+    });
+});
