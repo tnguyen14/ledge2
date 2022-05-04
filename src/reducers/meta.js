@@ -1,3 +1,4 @@
+import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import {
   LOAD_META_SUCCESS,
@@ -33,14 +34,14 @@ const initialState = {
   merchants: [],
   expenseCategories: [],
   merchants_count: {},
-  accounts: builtinAccounts
+  accounts: builtinAccounts,
+  stats: {}
 };
 
-export default function meta(state = initialState, action) {
-  let merchants, merchantsNames;
-  switch (action.type) {
-    case LOAD_META_SUCCESS:
-      merchants = Object.keys(action.payload.merchants_count)
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(LOAD_META_SUCCESS, (state, action) => {
+      const merchants = Object.keys(action.payload.merchants_count)
         .filter((merchant) => {
           return action.payload.merchants_count[merchant] != null;
         })
@@ -56,136 +57,100 @@ export default function meta(state = initialState, action) {
           return b.count - a.count;
         });
       // create an array of all merchant names
-      merchantsNames = merchants.reduce((merchants, merchant) => {
+      state.merchants = merchants.reduce((merchants, merchant) => {
         return merchants.concat(merchant.values);
       }, []);
-      return {
-        ...state,
-        ...action.payload,
-        merchants: merchantsNames,
-        accounts: [
-          ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
-          ...(action.payload.accounts || [])
-        ]
-      };
-    case SAVE_USER_SETTINGS_SUCCESS:
-      return {
-        ...state,
-        ...action.payload,
-        accounts: [
-          ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
-          ...(action.payload.accounts || [])
-        ]
-      };
-    case UPDATE_YEAR_STATS:
-      return {
-        ...state,
-        stats: {
-          ...state.stats,
-          [action.payload.year]: {
-            updating: true
+      state.expenseCategories = action.payload.expenseCategories;
+      state.merchants_count = action.payload.merchants_count;
+      state.accounts = [
+        ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
+        ...(action.payload.accounts || [])
+      ];
+      state.stats = action.payload.stats;
+    })
+    .addCase(SAVE_USER_SETTINGS_SUCCESS, (state, action) => {
+      state.expenseCategories = action.payload.expenseCategories;
+      state.accounts = [
+        ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
+        ...(action.payload.accounts || [])
+      ];
+    })
+    .addCase(UPDATE_YEAR_STATS, (state, action) => {
+      state.stats[action.payload.year].updating = true;
+    })
+    .addCase(UPDATE_YEAR_STATS_SUCCESS, (state, action) => {
+      state.stats[action.payload.year] = action.payload.stat;
+    })
+    .addCase(ADD_ACCOUNT, (state, action) => {
+      state.accounts.push({
+        value: action.payload,
+        slug: slugify(action.payload),
+        toBeAdded: true
+      });
+    })
+    .addCase(REMOVE_ACCOUNT, (state, action) => {
+      state.accounts = state.accounts
+        .filter((acct) => {
+          if (acct.value === action.payload && acct.toBeAdded) {
+            return false;
           }
-        }
-      };
-    case UPDATE_YEAR_STATS_SUCCESS:
-      return {
-        ...state,
-        stats: {
-          ...state.stats,
-          [action.payload.year]: action.payload.stat
-        }
-      };
-    case ADD_ACCOUNT:
-      return {
-        ...state,
-        accounts: [
-          ...state.accounts,
-          {
-            value: action.payload,
-            slug: slugify(action.payload),
-            toBeAdded: true
-          }
-        ]
-      };
-    case REMOVE_ACCOUNT:
-      return {
-        ...state,
-        accounts: state.accounts
-          .filter((acct) => {
-            if (acct.value === action.payload && acct.toBeAdded) {
-              return false;
-            }
-            return true;
-          })
-          .map((acct) => {
-            if (acct.value === action.payload) {
-              return {
-                ...acct,
-                toBeRemoved: true
-              };
-            }
-            return acct;
-          })
-      };
-    case CANCEL_REMOVE_ACCOUNT:
-      return {
-        ...state,
-        accounts: state.accounts.map((acct) => {
+          return true;
+        })
+        .map((acct) => {
           if (acct.value === action.payload) {
             return {
               ...acct,
-              toBeRemoved: false
+              toBeRemoved: true
             };
           }
           return acct;
-        })
-      };
-    case ADD_CATEGORY:
-      return {
-        ...state,
-        expenseCategories: [
-          ...state.expenseCategories,
-          {
-            value: action.payload,
-            slug: slugify(action.payload),
-            toBeAdded: true
+        });
+    })
+    .addCase(CANCEL_REMOVE_ACCOUNT, (state, action) => {
+      state.accounts = state.accounts.map((acct) => {
+        if (acct.value === action.payload) {
+          return {
+            ...acct,
+            toBeRemoved: false
+          };
+        }
+        return acct;
+      });
+    })
+    .addCase(ADD_CATEGORY, (state, action) => {
+      state.expenseCategories.push({
+        value: action.payload,
+        slug: slugify(action.payload),
+        toBeAdded: true
+      });
+    })
+    .addCase(REMOVE_CATEGORY, (state, action) => {
+      state.expenseCategories = state.expenseCategories
+        .filter((cat) => {
+          if (cat.value === action.payload && cat.toBeAdded) {
+            return false;
           }
-        ]
-      };
-    case REMOVE_CATEGORY:
-      return {
-        ...state,
-        expenseCategories: state.expenseCategories
-          .filter((cat) => {
-            if (cat.value === action.payload && cat.toBeAdded) {
-              return false;
-            }
-            return true;
-          })
-          .map((cat) => {
-            if (cat.value === action.payload) {
-              return {
-                ...cat,
-                toBeRemoved: true
-              };
-            }
-            return cat;
-          })
-      };
-    case CANCEL_REMOVE_CATEGORY:
-      return {
-        ...state,
-        expenseCategories: state.expenseCategories.map((cat) => {
+          return true;
+        })
+        .map((cat) => {
           if (cat.value === action.payload) {
             return {
               ...cat,
-              toBeRemoved: false
+              toBeRemoved: true
             };
           }
           return cat;
-        })
-      };
-    default:
-      return state;
-  }
-}
+        });
+    })
+    .addCase(CANCEL_REMOVE_CATEGORY, (state, action) => {
+      state.expenseCategories = state.expenseCategories.map((cat) => {
+        if (cat.value === action.payload) {
+          return {
+            ...cat,
+            toBeRemoved: false
+          };
+        }
+        return cat;
+      });
+    });
+});
