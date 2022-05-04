@@ -254,6 +254,30 @@ export default function form(state = initialState, action) {
           ? getFormFields(action.payload.value)
           : state.fields;
 
+      if (action.payload.name == 'date') {
+        newValues.budgetStart = action.payload.value;
+        newValues.budgetEnd = format(
+          DateTime.fromJSDate(new Date(`${newValues.budgetStart} 00:00`))
+            .plus({ weeks: state.values.budgetSpan - 1 })
+            .toJSDate(),
+          DATE_FIELD_FORMAT
+        );
+      }
+      if (action.payload.name == 'budgetStart') {
+        newValues.budgetEnd = format(
+          DateTime.fromJSDate(new Date(`${action.payload.value} 00:00`))
+            .plus({ weeks: state.values.budgetSpan - 1 })
+            .toJSDate(),
+          DATE_FIELD_FORMAT
+        );
+      }
+      if (action.payload.name == 'budgetEnd') {
+        newValues.budgetSpan =
+          getWeeksDifference({
+            dateStart: new Date(`${newValues.budgetEnd} 00:00`).toISOString(),
+            dateEnd: new Date(`${newValues.budgetStart} 00:00`).toISOString()
+          }) + 1;
+      }
       if (action.payload.name == 'budgetSpan') {
         newValues.budgetEnd = format(
           DateTime.fromJSDate(new Date(`${state.values.budgetStart} 00:00`))
@@ -261,16 +285,6 @@ export default function form(state = initialState, action) {
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
-      }
-      if (
-        action.payload.name == 'budgetStart' ||
-        action.payload.name == 'budgetEnd'
-      ) {
-        newValues.budgetSpan =
-          getWeeksDifference({
-            dateStart: new Date(`${newValues.budgetEnd} 00:00`).toISOString(),
-            dateEnd: new Date(`${newValues.budgetStart} 00:00`).toISOString()
-          }) + 1;
       }
       return {
         ...state,
