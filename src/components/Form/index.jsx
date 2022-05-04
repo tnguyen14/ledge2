@@ -106,7 +106,8 @@ function Form() {
         />
       </div>
       <>
-        {fields.map((field) => {
+        {fields.map((fieldConfig) => {
+          const field = { ...fieldConfig };
           if (field.attributes && field.attributes.list) {
             field.datalist = datalists[field.attributes.list];
           }

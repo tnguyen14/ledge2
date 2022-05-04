@@ -1,4 +1,5 @@
 import React from 'https://cdn.skypack.dev/react@17';
+import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
@@ -206,65 +207,24 @@ const initialState = {
   fields: getFormFields('expense')
 };
 
-export default function form(state = initialState, action) {
-  let newValues, newFields;
-  switch (action.type) {
-    case SUBMIT_TRANSACTION:
-      return {
-        ...state,
-        pending: true
-      };
-    case ADD_TRANSACTION_SUCCESS:
-    case UPDATE_TRANSACTION_SUCCESS:
-      // after successful save to the server, reset to initial values
-      newValues = {
-        syntheticType: state.values.syntheticType,
-        ...createInitialValues(state.action == 'search')
-      };
-      return {
-        ...state,
-        action: 'add',
-        pending: false,
-        values: newValues
-      };
-    case ADD_TRANSACTION_FAILURE:
-    case UPDATE_TRANSACTION_FAILURE:
-      return {
-        ...state,
-        pending: false
-      };
-    case RESET_FORM:
-      newValues = {
-        syntheticType: state.values.syntheticType,
-        ...createInitialValues(state.action == 'search')
-      };
-      return {
-        ...state,
-        action: 'add',
-        pending: false,
-        values: newValues
-      };
-    case INPUT_CHANGE:
-      newValues = {
-        ...state.values,
-        [action.payload.name]: action.payload.value
-      };
-      newFields =
-        action.payload.name == 'syntheticType'
-          ? getFormFields(action.payload.value)
-          : state.fields;
-
+export default createReducer(initialState, (builder) => {
+  builder
+    .addCase(SUBMIT_TRANSACTION, (state) => {
+      state.pending = true;
+    })
+    .addCase(INPUT_CHANGE, (state, action) => {
+      state.values[action.payload.name] = action.payload.value;
       if (action.payload.name == 'date') {
-        newValues.budgetStart = action.payload.value;
-        newValues.budgetEnd = format(
-          DateTime.fromJSDate(new Date(`${newValues.budgetStart} 00:00`))
+        state.values.budgetStart = action.payload.value;
+        state.values.budgetEnd = format(
+          DateTime.fromJSDate(new Date(`${state.values.budgetStart} 00:00`))
             .plus({ weeks: state.values.budgetSpan - 1 })
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
       }
       if (action.payload.name == 'budgetStart') {
-        newValues.budgetEnd = format(
+        state.values.budgetEnd = format(
           DateTime.fromJSDate(new Date(`${action.payload.value} 00:00`))
             .plus({ weeks: state.values.budgetSpan - 1 })
             .toJSDate(),
@@ -272,27 +232,29 @@ export default function form(state = initialState, action) {
         );
       }
       if (action.payload.name == 'budgetEnd') {
-        newValues.budgetSpan =
+        state.values.budgetSpan =
           getWeeksDifference({
-            dateStart: new Date(`${newValues.budgetEnd} 00:00`).toISOString(),
-            dateEnd: new Date(`${newValues.budgetStart} 00:00`).toISOString()
+            dateStart: new Date(
+              `${state.values.budgetEnd} 00:00`
+            ).toISOString(),
+            dateEnd: new Date(`${state.values.budgetStart} 00:00`).toISOString()
           }) + 1;
       }
       if (action.payload.name == 'budgetSpan') {
-        newValues.budgetEnd = format(
+        state.values.budgetEnd = format(
           DateTime.fromJSDate(new Date(`${state.values.budgetStart} 00:00`))
             .plus({ weeks: action.payload.value - 1 })
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
       }
-      return {
-        ...state,
-        values: newValues,
-        fields: newFields
-      };
-    case EDIT_TRANSACTION:
-      newValues = {
+      if (action.payload.name == 'syntheticType') {
+        state.fields = getFormFields(action.payload.value);
+      }
+    })
+    .addCase(EDIT_TRANSACTION, (state, action) => {
+      state.action = 'update';
+      state.values = {
         ...action.payload,
         amount: fromCents(action.payload.amount),
         date: format(new Date(action.payload.date), DATE_FIELD_FORMAT),
@@ -307,20 +269,35 @@ export default function form(state = initialState, action) {
         ),
         calculate: ''
       };
-      return {
-        ...state,
-        action: 'update',
-        fields: getFormFields(newValues.syntheticType),
-        values: newValues
-      };
-    case SET_SEARCH_MODE:
-      return {
-        ...state,
-        action: action.payload ? 'search' : 'add',
-        // reset values, except for type
-        values: createInitialValues(action.payload == 'search')
-      };
-    default:
-      return state;
-  }
-}
+      state.fields = getFormFields(state.values.syntheticType);
+    })
+    .addCase(SET_SEARCH_MODE, (state, action) => {
+      state.action = action.payload ? 'search' : 'add';
+      state.values = createInitialValues(action.payload == 'search');
+    })
+    .addMatcher(
+      (action) =>
+        [
+          RESET_FORM,
+          ADD_TRANSACTION_SUCCESS,
+          UPDATE_TRANSACTION_SUCCESS
+        ].includes(action.type),
+      (state) => {
+        state.pending = false;
+        state.values = {
+          syntheticType: state.values.syntheticType,
+          ...createInitialValues(state.action == 'search')
+        };
+        state.action = 'add';
+      }
+    )
+    .addMatcher(
+      (action) =>
+        [ADD_TRANSACTION_FAILURE, UPDATE_TRANSACTION_FAILURE].includes(
+          action.type
+        ),
+      (state) => {
+        state.pending = false;
+      }
+    );
+});
