@@ -165,9 +165,9 @@ function getFormFields(syntheticType) {
         categoryField,
         dateField,
         timeField,
-        budgetSpanField,
         budgetStartField,
         budgetEndField,
+        budgetSpanField,
         memoField,
         idField
       ];
