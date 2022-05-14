@@ -54,9 +54,9 @@ function CategoryBar(props) {
           horizontal: 'left'
         }}
       >
-        <div className="chart-bar-popover">
+        <div className="stat-popover">
           <h5>{week.label}</h5>
-          <div className="explanation">
+          <div className="categories-list">
             {week.categoryTotals &&
               categories
                 .map((cat) => {

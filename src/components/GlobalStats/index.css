@@ -49,3 +49,15 @@
 .carriedover-transactions {
   padding: 0.5rem 0.75rem;
 }
+
+.stat-popover {
+  padding: 1rem;
+}
+
+.categories-list {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+  column-gap: 2rem;
+  row-gap: 1rem;
+}

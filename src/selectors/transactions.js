@@ -76,7 +76,10 @@ export const getCurrentYearWeeklyAverage = createSelector(
       }).toISO()
     });
     return {
-      ...calculateWeeklyAverage({ transactions: years[now.year], numWeeks }),
+      value: calculateWeeklyAverage({
+        transactions: years[now.year],
+        numWeeks
+      }),
       numWeeks,
       year: now.year
     };

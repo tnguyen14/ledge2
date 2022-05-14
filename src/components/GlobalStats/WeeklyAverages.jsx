@@ -3,6 +3,8 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
+import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
+import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
@@ -14,6 +16,54 @@ import {
 import { recalculateYearStats } from '../../actions/meta.js';
 
 const YEARS = [2021, 2020, 2019, 2018];
+
+const { usePopupState, bindPopover, bindTrigger } = PopupState;
+function AverageWithCategories({
+  numWeeks,
+  startWeekEnd,
+  endWeekStart,
+  weeks
+}) {
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: `${endWeekStart}-average-popup`
+  });
+  return (
+    <tr className="stat">
+      <td>
+        <span {...bindTrigger(popupState)}>
+          Prev. {numWeeks} weeks (
+          {`${startWeekEnd.toFormat('LLL d')} - ${endWeekStart.toFormat(
+            'LLL d'
+          )}`}
+          )
+        </span>
+      </td>
+      <td>
+        {usd(
+          calculateWeeklyAverage({
+            numWeeks,
+            transactions: Array.prototype.concat(
+              ...weeks.map((week) => week.transactions)
+            )
+          })
+        )}
+      </td>
+      <Popover
+        {...bindPopover(popupState)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="stat-popover">
+          <h5>Prev. {numWeeks} weeks</h5>
+          <div className="categories-list"></div>
+        </div>
+      </Popover>
+    </tr>
+  );
+}
 
 function WeeklyAverages() {
   const dispatch = useDispatch();
@@ -54,31 +104,9 @@ function WeeklyAverages() {
     <div className="averages">
       <table className="table table-borderless">
         <tbody>
-          {timespans.map(
-            ({ numWeeks, startWeekEnd, endWeekStart, weeks }, index) => (
-              <tr className="stat" key={index}>
-                <td>
-                  <span>
-                    Prev. {numWeeks} weeks (
-                    {`${startWeekEnd.toFormat(
-                      'LLL d'
-                    )} - ${endWeekStart.toFormat('LLL d')}`}
-                    )
-                  </span>
-                </td>
-                <td>
-                  {usd(
-                    calculateWeeklyAverage({
-                      numWeeks,
-                      transactions: Array.prototype.concat(
-                        ...weeks.map((week) => week.transactions)
-                      )
-                    })
-                  )}
-                </td>
-              </tr>
-            )
-          )}
+          {timespans.map((span) => (
+            <AverageWithCategories key={span.endWeekStart} {...span} />
+          ))}
           <tr>
             <td>&nbsp;</td>
           </tr>

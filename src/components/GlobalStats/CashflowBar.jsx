@@ -54,7 +54,7 @@ function CashflowBar({ data, monthId }) {
           horizontal: 'left'
         }}
       >
-        <div className="chart-bar-popover">
+        <div className="stat-popover">
           <h4>{monthId}</h4>
           {['debit', 'credit'].map((flow) => (
             <div key={flow} className="flow-details">
