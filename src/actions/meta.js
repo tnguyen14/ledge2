@@ -1,3 +1,4 @@
+import produce from 'https://cdn.skypack.dev/immer@9';
 import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
 import { calculateWeeklyAverage } from '../selectors/transactions.js';
@@ -48,16 +49,18 @@ export function recalculateYearStats(year) {
       getYearEnd(year)
     );
     const weeklyAverage = calculateWeeklyAverage({
-      transactions: yearTransactions
+      transactions: yearTransactions,
+      numWeeks: 52
     });
-    const stats = meta.stats || {};
-    if (!stats[year]) {
-      stats[year] = {
-        weeklyAverage: weeklyAverage.value
-      };
-    } else {
-      stats[year].weeklyAverage = weeklyAverage.value;
-    }
+    const stats = produce(meta.stats, (draft) => {
+      if (!draft[year]) {
+        draft[year] = {
+          weeklyAverage
+        };
+      } else {
+        draft[year].weeklyAverage = weeklyAverage;
+      }
+    });
     await patchMeta({
       stats
     });

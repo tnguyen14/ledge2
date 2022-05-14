@@ -4,15 +4,20 @@ import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import WeekCategory from './WeekCategory.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import { getPastWeeksIds } from '../../selectors/week.js';
-import { getWeekById } from '../../selectors/transactions.js';
-import { sum, average, weeklyTotal } from '../../util/calculate.js';
+import {
+  getWeekById,
+  calculateSum,
+  calculateWeeklyAverage
+} from '../../selectors/transactions.js';
+import { sum } from '../../util/calculate.js';
 
 function WeekStats({ weekId, label }) {
+  const numWeeks = 4;
   const categories = useSelector((state) => state.meta.expenseCategories);
-  const past4Weeks = useSelector((state) =>
+  const pastWeeks = useSelector((state) =>
     getPastWeeksIds({
       weekId,
-      numWeeks: 4
+      numWeeks
     }).map((weekId) =>
       getWeekById({
         ...state,
@@ -21,9 +26,9 @@ function WeekStats({ weekId, label }) {
     )
   );
 
-  const thisWeek = past4Weeks[0];
+  const thisWeek = pastWeeks[0];
 
-  const rawTotal = weeklyTotal(thisWeek);
+  const rawTotal = calculateSum(thisWeek);
   const rawTotalId = `raw-total-${weekId}`;
 
   const transactions = thisWeek.transactions.filter(
@@ -46,9 +51,13 @@ function WeekStats({ weekId, label }) {
   const budgetTotal = sum(categoriesTotals.map((s) => s.amount));
   const budgetTotalId = `budget-total-${weekId}`;
 
-  const past4WeeksSum = sum(past4Weeks.map(weeklyTotal));
-  const past4WeeksAverage = average(past4Weeks.map(weeklyTotal));
-  const past4WeeksAverageId = `average-past-4-weeks-${weekId}`;
+  const pastWeeksAverage = calculateWeeklyAverage({
+    transactions: Array.prototype.concat(
+      ...pastWeeks.map((week) => week.transactions)
+    ),
+    numWeeks
+  });
+  const pastWeeksAverageId = `past-weeks-average-${weekId}`;
 
   return (
     <div className="stats week-stats">
@@ -61,16 +70,12 @@ function WeekStats({ weekId, label }) {
             </td>
             <td aria-labelledby={rawTotalId}>{usd(rawTotal)}</td>
           </tr>
-          <tr
-            key={past4WeeksAverageId}
-            className="stat"
-            data-cat="4-week-average"
-          >
-            <td id={past4WeeksAverageId} className="stat-label">
-              Raw 4-week Average
+          <tr key={pastWeeksAverageId} className="stat">
+            <td id={pastWeeksAverageId} className="stat-label">
+              Raw {numWeeks}-week Average
             </td>
-            <td aria-labelledby={past4WeeksAverageId} data-sum={past4WeeksSum}>
-              {usd(past4WeeksAverage)}
+            <td aria-labelledby={pastWeeksAverageId}>
+              {usd(pastWeeksAverage)}
             </td>
           </tr>
           <tr key={budgetTotalId} className="stat" data-cat={budgetTotalId}>

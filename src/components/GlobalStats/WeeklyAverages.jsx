@@ -5,10 +5,10 @@ import {
 } from 'https://cdn.skypack.dev/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 
-import { average, weeklyTotal } from '../../util/calculate.js';
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
 import {
   getWeekById,
+  calculateWeeklyAverage,
   getCurrentYearWeeklyAverage
 } from '../../selectors/transactions.js';
 import { recalculateYearStats } from '../../actions/meta.js';
@@ -25,24 +25,25 @@ function WeeklyAverages() {
   const timespans = [
     {
       start: -1,
-      end: -5
+      end: -4
     },
     {
       start: -1,
-      end: -13
+      end: -12
     },
     {
       start: -1,
-      end: -25
+      end: -24
     }
   ].map((span) => {
     const weeks = [];
-    for (let offset = span.start; offset > span.end; offset--) {
+    for (let offset = span.start; offset >= span.end; offset--) {
       const weekId = getWeekId({ date: new Date(), offset });
       weeks.push(getWeekById({ transactions, weekId }));
     }
     return {
       ...span,
+      numWeeks: span.start - span.end + 1,
       startWeekEnd: getWeekEnd({ date: new Date(), offset: span.start }),
       endWeekStart: getWeekStart({ date: new Date(), offset: span.end }),
       weeks
@@ -53,24 +54,35 @@ function WeeklyAverages() {
     <div className="averages">
       <table className="table table-borderless">
         <tbody>
-          {timespans.map((span, index) => (
-            <tr className="stat" key={index}>
-              <td>
-                <span>
-                  Prev. {span.start - span.end} weeks (
-                  {`${span.startWeekEnd.toFormat(
-                    'LLL d'
-                  )} - ${span.endWeekStart.toFormat('LLL d')}`}
-                  )
-                </span>
-              </td>
-              <td>{usd(average(span.weeks.map(weeklyTotal)))}</td>
-            </tr>
-          ))}
+          {timespans.map(
+            ({ numWeeks, startWeekEnd, endWeekStart, weeks }, index) => (
+              <tr className="stat" key={index}>
+                <td>
+                  <span>
+                    Prev. {numWeeks} weeks (
+                    {`${startWeekEnd.toFormat(
+                      'LLL d'
+                    )} - ${endWeekStart.toFormat('LLL d')}`}
+                    )
+                  </span>
+                </td>
+                <td>
+                  {usd(
+                    calculateWeeklyAverage({
+                      numWeeks,
+                      transactions: Array.prototype.concat(
+                        ...weeks.map((week) => week.transactions)
+                      )
+                    })
+                  )}
+                </td>
+              </tr>
+            )
+          )}
           <tr>
             <td>&nbsp;</td>
           </tr>
-          <tr className="stat" key={average.year}>
+          <tr className="stat" key={currentYearAverage.year}>
             <td>
               {currentYearAverage.year} ({currentYearAverage.numWeeks} weeks)
             </td>
