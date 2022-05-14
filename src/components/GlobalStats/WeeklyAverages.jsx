@@ -74,7 +74,7 @@ function WeeklyAverages() {
             <td>
               {currentYearAverage.year} ({currentYearAverage.numWeeks} weeks)
             </td>
-            <td>{usd(currentYearAverage.weeklyAverage)}</td>
+            <td>{usd(currentYearAverage.value)}</td>
           </tr>
           {YEARS.map((year) => (
             <tr className="stat" key={year}>

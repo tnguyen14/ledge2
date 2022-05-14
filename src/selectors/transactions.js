@@ -43,7 +43,7 @@ export const getSortedTransactions = createSelector(
   }
 );
 
-export const calculateWeeklyAverages = createSelector(
+export const calculateWeeklyAverage = createSelector(
   getSortedTransactions,
   (transactions) => {
     const expenses = transactions.filter((tx) => tx.syntheticType == 'expense');
@@ -53,8 +53,7 @@ export const calculateWeeklyAverages = createSelector(
     });
     return {
       numWeeks,
-      transactions: expenses,
-      weeklyAverage: sum(expenses.map((t) => t.amount)) / numWeeks
+      value: sum(expenses.map((t) => t.amount)) / numWeeks
     };
   }
 );
@@ -64,7 +63,7 @@ export const getCurrentYearWeeklyAverage = createSelector(
   (years) => {
     const now = DateTime.fromJSDate(new Date(), { zone: TIMEZONE });
     return {
-      ...calculateWeeklyAverages({ transactions: years[now.year] }),
+      ...calculateWeeklyAverage({ transactions: years[now.year] }),
       year: now.year
     };
   }

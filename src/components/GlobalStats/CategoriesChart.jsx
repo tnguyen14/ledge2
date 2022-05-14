@@ -58,7 +58,6 @@ function CategoriesChart() {
       }, {});
       return {
         ...week,
-        transactions,
         categoryTotals,
         label
       };

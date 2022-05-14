@@ -1,6 +1,6 @@
 import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
-import { calculateWeeklyAverages } from '../selectors/transactions.js';
+import { calculateWeeklyAverage } from '../selectors/transactions.js';
 
 export const LOAD_META_SUCCESS = 'LOAD_META_SUCCESS';
 
@@ -47,14 +47,16 @@ export function recalculateYearStats(year) {
       getYearStart(year),
       getYearEnd(year)
     );
-    const stat = calculateWeeklyAverages({ transactions: yearTransactions });
+    const weeklyAverage = calculateWeeklyAverage({
+      transactions: yearTransactions
+    });
     const stats = meta.stats || {};
     if (!stats[year]) {
       stats[year] = {
-        weeklyAverage: stat.weeklyAverage
+        weeklyAverage: weeklyAverage.value
       };
     } else {
-      stats[year].weeklyAverage = stat.weeklyAverage;
+      stats[year].weeklyAverage = weeklyAverage.value;
     }
     await patchMeta({
       stats
