@@ -87,7 +87,8 @@ export function decorateTransaction(params) {
     category,
     syntheticType,
     creditAccount,
-    debitAccount
+    debitAccount,
+    budgetSpan
   } = params;
   const date = new Date(`${params.date} ${params.time}`).toISOString();
   const budgetStart = params.budgetStart
@@ -107,6 +108,7 @@ export function decorateTransaction(params) {
     category,
     budgetStart,
     budgetEnd,
+    budgetSpan,
     syntheticType,
     debitAccount,
     creditAccount,

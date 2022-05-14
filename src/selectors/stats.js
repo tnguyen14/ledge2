@@ -17,7 +17,14 @@ export const getCategoriesTotals = createSelector(
           (t) => t.category == cat.slug
         );
         return {
-          amount: sum(categoryTransactions.map((t) => t.amount / t.budgetSpan)),
+          amount: sum(
+            categoryTransactions.map((t) => {
+              if (!t.budgetSpan) {
+                throw new Error(`budgetSpan is falsy ${t.budgetSpan}`);
+              }
+              return t.amount / t.budgetSpan;
+            })
+          ),
           label: cat.value,
           slug: cat.slug
         };

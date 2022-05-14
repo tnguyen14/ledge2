@@ -44,14 +44,13 @@ function CategoriesChart() {
       const transactions = week.transactions.filter(
         (tx) => tx.syntheticType == 'expense'
       );
-      const stats = getCategoriesTotals({
-        transactions,
-        categories
-      });
       // add a space after / to allow label to "break" to new line
       // on small screen
       const label = week.start.toFormat('LLL dd');
-      const categoryTotals = stats.reduce((totals, stat) => {
+      const categoryTotals = getCategoriesTotals({
+        transactions,
+        categories
+      }).reduce((totals, stat) => {
         totals[stat.slug] = {
           ...stat
         };
@@ -111,14 +110,20 @@ function CategoriesChart() {
         chartBody={
           <div className="weeks-columns">
             {weeks.map((week) => (
-              <CategoryBar categories={categories} week={week} />
+              <CategoryBar
+                key={week.weekId}
+                categories={categories}
+                week={week}
+              />
             ))}
           </div>
         }
         xLabels={
           <div className="weeks-labels">
             {weeks.map((week) => (
-              <div class="week-label">{week.label}</div>
+              <div key={week.weekId} className="week-label">
+                {week.label}
+              </div>
             ))}
           </div>
         }
