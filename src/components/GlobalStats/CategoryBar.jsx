@@ -7,10 +7,13 @@ import classnames from 'https://cdn.skypack.dev/classnames@2';
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function CategoryBar(props) {
-  const { categories, week } = props;
+  const {
+    categories,
+    week: { label, categoriesTotals }
+  } = props;
   const popupState = usePopupState({
     variant: 'popover',
-    popupId: `${week.label}-chart-popup`
+    popupId: `${label}-chart-popup`
   });
 
   // make bar-piece a child of data-cat to use styles
@@ -23,9 +26,9 @@ function CategoryBar(props) {
         })}
         {...bindTrigger(popupState)}
       >
-        {week.categoryTotals &&
+        {categoriesTotals &&
           categories.map((cat) => {
-            if (!week.categoryTotals[cat.slug]) {
+            if (!categoriesTotals[cat.slug]) {
               return null;
             }
             return (
@@ -34,7 +37,7 @@ function CategoryBar(props) {
                   className="bar-piece"
                   style={{
                     height: `calc(${
-                      week.categoryTotals[cat.slug].amount / 100
+                      categoriesTotals[cat.slug].amount / 100
                     } * var(--px-per-unit-height)
                   )`
                   }}
@@ -55,22 +58,22 @@ function CategoryBar(props) {
         }}
       >
         <div className="stat-popover">
-          <h5>{week.label}</h5>
+          <h5>{label}</h5>
           <div className="categories-list">
-            {week.categoryTotals &&
+            {categoriesTotals &&
               categories
-                .map((cat) => {
-                  if (!week.categoryTotals[cat.slug]) {
+                .map(({ slug }) => {
+                  if (!categoriesTotals[slug]) {
                     return null;
                   }
-                  const stat = week.categoryTotals[cat.slug];
+                  const { label, amount } = categoriesTotals[slug];
                   return (
                     <>
-                      <span data-cat={stat.slug}>
+                      <span data-cat={slug}>
                         <span className="legend">&nbsp;</span>
-                        {stat.label}
+                        {label}
                       </span>
-                      <span>{usd(stat.amount)}</span>
+                      <span>{usd(amount)}</span>
                     </>
                   );
                 })

@@ -90,19 +90,16 @@ function WeekStats({ weekId, label }) {
         <summary>Category breakdown</summary>
         <table className="table table-borderless categories-stats">
           <tbody>
-            {categoriesTotals.map((stat) => {
-              const { slug, label, amount } = stat;
-              return (
-                <WeekCategory
-                  key={slug}
-                  slug={slug}
-                  label={label}
-                  amount={amount}
-                  weekId={weekId}
-                  transactions={transactionsByCategory[slug]}
-                />
-              );
-            })}
+            {categoriesTotals.map(({ slug, label, amount }) => (
+              <WeekCategory
+                key={slug}
+                slug={slug}
+                label={label}
+                amount={amount}
+                weekId={weekId}
+                transactions={transactionsByCategory[slug]}
+              />
+            ))}
           </tbody>
         </table>
       </details>

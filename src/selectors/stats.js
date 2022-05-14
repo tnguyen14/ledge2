@@ -29,12 +29,8 @@ export const getCategoriesTotals = createSelector(
           slug: cat.slug
         };
       })
-      .filter((stat) => {
-        return stat.amount > 0;
-      })
-      .sort((a, b) => {
-        return b.amount - a.amount;
-      });
+      .filter((stat) => stat.amount > 0)
+      .sort((a, b) => b.amount - a.amount);
   }
 );
 

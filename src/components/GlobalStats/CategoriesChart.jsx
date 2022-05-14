@@ -47,7 +47,7 @@ function CategoriesChart() {
       // add a space after / to allow label to "break" to new line
       // on small screen
       const label = week.start.toFormat('LLL dd');
-      const categoryTotals = getCategoriesTotals({
+      const categoriesTotals = getCategoriesTotals({
         transactions,
         categories
       }).reduce((totals, stat) => {
@@ -58,7 +58,7 @@ function CategoriesChart() {
       }, {});
       return {
         ...week,
-        categoryTotals,
+        categoriesTotals,
         label
       };
     });

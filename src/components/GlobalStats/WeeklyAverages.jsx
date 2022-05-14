@@ -24,10 +24,28 @@ function AverageWithCategories({
   endWeekStart,
   weeks
 }) {
+  const transactions = Array.prototype.concat(
+    ...weeks.map((week) => week.transactions)
+  );
+  const categories = useSelector((state) =>
+    [...state.meta.expenseCategories].reverse()
+  );
   const popupState = usePopupState({
     variant: 'popover',
     popupId: `${endWeekStart}-average-popup`
   });
+
+  const categoriesTotals = categories
+    .map(({ slug, value: label }) => ({
+      slug,
+      label,
+      amount: calculateWeeklyAverage({
+        numWeeks,
+        transactions: transactions.filter((t) => t.category == slug)
+      })
+    }))
+    .filter((stat) => stat.amount > 0)
+    .sort((a, b) => b.amount - a.amount);
   return (
     <tr className="stat">
       <td>
@@ -43,9 +61,7 @@ function AverageWithCategories({
         {usd(
           calculateWeeklyAverage({
             numWeeks,
-            transactions: Array.prototype.concat(
-              ...weeks.map((week) => week.transactions)
-            )
+            transactions
           })
         )}
       </td>
@@ -58,7 +74,17 @@ function AverageWithCategories({
       >
         <div className="stat-popover">
           <h5>Prev. {numWeeks} weeks</h5>
-          <div className="categories-list"></div>
+          <div className="categories-list">
+            {categoriesTotals.map(({ slug, label, amount }) => (
+              <>
+                <span data-cat={slug}>
+                  <span className="legend">&nbsp;</span>
+                  {label}
+                </span>
+                <span>{usd(amount)}</span>
+              </>
+            ))}
+          </div>
         </div>
       </Popover>
     </tr>
