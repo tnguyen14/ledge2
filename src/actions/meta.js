@@ -18,8 +18,7 @@ export function loadMeta() {
   };
 }
 
-// TODO update merchant counts in meta reducer
-const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
+export const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
 
 export function updateMerchantCounts(merchants_count) {
   return async function updateMerchantCountsAsync(dispatch) {

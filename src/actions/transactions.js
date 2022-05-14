@@ -62,7 +62,7 @@ export function addTransaction(transaction) {
       });
       dispatch(
         updateMerchantCounts(
-          addMerchantToCounts(transaction.merchant, merchants_count)
+          addMerchantToCounts(merchants_count, transaction.merchant)
         )
       );
     } catch (e) {
@@ -100,12 +100,12 @@ export function updateTransaction(transaction, oldMerchant) {
           oldMerchant
         );
         const updatedMerchantsCount = addMerchantToCounts(
-          transaction.merchant,
           removeMerchantFromCounts(
-            oldMerchant,
             merchants_count,
+            oldMerchant,
             transactionsWithOldMerchantName.length
-          )
+          ),
+          transaction.merchant
         );
         dispatch(updateMerchantCounts(updatedMerchantsCount));
       }
@@ -138,8 +138,8 @@ export function removeTransaction(transaction) {
       transaction.merchant
     );
     const updatedMerchantsCount = removeMerchantFromCounts(
-      transaction.merchant,
       merchants_count,
+      transaction.merchant,
       transactionsWithMerchantName.length
     );
     dispatch(updateMerchantCounts(updatedMerchantsCount));

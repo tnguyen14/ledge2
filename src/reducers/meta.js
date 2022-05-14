@@ -1,10 +1,12 @@
 import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
+import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
 import {
   LOAD_META_SUCCESS,
   UPDATE_YEAR_STATS,
   UPDATE_YEAR_STATS_SUCCESS,
-  SAVE_USER_SETTINGS_SUCCESS
+  SAVE_USER_SETTINGS_SUCCESS,
+  UPDATE_MERCHANT_COUNTS_SUCCESS
 } from '../actions/meta.js';
 import {
   ADD_ACCOUNT,
@@ -38,28 +40,35 @@ const initialState = {
   stats: {}
 };
 
+const getMerchantNamesFromMerchantCounts = createSelector(
+  (state) => state,
+  (counts) =>
+    Object.keys(counts)
+      .filter((merchant) => {
+        // a merchant count might be set to null if
+        // it's being removed completely
+        return counts[merchant] != null;
+      })
+      .map((merchant) => {
+        return {
+          // pass along slug
+          slug: merchant,
+          ...counts[merchant]
+        };
+      })
+      .sort((a, b) => {
+        // sort by count
+        return b.count - a.count;
+      })
+      .reduce((merchants, merchant) => merchants.concat(merchant.values), [])
+);
+
 export default createReducer(initialState, (builder) => {
   builder
     .addCase(LOAD_META_SUCCESS, (state, action) => {
-      const merchants = Object.keys(action.payload.merchants_count)
-        .filter((merchant) => {
-          return action.payload.merchants_count[merchant] != null;
-        })
-        .map((merchant) => {
-          return {
-            // pass along slug
-            slug: merchant,
-            ...action.payload.merchants_count[merchant]
-          };
-        })
-        .sort((a, b) => {
-          // sort by count
-          return b.count - a.count;
-        });
-      // create an array of all merchant names
-      state.merchants = merchants.reduce((merchants, merchant) => {
-        return merchants.concat(merchant.values);
-      }, []);
+      state.merchants = getMerchantNamesFromMerchantCounts(
+        action.payload.merchants_count
+      );
       state.expenseCategories = action.payload.expenseCategories;
       state.merchants_count = action.payload.merchants_count;
       state.accounts = [
@@ -67,6 +76,10 @@ export default createReducer(initialState, (builder) => {
         ...(action.payload.accounts || [])
       ];
       state.stats = action.payload.stats;
+    })
+    .addCase(UPDATE_MERCHANT_COUNTS_SUCCESS, (state, action) => {
+      state.merchants_count = action.payload;
+      state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
     })
     .addCase(SAVE_USER_SETTINGS_SUCCESS, (state, action) => {
       state.expenseCategories = action.payload.expenseCategories;
