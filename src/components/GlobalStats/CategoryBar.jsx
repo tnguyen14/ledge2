@@ -59,7 +59,7 @@ function CategoryBar(props) {
       >
         <div className="stat-popover">
           <h5>{label}</h5>
-          <div className="categories-list">
+          <div className="explanation">
             {categoriesTotals &&
               categories
                 .map(({ slug }) => {

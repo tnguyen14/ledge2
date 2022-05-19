@@ -54,7 +54,7 @@
   padding: 1rem;
 }
 
-.categories-list {
+.explanation {
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
   justify-content: space-between;

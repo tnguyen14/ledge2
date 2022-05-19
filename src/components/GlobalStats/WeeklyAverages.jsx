@@ -74,7 +74,7 @@ function AverageWithCategories({
       >
         <div className="stat-popover">
           <h5>Prev. {numWeeks} weeks</h5>
-          <div className="categories-list">
+          <div className="explanation">
             {categoriesTotals.map(({ slug, label, amount }) => (
               <>
                 <span data-cat={slug}>
