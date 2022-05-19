@@ -1,5 +1,6 @@
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
 import groupBy from 'https://cdn.skypack.dev/lodash.groupby';
+import sortBy from 'https://cdn.skypack.dev/lodash.sortby';
 import { sum } from '../util/calculate.js';
 
 const getTransactions = (state) => state.transactions;
@@ -87,11 +88,17 @@ export const getMonthsCashflow = createSelector(
       };
       const transactions = transactionsByMonths[monthId] || [];
       const debitTransactions = groupBy(
-        transactions.filter((t) => t.debitAccount == selectedAccount),
+        sortBy(
+          transactions.filter((t) => t.debitAccount == selectedAccount),
+          ['creditAccount']
+        ),
         'creditAccount'
       );
       const creditTransactions = groupBy(
-        transactions.filter((t) => t.creditAccount == selectedAccount),
+        sortBy(
+          transactions.filter((t) => t.creditAccount == selectedAccount),
+          ['debitAccount']
+        ),
         'debitAccount'
       );
 
