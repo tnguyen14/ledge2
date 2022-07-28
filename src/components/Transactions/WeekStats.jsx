@@ -64,6 +64,12 @@ function WeekStats({ weekId, label }) {
       {label && <h4>{label}</h4>}
       <table className="table table-borderless">
         <tbody>
+          <tr key={budgetTotalId} className="stat" data-cat={budgetTotalId}>
+            <td id={budgetTotalId} className="stat-label">
+              Budget Total
+            </td>
+            <td aria-labelledby={budgetTotalId}>{usd(budgetTotal)}</td>
+          </tr>
           <tr key={rawTotalId} className="stat" data-cat="raw-total">
             <td id={rawTotalId} className="stat-label">
               Raw Total
@@ -77,12 +83,6 @@ function WeekStats({ weekId, label }) {
             <td aria-labelledby={pastWeeksAverageId}>
               {usd(pastWeeksAverage)}
             </td>
-          </tr>
-          <tr key={budgetTotalId} className="stat" data-cat={budgetTotalId}>
-            <td id={budgetTotalId} className="stat-label">
-              Budget Total
-            </td>
-            <td aria-labelledby={budgetTotalId}>{usd(budgetTotal)}</td>
           </tr>
         </tbody>
       </table>
