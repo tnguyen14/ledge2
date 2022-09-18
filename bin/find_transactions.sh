@@ -9,7 +9,7 @@ declare -A LISTS_URLS=(
   [prod]="https://lists.cloud.tridnguyen.com"
 )
 
-merchant="${SP}Life${SP}Time"
+merchant="Side${SP}Job${SP}"
 
 response=$(curl -H "Authorization: Bearer ${JWT_TOKEN}" \
   "${LISTS_URLS[$env]}/ledge/tri/items?where${LBR}0${RBR}${LBR}field${RBR}=merchant&where${LBR}0${RBR}${LBR}op${RBR}===&where${LBR}0${RBR}${LBR}value${RBR}=${merchant}" 2>/dev/null)
