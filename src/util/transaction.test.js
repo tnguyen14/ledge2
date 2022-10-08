@@ -7,7 +7,8 @@ describe('decorateTransaction', () => {
       decorateTransaction({
         date: '2021-05-08',
         time: '22:17',
-        amount: 104.56
+        amount: 104.56,
+        syntheticType: 'expense'
       })
     ).to.deep.equal({
       date: new Date('2021-05-08 22:17').toISOString(),
@@ -15,7 +16,13 @@ describe('decorateTransaction', () => {
       amount: 10456,
       category: undefined,
       memo: undefined,
-      type: undefined
+      type: undefined,
+      budgetStart: undefined,
+      budgetEnd: undefined,
+      budgetSpan: undefined,
+      creditAccount: 'cash',
+      debitAccount: 'expense',
+      syntheticType: 'expense'
     });
   });
 });
