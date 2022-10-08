@@ -273,7 +273,7 @@ export default createReducer(initialState, (builder) => {
     })
     .addCase(SET_SEARCH_MODE, (state, action) => {
       state.action = action.payload ? 'search' : 'add';
-      state.values = createInitialValues(action.payload == 'search');
+      state.values = createInitialValues(action.payload);
     })
     .addMatcher(
       (action) =>
