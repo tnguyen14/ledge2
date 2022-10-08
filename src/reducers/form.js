@@ -1,8 +1,6 @@
-import React from 'https://cdn.skypack.dev/react@17';
 import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { ZapIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   INPUT_CHANGE,
@@ -18,7 +16,6 @@ import {
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 import { getWeeksDifference } from '../selectors/week.js';
-import Span from '../components/Form/Span.js';
 
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
@@ -58,7 +55,6 @@ const calculateField = {
   label: 'Calculate',
   name: 'calculate',
   placeholder: 'Calculate amount',
-  afterButton: <ZapIcon />,
   tabindex: -1
 };
 
@@ -116,7 +112,6 @@ const budgetSpanField = {
   type: 'range',
   name: 'budgetSpan',
   label: 'Span',
-  afterButton: <Span />,
   attributes: {
     min: 1,
     step: 1,

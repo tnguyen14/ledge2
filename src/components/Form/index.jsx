@@ -8,7 +8,10 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
-import { SearchIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+import {
+  SearchIcon,
+  ZapIcon
+} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
   submit,
@@ -22,6 +25,7 @@ import {
 } from '../../actions/transactions.js';
 import { setSearchMode } from '../../actions/app.js';
 import { SYNTHETIC_TYPES } from '../../util/transaction.js';
+import Span from './Span.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -114,12 +118,20 @@ function Form() {
           if (fieldOptions[field.name]) {
             field.options = fieldOptions[field.name];
           }
+          let afterButton;
+          if (field.name == 'calculate') {
+            afterButton = <ZapIcon />;
+          }
+          if (field.name == 'budgetSpan') {
+            afterButton = <Span />;
+          }
           return (
             <Field
               key={field.name}
               handleChange={(event) => {
                 dispatch(inputChange(field.name, event.target.value));
               }}
+              afterButton={afterButton}
               afterButtonAction={() => {
                 if (field.name == 'calculate') {
                   if (!values.calculate) {

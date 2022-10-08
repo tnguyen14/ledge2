@@ -1,0 +1,3 @@
+{
+  "node-option": ["experimental-loader=./https-loader.mjs"]
+}
