@@ -268,7 +268,10 @@ export default createReducer(initialState, (builder) => {
     })
     .addCase(SET_SEARCH_MODE, (state, action) => {
       state.action = action.payload ? 'search' : 'add';
-      state.values = createInitialValues(action.payload);
+      state.values = {
+        ...createInitialValues(action.payload),
+        syntheticType: state.values.syntheticType
+      };
     })
     .addMatcher(
       (action) =>
