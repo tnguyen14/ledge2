@@ -60,7 +60,15 @@ function Form() {
     (event) => {
       event.preventDefault();
       if (action == 'search') {
-        dispatch(setSearch(values));
+        dispatch(
+          setSearch({
+            // limit the number of attributes to search
+            // to avoid overly narrow search
+            amount: values.amount,
+            merchant: values.merchant,
+            category: values.category
+          })
+        );
       } else if (action == 'update') {
         dispatch(submit());
         dispatch(updateTransaction(values, prevMerchantRef.current));
