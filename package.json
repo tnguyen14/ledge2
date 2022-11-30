@@ -50,16 +50,6 @@
     "postcss-nested": "^5.0.5",
     "prettier": "^2.0.4"
   },
-  "dependencies": {
-    "@tridnguyen/money": "^1.6.1",
-    "@tridnguyen/slugify": "^2.0.0",
-    "date-fns": "^2.21.3",
-    "date-fns-tz": "^1.1.4",
-    "react": "^17.0.2",
-    "react-native": "^0.64.1",
-    "react-native-auth0": "^2.8.3",
-    "react-router-native": "^5.2.0"
-  },
   "lint-staged": {
     "*.{js,jsx,json,css,scss,html,md}": "prettier --write"
   },
