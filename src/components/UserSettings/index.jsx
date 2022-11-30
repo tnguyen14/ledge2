@@ -6,7 +6,6 @@ import {
 import Dialog from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dialog';
 import DialogTitle from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogTitle';
 import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContent';
-import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
 import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
@@ -32,7 +31,9 @@ function UserSettings() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.app.isUserSettingsOpen);
   const saving = useSelector((state) => state.app.savingUserSettings);
-  const { accounts, expenseCategories } = useSelector((state) => state.meta);
+  const { accounts, expenseCategories, timezoneToStore } = useSelector(
+    (state) => state.meta
+  );
 
   return (
     <Dialog
@@ -42,6 +43,15 @@ function UserSettings() {
     >
       <DialogTitle>User Settings</DialogTitle>
       <DialogContent>
+        <div className="profile">
+          <h4>Profile</h4>
+          <div className="profile-fields">
+            <div className="field-label">
+              Timezone to store transaction date
+            </div>
+            <div className="field-value">{timezoneToStore}</div>
+          </div>
+        </div>
         <div className="list">
           <h4>Accounts</h4>
           {accounts.map((account) => (

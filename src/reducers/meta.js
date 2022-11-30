@@ -37,7 +37,8 @@ const initialState = {
   expenseCategories: [],
   merchants_count: {},
   accounts: builtinAccounts,
-  stats: {}
+  stats: {},
+  timezoneToStore: ''
 };
 
 const getMerchantNamesFromMerchantCounts = createSelector(
@@ -76,6 +77,7 @@ export default createReducer(initialState, (builder) => {
         ...(action.payload.accounts || [])
       ];
       state.stats = action.payload.stats;
+      state.timezoneToStore = action.payload.timezoneToStore;
     })
     .addCase(UPDATE_MERCHANT_COUNTS_SUCCESS, (state, action) => {
       state.merchants_count = action.payload;
