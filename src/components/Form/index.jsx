@@ -64,7 +64,7 @@ function Form() {
           setSearch({
             // limit the number of attributes to search
             // to avoid overly narrow search
-            amount: (values.amount * 100).toFixed(),
+            amount: values.amount && (values.amount * 100).toFixed(),
             merchant: values.merchant,
             category: values.category
           })

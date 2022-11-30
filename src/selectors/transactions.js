@@ -164,6 +164,7 @@ export const getSearchResult = createSelector(
   (transactions, search) => {
     return transactions.filter((tx) =>
       Object.entries(search)
+        // filter out empty string
         .filter(([key, value]) => !!value)
         .every(([key, value]) =>
           String(tx[key]).toLowerCase().includes(String(value).toLowerCase())
