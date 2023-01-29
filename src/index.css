@@ -143,6 +143,9 @@ a:not([href]) {
   [data-cat='refund'] & {
     background-color: var(--color-lime-lighten-4);
   }
+  [data-cat='subscriptions'] & {
+    background-color: var(--color-light-blue-darken-4);
+  }
 }
 
 [data-field='synthetic-type'] {
