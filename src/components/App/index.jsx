@@ -28,12 +28,8 @@ import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 import { getUserMeta } from '../../util/api.js';
 
 function App() {
-  const {
-    isLoading,
-    isAuthenticated,
-    user,
-    getAccessTokenSilently
-  } = useAuth0();
+  const { isLoading, isAuthenticated, user, getAccessTokenSilently } =
+    useAuth0();
   const dispatch = useDispatch();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const showCashflow = useSelector((state) => state.app.showCashflow);
@@ -42,20 +38,15 @@ function App() {
   const isVisible = usePageVisibility();
 
   async function updateToken() {
-    try {
-      const accessToken = await getAccessTokenSilently({
-        audience: 'https://lists.cloud.tridnguyen.com',
-        scope: 'openid profile email'
-      });
-      dispatch(setToken(accessToken));
-      const {
-        ledge: { listName }
-      } = await getUserMeta(user.sub);
-      dispatch(setListName(listName));
-    } catch (e) {
-      console.error(e);
-      dispatch(setAppError(e));
-    }
+    const accessToken = await getAccessTokenSilently({
+      audience: 'https://lists.cloud.tridnguyen.com',
+      scope: 'openid profile email'
+    });
+    dispatch(setToken(accessToken));
+    const {
+      ledge: { listName }
+    } = await getUserMeta(user.sub);
+    dispatch(setListName(listName));
   }
 
   useEffect(() => {
@@ -69,15 +60,16 @@ function App() {
       if (shouldReload) {
         try {
           await updateToken();
+          dispatch(loadMeta());
+          dispatch(refreshApp());
+          requestIdleCallback(() => {
+            dispatch(loadPastYears(1));
+          });
         } catch (e) {
           console.error(e);
+          dispatch(setAppError(e));
         }
-        dispatch(loadMeta());
-        dispatch(refreshApp());
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
-        requestIdleCallback(() => {
-          dispatch(loadPastYears(1));
-        });
       }
     })();
   }, [isAuthenticated, isVisible]);
