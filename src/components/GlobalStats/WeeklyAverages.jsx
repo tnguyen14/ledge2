@@ -15,8 +15,6 @@ import {
 } from '../../selectors/transactions.js';
 import { recalculateYearStats } from '../../actions/meta.js';
 
-const YEARS = [2021, 2020, 2019, 2018];
-
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 function AverageWithCategories({
   numWeeks,
@@ -142,24 +140,24 @@ function WeeklyAverages() {
             </td>
             <td>{usd(currentYearAverage.value)}</td>
           </tr>
-          {YEARS.map((year) => (
-            <tr className="stat" key={year}>
-              <td>{year}</td>
-              <td
-                style={{ cursor: 'pointer' }}
-                title="Double click to re-calculate"
-                onDoubleClick={() => {
-                  dispatch(recalculateYearStats(year));
-                }}
-              >
-                {yearStats &&
-                  yearStats[year] &&
-                  (yearStats[year].updating
+          {Object.keys(yearStats)
+            .sort((a, b) => Number(b) - Number(a))
+            .map((year) => (
+              <tr className="stat" key={year}>
+                <td>{year}</td>
+                <td
+                  style={{ cursor: 'pointer' }}
+                  title="Double click to re-calculate"
+                  onDoubleClick={() => {
+                    dispatch(recalculateYearStats(year));
+                  }}
+                >
+                  {yearStats[year].updating
                     ? 'Updating...'
-                    : usd(yearStats[year].weeklyAverage))}
-              </td>
-            </tr>
-          ))}
+                    : usd(yearStats[year].weeklyAverage)}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

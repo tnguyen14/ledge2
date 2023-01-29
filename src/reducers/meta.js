@@ -1,6 +1,8 @@
 import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
 import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
 import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
+
 import {
   LOAD_META_SUCCESS,
   UPDATE_YEAR_STATS,
@@ -32,12 +34,24 @@ const builtinAccounts = [
   }
 ];
 
+// generate an array of years since last year, going back to 2018
+// for eg., if current year is 2023, pastYears is [2022, 2021, ..., 2018]
+const currentYear = DateTime.now().get('year');
+const pastYears = [...Array(currentYear - 2018).keys()].map(
+  (index) => 2018 + index
+);
+
 const initialState = {
   merchants: [],
   expenseCategories: [],
   merchants_count: {},
   accounts: builtinAccounts,
-  stats: {},
+  stats: pastYears.reduce((stats, year) => {
+    stats[year] = {
+      weeklyAverage: 0
+    };
+    return stats;
+  }, {}),
   timezoneToStore: ''
 };
 
@@ -76,7 +90,9 @@ export default createReducer(initialState, (builder) => {
         ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
         ...(action.payload.accounts || [])
       ];
-      state.stats = action.payload.stats;
+      Object.keys(action.payload.stats).forEach(
+        (year) => (state.stats[year] = action.payload.stats[year])
+      );
       state.timezoneToStore = action.payload.timezoneToStore;
     })
     .addCase(UPDATE_MERCHANT_COUNTS_SUCCESS, (state, action) => {

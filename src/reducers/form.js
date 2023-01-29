@@ -1,5 +1,5 @@
 import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {

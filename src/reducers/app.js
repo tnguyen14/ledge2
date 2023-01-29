@@ -1,5 +1,5 @@
 import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@2.3.0';
+import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
 import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
