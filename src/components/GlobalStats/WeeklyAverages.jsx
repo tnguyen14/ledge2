@@ -108,6 +108,10 @@ function WeeklyAverages() {
     {
       start: -1,
       end: -24
+    },
+    {
+      start: -1,
+      end: -52,
     }
   ].map((span) => {
     const weeks = [];
