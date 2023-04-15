@@ -4,7 +4,7 @@ import {
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import { setUserSettingsOpen } from '../../actions/app.js';
 
 function UserMenu() {
@@ -46,7 +46,9 @@ function UserMenu() {
           className="logout"
           onClick={() =>
             logout({
-              returnTo: window.location.href
+              logoutParams: {
+                returnTo: window.location.href
+              }
             })
           }
         >

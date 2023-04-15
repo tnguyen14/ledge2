@@ -3,7 +3,7 @@ import {
   useSelector,
   useDispatch
 } from 'https://cdn.skypack.dev/react-redux@7';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import { setDisplayFrom } from '../../actions/app.js';
 import UserMenu from './UserMenu.js';
 import Field from '../Form/Field.js';

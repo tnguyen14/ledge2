@@ -3,7 +3,7 @@ import {
   useDispatch,
   useSelector
 } from 'https://cdn.skypack.dev/react-redux@7';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 
@@ -39,8 +39,10 @@ function App() {
 
   async function updateToken() {
     const accessToken = await getAccessTokenSilently({
-      audience: 'https://lists.cloud.tridnguyen.com',
-      scope: 'openid profile email'
+      authorizationParams: {
+        audience: 'https://lists.cloud.tridnguyen.com',
+        scope: 'openid profile email'
+      }
     });
     dispatch(setToken(accessToken));
     const {

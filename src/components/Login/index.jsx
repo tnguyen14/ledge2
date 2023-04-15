@@ -1,5 +1,5 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@1';
+import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 
 function Login() {
