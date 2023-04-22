@@ -19,6 +19,7 @@ import {
   refreshApp,
   setToken,
   setListName,
+  setGithubAccessToken,
   setDisplayFrom,
   loadPastYears,
   setAppError
@@ -46,9 +47,10 @@ function App() {
     });
     dispatch(setToken(accessToken));
     const {
-      ledge: { listName }
+      ledge: { listName, githubAccessToken }
     } = await getUserMeta(user.sub);
     dispatch(setListName(listName));
+    dispatch(setGithubAccessToken(githubAccessToken));
   }
 
   useEffect(() => {
