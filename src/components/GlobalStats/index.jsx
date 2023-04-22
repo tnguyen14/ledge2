@@ -6,6 +6,7 @@ import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';
 import WeeklyAverages from './WeeklyAverages.js';
 import CategoriesChart from './CategoriesChart.js';
 import CashflowChart from './CashflowChart.js';
+import Budget from './Budget.js';
 import { showCashflow } from '../../actions/app.js';
 
 function TabPanel(props) {
@@ -46,6 +47,7 @@ function GlobalStats() {
         <Tab label="Weekly Chart" />
         <Tab label="Weekly Averages" />
         <Tab label="Cash Flow" />
+        <Tab label="Budget" />
       </Tabs>
       <TabPanel value={tab} index={0}>
         <CategoriesChart />
@@ -55,6 +57,9 @@ function GlobalStats() {
       </TabPanel>
       <TabPanel value={tab} index={2}>
         <CashflowChart />
+      </TabPanel>
+      <TabPanel value={tab} index={3}>
+        <Budget />
       </TabPanel>
     </div>
   );
