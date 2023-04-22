@@ -4,7 +4,6 @@ import {
   SET_DISPLAY_FROM,
   SET_TOKEN,
   SET_LISTNAME,
-  SET_GITHUB_ACCESS_TOKEN,
   REFRESH_APP,
   SHOW_CASHFLOW,
   SET_SEARCH_MODE,
@@ -66,9 +65,6 @@ export default createReducer(initialState, (builder) => {
     })
     .addCase(SET_LISTNAME, (state, action) => {
       state.listName = action.payload;
-    })
-    .addCase(SET_GITHUB_ACCESS_TOKEN, (state, action) => {
-      state.githubAccessToken = action.payload;
     })
     .addCase(SET_DISPLAY_FROM, (state, action) => {
       state.displayFrom = action.payload;

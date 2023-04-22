@@ -28,14 +28,6 @@ export function setListName(listName) {
   };
 }
 
-export const SET_GITHUB_ACCESS_TOKEN = 'SET_GITHUB_ACCESS_TOKEN';
-export function setGithubAccessToken(githubAccessToken) {
-  return {
-    type: SET_GITHUB_ACCESS_TOKEN,
-    payload: githubAccessToken
-  };
-}
-
 export const REFRESH_APP = 'REFRESH_APP';
 export function refreshApp() {
   // update lastRefreshed

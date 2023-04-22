@@ -1,4 +1,4 @@
-import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
+import React, { useEffect, useState } from 'https://cdn.skypack.dev/react@17';
 import {
   useDispatch,
   useSelector
@@ -6,6 +6,7 @@ import {
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { Octokit } from 'https://cdn.skypack.dev/octokit@2';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
@@ -19,7 +20,6 @@ import {
   refreshApp,
   setToken,
   setListName,
-  setGithubAccessToken,
   setDisplayFrom,
   loadPastYears,
   setAppError
@@ -27,11 +27,13 @@ import {
 import { loadMeta } from '../../actions/meta.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 import { getUserMeta } from '../../util/api.js';
+import OctokitContext from '../../contexts/octokit.js';
 
 function App() {
   const { isLoading, isAuthenticated, user, getAccessTokenSilently } =
     useAuth0();
   const dispatch = useDispatch();
+  const [octokit, setOctokit] = useState();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const showCashflow = useSelector((state) => state.app.showCashflow);
   const search = useSelector((state) => state.app.search);
@@ -50,7 +52,11 @@ function App() {
       ledge: { listName, githubAccessToken }
     } = await getUserMeta(user.sub);
     dispatch(setListName(listName));
-    dispatch(setGithubAccessToken(githubAccessToken));
+    setOctokit(
+      new Octokit({
+        auth: githubAccessToken
+      })
+    );
   }
 
   useEffect(() => {
@@ -93,7 +99,7 @@ function App() {
         </div>
       )}
       {isAuthenticated && !appError && (
-        <>
+        <OctokitContext.Provider value={octokit}>
           <div className="app-top">
             <Form />
             {!search && <GlobalStats />}
@@ -103,7 +109,7 @@ function App() {
           </div>
           <Notification />
           <UserSettings />
-        </>
+        </OctokitContext.Provider>
       )}
     </div>
   );
