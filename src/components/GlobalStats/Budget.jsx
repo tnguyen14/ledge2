@@ -31,17 +31,44 @@ function Budget() {
   const [budget, setBudget] = useState({});
   const { versions, repo } = useContext(BudgetContext);
   const [selectedVersion, setSelectedVersion] = useState();
+  const [displayVersions, setDisplayVersions] = useState([]);
+  const [hasOlder, setHasOlder] = useState(false);
+  const [hasNewer, setHasNewer] = useState(false);
 
   useEffect(() => {
+    if (!versions.length) {
+      return;
+    }
+    if (versions.length < 3) {
+      setDisplayVersions(versions.slice());
+    } else {
+      setDisplayVersions(versions.slice(versions.length - 3));
+    }
     // set latest version by default
     setSelectedVersion(versions.slice(-1)[0].sha);
   }, [versions]);
 
   useEffect(() => {
+    if (!selectedVersion) {
+      return;
+    }
+    const selectedIndex = versions.findIndex(
+      (version) => version.sha == selectedVersion
+    );
+    if (!selectedIndex) {
+      setError(new Error(`Unable to find version ${selectedVersion}`));
+      return;
+    }
+    const maxIndex = Math.min(selectedIndex + 1, versions.length);
+    setHasNewer(selectedIndex < versions.length - 2);
+    setHasOlder(selectedIndex > 1);
+    setDisplayVersions(
+      versions.slice(
+        Math.min(selectedIndex - 1, versions.length - 3),
+        Math.max(selectedIndex + 2, maxIndex + 1)
+      )
+    );
     (async () => {
-      if (!selectedVersion) {
-        return;
-      }
       setError();
       setBudget({});
       let content;
@@ -65,7 +92,6 @@ function Budget() {
           })
         );
       } catch (e) {
-        console.log(content);
         setError(e);
       }
     })();
@@ -73,10 +99,10 @@ function Budget() {
   return (
     <div>
       <div className="version-selector">
-        {versions.length ? (
+        {versions.length > 0 && (
           <Pagination size="sm">
-            <Pagination.Prev />
-            {versions.map((version) => (
+            {hasOlder && <Pagination.Ellipsis />}
+            {displayVersions.map((version) => (
               <Pagination.Item
                 key={version.sha}
                 active={version.sha == selectedVersion}
@@ -88,9 +114,9 @@ function Budget() {
                 {format(version.date, DISPLAY_DATE_FORMAT)}
               </Pagination.Item>
             ))}
-            <Pagination.Next />
+            {hasNewer && <Pagination.Ellipsis />}
           </Pagination>
-        ) : null}
+        )}
       </div>
       {isLoading && <Spinner animation="border" />}
       {error && error.message}
