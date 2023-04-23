@@ -1,4 +1,8 @@
-import React, { useEffect, useState } from 'https://cdn.skypack.dev/react@17';
+import React, {
+  useEffect,
+  useState,
+  useContext
+} from 'https://cdn.skypack.dev/react@17';
 import {
   useDispatch,
   useSelector
@@ -28,6 +32,7 @@ import { loadMeta } from '../../actions/meta.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 import { getUserMeta } from '../../util/api.js';
 import OctokitContext from '../../contexts/octokit.js';
+import BudgetContext from '../../contexts/budget.js';
 
 function App() {
   const { isLoading, isAuthenticated, user, getAccessTokenSilently } =
@@ -39,6 +44,8 @@ function App() {
   const search = useSelector((state) => state.app.search);
   const appError = useSelector((state) => state.app.error);
   const isVisible = usePageVisibility();
+  const budget = useContext(BudgetContext);
+  const [budgetVersions, setBudgetVersions] = useState(budget.versions);
 
   async function updateToken() {
     const accessToken = await getAccessTokenSilently({
@@ -58,6 +65,25 @@ function App() {
       })
     );
   }
+
+  useEffect(() => {
+    if (!octokit) {
+      return;
+    }
+    (async () => {
+      const commits = await octokit.rest.repos.listCommits(budget.repo);
+      setBudgetVersions(
+        commits.data
+          .map((commit) => ({
+            sha: commit.sha,
+            message: commit.commit.message,
+            // DO I NEED TO WORRY ABOUT TIMEZONE HERE??
+            date: new Date(commit.commit.committer.date)
+          }))
+          .reverse()
+      );
+    })();
+  }, [octokit]);
 
   useEffect(() => {
     if (!isAuthenticated || !isVisible) {
@@ -100,15 +126,19 @@ function App() {
       )}
       {isAuthenticated && !appError && (
         <OctokitContext.Provider value={octokit}>
-          <div className="app-top">
-            <Form />
-            {!search && <GlobalStats />}
-          </div>
-          <div className="app-bottom">
-            {showCashflow ? <Cashflow /> : <Transactions />}
-          </div>
-          <Notification />
-          <UserSettings />
+          <BudgetContext.Provider
+            value={{ ...budget, versions: budgetVersions }}
+          >
+            <div className="app-top">
+              <Form />
+              {!search && <GlobalStats />}
+            </div>
+            <div className="app-bottom">
+              {showCashflow ? <Cashflow /> : <Transactions />}
+            </div>
+            <Notification />
+            <UserSettings />
+          </BudgetContext.Provider>
         </OctokitContext.Provider>
       )}
     </div>

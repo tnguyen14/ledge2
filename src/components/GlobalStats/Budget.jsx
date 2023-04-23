@@ -9,12 +9,8 @@ import toml from 'https://cdn.skypack.dev/@ltd/j-toml@1';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import OctokitContext from '../../contexts/octokit.js';
+import BudgetContext from '../../contexts/budget.js';
 import { DISPLAY_DATE_FORMAT } from '../../util/constants.js';
-
-const repo = {
-  owner: 'tnguyen14',
-  repo: 'budget'
-};
 
 function Budget() {
   const octokit = useContext(OctokitContext);
@@ -33,30 +29,13 @@ function Budget() {
    * }
    */
   const [budget, setBudget] = useState({});
-  const [versions, setVersions] = useState([]);
+  const { versions, repo } = useContext(BudgetContext);
   const [selectedVersion, setSelectedVersion] = useState();
 
   useEffect(() => {
-    (async () => {
-      try {
-        setIsLoading(true);
-        const commits = await octokit.rest.repos.listCommits(repo);
-        const budgetVersions = commits.data.map((commit) => ({
-          sha: commit.sha,
-          message: commit.commit.message,
-          // DO I NEED TO WORRY ABOUT TIMEZONE HERE??
-          date: new Date(commit.commit.committer.date)
-        }));
-        // set latest version by default
-        setSelectedVersion(budgetVersions[0].sha);
-        setVersions(budgetVersions.reverse());
-        setIsLoading(false);
-      } catch (e) {
-        setError(e);
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+    // set latest version by default
+    setSelectedVersion(versions.slice(-1)[0].sha);
+  }, [versions]);
 
   useEffect(() => {
     (async () => {
