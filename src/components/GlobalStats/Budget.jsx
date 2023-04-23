@@ -4,9 +4,12 @@ import React, {
   useState
 } from 'https://cdn.skypack.dev/react@17';
 import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
+import Pagination from 'https://cdn.skypack.dev/react-bootstrap@1/Pagination';
 import toml from 'https://cdn.skypack.dev/@ltd/j-toml@1';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import OctokitContext from '../../contexts/octokit.js';
+import { DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 
 const repo = {
   owner: 'tnguyen14',
@@ -37,7 +40,14 @@ function Budget() {
       try {
         setIsLoading(true);
         const commits = await octokit.rest.repos.listCommits(repo);
-        setVersions(commits.data.map((commit) => commit));
+        setVersions(
+          commits.data.map((commit) => ({
+            sha: commit.sha,
+            message: commit.commit.message,
+            // DO I NEED TO WORRY ABOUT TIMEZONE HERE??
+            date: new Date(commit.commit.committer.date)
+          }))
+        );
         const weekly = await octokit.rest.repos.getContent({
           ...repo,
           path: 'Weekly.toml'
@@ -56,10 +66,21 @@ function Budget() {
       }
     })();
   }, []);
-  console.log(versions);
-  console.log(budget);
   return (
     <div>
+      <div className="version-selector">
+        {versions.length && (
+          <Pagination>
+            <Pagination.Prev />
+            {versions.map((version) => (
+              <Pagination.Item key={version.sha}>
+                {format(version.date, DISPLAY_DATE_FORMAT)}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next />
+          </Pagination>
+        )}
+      </div>
       {isLoading && <Spinner animation="border" />}
       {error && error.message}
       <table className="table table-borderless">
