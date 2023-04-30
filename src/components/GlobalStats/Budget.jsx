@@ -45,17 +45,12 @@ function Budget() {
     if (!versions.length) {
       return;
     }
-    if (versions.length < 3) {
-      setDisplayVersions(versions.slice());
-    } else {
-      setDisplayVersions(versions.slice(versions.length - 3));
-    }
     // set latest version by default
     setSelectedVersion(versions.slice(-1)[0].sha);
   }, [versions]);
 
   useEffect(() => {
-    if (!selectedVersion) {
+    if (!versions.length || !selectedVersion) {
       return;
     }
     const selectedIndex = versions.findIndex(
@@ -65,15 +60,19 @@ function Budget() {
       setError(new Error(`Unable to find version ${selectedVersion}`));
       return;
     }
-    const maxIndex = Math.min(selectedIndex + 1, versions.length);
+
     setHasNewer(selectedIndex < versions.length - 2);
     setHasOlder(selectedIndex > 1);
-    setDisplayVersions(
-      versions.slice(
-        Math.min(selectedIndex - 1, versions.length - 3),
-        Math.max(selectedIndex + 2, maxIndex + 1)
-      )
-    );
+
+    if (versions.length < 3) {
+      setDisplayVersions(versions.slice());
+    } else {
+      const rightIndex = Math.min(selectedIndex + 1, versions.length);
+      const leftIndex = Math.min(selectedIndex - 1, versions.length - 3);
+      setDisplayVersions(
+        versions.slice(leftIndex, Math.max(selectedIndex + 2, rightIndex + 1))
+      );
+    }
     (async () => {
       setError();
       setBudget({});
@@ -101,7 +100,7 @@ function Budget() {
         setError(e);
       }
     })();
-  }, [selectedVersion]);
+  }, [selectedVersion, versions]);
   useEffect(() => {
     let totalBudgetAmount = 0;
     Object.values(budget).forEach((details) => {
