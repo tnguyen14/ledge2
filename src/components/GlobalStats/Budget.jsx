@@ -34,6 +34,12 @@ function Budget() {
   const [displayVersions, setDisplayVersions] = useState([]);
   const [hasOlder, setHasOlder] = useState(false);
   const [hasNewer, setHasNewer] = useState(false);
+  const [tally, setTally] = useState({
+    budget: 0,
+    year: 0,
+    month: 0,
+    paycheck: 0
+  });
 
   useEffect(() => {
     if (!versions.length) {
@@ -96,6 +102,18 @@ function Budget() {
       }
     })();
   }, [selectedVersion]);
+  useEffect(() => {
+    let totalBudgetAmount = 0;
+    Object.values(budget).forEach((details) => {
+      totalBudgetAmount = totalBudgetAmount + details.amount * 100;
+    });
+    setTally({
+      budget: totalBudgetAmount,
+      year: totalBudgetAmount * 52,
+      month: (totalBudgetAmount * 52) / 12,
+      paycheck: (totalBudgetAmount * 52) / 24
+    });
+  }, [budget]);
   return (
     <div>
       <div className="version-selector">
@@ -153,6 +171,18 @@ function Budget() {
                 </tr>
               );
             })}
+          <tr className="stat">
+            <td>Total</td>
+            <td>{usd(tally.budget)}</td>
+          </tr>
+          <tr className="stat">
+            <td>Year</td>
+            <td>{usd(tally.year)}</td>
+          </tr>
+          <tr className="stat">
+            <td>Paycheck</td>
+            <td>{usd(tally.paycheck)}</td>
+          </tr>
         </tbody>
       </table>
     </div>
