@@ -41,6 +41,8 @@ function Budget() {
     paycheck: 0
   });
 
+  const NUM_DISPLAY_VERSIONS = 3;
+
   useEffect(() => {
     if (!versions.length) {
       return;
@@ -61,11 +63,14 @@ function Budget() {
       return;
     }
 
-    if (versions.length < 3) {
+    if (versions.length <= NUM_DISPLAY_VERSIONS) {
       setDisplayVersions(versions.slice());
     } else {
       const rightIndex = Math.min(selectedIndex + 1, versions.length);
-      const leftIndex = Math.min(selectedIndex - 1, versions.length - 3);
+      const leftIndex = Math.min(
+        selectedIndex - 1,
+        versions.length - NUM_DISPLAY_VERSIONS
+      );
       setDisplayVersions(
         versions.slice(leftIndex, Math.max(selectedIndex + 2, rightIndex + 1))
       );
