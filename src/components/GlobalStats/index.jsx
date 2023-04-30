@@ -33,6 +33,7 @@ function GlobalStats() {
     <div className="stats global-stats">
       <Tabs
         className="tabs-selector"
+        variant="scrollable"
         value={tab}
         onChange={(e, newValue) => {
           setTab(newValue);
