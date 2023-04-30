@@ -186,3 +186,18 @@ a:not([href]) {
 .form-group {
   display: flex;
 }
+
+.icon-button {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  margin-left: 1em;
+  &:hover {
+    color: var(--color-light-blue);
+  }
+}
+
+.text-popover {
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}

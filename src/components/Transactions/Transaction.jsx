@@ -101,7 +101,7 @@ function Transaction({ transaction, dateFormat }) {
         <td data-field="merchant">
           {merchant ? merchant : getValueFromOptions(accounts, debitAccount)}
           {memo && (
-            <button className="note" {...bindTrigger(notesPopupState)}>
+            <button className="icon-button" {...bindTrigger(notesPopupState)}>
               <NoteIcon />
             </button>
           )}
@@ -117,7 +117,7 @@ function Transaction({ transaction, dateFormat }) {
           ) : null}
         </td>
         <td data-field="action">
-          <button {...bindTrigger(actionsPopupState)}>
+          <button className="icon-button" {...bindTrigger(actionsPopupState)}>
             <KebabHorizontalIcon />
           </button>
         </td>
@@ -133,7 +133,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="synthetic-type-popover">
+        <div className="text-popover synthetic-type-popover">
           <h4>{getValueFromOptions(SYNTHETIC_TYPES, syntheticType)}</h4>
         </div>
       </Popover>
@@ -148,7 +148,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="date-popover">{displayDate}</div>
+        <div className="text-popover">{displayDate}</div>
       </Popover>
       <Popover
         {...bindPopover(amountPopupState)}
@@ -161,7 +161,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="amount-popover">
+        <div className="text-popover amount-popover">
           {category ? (
             <>
               <h4>Category</h4>
@@ -186,7 +186,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="budget-span-popover">
+        <div className="text-popover">
           Effective from {format(new Date(budgetStart), DATE_FIELD_FORMAT)} to{' '}
           {format(new Date(budgetEnd), DATE_FIELD_FORMAT)} ({budgetSpan} weeks)
         </div>
@@ -202,7 +202,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="notes-popover">{memo}</div>
+        <div className="text-popover">{memo}</div>
       </Popover>
       <Popover
         {...bindPopover(actionsPopupState)}
@@ -215,7 +215,7 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="actions-popover">
+        <div className="text-popover actions-popover">
           <div
             onClick={() => {
               actionsPopupState.close();
