@@ -61,9 +61,6 @@ function Budget() {
       return;
     }
 
-    setHasNewer(selectedIndex < versions.length - 2);
-    setHasOlder(selectedIndex > 1);
-
     if (versions.length < 3) {
       setDisplayVersions(versions.slice());
     } else {
@@ -72,6 +69,8 @@ function Budget() {
       setDisplayVersions(
         versions.slice(leftIndex, Math.max(selectedIndex + 2, rightIndex + 1))
       );
+      setHasNewer(rightIndex < versions.length - 1);
+      setHasOlder(leftIndex > 0);
     }
     (async () => {
       setError();
