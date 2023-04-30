@@ -2,6 +2,7 @@
 @import './CategoryBar.css';
 @import './CashflowChart.css';
 @import './CashflowBar.css';
+@import './BudgetItem.css';
 
 .global-stats {
   .tab-content {
