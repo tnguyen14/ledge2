@@ -61,7 +61,7 @@ function Budget() {
     const selectedIndex = versions.findIndex(
       (version) => version.sha == selectedVersion
     );
-    if (!selectedIndex) {
+    if (selectedIndex < 0) {
       setError(new Error(`Unable to find version ${selectedVersion}`));
       return;
     }

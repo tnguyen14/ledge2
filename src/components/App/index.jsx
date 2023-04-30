@@ -78,7 +78,7 @@ function App() {
             sha: commit.sha,
             message: commit.commit.message,
             // DO I NEED TO WORRY ABOUT TIMEZONE HERE??
-            date: new Date(commit.commit.committer.date)
+            date: new Date(commit.commit.author.date)
           }))
           .reverse()
       );
