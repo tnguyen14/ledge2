@@ -52,7 +52,9 @@ function BudgetItem({ category, details }) {
     {}
   );
 
-  const matchSubBudgetTally = details.amount == subBudgetTally;
+  const matchSubBudgetTally = Object.keys(subBudget).length
+    ? details.amount == subBudgetTally
+    : true;
 
   return (
     <>

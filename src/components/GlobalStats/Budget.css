@@ -1,0 +1,11 @@
+.version-selector {
+  margin-left: 3rem; /* add arbitrary margin to make it look more center
+                        should try to make it display more properly */
+}
+.budget-stat {
+  color: var(--color-grey);
+  font-style: italic;
+}
+.matchSubBudgetTally {
+  color: var(--color-green);
+}

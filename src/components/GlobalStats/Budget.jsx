@@ -154,15 +154,15 @@ function Budget() {
                 />
               );
             })}
-          <tr className="stat">
+          <tr className="stat budget-stat">
             <td>Total</td>
             <td>{usd(tally.budget)}</td>
           </tr>
-          <tr className="stat">
+          <tr className="stat budget-stat">
             <td>Year</td>
             <td>{usd(tally.year)}</td>
           </tr>
-          <tr className="stat">
+          <tr className="stat budget-stat">
             <td>Paycheck</td>
             <td>{usd(tally.paycheck)}</td>
           </tr>
