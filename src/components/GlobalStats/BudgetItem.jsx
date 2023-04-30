@@ -57,7 +57,7 @@ function BudgetItem({ category, details }) {
               <tbody>
                 {details &&
                   Object.entries(details).map(([subCategory, subDetails]) => {
-                    if (subCategory == 'amount') {
+                    if (subCategory == 'amount' || subCategory == 'memo') {
                       return null;
                     }
                     return (
