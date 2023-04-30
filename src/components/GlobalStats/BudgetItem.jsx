@@ -7,11 +7,27 @@ import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks'
 const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function BudgetSubCategoryItem({ category, details }) {
+  const memoPopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${category}-memo`
+  });
   return (
-    <tr>
-      <td>{category}</td>
-      <td>{usd(details.amount * 100)}</td>
-    </tr>
+    <>
+      <tr>
+        <td>
+          {category}
+          {details.memo && (
+            <button className="icon-button" {...bindTrigger(memoPopupState)}>
+              <NoteIcon />
+            </button>
+          )}
+        </td>
+        <td>{usd(details.amount * 100)}</td>
+      </tr>
+      <Popover {...bindPopover(memoPopupState)}>
+        {details.memo && <div className="text-popover">{details.memo}</div>}
+      </Popover>
+    </>
   );
 }
 
