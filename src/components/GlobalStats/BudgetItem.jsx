@@ -58,8 +58,38 @@ function BudgetItem({ category, details }) {
     <>
       <tr className="stat">
         <td>
-          <details>
-            <summary>
+          {Object.keys(subBudget).length ? (
+            <details>
+              <summary>
+                {category}
+                {details.memo && (
+                  <button
+                    className="icon-button"
+                    {...bindTrigger(memoPopupState)}
+                  >
+                    <NoteIcon />
+                  </button>
+                )}
+              </summary>
+              <table className="table table-borderless">
+                <tbody>
+                  {details &&
+                    Object.entries(subBudget).map(
+                      ([subCategory, subDetails]) => {
+                        return (
+                          <BudgetSubCategoryItem
+                            key={subCategory}
+                            category={subCategory}
+                            details={subDetails}
+                          />
+                        );
+                      }
+                    )}
+                </tbody>
+              </table>
+            </details>
+          ) : (
+            <div>
               {category}
               {details.memo && (
                 <button
@@ -69,22 +99,8 @@ function BudgetItem({ category, details }) {
                   <NoteIcon />
                 </button>
               )}
-            </summary>
-            <table className="table table-borderless">
-              <tbody>
-                {details &&
-                  Object.entries(subBudget).map(([subCategory, subDetails]) => {
-                    return (
-                      <BudgetSubCategoryItem
-                        key={subCategory}
-                        category={subCategory}
-                        details={subDetails}
-                      />
-                    );
-                  })}
-              </tbody>
-            </table>
-          </details>
+            </div>
+          )}
         </td>
         <td className={classnames({ matchSubBudgetTally })}>
           {usd(details.amount * 100)}
