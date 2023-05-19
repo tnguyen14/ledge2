@@ -10,7 +10,7 @@ import {
 import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { Octokit } from 'https://cdn.skypack.dev/octokit@2';
+import { Octokit } from 'https://cdn.skypack.dev/octokit@2.0.14';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
