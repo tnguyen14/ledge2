@@ -4,7 +4,7 @@ import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
 import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
 import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import {
   TrashIcon,

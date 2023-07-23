@@ -5,7 +5,7 @@ import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
 import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
 import DialogContentText from 'https://esm.sh/@mui/material@5/DialogContentText';
 import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import CompactTransaction from '../Transactions/CompactTransaction.js';
 import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';

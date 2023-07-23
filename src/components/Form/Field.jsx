@@ -1,7 +1,7 @@
 import React from 'https://cdn.skypack.dev/react@17';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { InfoIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import Tooltip from 'https://esm.sh/@mui/material@5/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden', 'range'];
