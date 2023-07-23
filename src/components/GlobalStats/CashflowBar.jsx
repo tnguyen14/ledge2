@@ -1,12 +1,16 @@
 import React from 'https://esm.sh/react@18';
 import { useSelector } from 'https://esm.sh/react-redux@7';
-import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
-import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
+import Popover from 'https://esm.sh/@mui/material@5/Popover';
+import {
+  usePopupState,
+  bindPopover,
+  bindTrigger
+} from 'https://esm.sh/material-ui-popup-state@5/hooks';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
 
-const { usePopupState, bindPopover, bindTrigger } = PopupState;
+// const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function CashflowBar({ data, monthId }) {
   const accounts = useSelector((state) => state.meta.accounts);

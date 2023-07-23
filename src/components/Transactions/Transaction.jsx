@@ -9,8 +9,12 @@ import {
   ClockIcon,
   NoteIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
-import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
-import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
+import Popover from 'https://esm.sh/@mui/material@5/Popover';
+import {
+  usePopupState,
+  bindPopover,
+  bindTrigger
+} from 'https://esm.sh/material-ui-popup-state@5/hooks';
 import {
   TIMEZONE,
   DISPLAY_DATE_TIME_FORMAT,
@@ -23,7 +27,7 @@ import {
   intendToRemoveTransaction
 } from '../../actions/app.js';
 
-const { usePopupState, bindPopover, bindTrigger } = PopupState;
+// const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function Transaction({ transaction, dateFormat }) {
   const dispatch = useDispatch();

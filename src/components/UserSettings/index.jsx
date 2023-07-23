@@ -1,9 +1,9 @@
 import React, { useState } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
-import Dialog from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dialog';
-import DialogTitle from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogTitle';
-import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContent';
-import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
+import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
+import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
+import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
+import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
 import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import {

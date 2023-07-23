@@ -1,10 +1,11 @@
-import React from 'https://cdn.skypack.dev/react@17';
+import React from 'https://esm.sh/react@18';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import Popover from 'https://esm.sh/@mui/material@5/Popover';
 import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
-import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
-import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
+  usePopupState,
+  bindPopover,
+  bindTrigger
+} from 'https://esm.sh/material-ui-popup-state@5/hooks';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
@@ -15,7 +16,6 @@ import {
 } from '../../selectors/transactions.js';
 import { recalculateYearStats } from '../../actions/meta.js';
 
-const { usePopupState, bindPopover, bindTrigger } = PopupState;
 function AverageWithCategories({
   numWeeks,
   startWeekEnd,
@@ -111,7 +111,7 @@ function WeeklyAverages() {
     },
     {
       start: -1,
-      end: -48,
+      end: -48
     }
   ].map((span) => {
     const weeks = [];

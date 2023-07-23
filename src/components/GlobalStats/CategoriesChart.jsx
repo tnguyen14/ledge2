@@ -1,9 +1,6 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import React from 'https:///esm.sh/react@18';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon
