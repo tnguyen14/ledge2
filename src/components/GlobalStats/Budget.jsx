@@ -2,8 +2,8 @@ import React, {
   useContext,
   useEffect,
   useState
-} from 'https://cdn.skypack.dev/react@17';
-import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
+} from 'https://esm.sh/react@18';
+import Spinner from 'https://esm.sh/react-bootstrap@2/Spinner';
 import Pagination from 'https://cdn.skypack.dev/react-bootstrap@1/Pagination';
 import toml from 'https://cdn.skypack.dev/@ltd/j-toml@1';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';

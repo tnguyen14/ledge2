@@ -1,8 +1,5 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useDispatch,
-  useSelector
-} from 'https://cdn.skypack.dev/react-redux@7';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
 import Dialog from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dialog';
 import DialogTitle from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogTitle';
 import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContent';

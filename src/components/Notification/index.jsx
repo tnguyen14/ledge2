@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import React, { useState, useEffect } from 'https://esm.sh/react@18';
+import { useSelector } from 'https://esm.sh/react-redux@7';
 import Snackbar from 'https://cdn.skypack.dev/@material-ui/core@4/Snackbar';
 
 function Notification() {
-  const { content, title, type, autohide } = useSelector(
-    (state) => state.app.notification
-  );
+  const { content, autohide } = useSelector((state) => state.app.notification);
   const [show, setShow] = useState(false);
   useEffect(() => {
     setShow(content != '');

@@ -1,5 +1,5 @@
-import React, { useState } from 'https://cdn.skypack.dev/react@17';
-import { useDispatch } from 'https://cdn.skypack.dev/react-redux@7';
+import React, { useState } from 'https://esm.sh/react@18';
+import { useDispatch } from 'https://esm.sh/react-redux@7';
 import Tabs from 'https://cdn.skypack.dev/@material-ui/core@4/Tabs';
 import Tab from 'https://cdn.skypack.dev/@material-ui/core@4/Tab';
 import Box from 'https://cdn.skypack.dev/@material-ui/core@4/Box';

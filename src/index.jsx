@@ -1,7 +1,7 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import { render } from 'https://cdn.skypack.dev/react-dom@17';
-import { Provider } from 'https://cdn.skypack.dev/react-redux@7';
-import { Auth0Provider } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
+import React from 'https://esm.sh/react@18';
+import { render } from 'https://esm.sh/react-dom@18';
+import { Provider } from 'https://esm.sh/react-redux@7';
+import { Auth0Provider } from 'https://esm.sh/@auth0/auth0-react@2';
 import store from './store.js';
 import App from './components/App/index.js';
 import { AUTH0_DOMAIN } from './util/constants.js';

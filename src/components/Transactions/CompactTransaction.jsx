@@ -1,5 +1,5 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import React from 'https://esm.sh/react@17';
+import { useSelector } from 'https://esm.sh/react-redux@7';
 import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';

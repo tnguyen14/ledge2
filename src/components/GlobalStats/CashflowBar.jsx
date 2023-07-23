@@ -1,5 +1,5 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import React from 'https://esm.sh/react@18';
+import { useSelector } from 'https://esm.sh/react-redux@7';
 import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
 import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
 import classnames from 'https://cdn.skypack.dev/classnames@2';

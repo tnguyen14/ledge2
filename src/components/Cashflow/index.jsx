@@ -1,10 +1,7 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect
-} from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
-import Table from 'https://cdn.skypack.dev/react-bootstrap@1/Table';
+import React, { useMemo, useState, useEffect } from 'https://esm.sh/react@18';
+import { useSelector } from 'https://esm.sh/react-redux@7';
+import Table from 'https://esm.sh/react-bootstrap@2/Table';
+import { useTable, useRowState } from 'https://esm.sh/react-table@7.8.0';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
@@ -13,7 +10,6 @@ import {
 } from '../../selectors/week.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
-import { useTable, useRowState } from 'https://cdn.skypack.dev/react-table@7';
 import { getValueFromOptions } from '../../util/slug.js';
 
 function Cashflow() {
@@ -145,20 +141,15 @@ function Cashflow() {
     [data]
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: { rowState: rowStateData }
-    },
-    useRowState
-  );
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+        initialState: { rowState: rowStateData }
+      },
+      useRowState
+    );
   return (
     <div className="cashflow">
       <Table responsive {...getTableProps()}>

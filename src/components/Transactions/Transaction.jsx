@@ -1,11 +1,8 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
+import React from 'https://esm.sh/react@18';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1/esm';
-import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
+import Badge from 'https://esm.sh/react-bootstrap@2/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   KebabHorizontalIcon,
@@ -107,7 +104,7 @@ function Transaction({ transaction, dateFormat }) {
           )}
         </td>
         <td data-field="amount" data-cat={category}>
-          <Badge pill {...bindTrigger(amountPopupState)}>
+          <Badge pill bg={null} {...bindTrigger(amountPopupState)}>
             {usd(amount)}
           </Badge>
           {budgetSpan > 1 ? (
