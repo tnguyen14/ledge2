@@ -1,7 +1,11 @@
 import React, { useMemo, useState, useEffect } from 'https://esm.sh/react@18';
 import { useSelector } from 'https://esm.sh/react-redux@7';
 import Table from 'https://esm.sh/react-bootstrap@2/Table';
-import { useTable, useRowState } from 'https://esm.sh/react-table@7.8.0';
+import {
+  useReactTable,
+  flexRender,
+  getCoreRowModel
+} from 'https://esm.sh/@tanstack/react-table@8';
 import classnames from 'https://cdn.skypack.dev/classnames@2';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
@@ -41,35 +45,42 @@ function Cashflow() {
     );
   }, [monthsIds, months]);
 
-  const years = monthsIds.reduce((aggregate, monthId) => {
-    const year = monthId.substr(0, 4);
-    if (!aggregate[year]) {
-      aggregate[year] = [monthId];
-    } else {
-      aggregate[year].push(monthId);
-    }
-    return aggregate;
-  }, {});
+  const years = useMemo(
+    () =>
+      monthsIds.reduce((aggregate, monthId) => {
+        const year = monthId.substr(0, 4);
+        if (!aggregate[year]) {
+          aggregate[year] = [monthId];
+        } else {
+          aggregate[year].push(monthId);
+        }
+        return aggregate;
+      }, {}),
+    [monthsIds]
+  );
 
   const columns = useMemo(
     () =>
       [
         {
-          accessor: 'label'
+          id: 'label',
+          header: '',
+          accessorKey: 'label'
         }
       ].concat(
         Object.entries(years)
           .reverse()
           .map(([year, months]) => ({
-            Header: year,
+            id: 'year',
+            header: year,
             columns: months.map((month) => ({
-              Header: month,
-              accessor: month,
-              Cell: ({ value }) => usd(value)
+              header: month,
+              accessorKey: month,
+              cell: ({ getValue }) => usd(getValue())
             }))
           }))
       ),
-    [monthsIds]
+    [years]
   );
 
   // shape of data - array - each item is a row
@@ -128,59 +139,44 @@ function Cashflow() {
     });
   }, [monthsCashflow]);
 
-  const rowStateData = useMemo(
-    () =>
-      data.map((rowData) => {
-        const rowState = {};
-        const highlightRows = ['debit', 'credit', 'balance'];
-        if (highlightRows.includes(rowData.label)) {
-          rowState.highlight = true;
-        }
-        return rowState;
-      }),
-    [data]
-  );
+  const highlightRows = ['debit', 'credit', 'balance'];
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns,
-        data,
-        initialState: { rowState: rowStateData }
-      },
-      useRowState
-    );
+  const { getHeaderGroups, getRowModel } = useReactTable(
+    {
+      columns,
+      data,
+      getCoreRowModel: getCoreRowModel()
+    }
+  );
   return (
     <div className="cashflow">
-      <Table responsive {...getTableProps()}>
+      <Table responsive>
         <thead>
-          {headerGroups.map((headerGroup, j) => (
-            <tr
-              key={`header-group-${j}`}
-              {...headerGroup.getHeaderGroupProps()}
-            >
-              {headerGroup.headers.map((column, k) => (
-                <th key={`column-${k}`} {...column.getHeaderProps()}>
-                  {column.render('Header')}
+          {getHeaderGroups().map((headerGroup, j) => (
+            <tr key={`header-group-${j}`}>
+              {headerGroup.headers.map((header) => (
+                <th key={`column-${header.index}`} colSpan={header.colSpan}>
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )}
                 </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, l) => {
-            prepareRow(row);
+        <tbody>
+          {getRowModel().rows.map((row, l) => {
             return (
               <tr
                 key={`row-${l}`}
                 className={classnames({
-                  highlight: row.state.highlight
+                  highlight: highlightRows.includes(row.original.label)
                 })}
-                {...row.getRowProps()}
               >
-                {row.cells.map((cell, m) => (
-                  <td key={`cell-${m}`} {...cell.getCellProps()}>
-                    {cell.render('Cell')}
+                {row.getVisibleCells().map((cell, m) => (
+                  <td key={`cell-${m}`}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
               </tr>
