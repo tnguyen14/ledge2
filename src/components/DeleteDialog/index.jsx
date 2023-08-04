@@ -1,14 +1,11 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useDispatch,
-  useSelector
-} from 'https://cdn.skypack.dev/react-redux@7';
-import Dialog from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Dialog';
-import DialogTitle from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogTitle';
-import DialogContent from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContent';
-import DialogContentText from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogContentText';
-import DialogActions from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/DialogActions';
-import Button from 'https://cdn.skypack.dev/react-bootstrap@1/Button';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
+import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
+import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
+import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
+import DialogContentText from 'https://esm.sh/@mui/material@5/DialogContentText';
+import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import CompactTransaction from '../Transactions/CompactTransaction.js';
 import { cancelRemoveTransaction } from '../../actions/app.js';
 import { removeTransaction } from '../../actions/transactions.js';

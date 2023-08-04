@@ -1,19 +1,20 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
+import React from 'https://esm.sh/react@18';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1/esm';
-import Badge from 'https://cdn.skypack.dev/react-bootstrap@1/Badge';
+import Badge from 'https://esm.sh/react-bootstrap@2/Badge';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import {
   KebabHorizontalIcon,
   ClockIcon,
   NoteIcon
 } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
-import Popover from 'https://cdn.skypack.dev/@material-ui/core@4.12.0/Popover';
-import PopupState from 'https://cdn.skypack.dev/material-ui-popup-state@1/hooks';
+import Popover from 'https://esm.sh/@mui/material@5/Popover';
+import {
+  usePopupState,
+  bindPopover,
+  bindTrigger
+} from 'https://esm.sh/material-ui-popup-state@5/hooks';
 import {
   TIMEZONE,
   DISPLAY_DATE_TIME_FORMAT,
@@ -26,7 +27,7 @@ import {
   intendToRemoveTransaction
 } from '../../actions/app.js';
 
-const { usePopupState, bindPopover, bindTrigger } = PopupState;
+// const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function Transaction({ transaction, dateFormat }) {
   const dispatch = useDispatch();
@@ -107,7 +108,7 @@ function Transaction({ transaction, dateFormat }) {
           )}
         </td>
         <td data-field="amount" data-cat={category}>
-          <Badge pill {...bindTrigger(amountPopupState)}>
+          <Badge pill bg={null} {...bindTrigger(amountPopupState)}>
             {usd(amount)}
           </Badge>
           {budgetSpan > 1 ? (

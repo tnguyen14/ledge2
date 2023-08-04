@@ -2,13 +2,10 @@ import React, {
   useEffect,
   useState,
   useContext
-} from 'https://cdn.skypack.dev/react@17';
-import {
-  useDispatch,
-  useSelector
-} from 'https://cdn.skypack.dev/react-redux@7';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
-import { usePageVisibility } from 'https://cdn.skypack.dev/react-page-visibility@6';
+} from 'https://esm.sh/react@18';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
+import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
+import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
 import { format } from 'https://cdn.skypack.dev/date-fns@2';
 import { Octokit } from 'https://cdn.skypack.dev/octokit@2.0.14';
 

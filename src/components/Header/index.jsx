@@ -1,9 +1,6 @@
 import React from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
-import { useAuth0 } from 'https://cdn.skypack.dev/@auth0/auth0-react@2';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { setDisplayFrom } from '../../actions/app.js';
 import UserMenu from './UserMenu.js';
 import Field from '../Form/Field.js';

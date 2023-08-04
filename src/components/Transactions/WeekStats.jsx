@@ -1,5 +1,5 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
+import React from 'https://esm.sh/react@18';
+import { useSelector } from 'https://esm.sh/react-redux@7';
 import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
 import WeekCategory from './WeekCategory.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';

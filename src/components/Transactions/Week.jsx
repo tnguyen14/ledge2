@@ -1,8 +1,5 @@
-import React, { useEffect } from 'https://cdn.skypack.dev/react@17';
-import {
-  useSelector,
-  useDispatch
-} from 'https://cdn.skypack.dev/react-redux@7';
+import React, { useEffect } from 'https://esm.sh/react@18';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import { loadWeek } from '../../actions/app.js';
 import {
   getWeekById,
@@ -16,7 +13,11 @@ function Week(props) {
   const { weekId } = props;
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const transactions = useSelector((state) => state.transactions);
-  const { transactions: weekTransactions, start, end } = getWeekById({
+  const {
+    transactions: weekTransactions,
+    start,
+    end
+  } = getWeekById({
     transactions,
     weekId
   });

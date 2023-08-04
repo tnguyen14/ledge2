@@ -1,6 +1,6 @@
-import React from 'https://cdn.skypack.dev/react@17';
-import { useSelector } from 'https://cdn.skypack.dev/react-redux@7';
-import Spinner from 'https://cdn.skypack.dev/react-bootstrap@1/Spinner';
+import React from 'https://esm.sh/react@18';
+import { useSelector } from 'https://esm.sh/react-redux@7';
+import Spinner from 'https://esm.sh/react-bootstrap@2/Spinner';
 import Week from './Week.js';
 import SearchResult from './SearchResult.js';
 import DeleteDialog from '../DeleteDialog/index.js';
