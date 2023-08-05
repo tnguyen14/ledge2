@@ -73,7 +73,10 @@ function Budget() {
         versions.length - NUM_DISPLAY_VERSIONS
       );
       setDisplayVersions(
-        versions.slice(leftIndex, Math.max(selectedIndex + 2, rightIndex + 1))
+        versions.slice(
+          Math.max(leftIndex, 0),
+          Math.max(selectedIndex + 2, rightIndex + 1)
+        )
       );
       setHasNewer(rightIndex < versions.length - 1);
       setHasOlder(leftIndex > 0);
