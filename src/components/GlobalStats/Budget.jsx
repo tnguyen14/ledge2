@@ -81,6 +81,8 @@ function Budget() {
       setHasNewer(rightIndex < versions.length - 1);
       setHasOlder(leftIndex > 0);
     }
+  }, [selectedVersion, versions]);
+  useEffect(() => {
     (async () => {
       setError();
       setBudget({});
@@ -108,7 +110,7 @@ function Budget() {
         setError(e);
       }
     })();
-  }, [selectedVersion, versions]);
+  }, [selectedVersion]);
   useEffect(() => {
     let totalBudgetAmount = 0;
     Object.values(budget).forEach((details) => {
