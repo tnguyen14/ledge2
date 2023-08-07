@@ -6,8 +6,8 @@ import React, {
 import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { Octokit } from 'https://cdn.skypack.dev/octokit@2.0.14';
+import { format } from 'https://esm.sh/date-fns@2';
+import { Octokit } from 'https://esm.sh/octokit@2.0.14';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';

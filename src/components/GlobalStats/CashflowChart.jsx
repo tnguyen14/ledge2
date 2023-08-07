@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import { format } from 'https://esm.sh/date-fns@2';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+} from 'https://esm.sh/@primer/octicons-react@11';
 import { setDisplayFrom } from '../../actions/app.js';
 import {
   getPastMonthsIds,

@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@17';
+import React from 'https://esm.sh/react@18';
 
 function Chart(props) {
   const { chartTop, chartBody, xLabels, maxAmount, intervalAmount } = props;

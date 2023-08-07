@@ -1,4 +1,4 @@
-import React from 'https://cdn.skypack.dev/react@17';
+import React from 'https://esm.sh/react@18';
 import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
 import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';

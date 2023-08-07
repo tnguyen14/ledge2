@@ -1,4 +1,4 @@
-import { configureStore } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
+import { configureStore } from 'https://esm.sh/@reduxjs/toolkit';
 import reducer from './reducers/index.js';
 
 const store = configureStore({ reducer });

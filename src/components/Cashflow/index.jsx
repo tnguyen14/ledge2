@@ -6,8 +6,8 @@ import {
   flexRender,
   getCoreRowModel
 } from 'https://esm.sh/@tanstack/react-table@8';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import classnames from 'https://esm.sh/classnames@2';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {
   getPastMonthsIds,
   getWeekStartFromWeekId
@@ -141,13 +141,11 @@ function Cashflow() {
 
   const highlightRows = ['debit', 'credit', 'balance'];
 
-  const { getHeaderGroups, getRowModel } = useReactTable(
-    {
-      columns,
-      data,
-      getCoreRowModel: getCoreRowModel()
-    }
-  );
+  const { getHeaderGroups, getRowModel } = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel()
+  });
   return (
     <div className="cashflow">
       <Table responsive>

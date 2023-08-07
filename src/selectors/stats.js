@@ -1,6 +1,6 @@
-import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import groupBy from 'https://cdn.skypack.dev/lodash.groupby';
-import sortBy from 'https://cdn.skypack.dev/lodash.sortby';
+import { createSelector } from 'https://esm.sh/reselect@4';
+import groupBy from 'https://esm.sh/lodash.groupby';
+import sortBy from 'https://esm.sh/lodash.sortby';
 import { sum } from '../util/calculate.js';
 
 const getTransactions = (state) => state.transactions;

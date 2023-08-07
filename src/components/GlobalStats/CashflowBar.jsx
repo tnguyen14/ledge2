@@ -6,8 +6,8 @@ import {
   bindPopover,
   bindTrigger
 } from 'https://esm.sh/material-ui-popup-state@5/hooks';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import classnames from 'https://esm.sh/classnames@2';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
 
 // const { usePopupState, bindPopover, bindTrigger } = PopupState;

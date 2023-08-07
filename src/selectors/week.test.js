@@ -10,7 +10,7 @@ import {
   getMonthId,
   getPastMonthsIds
 } from './week.js';
-import { expect } from 'https://cdn.skypack.dev/chai@4.3.4';
+import { expect } from 'https://esm.sh/chai@4.3.4';
 
 describe('selectors/week', () => {
   // Sunday night 11pm NY after midnight UTC

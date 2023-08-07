@@ -1,4 +1,4 @@
-import simpleFetch from 'https://cdn.skypack.dev/simple-fetch@2';
+import simpleFetch from 'https://esm.sh/simple-fetch@2';
 import store from '../store.js';
 
 function createFetchMethod(method) {

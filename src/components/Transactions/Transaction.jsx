@@ -1,14 +1,14 @@
 import React from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { utcToZonedTime } from 'https://cdn.skypack.dev/date-fns-tz@1/esm';
+import { format } from 'https://esm.sh/date-fns@2';
+import { utcToZonedTime } from 'https://esm.sh/date-fns-tz@1/esm';
 import Badge from 'https://esm.sh/react-bootstrap@2/Badge';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {
   KebabHorizontalIcon,
   ClockIcon,
   NoteIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+} from 'https://esm.sh/@primer/octicons-react@15';
 import Popover from 'https://esm.sh/@mui/material@5/Popover';
 import {
   usePopupState,
@@ -26,8 +26,6 @@ import {
   editTransaction,
   intendToRemoveTransaction
 } from '../../actions/app.js';
-
-// const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
 function Transaction({ transaction, dateFormat }) {
   const dispatch = useDispatch();

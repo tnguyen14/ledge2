@@ -1,4 +1,4 @@
-import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
+import { createReducer } from 'https://esm.sh/@reduxjs/toolkit';
 import {
   LOAD_TRANSACTIONS_SUCCESS,
   ADD_TRANSACTION_SUCCESS,

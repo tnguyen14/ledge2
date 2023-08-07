@@ -1,8 +1,8 @@
-import React from 'https://esm.sh/react@17';
+import React from 'https://esm.sh/react@18';
 import { useSelector } from 'https://esm.sh/react-redux@7';
-import { ClockIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { ClockIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import { format } from 'https://esm.sh/date-fns@2';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
 import { DISPLAY_DATE_FORMAT } from '../../util/constants.js';
 

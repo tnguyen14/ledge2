@@ -5,10 +5,8 @@ import {
   bindPopover,
   bindTrigger
 } from 'https://esm.sh/material-ui-popup-state@5/hooks';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
-
-// const { usePopupState, bindPopover, bindTrigger } = PopupState;
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
+import classnames from 'https://esm.sh/classnames@2';
 
 function CategoryBar(props) {
   const {

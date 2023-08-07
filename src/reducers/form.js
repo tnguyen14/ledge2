@@ -1,7 +1,7 @@
-import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
-import { fromCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { createReducer } from 'https://esm.sh/@reduxjs/toolkit';
+import { DateTime } from 'https://esm.sh/luxon@3';
+import { format } from 'https://esm.sh/date-fns@2';
+import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
 import {
   INPUT_CHANGE,
   SUBMIT_TRANSACTION,

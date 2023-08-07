@@ -5,9 +5,9 @@ import React, {
 } from 'https://esm.sh/react@18';
 import Spinner from 'https://esm.sh/react-bootstrap@2/Spinner';
 import Pagination from 'https://esm.sh/react-bootstrap@2/Pagination';
-import toml from 'https://cdn.skypack.dev/@ltd/j-toml@1';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import { format } from 'https://cdn.skypack.dev/date-fns@2';
+import toml from 'https://esm.sh/@ltd/j-toml@1';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
+import { format } from 'https://esm.sh/date-fns@2';
 import BudgetItem from './BudgetItem.js';
 import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';

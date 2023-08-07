@@ -1,4 +1,4 @@
-import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
+import { DateTime } from 'https://esm.sh/luxon@3';
 import { loadTransactions } from './transactions.js';
 import { TIMEZONE } from '../util/constants.js';
 

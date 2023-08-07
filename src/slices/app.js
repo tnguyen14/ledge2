@@ -1,4 +1,4 @@
-import { createSlice } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
+import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
 
 const initialState = {
   appReady: false,

@@ -1,4 +1,4 @@
-import produce from 'https://cdn.skypack.dev/immer@9';
+import produce from 'https://esm.sh/immer@9';
 import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
 import { calculateWeeklyAverage } from '../selectors/transactions.js';

@@ -4,7 +4,7 @@ import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@11';
+} from 'https://esm.sh/@primer/octicons-react@11';
 import CategoryBar from './CategoryBar.js';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import {

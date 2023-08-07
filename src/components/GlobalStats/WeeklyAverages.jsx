@@ -6,7 +6,7 @@ import {
   bindPopover,
   bindTrigger
 } from 'https://esm.sh/material-ui-popup-state@5/hooks';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 
 import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
 import {

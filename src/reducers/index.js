@@ -1,4 +1,4 @@
-import { combineReducers } from 'https://cdn.skypack.dev/redux@3';
+import { combineReducers } from 'https://esm.sh/redux@3';
 import form from './form.js';
 import meta from './meta.js';
 import app from './app.js';

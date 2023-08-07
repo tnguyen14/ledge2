@@ -1,5 +1,5 @@
-import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
-import produce from 'https://cdn.skypack.dev/immer@9';
+import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
+import produce from 'https://esm.sh/immer@9';
 
 /**
  * @param {Object} counts the counts object

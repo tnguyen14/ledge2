@@ -1,6 +1,6 @@
-import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
-import { differenceInCalendarWeeks } from 'https://cdn.skypack.dev/date-fns@2';
+import { createSelector } from 'https://esm.sh/reselect@4';
+import { DateTime } from 'https://esm.sh/luxon@3';
+import { differenceInCalendarWeeks } from 'https://esm.sh/date-fns@2';
 import { TIMEZONE } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;

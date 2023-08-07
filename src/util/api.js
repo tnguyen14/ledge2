@@ -1,5 +1,5 @@
-import qs from 'https://cdn.skypack.dev/qs@6';
-import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
+import qs from 'https://esm.sh/qs@6';
+import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
 import { getJson, postJson, patchJson, deleteJson } from './fetch.js';
 import { LEDGE_URL, USERMETA_URL } from './constants.js';
 import store from '../store.js';

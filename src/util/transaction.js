@@ -1,5 +1,5 @@
-import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
-import { toCents } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
+import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
+import { toCents } from 'https://esm.sh/@tridnguyen/money@1';
 import { getTransaction } from './api.js';
 
 /**

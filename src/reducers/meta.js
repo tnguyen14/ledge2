@@ -1,7 +1,7 @@
-import { createReducer } from 'https://cdn.skypack.dev/@reduxjs/toolkit';
-import slugify from 'https://cdn.skypack.dev/@tridnguyen/slugify@2';
-import { createSelector } from 'https://cdn.skypack.dev/reselect@4';
-import { DateTime } from 'https://cdn.skypack.dev/luxon@3';
+import { createReducer } from 'https://esm.sh/@reduxjs/toolkit';
+import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
+import { createSelector } from 'https://esm.sh/reselect@4';
+import { DateTime } from 'https://esm.sh/luxon@3';
 
 import {
   LOAD_META_SUCCESS,

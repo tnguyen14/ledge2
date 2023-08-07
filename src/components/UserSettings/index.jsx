@@ -5,11 +5,11 @@ import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
 import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
 import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
+import classnames from 'https://esm.sh/classnames@2';
 import {
   TrashIcon,
   XCircleIcon
-} from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+} from 'https://esm.sh/@primer/octicons-react@15';
 import {
   setUserSettingsOpen,
   addAccount,

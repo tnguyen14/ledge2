@@ -1,3 +1,3 @@
-import { createContext } from 'https://cdn.skypack.dev/react@17';
+import { createContext } from 'https://esm.sh/react@18';
 
 export default createContext();

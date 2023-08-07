@@ -1,13 +1,13 @@
 import React from 'https://esm.sh/react@18';
-import { usd } from 'https://cdn.skypack.dev/@tridnguyen/money@1';
-import { NoteIcon } from 'https://cdn.skypack.dev/@primer/octicons-react@15';
+import { usd } from 'https://esm.sh/@tridnguyen/money@1';
+import { NoteIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Popover from 'https://esm.sh/@mui/material@5/Popover';
 import {
   usePopupState,
   bindPopover,
   bindTrigger
 } from 'https://esm.sh/material-ui-popup-state@5/hooks';
-import classnames from 'https://cdn.skypack.dev/classnames@2';
+import classnames from 'https://esm.sh/classnames@2';
 
 // const { usePopupState, bindPopover, bindTrigger } = PopupState;
 
