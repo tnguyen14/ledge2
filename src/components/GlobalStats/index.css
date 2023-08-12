@@ -5,6 +5,11 @@
 @import './Budget.css';
 
 .global-stats {
+  .tabs-selector {
+    /* prevent the tabs component from
+     * blowing up the site's width */
+    max-width: 100dvw;
+  }
   .tab-content {
     margin-top: 1rem;
   }

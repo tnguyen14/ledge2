@@ -11,17 +11,12 @@
 
 .app-top {
   background-color: var(--color-grey-lighten-4);
-  padding: 0.5rem 2.5%;
   margin-bottom: 1rem;
   display: grid;
   grid-template-areas:
     'form'
     'stats';
   row-gap: 1rem;
-  @media (min-width: 42.5em) {
-    padding-left: 5%;
-    padding-right: 5%;
-  }
   @media (min-width: 68.75em) {
     grid-template-columns: 1fr 1fr;
     column-gap: 2rem;
@@ -29,9 +24,19 @@
   }
   .new-transaction {
     grid-area: form;
+    margin: 0.5rem 2.5%;
+    @media (min-width: 42.5em) {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
   }
   .global-stats {
     grid-area: stats;
+    margin: 0.5rem 2.5%;
+    @media (min-width: 42.5em) {
+      margin-left: 5%;
+      margin-right: 5%;
+    }
   }
 }
 
