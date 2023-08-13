@@ -8,6 +8,7 @@ import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
 import { format } from 'https://esm.sh/date-fns@2';
 import { Octokit } from 'https://esm.sh/octokit@2.0.14';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
@@ -32,7 +33,7 @@ import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';
 
 function App() {
-  const { isLoading, isAuthenticated, user, getAccessTokenSilently } =
+  const { isLoading, isAuthenticated, user, getAccessTokenSilently, logout } =
     useAuth0();
   const dispatch = useDispatch();
   const [octokit, setOctokit] = useState();
@@ -118,6 +119,19 @@ function App() {
           <p>
             <pre>{appError.message}</pre>
             <pre>{JSON.stringify(appError)}</pre>
+          </p>
+          <p>
+            <Button
+              onClick={() =>
+                logout({
+                  logoutParams: {
+                    returnTo: window.location.href
+                  }
+                })
+              }
+            >
+              Log Out
+            </Button>
           </p>
         </div>
       )}
