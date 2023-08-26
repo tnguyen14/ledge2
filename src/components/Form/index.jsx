@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
-import { SearchIcon, ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import {
+  ThreeBarsIcon,
+  ZapIcon
+} from 'https://esm.sh/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
   submit,
@@ -34,7 +37,9 @@ function Form() {
   const fieldOptions = useSelector((state) => ({
     category: state.meta.expenseCategories,
     debitAccount: state.meta.accounts,
-    creditAccount: state.meta.accounts
+    creditAccount: state.meta.accounts,
+    searchAccount: state.meta.accounts,
+    syntheticType: SYNTHETIC_TYPES
   }));
 
   const prevMerchantRef = useRef();
@@ -85,28 +90,6 @@ function Form() {
 
   return (
     <form className="new-transaction" method="POST">
-      <div className="form-header">
-        <div className="form-modes">
-          <Button
-            variant={action == 'search' ? 'info' : 'outline-info'}
-            onClick={() => {
-              dispatch(setSearchMode(action != 'search'));
-            }}
-          >
-            <SearchIcon />
-          </Button>
-        </div>
-        <Field
-          handleChange={(event) => {
-            dispatch(inputChange('syntheticType', event.target.value));
-          }}
-          type="select"
-          label="Type"
-          disabled={!appReady}
-          value={values.syntheticType}
-          options={SYNTHETIC_TYPES}
-        />
-      </div>
       <>
         {fields.map((fieldConfig) => {
           const field = { ...fieldConfig };
@@ -148,22 +131,33 @@ function Form() {
             />
           );
         })}
-        <div className="actions">
+        <div className="form-buttons">
           <Button
-            variant="primary"
-            type="submit"
-            onClick={submitForm}
-            {...buttonAttrs}
+            className="form-mode-switch"
+            variant={action == 'search' ? 'info' : 'outline-info'}
+            onClick={() => {
+              dispatch(setSearchMode(action != 'search'));
+            }}
           >
-            {actionText}
+            <ThreeBarsIcon />
           </Button>
-          <Button
-            variant="outline-secondary"
-            onClick={() => dispatch(resetForm())}
-            {...buttonAttrs}
-          >
-            Reset
-          </Button>
+          <div className="actions">
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={submitForm}
+              {...buttonAttrs}
+            >
+              {actionText}
+            </Button>
+            <Button
+              variant="outline-secondary"
+              onClick={() => dispatch(resetForm())}
+              {...buttonAttrs}
+            >
+              Reset
+            </Button>
+          </div>
         </div>
       </>
     </form>

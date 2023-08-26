@@ -69,6 +69,13 @@ const creditAccountField = {
   placeholder: 'From'
 };
 
+const searchAccountField = {
+  type: 'select',
+  label: 'Account',
+  name: 'searchAccount',
+  placeholder: 'Account'
+};
+
 const dateField = {
   type: 'date',
   label: 'Date',
@@ -124,6 +131,12 @@ const memoField = {
   placeholder: 'Memo'
 };
 
+const syntheticTypeField = {
+  type: 'select',
+  name: 'syntheticType',
+  label: 'Type'
+};
+
 const idField = {
   type: 'hidden',
   name: 'id'
@@ -170,7 +183,19 @@ function getAccountsValues(syntheticType) {
   };
 }
 
-function getFormFields(syntheticType) {
+function getFormFields(syntheticType, isSearch) {
+  if (isSearch) {
+    return [
+      amountField,
+      searchAccountField,
+      merchantField,
+      categoryField,
+      dateField,
+      timeField,
+      memoField,
+      idField
+    ];
+  }
   switch (syntheticType) {
     case 'expense':
       return [
@@ -186,6 +211,7 @@ function getFormFields(syntheticType) {
         budgetEndField,
         budgetSpanField,
         memoField,
+        syntheticTypeField,
         idField
       ];
     case 'transfer':
@@ -199,6 +225,7 @@ function getFormFields(syntheticType) {
         dateField,
         timeField,
         memoField,
+        syntheticTypeField,
         idField
       ];
   }
@@ -288,6 +315,7 @@ export default createReducer(initialState, (builder) => {
         ...createInitialValues(action.payload),
         ...getAccountsValues(state.values.syntheticType)
       };
+      state.fields = getFormFields(state.values.syntheticType, action.payload);
     })
     .addCase(RESET_FORM, (state) => {
       state.values = {
