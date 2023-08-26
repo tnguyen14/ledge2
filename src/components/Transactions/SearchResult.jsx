@@ -9,6 +9,8 @@ function SearchResult() {
   const search = useSelector((state) => state.app.search);
 
   const results = getSearchResult({
+    // convert transactions from an object with keys of transaction IDs,
+    // to an array of transactions
     transactions: Object.keys(transactions).map((id) => transactions[id]),
     search
   });

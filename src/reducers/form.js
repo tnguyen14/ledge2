@@ -289,13 +289,17 @@ export default createReducer(initialState, (builder) => {
         ...getAccountsValues(state.values.syntheticType)
       };
     })
+    .addCase(RESET_FORM, (state) => {
+      state.values = {
+        ...createInitialValues(state.action == 'search'),
+        ...getAccountsValues(state.values.syntheticType)
+      };
+    })
     .addMatcher(
       (action) =>
-        [
-          RESET_FORM,
-          ADD_TRANSACTION_SUCCESS,
-          UPDATE_TRANSACTION_SUCCESS
-        ].includes(action.type),
+        [ADD_TRANSACTION_SUCCESS, UPDATE_TRANSACTION_SUCCESS].includes(
+          action.type
+        ),
       (state) => {
         state.pending = false;
         state.values = {

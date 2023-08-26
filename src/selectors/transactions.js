@@ -157,18 +157,19 @@ export const getMonths = createSelector(getTransactions, (transactions) => {
   return months;
 });
 
-const getSearch = (state) => state.search;
+// state.search is an object
+// return an array of key, value pairs of non-empty values
+const getSearchParams = (state) =>
+  Object.entries(state.search).filter((param) => !!param[1]);
 export const getSearchResult = createSelector(
   getSortedTransactions,
-  getSearch,
-  (transactions, search) => {
+  getSearchParams,
+  (transactions, searchParams) => {
     return transactions.filter((tx) =>
-      Object.entries(search)
-        // filter out empty string
-        .filter(([key, value]) => !!value)
-        .every(([key, value]) =>
-          String(tx[key]).toLowerCase().includes(String(value).toLowerCase())
-        )
+      // has to match all the provided search params
+      searchParams.every(([key, value]) =>
+        String(tx[key]).toLowerCase().includes(String(value).toLowerCase())
+      )
     );
   }
 );
