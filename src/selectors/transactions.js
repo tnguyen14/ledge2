@@ -160,7 +160,7 @@ export const getMonths = createSelector(getTransactions, (transactions) => {
 // state.search is an object
 // return an array of key, value pairs of non-empty values
 const getSearchParams = (state) =>
-  Object.entries(state.search).filter((param) => !!param[1]);
+  Object.entries(state.searchParams).filter((param) => !!param[1]);
 export const getSearchResult = createSelector(
   getSortedTransactions,
   getSearchParams,

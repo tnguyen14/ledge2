@@ -6,13 +6,13 @@ import Transaction from './Transaction.js';
 
 function SearchResult() {
   const transactions = useSelector((state) => state.transactions);
-  const search = useSelector((state) => state.app.search);
+  const searchParams = useSelector((state) => state.app.searchParams);
 
   const results = getSearchResult({
     // convert transactions from an object with keys of transaction IDs,
     // to an array of transactions
     transactions: Object.keys(transactions).map((id) => transactions[id]),
-    search
+    searchParams
   });
   return (
     <div className="search-results transactions-container">

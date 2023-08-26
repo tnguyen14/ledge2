@@ -8,7 +8,7 @@ import { getPastWeeksIds } from '../../selectors/week.js';
 
 function Weeks() {
   const isLoading = useSelector((state) => state.app.isLoading);
-  const search = useSelector((state) => state.app.search);
+  const isSearch = useSelector((state) => state.app.isSearch);
   const displayFrom = useSelector((state) => state.app.displayFrom);
   const visibleWeeksIds = getPastWeeksIds({
     weekId: displayFrom,
@@ -20,7 +20,7 @@ function Weeks() {
       <div className="transactions-loading">
         {isLoading && <Spinner animation="border" variant="success" />}
       </div>
-      {search ? (
+      {isSearch ? (
         <SearchResult />
       ) : (
         <div className="weeks">

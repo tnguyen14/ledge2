@@ -10,7 +10,7 @@ import {
   submit,
   inputChange,
   resetForm,
-  setSearch
+  setSearchParams
 } from '../../actions/form.js';
 import {
   addTransaction,
@@ -56,7 +56,7 @@ function Form() {
       event.preventDefault();
       if (action == 'search') {
         dispatch(
-          setSearch({
+          setSearchParams({
             // limit the number of attributes to search
             // to avoid overly narrow search
             amount: values.amount && (values.amount * 100).toFixed(),

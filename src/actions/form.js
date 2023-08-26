@@ -23,10 +23,10 @@ export function resetForm() {
   };
 }
 
-export const SET_SEARCH = 'SET_SEARCH';
-export function setSearch(searchData) {
+export const SET_SEARCH_PARAMS = 'SET_SEARCH_PARAMS';
+export function setSearchParams(searchParams) {
   return {
-    type: SET_SEARCH,
-    payload: searchData
+    type: SET_SEARCH_PARAMS,
+    payload: searchParams
   };
 }

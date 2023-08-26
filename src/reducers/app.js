@@ -23,7 +23,7 @@ import {
   SAVE_USER_SETTINGS_SUCCESS,
   SAVE_USER_SETTINGS_FAILURE
 } from '../actions/meta.js';
-import { SET_SEARCH } from '../actions/form.js';
+import { SET_SEARCH_PARAMS } from '../actions/form.js';
 
 const initialState = {
   appReady: false,
@@ -73,10 +73,10 @@ export default createReducer(initialState, (builder) => {
       state.showCashflow = action.payload;
     })
     .addCase(SET_SEARCH_MODE, (state, action) => {
-      state.search = action.payload ? {} : undefined;
+      state.isSearch = action.payload;
     })
-    .addCase(SET_SEARCH, (state, action) => {
-      state.search = action.payload;
+    .addCase(SET_SEARCH_PARAMS, (state, action) => {
+      state.searchParams = action.payload;
     })
     .addCase(INTEND_TO_REMOVE_TRANSACTION, (state, action) => {
       (state.transactionRemovalIntended = true),
