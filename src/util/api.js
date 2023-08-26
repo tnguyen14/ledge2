@@ -37,12 +37,8 @@ function mapTypeToSyntheticType(transaction) {
       };
     case 'withdrawal':
       return {
-        syntheticType:
-          transaction.merchant == 'Travel' ? 'transfer' : 'withdrawal',
-        debitAccount:
-          transaction.merchant == 'Travel'
-            ? 'travel'
-            : slugify(transaction.merchant),
+        syntheticType: 'transfer',
+        debitAccount: slugify(transaction.merchant),
         creditAccount: 'cash'
       };
     case 'regular-income':
@@ -59,8 +55,7 @@ function mapTypeToSyntheticType(transaction) {
       };
     case 'deposit':
       return {
-        syntheticType:
-          transaction.category == 'side-job' ? 'deposit' : 'transfer',
+        syntheticType: 'transfer',
         debitAccount: 'cash',
         creditAccount:
           transaction.category == 'side-job'

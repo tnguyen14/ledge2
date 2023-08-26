@@ -156,14 +156,8 @@ a:not([href]) {
   &[data-synthetic-type='expense'] {
     background-color: var(--color-red-lighten-3);
   }
-  &[data-synthetic-type='withdrawal'] {
-    background-color: var(--color-red-lighten-4);
-  }
   &[data-synthetic-type='income'] {
     background-color: var(--color-light-green-accent-4);
-  }
-  &[data-synthetic-type='deposit'] {
-    background-color: var(--color-light-green-accent-2);
   }
   &[data-synthetic-type='transfer'] {
     background-color: var(--color-blue);

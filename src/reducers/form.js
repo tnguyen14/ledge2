@@ -17,27 +17,6 @@ import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 import { getWeeksDifference } from '../selectors/week.js';
 
-// abstract this into a function so it can be called again later
-// resetting the date and time to the current value when it's called
-function createInitialValues(isSearch) {
-  const now = new Date();
-  return {
-    amount: '',
-    calculate: '',
-    merchant: '',
-    category: '',
-    date: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
-    time: isSearch ? '' : format(now, TIME_FIELD_FORMAT),
-    budgetSpan: 1,
-    budgetStart: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
-    budgetEnd: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
-    memo: '',
-    id: '',
-    debitAccount: '',
-    creditAccount: ''
-  };
-}
-
 const amountField = {
   type: 'number',
   label: 'Amount',
@@ -150,10 +129,53 @@ const idField = {
   name: 'id'
 };
 
+// abstract this into a function so it can be called again later
+// resetting the date and time to the current value when it's called
+function createInitialValues(isSearch) {
+  const now = new Date();
+  return {
+    amount: '',
+    calculate: '',
+    merchant: '',
+    category: '',
+    date: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
+    time: isSearch ? '' : format(now, TIME_FIELD_FORMAT),
+    budgetSpan: 1,
+    budgetStart: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
+    budgetEnd: isSearch ? '' : format(now, DATE_FIELD_FORMAT),
+    memo: '',
+    id: '',
+    debitAccount: '',
+    creditAccount: ''
+  };
+}
+
+function getAccountsValues(syntheticType) {
+  let creditAccount = '';
+  let debitAccount = '';
+  switch (syntheticType) {
+    case 'expense':
+      debitAccount = 'expense';
+      creditAccount = 'cash';
+      break;
+    case 'income':
+      debitAccount = 'cash';
+      creditAccount = 'income';
+      break;
+  }
+  return {
+    syntheticType,
+    creditAccount,
+    debitAccount
+  };
+}
+
 function getFormFields(syntheticType) {
   switch (syntheticType) {
     case 'expense':
       return [
+        debitAccountField,
+        creditAccountField,
         amountField,
         calculateField,
         merchantField,
@@ -167,21 +189,10 @@ function getFormFields(syntheticType) {
         idField
       ];
     case 'transfer':
-      return [
-        amountField,
-        calculateField,
-        debitAccountField,
-        creditAccountField,
-        dateField,
-        timeField,
-        memoField,
-        idField
-      ];
-    case 'income':
-    case 'deposit':
-    case 'withdrawal':
     default:
       return [
+        debitAccountField,
+        creditAccountField,
         amountField,
         calculateField,
         merchantField,
@@ -193,13 +204,14 @@ function getFormFields(syntheticType) {
   }
 }
 
+const defaultSyntheticType = 'expense';
 const initialState = {
   action: 'add',
   values: {
     ...createInitialValues(),
-    syntheticType: 'expense'
+    ...getAccountsValues(defaultSyntheticType)
   },
-  fields: getFormFields('expense')
+  fields: getFormFields(defaultSyntheticType)
 };
 
 export default createReducer(initialState, (builder) => {
@@ -245,6 +257,10 @@ export default createReducer(initialState, (builder) => {
       }
       if (action.payload.name == 'syntheticType') {
         state.fields = getFormFields(action.payload.value);
+        state.values = {
+          ...state.values,
+          ...getAccountsValues(state.values.syntheticType)
+        };
       }
     })
     .addCase(EDIT_TRANSACTION, (state, action) => {
@@ -270,7 +286,7 @@ export default createReducer(initialState, (builder) => {
       state.action = action.payload ? 'search' : 'add';
       state.values = {
         ...createInitialValues(action.payload),
-        syntheticType: state.values.syntheticType
+        ...getAccountsValues(state.values.syntheticType)
       };
     })
     .addMatcher(
@@ -283,8 +299,8 @@ export default createReducer(initialState, (builder) => {
       (state) => {
         state.pending = false;
         state.values = {
-          syntheticType: state.values.syntheticType,
-          ...createInitialValues(state.action == 'search')
+          ...createInitialValues(state.action == 'search'),
+          ...getAccountsValues(state.values.syntheticType)
         };
         state.action = 'add';
       }

@@ -1,4 +1,3 @@
-import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
 import { toCents } from 'https://esm.sh/@tridnguyen/money@1';
 import { getTransaction } from './api.js';
 
@@ -30,47 +29,10 @@ export const SYNTHETIC_TYPES = [
     value: 'Income'
   },
   {
-    slug: 'deposit',
-    value: 'Deposit'
-  },
-  {
-    slug: 'withdrawal',
-    value: 'Withdrawal'
-  },
-  {
     slug: 'transfer',
     value: 'Transfer'
   }
 ];
-
-function getCreditDebitAccounts(transaction) {
-  if (!transaction.syntheticType) {
-    throw new Error('syntheticType is required');
-  }
-  switch (transaction.syntheticType) {
-    case 'expense':
-      return {
-        debitAccount: 'expense',
-        creditAccount: 'cash'
-      };
-    case 'income':
-      return {
-        debitAccount: 'cash',
-        creditAccount: 'income'
-      };
-    case 'deposit':
-      return {
-        debitAccount: 'cash',
-        creditAccount: slugify(transaction.merchant)
-      };
-    case 'withdrawal':
-      return {
-        debitAccount: slugify(transaction.merchant),
-        creditAccount: 'cash'
-      };
-  }
-  return {};
-}
 
 export function decorateTransaction(params) {
   if (!(params.date && params.time)) {
@@ -111,10 +73,6 @@ export function decorateTransaction(params) {
     budgetSpan,
     syntheticType,
     debitAccount,
-    creditAccount,
-    ...getCreditDebitAccounts({
-      syntheticType,
-      merchant
-    })
+    creditAccount
   };
 }
