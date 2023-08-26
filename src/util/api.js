@@ -21,6 +21,11 @@ export async function getTransaction(id) {
 }
 
 function mapTypeToSyntheticType(transaction) {
+  // if transaction doesn't have the legacy type
+  // don't add any more details
+  if (!transaction.type) {
+    return {};
+  }
   switch (transaction.type) {
     case 'regular-expense':
     default:
@@ -87,7 +92,9 @@ function transformTransaction(transaction) {
         getWeeksDifference({
           dateStart: budgetEndDate.toISOString(),
           dateEnd: budgetStartDate.toISOString()
-        }) + 1
+        }) + 1,
+      // allow both debit and credit account to be searched
+      searchAccount: `${transaction.debitAccount}-${transaction.creditAccount}`
     },
     ...mapTypeToSyntheticType(transaction),
     ...transaction

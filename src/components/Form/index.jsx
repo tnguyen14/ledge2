@@ -61,7 +61,8 @@ function Form() {
             // to avoid overly narrow search
             amount: values.amount && (values.amount * 100).toFixed(),
             merchant: values.merchant,
-            category: values.category
+            category: values.category,
+            searchAccount: values.searchAccount
           })
         );
       } else if (action == 'update') {

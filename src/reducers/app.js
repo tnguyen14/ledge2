@@ -38,7 +38,8 @@ const initialState = {
   loadedTransactions: false,
   showCashflow: false,
   isUserSettingsOpen: false,
-  error: null
+  error: null,
+  searchParams: {}
 };
 
 export default createReducer(initialState, (builder) => {
