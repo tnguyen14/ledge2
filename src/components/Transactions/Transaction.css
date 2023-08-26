@@ -14,11 +14,6 @@
     width: calc(100% - 3.5rem - 4.5rem - 4rem - 10px);
     word-break: break-word;
   }
-  [data-field='synthetic-type'] {
-    width: 10px;
-    cursor: pointer;
-    padding: 0;
-  }
   [data-field='amount'] {
     color: white;
     width: 4.5rem;
@@ -26,8 +21,28 @@
       width: 7rem;
     }
   }
+  [data-field='credit-account'],
+  [data-field='debit-account'] {
+    background-color: var(--color-blue-grey-lighten-4);
+    width: 10px;
+    cursor: pointer;
+    padding: 0;
+    &[data-account-name='expense'] {
+      background-color: var(--color-red-lighten-3);
+    }
+    &[data-account-name='income'] {
+      background-color: var(--color-light-green-accent-4);
+    }
+    &[data-account-name='schwab'] {
+      background-color: var(--color-cyan);
+    }
+    &[data-account-name='travel'] {
+      background-color: var(--color-blue);
+    }
+  }
 }
-.synthetic-type-popover,
+.credit-account-popover,
+.debit-account-popover,
 .amount-popover {
   h4 {
     font-size: 0.9em;

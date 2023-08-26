@@ -199,8 +199,8 @@ function getFormFields(syntheticType, isSearch) {
   switch (syntheticType) {
     case 'expense':
       return [
-        debitAccountField,
         creditAccountField,
+        debitAccountField,
         amountField,
         calculateField,
         merchantField,
@@ -217,8 +217,8 @@ function getFormFields(syntheticType, isSearch) {
     case 'transfer':
     default:
       return [
-        debitAccountField,
         creditAccountField,
+        debitAccountField,
         amountField,
         calculateField,
         merchantField,

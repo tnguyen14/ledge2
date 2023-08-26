@@ -47,9 +47,13 @@ function Transaction({ transaction, dateFormat }) {
   const categories = useSelector((state) => state.meta.expenseCategories);
   const accounts = useSelector((state) => state.meta.accounts);
 
-  const syntheticTypePopupState = usePopupState({
+  const creditAccountPopupState = usePopupState({
     variant: 'popover',
-    popupId: `${id}-synthetic-type`
+    popupId: `${id}-credit-account`
+  });
+  const debitAccountPopupState = usePopupState({
+    variant: 'popover',
+    popupId: `${id}-debit-account`
   });
   const notesPopupState = usePopupState({
     variant: 'popover',
@@ -90,9 +94,9 @@ function Transaction({ transaction, dateFormat }) {
         data-date={date}
       >
         <td
-          data-field="synthetic-type"
-          data-synthetic-type={syntheticType}
-          {...bindTrigger(syntheticTypePopupState)}
+          data-field="credit-account"
+          data-account-name={creditAccount}
+          {...bindTrigger(creditAccountPopupState)}
         ></td>
         <td data-field="day">
           <span {...bindTrigger(datePopupState)}>{displayDay}</span>
@@ -120,9 +124,14 @@ function Transaction({ transaction, dateFormat }) {
             <KebabHorizontalIcon />
           </button>
         </td>
+        <td
+          data-field="debit-account"
+          data-account-name={debitAccount}
+          {...bindTrigger(debitAccountPopupState)}
+        ></td>
       </tr>
       <Popover
-        {...bindPopover(syntheticTypePopupState)}
+        {...bindPopover(creditAccountPopupState)}
         anchorOrigin={{
           vertical: 'top',
           horizonal: 'center'
@@ -132,8 +141,23 @@ function Transaction({ transaction, dateFormat }) {
           horizontal: 'center'
         }}
       >
-        <div className="text-popover synthetic-type-popover">
-          <h4>{getValueFromOptions(SYNTHETIC_TYPES, syntheticType)}</h4>
+        <div className="text-popover credit-account-popover">
+          <h4>{getValueFromOptions(accounts, creditAccount)}</h4>
+        </div>
+      </Popover>
+      <Popover
+        {...bindPopover(debitAccountPopupState)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizonal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+      >
+        <div className="text-popover debit-account-popover">
+          <h4>{getValueFromOptions(accounts, debitAccount)}</h4>
         </div>
       </Popover>
       <Popover
@@ -168,8 +192,8 @@ function Transaction({ transaction, dateFormat }) {
             </>
           ) : (
             <>
-              <h4>From</h4>
-              <div>{getValueFromOptions(accounts, creditAccount)}</div>
+              <h4>Synthetic Type</h4>
+              <div>{getValueFromOptions(SYNTHETIC_TYPES, syntheticType)}</div>
             </>
           )}
         </div>

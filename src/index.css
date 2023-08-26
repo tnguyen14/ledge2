@@ -151,19 +151,6 @@ a:not([href]) {
   }
 }
 
-[data-field='synthetic-type'] {
-  background-color: var(--color-blue-grey-lighten-4);
-  &[data-synthetic-type='expense'] {
-    background-color: var(--color-red-lighten-3);
-  }
-  &[data-synthetic-type='income'] {
-    background-color: var(--color-light-green-accent-4);
-  }
-  &[data-synthetic-type='transfer'] {
-    background-color: var(--color-blue);
-  }
-}
-
 /* Hiding class, making content visible only to screen readers but not visually */
 /* "sr" meaning "screen-reader" */
 
