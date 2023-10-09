@@ -6,6 +6,9 @@
   color: var(--color-grey);
   font-style: italic;
 }
-.matchSubBudgetTally {
+.sub-budget-tally-short {
   color: var(--color-green);
+}
+.sub-budget-tally-exceed {
+  color: var(--color-red-lighten-3);
 }

@@ -56,9 +56,14 @@ function BudgetItem({ category, details }) {
     {}
   );
 
-  const matchSubBudgetTally = Object.keys(subBudget).length
-    ? details.amount == subBudgetTally
-    : true;
+  let subBudgetTallyStatus = 'match';
+  if (Object.keys(subBudget).length) {
+    if (details.amount < subBudgetTally) {
+      subBudgetTallyStatus = 'exceed';
+    } else if (details.amount > subBudgetTally) {
+      subBudgetTallyStatus = 'short';
+    }
+  }
 
   return (
     <>
@@ -108,7 +113,7 @@ function BudgetItem({ category, details }) {
             </div>
           )}
         </td>
-        <td className={classnames({ matchSubBudgetTally })}>
+        <td className={`sub-budget-tally-${subBudgetTallyStatus}`}>
           {usd(details.amount * 100)}
         </td>
       </tr>
