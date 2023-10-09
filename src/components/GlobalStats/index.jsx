@@ -7,7 +7,7 @@ import WeeklyAverages from './WeeklyAverages.js';
 import CategoriesChart from './CategoriesChart.js';
 import CashflowChart from './CashflowChart.js';
 import Budget from './Budget.js';
-import { showCashflow } from '../../actions/app.js';
+import { showCashflow, setSearchMode } from '../../actions/app.js';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -27,7 +27,7 @@ function TabPanel(props) {
 
 function GlobalStats() {
   const dispatch = useDispatch();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(1);
 
   return (
     <div className="stats global-stats">
@@ -37,29 +37,37 @@ function GlobalStats() {
         value={tab}
         onChange={(e, newValue) => {
           setTab(newValue);
-          // check if cashflow tab
-          if (newValue == 2) {
+          // search
+          if (newValue == 0) {
+            dispatch(setSearchMode(true));
+          } else {
+            dispatch(setSearchMode(false));
+          }
+          // cashflow
+          if (newValue == 3) {
             dispatch(showCashflow(true));
           } else {
             dispatch(showCashflow(false));
           }
         }}
       >
-        <Tab label="Weekly Chart" />
-        <Tab label="Weekly Averages" />
+        <Tab label="Search" />
+        <Tab label="Chart" />
+        <Tab label="Averages" />
         <Tab label="Cash Flow" />
         <Tab label="Budget" />
       </Tabs>
-      <TabPanel value={tab} index={0}>
+      <TabPanel value={tab} index={0}></TabPanel>
+      <TabPanel value={tab} index={1}>
         <CategoriesChart />
       </TabPanel>
-      <TabPanel className="weekly-averages" value={tab} index={1}>
+      <TabPanel className="weekly-averages" value={tab} index={2}>
         <WeeklyAverages />
       </TabPanel>
-      <TabPanel value={tab} index={2}>
+      <TabPanel value={tab} index={3}>
         <CashflowChart />
       </TabPanel>
-      <TabPanel value={tab} index={3}>
+      <TabPanel value={tab} index={4}>
         <Budget />
       </TabPanel>
     </div>

@@ -39,7 +39,6 @@ function App() {
   const [octokit, setOctokit] = useState();
   const lastRefreshed = useSelector((state) => state.app.lastRefreshed);
   const showCashflow = useSelector((state) => state.app.showCashflow);
-  const isSearch = useSelector((state) => state.app.isSearch);
   const appError = useSelector((state) => state.app.error);
   const isVisible = usePageVisibility();
   const budget = useContext(BudgetContext);
@@ -142,7 +141,7 @@ function App() {
           >
             <div className="app-top">
               <Form />
-              {!isSearch && <GlobalStats />}
+              <GlobalStats />
             </div>
             <div className="app-bottom">
               {showCashflow ? <Cashflow /> : <Transactions />}

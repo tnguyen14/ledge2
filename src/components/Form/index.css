@@ -13,14 +13,10 @@
       ); /* this is the height of form-control set by bootstrap */
     }
   }
-  .form-buttons {
-    display: flex;
-    justify-content: space-between;
-  }
   .actions {
     grid-column: 2;
     display: flex;
-    /* justify-content: flex-end; */
+    justify-content: flex-end;
     [type='submit'] {
       order: 1; /* move to the right */
       text-transform: capitalize;

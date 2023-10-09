@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
-import {
-  ThreeBarsIcon,
-  ZapIcon
-} from 'https://esm.sh/@primer/octicons-react@15';
+import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
   submit,
@@ -16,7 +13,6 @@ import {
   addTransaction,
   updateTransaction
 } from '../../actions/transactions.js';
-import { setSearchMode } from '../../actions/app.js';
 import { SYNTHETIC_TYPES } from '../../util/transaction.js';
 import Span from './Span.js';
 
@@ -132,33 +128,22 @@ function Form() {
             />
           );
         })}
-        <div className="form-buttons">
+        <div className="actions">
           <Button
-            className="form-mode-switch"
-            variant={action == 'search' ? 'info' : 'outline-info'}
-            onClick={() => {
-              dispatch(setSearchMode(action != 'search'));
-            }}
+            variant="primary"
+            type="submit"
+            onClick={submitForm}
+            {...buttonAttrs}
           >
-            <ThreeBarsIcon />
+            {actionText}
           </Button>
-          <div className="actions">
-            <Button
-              variant="primary"
-              type="submit"
-              onClick={submitForm}
-              {...buttonAttrs}
-            >
-              {actionText}
-            </Button>
-            <Button
-              variant="outline-secondary"
-              onClick={() => dispatch(resetForm())}
-              {...buttonAttrs}
-            >
-              Reset
-            </Button>
-          </div>
+          <Button
+            variant="outline-secondary"
+            onClick={() => dispatch(resetForm())}
+            {...buttonAttrs}
+          >
+            Reset
+          </Button>
         </div>
       </>
     </form>
