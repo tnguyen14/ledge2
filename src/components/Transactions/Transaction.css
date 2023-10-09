@@ -11,14 +11,17 @@
     width: 4rem;
   }
   [data-field='merchant'] {
-    width: calc(100% - 3.5rem - 4.5rem - 4rem - 10px);
+    width: calc(100% - 10px - 3.5rem - 6.5rem - 4rem - 10px);
     word-break: break-word;
   }
   [data-field='amount'] {
     color: white;
-    width: 4.5rem;
+    width: 6.5rem;
+    .span-hint {
+      margin-right: 0;
+    }
     @media (min-width: 42.5em) {
-      width: 7rem;
+      width: 8rem;
     }
   }
   [data-field='credit-account'],
