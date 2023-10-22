@@ -1,0 +1,21 @@
+services:
+  lists:
+    image: ghcr.io/tnguyen14/lists:master
+    ports:
+      - "13050:3000"
+    volumes:
+      - ./credentials:/credentials
+    environment:
+      - NODE_ENV=production # don't use pino-pretty
+      - AUTH0_DOMAIN=tridnguyen.auth0.com
+      - AUTH0_CLIENT_ID=IxcfVZqCVF9b5FS2NVVnElOeBnoNG02Z
+      - GOOGLE_APPLICATION_CREDENTIALS=/credentials/dev-build-tridnguyen-com-2759d05c49e0.json
+
+  ledge:
+    build: .
+    volumes:
+      - .:/src
+    ports:
+      - "4003:4003"
+
+
