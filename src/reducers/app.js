@@ -13,11 +13,9 @@ import {
   SET_APP_ERROR
 } from '../actions/app.js';
 import {
-  LOAD_TRANSACTIONS,
-  REMOVING_TRANSACTION
-} from '../actions/transactions.js';
-import {
+  loadingTransactions,
   loadTransactionsSuccess,
+  removingTransaction,
   removeTransactionSuccess
 } from '../slices/transactions.js';
 import {
@@ -46,7 +44,7 @@ const initialState = {
 
 export default createReducer(initialState, (builder) => {
   builder
-    .addCase(LOAD_TRANSACTIONS, (state) => {
+    .addCase(loadingTransactions, (state) => {
       state.isLoading = true;
     })
     .addCase(loadTransactionsSuccess, (state, action) => {
@@ -85,7 +83,7 @@ export default createReducer(initialState, (builder) => {
       (state.transactionRemovalIntended = true),
         (state.transactionToBeRemoved = action.payload);
     })
-    .addCase(REMOVING_TRANSACTION, (state) => {
+    .addCase(removingTransaction, (state) => {
       state.waitingTransactionRemoval = true;
     })
     .addCase(removeTransactionSuccess, (state) => {

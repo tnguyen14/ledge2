@@ -8,12 +8,10 @@ import {
   RESET_FORM
 } from '../actions/form.js';
 import {
-  ADD_TRANSACTION_FAILURE,
-  UPDATE_TRANSACTION_FAILURE
-} from '../actions/transactions.js';
-import {
   addTransactionSuccess,
-  updateTransactionSuccess
+  addTransactionFailure,
+  updateTransactionSuccess,
+  updateTransactionFailure
 } from '../slices/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
@@ -341,7 +339,7 @@ export default createReducer(initialState, (builder) => {
     )
     .addMatcher(
       (action) =>
-        [ADD_TRANSACTION_FAILURE, UPDATE_TRANSACTION_FAILURE].includes(
+        [addTransactionFailure.type, updateTransactionFailure.type].includes(
           action.type
         ),
       (state) => {

@@ -4,6 +4,7 @@ const transactions = createSlice({
   name: 'transactions',
   initialState: {},
   reducers: {
+    loadingTransactions: () => {},
     loadTransactionsSuccess: (state, action) => {
       if (!action.payload.transactions) {
         return;
@@ -17,19 +18,28 @@ const transactions = createSlice({
     addTransactionSuccess: (state, action) => {
       state[action.payload.id] = action.payload;
     },
+    addTransactionFailure: () => {},
+    updateTransactionSuccess: (state, action) => {
+      state[action.payload.id] = action.payload;
+    },
+    updateTransactionFailure: () => {},
+    removingTransaction: () => {},
     removeTransactionSuccess: (state, action) => {
       delete state[action.payload];
     },
-    updateTransactionSuccess: (state, action) => {
-      state[action.payload.id] = action.payload;
-    }
+    removeTransactionFailure: () => {}
   }
 });
 
 export const {
+  loadingTransactions,
   loadTransactionsSuccess,
   addTransactionSuccess,
+  addTransactionFailure,
+  updateTransactionSuccess,
+  updateTransactionFailure,
+  removingTransaction,
   removeTransactionSuccess,
-  updateTransactionSuccess
+  removeTransactionFailure
 } = transactions.actions;
 export default transactions.reducer;
