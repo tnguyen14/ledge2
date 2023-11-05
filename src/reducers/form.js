@@ -8,11 +8,13 @@ import {
   RESET_FORM
 } from '../actions/form.js';
 import {
-  ADD_TRANSACTION_SUCCESS,
-  UPDATE_TRANSACTION_SUCCESS,
   ADD_TRANSACTION_FAILURE,
   UPDATE_TRANSACTION_FAILURE
 } from '../actions/transactions.js';
+import {
+  addTransactionSuccess,
+  updateTransactionSuccess
+} from '../slices/transactions.js';
 import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 import { getWeeksDifference } from '../selectors/week.js';
@@ -325,7 +327,7 @@ export default createReducer(initialState, (builder) => {
     })
     .addMatcher(
       (action) =>
-        [ADD_TRANSACTION_SUCCESS, UPDATE_TRANSACTION_SUCCESS].includes(
+        [addTransactionSuccess.type, updateTransactionSuccess.type].includes(
           action.type
         ),
       (state) => {

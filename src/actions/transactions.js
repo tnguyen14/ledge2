@@ -14,29 +14,31 @@ import {
   patchTransaction,
   deleteTransaction
 } from '../util/api.js';
+import {
+  loadTransactionsSuccess,
+  addTransactionSuccess,
+  updateTransactionSuccess,
+  removeTransactionSuccess
+} from '../slices/transactions.js';
 
 export const LOAD_TRANSACTIONS = 'LOAD_TRANSACTIONS';
-export const LOAD_TRANSACTIONS_SUCCESS = 'LOAD_TRANSACTIONS_SUCCESS';
 export function loadTransactions(startDate, endDate) {
   return async function loadTransactionsAsync(dispatch) {
     dispatch({
       type: LOAD_TRANSACTIONS
     });
-    dispatch({
-      type: LOAD_TRANSACTIONS_SUCCESS,
-      payload: {
+    dispatch(
+      loadTransactionsSuccess({
         start: startDate,
         end: endDate,
         transactions: await getTransactions(startDate, endDate)
-      }
-    });
+      })
+    );
   };
 }
 
 export const ADD_TRANSACTION_FAILURE = 'ADD_TRANSACTION_FAILURE';
 export const UPDATE_TRANSACTION_FAILURE = 'UPDATE_TRANSACTION_FAILURE';
-export const ADD_TRANSACTION_SUCCESS = 'ADD_TRANSACTION_SUCCESS';
-export const UPDATE_TRANSACTION_SUCCESS = 'UPDATE_TRANSACTION_SUCCESS';
 
 export function addTransaction(transaction) {
   return async function addTransactionAsync(dispatch, getState) {
@@ -53,13 +55,12 @@ export function addTransaction(transaction) {
         ...decoratedTransaction,
         id
       });
-      dispatch({
-        type: ADD_TRANSACTION_SUCCESS,
-        payload: {
+      dispatch(
+        addTransactionSuccess({
           ...decoratedTransaction,
           id
-        }
-      });
+        })
+      );
       dispatch(
         updateMerchantCounts(
           addMerchantToCounts(merchants_count, transaction.merchant)
@@ -88,17 +89,15 @@ export function updateTransaction(transaction, oldMerchant) {
         ...decoratedTransaction,
         id
       });
-      dispatch({
-        type: UPDATE_TRANSACTION_SUCCESS,
-        payload: {
+      dispatch(
+        updateTransactionSuccess({
           ...decoratedTransaction,
           id
-        }
-      });
+        })
+      );
       if (transaction.merchant != oldMerchant) {
-        const transactionsWithOldMerchantName = await getTransactionsWithMerchantName(
-          oldMerchant
-        );
+        const transactionsWithOldMerchantName =
+          await getTransactionsWithMerchantName(oldMerchant);
         const updatedMerchantsCount = addMerchantToCounts(
           removeMerchantFromCounts(
             merchants_count,
@@ -119,7 +118,6 @@ export function updateTransaction(transaction, oldMerchant) {
 }
 
 export const REMOVING_TRANSACTION = 'REMOVING_TRANSACTION';
-export const REMOVE_TRANSACTION_SUCCESS = 'REMOVE_TRANSACTION_SUCCESS';
 export function removeTransaction(transaction) {
   return async function removeTransactionAsync(dispatch, getState) {
     const {
@@ -130,10 +128,7 @@ export function removeTransaction(transaction) {
       type: REMOVING_TRANSACTION
     });
     await deleteTransaction(transaction.id);
-    dispatch({
-      type: REMOVE_TRANSACTION_SUCCESS,
-      payload: transaction.id
-    });
+    dispatch(removeTransactionSuccess(transaction.id));
     const transactionsWithMerchantName = await getTransactionsWithMerchantName(
       transaction.merchant
     );

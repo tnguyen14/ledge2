@@ -14,10 +14,12 @@ import {
 } from '../actions/app.js';
 import {
   LOAD_TRANSACTIONS,
-  LOAD_TRANSACTIONS_SUCCESS,
-  REMOVING_TRANSACTION,
-  REMOVE_TRANSACTION_SUCCESS
+  REMOVING_TRANSACTION
 } from '../actions/transactions.js';
+import {
+  loadTransactionsSuccess,
+  removeTransactionSuccess
+} from '../slices/transactions.js';
 import {
   SAVE_USER_SETTINGS,
   SAVE_USER_SETTINGS_SUCCESS,
@@ -47,7 +49,7 @@ export default createReducer(initialState, (builder) => {
     .addCase(LOAD_TRANSACTIONS, (state) => {
       state.isLoading = true;
     })
-    .addCase(LOAD_TRANSACTIONS_SUCCESS, (state, action) => {
+    .addCase(loadTransactionsSuccess, (state, action) => {
       (state.isLoading = false),
         (state.loadedTransactions = true),
         (state.notification = {
@@ -86,7 +88,7 @@ export default createReducer(initialState, (builder) => {
     .addCase(REMOVING_TRANSACTION, (state) => {
       state.waitingTransactionRemoval = true;
     })
-    .addCase(REMOVE_TRANSACTION_SUCCESS, (state) => {
+    .addCase(removeTransactionSuccess, (state) => {
       state.transactionRemovalIntended = false;
       state.waitingTransactionRemoval = false;
       state.transactionToBeRemoved = undefined;

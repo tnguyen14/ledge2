@@ -8,6 +8,13 @@
 npm start
 ```
 
+#### Using Github Codespaces
+
+```sh
+gh cs ports forward 13050:13050 4003:4003
+gh cs ssh
+```
+
 ### Transaction lookup
 
 To find a transaction locally by merchant
