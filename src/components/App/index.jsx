@@ -116,9 +116,13 @@ function App() {
           const meta = await getMeta();
           dispatch(loadMetaSuccess(meta));
           dispatch(refreshApp());
-          requestIdleCallback(() => {
+          if (window.requestIdleCallback) {
+            requestIdleCallback(() => {
+              dispatch(loadPastYears.bind(null, 1));
+            });
+          } else {
             dispatch(loadPastYears.bind(null, 1));
-          });
+          }
         } catch (e) {
           console.error(e);
           dispatch(setAppError(e));
