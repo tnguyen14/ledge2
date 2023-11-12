@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Field from './Field.js';
+import Span from './Span.js';
 import {
   submitTransaction,
   inputChange,
@@ -10,11 +11,26 @@ import {
 } from '../../slices/form.js';
 import { setSearchParams } from '../../slices/app.js';
 import {
-  addTransaction,
-  updateTransaction
-} from '../../actions/transactions.js';
-import { SYNTHETIC_TYPES } from '../../util/transaction.js';
-import Span from './Span.js';
+  updateTransactionSuccess,
+  updateTransactionFailure,
+  addTransactionSuccess,
+  addTransactionFailure
+} from '../../slices/transactions.js';
+import {
+  SYNTHETIC_TYPES,
+  decorateTransaction,
+  getUniqueTransactionId
+} from '../../util/transaction.js';
+import {
+  postTransaction,
+  patchTransaction,
+  getTransactionsWithMerchantName
+} from '../../util/api.js';
+import {
+  addMerchantToCounts,
+  removeMerchantFromCounts
+} from '../../util/merchants.js';
+import { updateMerchantCounts } from '../../actions/transactions.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -37,6 +53,7 @@ function Form() {
     searchAccount: state.meta.accounts,
     syntheticType: SYNTHETIC_TYPES
   }));
+  const merchants_count = useSelector((state) => state.meta.merchants_count);
 
   const prevMerchantRef = useRef();
   useEffect(() => {
@@ -48,7 +65,7 @@ function Form() {
   };
 
   const submitForm = useCallback(
-    (event) => {
+    async (event) => {
       event.preventDefault();
       if (action == 'search') {
         dispatch(
@@ -61,15 +78,68 @@ function Form() {
             searchAccount: values.searchAccount
           })
         );
-      } else if (action == 'update') {
-        dispatch(submitTransaction());
-        dispatch(updateTransaction(values, prevMerchantRef.current));
       } else {
         dispatch(submitTransaction());
-        dispatch(addTransaction(values));
+        const decoratedTransaction = decorateTransaction(values);
+        if (action == 'update') {
+          const id = values.id;
+          const oldMerchant = prevMerchantRef.current;
+          try {
+            await patchTransaction({
+              ...decoratedTransaction,
+              id
+            });
+            dispatch(
+              updateTransactionSuccess({
+                ...decoratedTransaction,
+                id
+              })
+            );
+            if (values.merchant != oldMerchant) {
+              const transactionsWithOldMerchantName =
+                await getTransactionsWithMerchantName(oldMerchant);
+              const updatedMerchantsCount = addMerchantToCounts(
+                removeMerchantFromCounts(
+                  merchants_count,
+                  oldMerchant,
+                  transactionsWithOldMerchantName.length
+                ),
+                values.merchant
+              );
+              dispatch(updateMerchantCounts(updatedMerchantsCount));
+            }
+          } catch (e) {
+            console.error(e);
+            dispatch(updateTransactionFailure());
+          }
+        } else {
+          try {
+            const id = await getUniqueTransactionId(
+              new Date(decoratedTransaction.date).valueOf()
+            );
+            await postTransaction({
+              ...decoratedTransaction,
+              id
+            });
+            dispatch(
+              addTransactionSuccess({
+                ...decoratedTransaction,
+                id
+              })
+            );
+            dispatch(
+              updateMerchantCounts(
+                addMerchantToCounts(merchants_count, values.merchant)
+              )
+            );
+          } catch (e) {
+            console.error(e);
+            dispatch(addTransactionFailure());
+          }
+        }
       }
     },
-    [action, values]
+    [action, values, merchants_count]
   );
 
   let actionText;

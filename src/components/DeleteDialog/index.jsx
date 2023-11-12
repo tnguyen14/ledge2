@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React, { useCallback } from 'https://esm.sh/react@18';
 import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
 import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
@@ -8,7 +8,17 @@ import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import CompactTransaction from '../Transactions/CompactTransaction.js';
 import { cancelRemoveTransaction } from '../../slices/app.js';
-import { removeTransaction } from '../../actions/transactions.js';
+import {
+  removingTransaction,
+  removeTransactionSuccess,
+  removeTransactionFailure
+} from '../../slices/transactions.js';
+import {
+  deleteTransaction,
+  getTransactionsWithMerchantName
+} from '../../util/api.js';
+import { removeMerchantFromCounts } from '../../util/merchants.js';
+import { updateMerchantCounts } from '../../actions/transactions.js';
 
 function DeleteDialog() {
   const {
@@ -16,7 +26,27 @@ function DeleteDialog() {
     waitingTransactionRemoval,
     transactionToBeRemoved
   } = useSelector((state) => state.app);
+  const merchants_count = useSelector((state) => state.meta.merchants_count);
   const dispatch = useDispatch();
+
+  const removeTransaction = useCallback(async () => {
+    dispatch(removingTransaction());
+    try {
+      await deleteTransaction(transactionToBeRemoved.id);
+      dispatch(removeTransactionSuccess(transactionToBeRemoved.id));
+      const transactionsWithMerchantName =
+        await getTransactionsWithMerchantName(transactionToBeRemoved.merchant);
+      const updatedMerchantsCount = removeMerchantFromCounts(
+        merchants_count,
+        transactionToBeRemoved.merchant,
+        transactionsWithMerchantName.length
+      );
+      dispatch(updateMerchantCounts(updatedMerchantsCount));
+    } catch (e) {
+      console.error(e);
+      dispatch(removeTransactionFailure());
+    }
+  }, [dispatch, merchants_count, transactionToBeRemoved]);
 
   return (
     <Dialog
@@ -43,7 +73,7 @@ function DeleteDialog() {
         <Button
           disabled={waitingTransactionRemoval}
           variant="danger"
-          onClick={() => dispatch(removeTransaction(transactionToBeRemoved))}
+          onClick={() => dispatch(removeTransaction)}
         >
           {waitingTransactionRemoval ? 'Deleting...' : 'Delete'}
         </Button>
