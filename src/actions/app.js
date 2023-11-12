@@ -26,11 +26,3 @@ export function loadWeek({ weekId }) {
     );
   };
 }
-
-export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
-export function editTransaction(transaction) {
-  return {
-    type: EDIT_TRANSACTION,
-    payload: transaction
-  };
-}

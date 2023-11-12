@@ -1,22 +1,16 @@
-import { createReducer } from 'https://esm.sh/@reduxjs/toolkit';
+import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { format } from 'https://esm.sh/date-fns@2';
 import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
-import {
-  INPUT_CHANGE,
-  SUBMIT_TRANSACTION,
-  RESET_FORM
-} from '../actions/form.js';
+import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
+import { getWeeksDifference } from '../selectors/week.js';
+import { setSearchMode, editTransaction } from './app.js';
 import {
   addTransactionSuccess,
   addTransactionFailure,
   updateTransactionSuccess,
   updateTransactionFailure
-} from '../slices/transactions.js';
-import { setSearchMode } from '../slices/app.js';
-import { EDIT_TRANSACTION } from '../actions/app.js';
-import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
-import { getWeeksDifference } from '../selectors/week.js';
+} from './transactions.js';
 
 const amountField = {
   type: 'number',
@@ -142,7 +136,6 @@ const idField = {
   type: 'hidden',
   name: 'id'
 };
-
 // abstract this into a function so it can be called again later
 // resetting the date and time to the current value when it's called
 function createInitialValues(isSearch) {
@@ -231,10 +224,10 @@ function getFormFields(syntheticType, isSearch) {
       ];
   }
 }
-
 const defaultSyntheticType = 'expense';
 const initialState = {
   action: 'add',
+  pending: false,
   values: {
     ...createInitialValues(),
     ...getAccountsValues(defaultSyntheticType)
@@ -242,12 +235,14 @@ const initialState = {
   fields: getFormFields(defaultSyntheticType)
 };
 
-export default createReducer(initialState, (builder) => {
-  builder
-    .addCase(SUBMIT_TRANSACTION, (state) => {
+const form = createSlice({
+  name: 'form',
+  initialState,
+  reducers: {
+    submitTransaction: (state) => {
       state.pending = true;
-    })
-    .addCase(INPUT_CHANGE, (state, action) => {
+    },
+    inputChange: (state, action) => {
       state.values[action.payload.name] = action.payload.value;
       if (action.payload.name == 'date') {
         state.values.budgetStart = action.payload.value;
@@ -290,61 +285,71 @@ export default createReducer(initialState, (builder) => {
           ...getAccountsValues(state.values.syntheticType)
         };
       }
-    })
-    .addCase(EDIT_TRANSACTION, (state, action) => {
-      state.action = 'update';
-      state.values = {
-        ...action.payload,
-        amount: fromCents(action.payload.amount),
-        date: format(new Date(action.payload.date), DATE_FIELD_FORMAT),
-        time: format(new Date(action.payload.date), TIME_FIELD_FORMAT),
-        budgetStart: format(
-          new Date(action.payload.budgetStart),
-          DATE_FIELD_FORMAT
-        ),
-        budgetEnd: format(
-          new Date(action.payload.budgetEnd),
-          DATE_FIELD_FORMAT
-        ),
-        calculate: ''
-      };
-      state.fields = getFormFields(state.values.syntheticType);
-    })
-    .addCase(setSearchMode, (state, action) => {
-      state.action = action.payload ? 'search' : 'add';
-      state.values = {
-        ...createInitialValues(action.payload),
-        ...getAccountsValues(state.values.syntheticType)
-      };
-      state.fields = getFormFields(state.values.syntheticType, action.payload);
-    })
-    .addCase(RESET_FORM, (state) => {
+    },
+    resetForm: (state) => {
       state.values = {
         ...createInitialValues(state.action == 'search'),
         ...getAccountsValues(state.values.syntheticType)
       };
-    })
-    .addMatcher(
-      (action) =>
-        [addTransactionSuccess.type, updateTransactionSuccess.type].includes(
-          action.type
-        ),
-      (state) => {
-        state.pending = false;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(editTransaction, (state, action) => {
+        state.action = 'update';
         state.values = {
-          ...createInitialValues(state.action == 'search'),
+          ...action.payload,
+          amount: fromCents(action.payload.amount),
+          date: format(new Date(action.payload.date), DATE_FIELD_FORMAT),
+          time: format(new Date(action.payload.date), TIME_FIELD_FORMAT),
+          budgetStart: format(
+            new Date(action.payload.budgetStart),
+            DATE_FIELD_FORMAT
+          ),
+          budgetEnd: format(
+            new Date(action.payload.budgetEnd),
+            DATE_FIELD_FORMAT
+          ),
+          calculate: ''
+        };
+        state.fields = getFormFields(state.values.syntheticType);
+      })
+      .addCase(setSearchMode, (state, action) => {
+        state.action = action.payload ? 'search' : 'add';
+        state.values = {
+          ...createInitialValues(action.payload),
           ...getAccountsValues(state.values.syntheticType)
         };
-        state.action = 'add';
-      }
-    )
-    .addMatcher(
-      (action) =>
-        [addTransactionFailure.type, updateTransactionFailure.type].includes(
-          action.type
-        ),
-      (state) => {
-        state.pending = false;
-      }
-    );
+        state.fields = getFormFields(
+          state.values.syntheticType,
+          action.payload
+        );
+      })
+      .addMatcher(
+        (action) =>
+          [addTransactionSuccess.type, updateTransactionSuccess.type].includes(
+            action.type
+          ),
+        (state) => {
+          state.pending = false;
+          state.values = {
+            ...createInitialValues(state.action == 'search'),
+            ...getAccountsValues(state.values.syntheticType)
+          };
+          state.action = 'add';
+        }
+      )
+      .addMatcher(
+        (action) =>
+          [addTransactionFailure.type, updateTransactionFailure.type].includes(
+            action.type
+          ),
+        (state) => {
+          state.pending = false;
+        }
+      );
+  }
 });
+
+export const { submitTransaction, inputChange, resetForm } = form.actions;
+export default form.reducer;

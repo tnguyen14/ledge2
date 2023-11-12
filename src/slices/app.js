@@ -73,7 +73,8 @@ const app = createSlice({
     },
     setAppError: (state, action) => {
       state.error = action.payload;
-    }
+    },
+    editTransaction: () => {}
   },
   extraReducers: (builder) => {
     builder
@@ -123,7 +124,8 @@ export const {
   intendToRemoveTransaction,
   cancelRemoveTransaction,
   setUserSettingsOpen,
-  setAppError
+  setAppError,
+  editTransaction
 } = app.actions;
 
 export default app.reducer;

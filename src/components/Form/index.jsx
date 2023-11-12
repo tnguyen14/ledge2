@@ -4,11 +4,11 @@ import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Field from './Field.js';
 import {
-  submit,
+  submitTransaction,
   inputChange,
-  resetForm,
-  setSearchParams
-} from '../../actions/form.js';
+  resetForm
+} from '../../slices/form.js';
+import { setSearchParams } from '../../slices/app.js';
 import {
   addTransaction,
   updateTransaction
@@ -62,10 +62,10 @@ function Form() {
           })
         );
       } else if (action == 'update') {
-        dispatch(submit());
+        dispatch(submitTransaction());
         dispatch(updateTransaction(values, prevMerchantRef.current));
       } else {
-        dispatch(submit());
+        dispatch(submitTransaction());
         dispatch(addTransaction(values));
       }
     },
@@ -107,7 +107,9 @@ function Form() {
             <Field
               key={field.name}
               handleChange={(event) => {
-                dispatch(inputChange(field.name, event.target.value));
+                dispatch(
+                  inputChange({ name: field.name, value: event.target.value })
+                );
               }}
               afterButton={afterButton}
               afterButtonAction={() => {
@@ -119,7 +121,7 @@ function Form() {
                     2
                   );
 
-                  dispatch(inputChange('amount', newAmount));
+                  dispatch(inputChange({ name: 'amount', value: newAmount }));
                 }
               }}
               disabled={!appReady}
