@@ -1,23 +1,7 @@
-import { createReducer } from 'https://esm.sh/@reduxjs/toolkit';
-import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
-import { createSelector } from 'https://esm.sh/reselect@4';
+import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
-
-import {
-  LOAD_META_SUCCESS,
-  UPDATE_YEAR_STATS,
-  UPDATE_YEAR_STATS_SUCCESS,
-  SAVE_USER_SETTINGS_SUCCESS,
-  UPDATE_MERCHANT_COUNTS_SUCCESS
-} from '../actions/meta.js';
-import {
-  ADD_ACCOUNT,
-  REMOVE_ACCOUNT,
-  CANCEL_REMOVE_ACCOUNT,
-  ADD_CATEGORY,
-  REMOVE_CATEGORY,
-  CANCEL_REMOVE_CATEGORY
-} from '../actions/app.js';
+import { createSelector } from 'https://esm.sh/reselect@4';
+import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
 
 const builtinAccounts = [
   {
@@ -78,9 +62,11 @@ const getMerchantNamesFromMerchantCounts = createSelector(
       .reduce((merchants, merchant) => merchants.concat(merchant.values), [])
 );
 
-export default createReducer(initialState, (builder) => {
-  builder
-    .addCase(LOAD_META_SUCCESS, (state, action) => {
+const meta = createSlice({
+  name: 'meta',
+  initialState,
+  reducers: {
+    loadMetaSuccess: (state, action) => {
       state.merchants = getMerchantNamesFromMerchantCounts(
         action.payload.merchants_count
       );
@@ -94,32 +80,34 @@ export default createReducer(initialState, (builder) => {
         (year) => (state.stats[year] = action.payload.stats[year])
       );
       state.timezoneToStore = action.payload.timezoneToStore;
-    })
-    .addCase(UPDATE_MERCHANT_COUNTS_SUCCESS, (state, action) => {
+    },
+    updateMerchantCountsSuccess: (state, action) => {
       state.merchants_count = action.payload;
       state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
-    })
-    .addCase(SAVE_USER_SETTINGS_SUCCESS, (state, action) => {
+    },
+    updateYearStats: (state, action) => {
+      state.stats[action.payload].updating = true;
+    },
+    updateYearStatsSuccess: (state, action) => {
+      state.stats[action.payload.year] = action.payload.stat;
+    },
+    updateUserSettings: () => {},
+    updateUserSettingsSuccess: (state, action) => {
       state.expenseCategories = action.payload.expenseCategories;
       state.accounts = [
         ...builtinAccounts.map((acct) => ({ ...acct, builtIn: true })),
         ...(action.payload.accounts || [])
       ];
-    })
-    .addCase(UPDATE_YEAR_STATS, (state, action) => {
-      state.stats[action.payload.year].updating = true;
-    })
-    .addCase(UPDATE_YEAR_STATS_SUCCESS, (state, action) => {
-      state.stats[action.payload.year] = action.payload.stat;
-    })
-    .addCase(ADD_ACCOUNT, (state, action) => {
+    },
+    updateUserSettingsFailure: () => {},
+    addAccount: (state, action) => {
       state.accounts.push({
         value: action.payload,
         slug: slugify(action.payload),
         toBeAdded: true
       });
-    })
-    .addCase(REMOVE_ACCOUNT, (state, action) => {
+    },
+    removeAccount: (state, action) => {
       state.accounts = state.accounts
         .filter((acct) => {
           if (acct.value === action.payload && acct.toBeAdded) {
@@ -136,8 +124,8 @@ export default createReducer(initialState, (builder) => {
           }
           return acct;
         });
-    })
-    .addCase(CANCEL_REMOVE_ACCOUNT, (state, action) => {
+    },
+    cancelRemoveAccount: (state, action) => {
       state.accounts = state.accounts.map((acct) => {
         if (acct.value === action.payload) {
           return {
@@ -147,15 +135,15 @@ export default createReducer(initialState, (builder) => {
         }
         return acct;
       });
-    })
-    .addCase(ADD_CATEGORY, (state, action) => {
+    },
+    addCategory: (state, action) => {
       state.expenseCategories.push({
         value: action.payload,
         slug: slugify(action.payload),
         toBeAdded: true
       });
-    })
-    .addCase(REMOVE_CATEGORY, (state, action) => {
+    },
+    removeCategory: (state, action) => {
       state.expenseCategories = state.expenseCategories
         .filter((cat) => {
           if (cat.value === action.payload && cat.toBeAdded) {
@@ -172,8 +160,8 @@ export default createReducer(initialState, (builder) => {
           }
           return cat;
         });
-    })
-    .addCase(CANCEL_REMOVE_CATEGORY, (state, action) => {
+    },
+    cancelRemoveCategory: (state, action) => {
       state.expenseCategories = state.expenseCategories.map((cat) => {
         if (cat.value === action.payload) {
           return {
@@ -183,5 +171,23 @@ export default createReducer(initialState, (builder) => {
         }
         return cat;
       });
-    });
+    }
+  }
 });
+
+export const {
+  loadMetaSuccess,
+  updateMerchantCountsSuccess,
+  updateUserSettings,
+  updateUserSettingsSuccess,
+  updateUserSettingsFailure,
+  updateYearStats,
+  updateYearStatsSuccess,
+  addAccount,
+  removeAccount,
+  cancelRemoveAccount,
+  addCategory,
+  removeCategory,
+  cancelRemoveCategory
+} = meta.actions;
+export default meta.reducer;

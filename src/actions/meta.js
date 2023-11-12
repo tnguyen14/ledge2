@@ -2,48 +2,40 @@ import produce from 'https://esm.sh/immer@9';
 import { getMeta, patchMeta, getTransactions } from '../util/api.js';
 import { getYearStart, getYearEnd } from '../selectors/week.js';
 import { calculateWeeklyAverage } from '../selectors/transactions.js';
-
-export const LOAD_META_SUCCESS = 'LOAD_META_SUCCESS';
+import {
+  loadMetaSuccess,
+  updateMerchantCountsSuccess,
+  updateYearStats,
+  updateYearStatsSuccess,
+  updateUserSettings,
+  updateUserSettingsSuccess,
+  updateUserSettingsFailure
+} from '../slices/meta.js';
 
 export function loadMeta() {
   return async function loadMetaAsync(dispatch) {
     try {
       const meta = await getMeta();
-      dispatch({
-        type: LOAD_META_SUCCESS,
-        payload: meta
-      });
+      dispatch(loadMetaSuccess(meta));
     } catch (e) {
       console.error(e);
     }
   };
 }
 
-export const UPDATE_MERCHANT_COUNTS_SUCCESS = 'UPDATE_MERCHANT_COUNTS_SUCCESS';
-
 export function updateMerchantCounts(merchants_count) {
   return async function updateMerchantCountsAsync(dispatch) {
     await patchMeta({
       merchants_count
     });
-    dispatch({
-      type: UPDATE_MERCHANT_COUNTS_SUCCESS,
-      payload: merchants_count
-    });
+    dispatch(updateMerchantCountsSuccess(merchants_count));
   };
 }
 
-export const UPDATE_YEAR_STATS = 'UPDATE_YEAR_STATS';
-export const UPDATE_YEAR_STATS_SUCCESS = 'UPDATE_YEAR_STATS_SUCCESS';
 export function recalculateYearStats(year) {
   return async function recalculateYearStatsAsync(dispatch, getState) {
     const { meta } = getState();
-    dispatch({
-      type: UPDATE_YEAR_STATS,
-      payload: {
-        year
-      }
-    });
+    dispatch(updateYearStats(year));
     const yearTransactions = await getTransactions(
       getYearStart(year),
       getYearEnd(year)
@@ -64,19 +56,15 @@ export function recalculateYearStats(year) {
     await patchMeta({
       stats
     });
-    dispatch({
-      type: UPDATE_YEAR_STATS_SUCCESS,
-      payload: {
+    dispatch(
+      updateYearStatsSuccess({
         year,
         stat: stats[year]
-      }
-    });
+      })
+    );
   };
 }
 
-export const SAVE_USER_SETTINGS = 'SAVE_USER_SETTINGS';
-export const SAVE_USER_SETTINGS_SUCCESS = 'SAVE_USER_SETTINGS_SUCCESS';
-export const SAVE_USER_SETTINGS_FAILURE = 'SAVE_USER_SETTINGS_FAILURE';
 export function saveUserSettings() {
   return async function saveUserSettingsAsync(dispatch, getState) {
     const {
@@ -94,26 +82,20 @@ export function saveUserSettings() {
         slug: cat.slug,
         value: cat.value
       }));
-    dispatch({
-      type: SAVE_USER_SETTINGS
-    });
+    dispatch(updateUserSettings());
     try {
       await patchMeta({
         accounts: newAccounts,
         expenseCategories: newExpenseCategories
       });
-      dispatch({
-        type: SAVE_USER_SETTINGS_SUCCESS,
-        payload: {
+      dispatch(
+        updateUserSettingsSuccess({
           accounts: newAccounts,
           expenseCategories: newExpenseCategories
-        }
-      });
+        })
+      );
     } catch (e) {
-      dispatch({
-        type: SAVE_USER_SETTINGS_FAILURE,
-        payload: e
-      });
+      dispatch(updateUserSettingsFailure(e));
     }
   };
 }

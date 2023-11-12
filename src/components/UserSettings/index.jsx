@@ -17,7 +17,7 @@ import {
   addCategory,
   removeCategory,
   cancelRemoveCategory
-} from '../../actions/app.js';
+} from '../../slices/meta.js';
 import { setUserSettingsOpen } from '../../slices/app.js';
 import { saveUserSettings } from '../../actions/meta.js';
 import Field from '../Form/Field.js';

@@ -9,10 +9,10 @@ import {
 } from './transactions.js';
 
 import {
-  SAVE_USER_SETTINGS,
-  SAVE_USER_SETTINGS_SUCCESS,
-  SAVE_USER_SETTINGS_FAILURE
-} from '../actions/meta.js';
+  updateUserSettings,
+  updateUserSettingsSuccess,
+  updateUserSettingsFailure
+} from './meta.js';
 
 const initialState = {
   appReady: false,
@@ -99,13 +99,13 @@ const app = createSlice({
         state.waitingTransactionRemoval = false;
         state.transactionToBeRemoved = undefined;
       })
-      .addCase(SAVE_USER_SETTINGS, (state) => {
+      .addCase(updateUserSettings, (state) => {
         state.savingUserSettings = true;
       })
-      .addCase(SAVE_USER_SETTINGS_SUCCESS, (state) => {
+      .addCase(updateUserSettingsSuccess, (state) => {
         state.savingUserSettings = false;
       })
-      .addCase(SAVE_USER_SETTINGS_FAILURE, (state, action) => {
+      .addCase(updateUserSettingsFailure, (state, action) => {
         state.savingUserSettings = false;
         state.userSettingsError = action.payload;
       });
