@@ -1,4 +1,4 @@
-import React, { useState } from 'https://esm.sh/react@18';
+import React, { useState, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
@@ -16,10 +16,13 @@ import {
   cancelRemoveAccount,
   addCategory,
   removeCategory,
-  cancelRemoveCategory
+  cancelRemoveCategory,
+  updateUserSettings,
+  updateUserSettingsSuccess,
+  updateUserSettingsFailure
 } from '../../slices/meta.js';
 import { setUserSettingsOpen } from '../../slices/app.js';
-import { saveUserSettings } from '../../actions/meta.js';
+import { patchMeta } from '../../util/api.js';
 import Field from '../Form/Field.js';
 
 function UserSettings() {
@@ -31,6 +34,36 @@ function UserSettings() {
   const { accounts, expenseCategories, timezoneToStore } = useSelector(
     (state) => state.meta
   );
+
+  const saveUserSettings = useCallback(async () => {
+    const newAccounts = accounts
+      .filter((acct) => !acct.toBeRemoved && !acct.builtIn)
+      .map((acct) => ({
+        slug: acct.slug,
+        value: acct.value
+      }));
+    const newExpenseCategories = expenseCategories
+      .filter((cat) => !cat.toBeRemoved)
+      .map((cat) => ({
+        slug: cat.slug,
+        value: cat.value
+      }));
+    dispatch(updateUserSettings());
+    try {
+      await patchMeta({
+        accounts: newAccounts,
+        expenseCategories: newExpenseCategories
+      });
+      dispatch(
+        updateUserSettingsSuccess({
+          accounts: newAccounts,
+          expenseCategories: newExpenseCategories
+        })
+      );
+    } catch (e) {
+      dispatch(updateUserSettingsFailure(e));
+    }
+  }, [dispatch, accounts, expenseCategories]);
 
   return (
     <Dialog
@@ -167,7 +200,7 @@ function UserSettings() {
         </Button>
         <Button
           variant="primary"
-          onClick={() => dispatch(saveUserSettings())}
+          onClick={() => dispatch(saveUserSettings)}
           disabled={saving}
         >
           Save

@@ -1,5 +1,6 @@
-import React from 'https://esm.sh/react@18';
+import React, { useMemo, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import produce from 'https://esm.sh/immer@9';
 import Popover from 'https://esm.sh/@mui/material@5/Popover';
 import {
   usePopupState,
@@ -8,13 +9,20 @@ import {
 } from 'https://esm.sh/material-ui-popup-state@5/hooks';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 
-import { getWeekStart, getWeekEnd, getWeekId } from '../../selectors/week.js';
+import { patchMeta, getTransactions } from '../../util/api.js';
+import {
+  getWeekStart,
+  getWeekEnd,
+  getWeekId,
+  getYearStart,
+  getYearEnd
+} from '../../selectors/week.js';
 import {
   getWeekById,
   calculateWeeklyAverage,
   getCurrentYearWeeklyAverage
 } from '../../selectors/transactions.js';
-import { recalculateYearStats } from '../../actions/meta.js';
+import { updateYearStats, updateYearStatsSuccess } from '../../slices/meta.js';
 
 function AverageWithCategories({
   numWeeks,
@@ -96,37 +104,72 @@ function WeeklyAverages() {
   const currentYearAverage = getCurrentYearWeeklyAverage({
     transactions
   });
-  const timespans = [
-    {
-      start: -1,
-      end: -4
+  const timespans = useMemo(() => {
+    return [
+      {
+        start: -1,
+        end: -4
+      },
+      {
+        start: -1,
+        end: -12
+      },
+      {
+        start: -1,
+        end: -24
+      },
+      {
+        start: -1,
+        end: -48
+      }
+    ].map((span) => {
+      const weeks = [];
+      for (let offset = span.start; offset >= span.end; offset--) {
+        const weekId = getWeekId({ date: new Date(), offset });
+        weeks.push(getWeekById({ transactions, weekId }));
+      }
+      return {
+        ...span,
+        numWeeks: span.start - span.end + 1,
+        startWeekEnd: getWeekEnd({ date: new Date(), offset: span.start }),
+        endWeekStart: getWeekStart({ date: new Date(), offset: span.end }),
+        weeks
+      };
+    });
+  }, [transactions]);
+
+  const recalculateYearStats = useCallback(
+    async (year) => {
+      dispatch(updateYearStats(year));
+      const transactions = await getTransactions(
+        getYearStart(year),
+        getYearEnd(year)
+      );
+      const weeklyAverage = calculateWeeklyAverage({
+        transactions,
+        numWeeks: 52
+      });
+      const stats = produce(yearStats, (draft) => {
+        if (!draft[year]) {
+          draft[year] = {
+            weeklyAverage
+          };
+        } else {
+          draft[year].weeklyAverage = weeklyAverage;
+        }
+      });
+      await patchMeta({
+        stats
+      });
+      dispatch(
+        updateYearStatsSuccess({
+          year,
+          stat: stats[year]
+        })
+      );
     },
-    {
-      start: -1,
-      end: -12
-    },
-    {
-      start: -1,
-      end: -24
-    },
-    {
-      start: -1,
-      end: -48
-    }
-  ].map((span) => {
-    const weeks = [];
-    for (let offset = span.start; offset >= span.end; offset--) {
-      const weekId = getWeekId({ date: new Date(), offset });
-      weeks.push(getWeekById({ transactions, weekId }));
-    }
-    return {
-      ...span,
-      numWeeks: span.start - span.end + 1,
-      startWeekEnd: getWeekEnd({ date: new Date(), offset: span.start }),
-      endWeekStart: getWeekStart({ date: new Date(), offset: span.end }),
-      weeks
-    };
-  });
+    [dispatch, yearStats]
+  );
 
   return (
     <div className="averages">
@@ -153,7 +196,7 @@ function WeeklyAverages() {
                   style={{ cursor: 'pointer' }}
                   title="Double click to re-calculate"
                   onDoubleClick={() => {
-                    dispatch(recalculateYearStats(year));
+                    dispatch(recalculateYearStats.bind(null, year));
                   }}
                 >
                   {yearStats[year].updating

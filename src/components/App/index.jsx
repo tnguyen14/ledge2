@@ -26,9 +26,9 @@ import {
   setListName,
   setToken
 } from '../../slices/app.js';
-import { loadMeta } from '../../actions/meta.js';
+import { loadMetaSuccess } from '../../slices/meta.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
-import { getUserMeta } from '../../util/api.js';
+import { getMeta, getUserMeta } from '../../util/api.js';
 import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';
 
@@ -93,7 +93,8 @@ function App() {
       if (shouldReload) {
         try {
           await updateToken();
-          dispatch(loadMeta());
+          const meta = await getMeta();
+          dispatch(loadMetaSuccess(meta));
           dispatch(refreshApp());
           requestIdleCallback(() => {
             dispatch(loadPastYears(1));
