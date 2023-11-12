@@ -29,7 +29,12 @@ import {
 } from '../../slices/app.js';
 import { loadMetaSuccess } from '../../slices/meta.js';
 import { loadTransactions } from '../../slices/transactions.js';
-import { DATE_FIELD_FORMAT, TIMEZONE } from '../../util/constants.js';
+import {
+  DATE_FIELD_FORMAT,
+  TIMEZONE,
+  API_AUDIENCE,
+  LISTS_SCOPE
+} from '../../util/constants.js';
 import { getMeta, getUserMeta } from '../../util/api.js';
 import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';
@@ -49,21 +54,12 @@ function App() {
   const updateToken = useCallback(async () => {
     const accessToken = await getAccessTokenSilently({
       authorizationParams: {
-        audience: 'https://lists.cloud.tridnguyen.com',
-        scope: 'openid profile email'
+        audience: API_AUDIENCE,
+        scope: LISTS_SCOPE
       }
     });
     dispatch(setToken(accessToken));
-    const {
-      ledge: { listName, githubAccessToken }
-    } = await getUserMeta(user.sub);
-    dispatch(setListName(listName));
-    setOctokit(
-      new Octokit({
-        auth: githubAccessToken
-      })
-    );
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const loadPastYears = useCallback(
     async (yearsToLoad) => {
@@ -108,6 +104,15 @@ function App() {
       if (shouldReload) {
         try {
           await updateToken();
+          const {
+            ledge: { listName, githubAccessToken }
+          } = await getUserMeta(user.sub);
+          dispatch(setListName(listName));
+          setOctokit(
+            new Octokit({
+              auth: githubAccessToken
+            })
+          );
           const meta = await getMeta();
           dispatch(loadMetaSuccess(meta));
           dispatch(refreshApp());
@@ -121,7 +126,7 @@ function App() {
         dispatch(setDisplayFrom(format(now, DATE_FIELD_FORMAT)));
       }
     })();
-  }, [isAuthenticated, isVisible]);
+  }, [isAuthenticated, isVisible, user]);
 
   return (
     <div className="app">
@@ -145,7 +150,7 @@ function App() {
                 })
               }
             >
-              Log Out
+              Force Log Out
             </Button>
           </p>
         </div>

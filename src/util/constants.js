@@ -4,6 +4,9 @@ export const LISTS_URL = process.env.LISTS_URL;
 export const LEDGE_URL = `${process.env.LISTS_URL}/ledge`;
 export const USERMETA_URL = `${process.env.LISTS_URL}/meta/users`;
 export const AUTH0_DOMAIN = 'tridnguyen.auth0.com';
+export const API_AUDIENCE = 'https://lists.cloud.tridnguyen.com';
+export const LISTS_SCOPE = 'read:list write:list';
+export const PROFILE_SCOPE = 'openid profile email';
 
 export const DATE_FIELD_FORMAT = 'yyyy-MM-dd';
 export const TIME_FIELD_FORMAT = 'HH:mm';

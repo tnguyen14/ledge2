@@ -4,7 +4,12 @@ import { Provider } from 'https://esm.sh/react-redux@7';
 import { Auth0Provider } from 'https://esm.sh/@auth0/auth0-react@2';
 import store from './store.js';
 import App from './components/App/index.js';
-import { AUTH0_DOMAIN } from './util/constants.js';
+import {
+  AUTH0_DOMAIN,
+  API_AUDIENCE,
+  LISTS_SCOPE,
+  PROFILE_SCOPE
+} from './util/constants.js';
 
 render(
   <Auth0Provider
@@ -14,7 +19,9 @@ render(
     useRefreshTokens={true}
     useRefreshTokensFallback={true}
     authorizationParams={{
-      redirect_uri: window.location.href
+      redirect_uri: window.location.href,
+      audience: API_AUDIENCE,
+      scope: `${PROFILE_SCOPE} ${LISTS_SCOPE}`
     }}
   >
     <Provider store={store}>

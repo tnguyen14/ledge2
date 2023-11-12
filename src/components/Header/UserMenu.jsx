@@ -13,6 +13,13 @@ function UserMenu() {
   if (!isAuthenticated) {
     return null;
   }
+  if (!user) {
+    console.error('User object is not available');
+    return null;
+  }
+  if (!user.picture) {
+    console.error('user.picture is not defined');
+  }
   return (
     <div
       className={classnames('user', {
