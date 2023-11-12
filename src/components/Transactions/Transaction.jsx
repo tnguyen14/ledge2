@@ -22,10 +22,8 @@ import {
 } from '../../util/constants.js';
 import { getValueFromOptions } from '../../util/slug.js';
 import { SYNTHETIC_TYPES } from '../../util/transaction.js';
-import {
-  editTransaction,
-  intendToRemoveTransaction
-} from '../../actions/app.js';
+import { editTransaction } from '../../actions/app.js';
+import { intendToRemoveTransaction } from '../../slices/app.js';
 
 function Transaction({ transaction, dateFormat }) {
   const dispatch = useDispatch();

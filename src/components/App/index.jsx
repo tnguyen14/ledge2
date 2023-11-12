@@ -18,14 +18,14 @@ import Form from '../Form/index.js';
 import GlobalStats from '../GlobalStats/index.js';
 import Transactions from '../Transactions/index.js';
 import UserSettings from '../UserSettings/index.js';
+import { loadPastYears } from '../../actions/app.js';
 import {
   refreshApp,
-  setToken,
-  setListName,
+  setAppError,
   setDisplayFrom,
-  loadPastYears,
-  setAppError
-} from '../../actions/app.js';
+  setListName,
+  setToken
+} from '../../slices/app.js';
 import { loadMeta } from '../../actions/meta.js';
 import { DATE_FIELD_FORMAT } from '../../util/constants.js';
 import { getUserMeta } from '../../util/api.js';

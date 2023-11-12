@@ -7,7 +7,7 @@ import WeeklyAverages from './WeeklyAverages.js';
 import CategoriesChart from './CategoriesChart.js';
 import CashflowChart from './CashflowChart.js';
 import Budget from './Budget.js';
-import { showCashflow, setSearchMode } from '../../actions/app.js';
+import { showCashflow, setSearchMode } from '../../slices/app.js';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

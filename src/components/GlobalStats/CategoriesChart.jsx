@@ -13,7 +13,7 @@ import {
   getPastWeeksIds
 } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
-import { setDisplayFrom } from '../../actions/app.js';
+import { setDisplayFrom } from '../../slices/app.js';
 import Chart from '../Chart/index.js';
 
 const numWeeksToShow = 12;

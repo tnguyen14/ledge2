@@ -6,7 +6,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from 'https://esm.sh/@primer/octicons-react@11';
-import { setDisplayFrom } from '../../actions/app.js';
+import { setDisplayFrom } from '../../slices/app.js';
 import {
   getPastMonthsIds,
   getMonthEnd,

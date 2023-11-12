@@ -7,7 +7,7 @@ import DialogContentText from 'https://esm.sh/@mui/material@5/DialogContentText'
 import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import CompactTransaction from '../Transactions/CompactTransaction.js';
-import { cancelRemoveTransaction } from '../../actions/app.js';
+import { cancelRemoveTransaction } from '../../slices/app.js';
 import { removeTransaction } from '../../actions/transactions.js';
 
 function DeleteDialog() {

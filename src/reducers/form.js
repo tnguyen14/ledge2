@@ -13,7 +13,8 @@ import {
   updateTransactionSuccess,
   updateTransactionFailure
 } from '../slices/transactions.js';
-import { EDIT_TRANSACTION, SET_SEARCH_MODE } from '../actions/app.js';
+import { setSearchMode } from '../slices/app.js';
+import { EDIT_TRANSACTION } from '../actions/app.js';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 import { getWeeksDifference } from '../selectors/week.js';
 
@@ -309,7 +310,7 @@ export default createReducer(initialState, (builder) => {
       };
       state.fields = getFormFields(state.values.syntheticType);
     })
-    .addCase(SET_SEARCH_MODE, (state, action) => {
+    .addCase(setSearchMode, (state, action) => {
       state.action = action.payload ? 'search' : 'add';
       state.values = {
         ...createInitialValues(action.payload),

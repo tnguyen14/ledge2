@@ -4,38 +4,6 @@ import { TIMEZONE } from '../util/constants.js';
 
 import { getWeekStart, getWeekStartFromWeekId } from '../selectors/week.js';
 
-export const SET_DISPLAY_FROM = 'SET_DISPLAY_FROM';
-export function setDisplayFrom(date) {
-  return {
-    type: SET_DISPLAY_FROM,
-    payload: date
-  };
-}
-
-export const SET_TOKEN = 'SET_TOKEN';
-export function setToken(token) {
-  return {
-    type: SET_TOKEN,
-    payload: token
-  };
-}
-
-export const SET_LISTNAME = 'SET_LISTNAME';
-export function setListName(listName) {
-  return {
-    type: SET_LISTNAME,
-    payload: listName
-  };
-}
-
-export const REFRESH_APP = 'REFRESH_APP';
-export function refreshApp() {
-  // update lastRefreshed
-  return {
-    type: REFRESH_APP
-  };
-}
-
 export function loadPastYears(yearsToLoad) {
   return async function loadPastYearsAsync(dispatch) {
     const now = DateTime.now().setZone(TIMEZONE);
@@ -59,50 +27,11 @@ export function loadWeek({ weekId }) {
   };
 }
 
-export const SHOW_CASHFLOW = 'SHOW_CASHFLOW';
-export function showCashflow(state) {
-  return {
-    type: SHOW_CASHFLOW,
-    payload: state
-  };
-}
-
-export const SET_SEARCH_MODE = 'SET_SEARCH_MODE';
-export function setSearchMode(state) {
-  return {
-    type: SET_SEARCH_MODE,
-    payload: state
-  };
-}
-
 export const EDIT_TRANSACTION = 'EDIT_TRANSACTION';
 export function editTransaction(transaction) {
   return {
     type: EDIT_TRANSACTION,
     payload: transaction
-  };
-}
-
-export const INTEND_TO_REMOVE_TRANSACTION = 'INTEND_TO_REMOVE_TRANSACTION';
-export function intendToRemoveTransaction(transaction) {
-  return {
-    type: INTEND_TO_REMOVE_TRANSACTION,
-    payload: transaction
-  };
-}
-
-export const CANCEL_REMOVE_TRANSACTION = 'CANCEL_REMOVE_TRANSACTION';
-export function cancelRemoveTransaction() {
-  return {
-    type: CANCEL_REMOVE_TRANSACTION
-  };
-}
-
-export const SET_USER_SETTINGS_OPEN = 'SET_USER_SETTINGS_OPEN';
-export function setUserSettingsOpen(isOpen) {
-  return {
-    type: SET_USER_SETTINGS_OPEN,
-    payload: isOpen
   };
 }
 
@@ -147,12 +76,5 @@ export function cancelRemoveCategory(cat) {
   return {
     type: CANCEL_REMOVE_CATEGORY,
     payload: cat
-  };
-}
-export const SET_APP_ERROR = 'SET_APP_ERROR';
-export function setAppError(err) {
-  return {
-    type: SET_APP_ERROR,
-    payload: err
   };
 }

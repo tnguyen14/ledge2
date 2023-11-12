@@ -11,7 +11,6 @@ import {
   XCircleIcon
 } from 'https://esm.sh/@primer/octicons-react@15';
 import {
-  setUserSettingsOpen,
   addAccount,
   removeAccount,
   cancelRemoveAccount,
@@ -19,6 +18,7 @@ import {
   removeCategory,
   cancelRemoveCategory
 } from '../../actions/app.js';
+import { setUserSettingsOpen } from '../../slices/app.js';
 import { saveUserSettings } from '../../actions/meta.js';
 import Field from '../Form/Field.js';
 
