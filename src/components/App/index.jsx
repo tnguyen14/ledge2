@@ -1,11 +1,13 @@
 import React, {
   useEffect,
   useState,
-  useContext
+  useContext,
+  useCallback
 } from 'https://esm.sh/react@18';
 import { useDispatch, useSelector } from 'https://esm.sh/react-redux@7';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
+import { DateTime } from 'https://esm.sh/luxon@3';
 import { format } from 'https://esm.sh/date-fns@2';
 import { Octokit } from 'https://esm.sh/octokit@2.0.14';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
@@ -18,7 +20,6 @@ import Form from '../Form/index.js';
 import GlobalStats from '../GlobalStats/index.js';
 import Transactions from '../Transactions/index.js';
 import UserSettings from '../UserSettings/index.js';
-import { loadPastYears } from '../../actions/app.js';
 import {
   refreshApp,
   setAppError,
@@ -27,7 +28,8 @@ import {
   setToken
 } from '../../slices/app.js';
 import { loadMetaSuccess } from '../../slices/meta.js';
-import { DATE_FIELD_FORMAT } from '../../util/constants.js';
+import { loadTransactions } from '../../actions/transactions.js';
+import { DATE_FIELD_FORMAT, TIMEZONE } from '../../util/constants.js';
 import { getMeta, getUserMeta } from '../../util/api.js';
 import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';
@@ -44,7 +46,7 @@ function App() {
   const budget = useContext(BudgetContext);
   const [budgetVersions, setBudgetVersions] = useState(budget.versions);
 
-  async function updateToken() {
+  const updateToken = useCallback(async () => {
     const accessToken = await getAccessTokenSilently({
       authorizationParams: {
         audience: 'https://lists.cloud.tridnguyen.com',
@@ -61,7 +63,20 @@ function App() {
         auth: githubAccessToken
       })
     );
-  }
+  }, [dispatch, user]);
+
+  const loadPastYears = useCallback(
+    async (yearsToLoad) => {
+      const now = DateTime.now().setZone(TIMEZONE);
+      const start = now.minus({
+        years: yearsToLoad
+      });
+      const startMonday = start.startOf('week');
+      const endMonday = now.startOf('week').plus({ weeks: 1 });
+      await dispatch(loadTransactions(startMonday, endMonday));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (!octokit) {
@@ -97,7 +112,7 @@ function App() {
           dispatch(loadMetaSuccess(meta));
           dispatch(refreshApp());
           requestIdleCallback(() => {
-            dispatch(loadPastYears(1));
+            dispatch(loadPastYears.bind(null, 1));
           });
         } catch (e) {
           console.error(e);

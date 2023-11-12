@@ -1,10 +1,11 @@
-import React, { useEffect } from 'https://esm.sh/react@18';
+import React, { useEffect, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
-import { loadWeek } from '../../actions/app.js';
+import { loadTransactions } from '../../actions/transactions.js';
 import {
   getWeekById,
   getSortedTransactions
 } from '../../selectors/transactions.js';
+import { getWeekStart, getWeekStartFromWeekId } from '../../selectors/week.js';
 import Transaction from './Transaction.js';
 import WeekStats from './WeekStats.js';
 
@@ -25,11 +26,23 @@ function Week(props) {
     transactions: weekTransactions
   }).filter((tx) => !tx.carriedOver);
 
+  const loadWeek = useCallback(
+    async (weekId) => {
+      dispatch(
+        loadTransactions(
+          getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+          getWeekStart({ date: getWeekStartFromWeekId({ weekId }), offset: 1 })
+        )
+      );
+    },
+    [dispatch]
+  );
+
   useEffect(() => {
     if (!displayTransactions.length) {
-      dispatch(loadWeek({ weekId }));
+      dispatch(loadWeek.bind(null, weekId));
     }
-  }, []);
+  }, [weekId]);
 
   if (!start || !end) {
     return null;
