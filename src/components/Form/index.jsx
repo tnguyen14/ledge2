@@ -9,6 +9,7 @@ import {
   inputChange,
   resetForm
 } from '../../slices/form.js';
+import { updateMerchantCounts } from '../../slices/meta.js';
 import { setSearchParams } from '../../slices/app.js';
 import {
   updateTransactionSuccess,
@@ -30,7 +31,6 @@ import {
   addMerchantToCounts,
   removeMerchantFromCounts
 } from '../../util/merchants.js';
-import { updateMerchantCounts } from '../../actions/transactions.js';
 
 function calculateString(str) {
   return Function(`"use strict"; return(${str})`)();
@@ -127,11 +127,11 @@ function Form() {
                 id
               })
             );
-            dispatch(
-              updateMerchantCounts(
-                addMerchantToCounts(merchants_count, values.merchant)
-              )
+            const updatedMerchantsCount = addMerchantToCounts(
+              merchants_count,
+              values.merchant
             );
+            dispatch(updateMerchantCounts(updatedMerchantsCount));
           } catch (e) {
             console.error(e);
             dispatch(addTransactionFailure());

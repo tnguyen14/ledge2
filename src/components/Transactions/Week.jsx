@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
-import { loadTransactions } from '../../actions/transactions.js';
+import { loadTransactions } from '../../slices/transactions.js';
 import {
   getWeekById,
   getSortedTransactions
@@ -29,10 +29,13 @@ function Week(props) {
   const loadWeek = useCallback(
     async (weekId) => {
       dispatch(
-        loadTransactions(
-          getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
-          getWeekStart({ date: getWeekStartFromWeekId({ weekId }), offset: 1 })
-        )
+        loadTransactions({
+          start: getWeekStart({ date: getWeekStartFromWeekId({ weekId }) }),
+          end: getWeekStart({
+            date: getWeekStartFromWeekId({ weekId }),
+            offset: 1
+          })
+        })
       );
     },
     [dispatch]

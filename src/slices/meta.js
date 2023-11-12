@@ -1,7 +1,8 @@
-import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { createSelector } from 'https://esm.sh/reselect@4';
 import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
+import { patchMeta } from '../util/api.js';
 
 const builtinAccounts = [
   {
@@ -60,6 +61,16 @@ const getMerchantNamesFromMerchantCounts = createSelector(
         return b.count - a.count;
       })
       .reduce((merchants, merchant) => merchants.concat(merchant.values), [])
+);
+
+export const updateMerchantCounts = createAsyncThunk(
+  'meta/updateMerchantCounts',
+  async (merchants_count) => {
+    await patchMeta({
+      merchants_count
+    });
+    return merchants_count;
+  }
 );
 
 const meta = createSlice({
@@ -172,12 +183,17 @@ const meta = createSlice({
         return cat;
       });
     }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(updateMerchantCounts.fulfilled, (state, action) => {
+      state.merchants_count = action.payload;
+      state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
+    });
   }
 });
 
 export const {
   loadMetaSuccess,
-  updateMerchantCountsSuccess,
   updateUserSettings,
   updateUserSettingsSuccess,
   updateUserSettingsFailure,

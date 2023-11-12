@@ -2,8 +2,7 @@ import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 
 import {
-  loadingTransactions,
-  loadTransactionsSuccess,
+  loadTransactions,
   removingTransaction,
   removeTransactionSuccess
 } from './transactions.js';
@@ -78,10 +77,10 @@ const app = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadingTransactions, (state) => {
+      .addCase(loadTransactions.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(loadTransactionsSuccess, (state, action) => {
+      .addCase(loadTransactions.fulfilled, (state, action) => {
         (state.isLoading = false),
           (state.loadedTransactions = true),
           (state.notification = {

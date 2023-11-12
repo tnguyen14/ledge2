@@ -28,7 +28,7 @@ import {
   setToken
 } from '../../slices/app.js';
 import { loadMetaSuccess } from '../../slices/meta.js';
-import { loadTransactions } from '../../actions/transactions.js';
+import { loadTransactions } from '../../slices/transactions.js';
 import { DATE_FIELD_FORMAT, TIMEZONE } from '../../util/constants.js';
 import { getMeta, getUserMeta } from '../../util/api.js';
 import OctokitContext from '../../contexts/octokit.js';
@@ -73,7 +73,7 @@ function App() {
       });
       const startMonday = start.startOf('week');
       const endMonday = now.startOf('week').plus({ weeks: 1 });
-      await dispatch(loadTransactions(startMonday, endMonday));
+      await dispatch(loadTransactions({ start: startMonday, end: endMonday }));
     },
     [dispatch]
   );

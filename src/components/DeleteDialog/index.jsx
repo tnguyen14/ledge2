@@ -13,12 +13,12 @@ import {
   removeTransactionSuccess,
   removeTransactionFailure
 } from '../../slices/transactions.js';
+import { updateMerchantCounts } from '../../slices/meta.js';
 import {
   deleteTransaction,
   getTransactionsWithMerchantName
 } from '../../util/api.js';
 import { removeMerchantFromCounts } from '../../util/merchants.js';
-import { updateMerchantCounts } from '../../actions/transactions.js';
 
 function DeleteDialog() {
   const {
