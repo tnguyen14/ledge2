@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
+import 'dotenv/config';
 import simpleFetch from 'simple-fetch';
 import { stringify } from 'qs';
+import { getToken } from '@tridnguyen/auth/server.js';
+
+const token = await getToken({
+  clientId: process.env.AUTH0_CLIENT_ID,
+  clientSecret: process.env.AUTH0_CLIENT_SECRET,
+  audience: 'https://lists.cloud.tridnguyen.com'
+});
 
 const { getJson } = simpleFetch;
 
@@ -11,7 +19,6 @@ const LISTS_URLS = {
 };
 
 const env = process.env.env;
-const token = process.env.JWT_TOKEN;
 const merchant = process.argv[2];
 
 if (!merchant) {
