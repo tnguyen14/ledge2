@@ -3,9 +3,14 @@
     max-width: 70vw;
   }
   .MuiDialogContent-root {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     gap: 1rem;
+    @media (min-width: 42.5em) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (min-width: 68.75em) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
   .profile {
     .profile-fields {
