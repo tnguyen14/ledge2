@@ -20,9 +20,8 @@ gh cs ssh
 To find a transaction locally by merchant
 
 ```sh
-export JWT_TOKEN=<token>
 export env=dev # or env=prod
-./bin/find_transactions.js "merchant name"
+./bin/find_transactions.js -m "merchant name"
 ```
 
 To fix duplicate transactions

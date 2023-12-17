@@ -1,9 +1,15 @@
 #!/usr/bin/env node
 
 import 'dotenv/config';
+import { program } from 'commander';
 import simpleFetch from 'simple-fetch';
 import { stringify } from 'qs';
 import { getToken } from '@tridnguyen/auth/server.js';
+
+program.option('-m, --merchant <merchant>').option('-d, --debug');
+program.parse();
+
+const options = program.opts();
 
 const token = await getToken({
   clientId: process.env.AUTH0_CLIENT_ID,
@@ -19,21 +25,27 @@ const LISTS_URLS = {
 };
 
 const env = process.env.env;
-const merchant = process.argv[2];
 
-if (!merchant) {
-  throw new Error('Missing merchant - please pass merchant in as first arg');
+// TODO: It's ok to search for transactions without merchant
+if (!options.merchant) {
+  throw new Error("Missing option for 'merchant'");
 }
+
+console.log(`Searching for transactions with merchant ${options.merchant}`);
 
 const query = stringify({
   where: [
     {
       field: 'merchant',
       op: '==',
-      value: merchant
+      value: options.merchant
     }
   ]
 });
+
+if (options.debug) {
+  console.log(`Query: ${query}`);
+}
 
 getJson(`${LISTS_URLS[env]}/ledge/tri/items?${query}`, {
   headers: {
