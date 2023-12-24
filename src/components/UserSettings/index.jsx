@@ -82,112 +82,116 @@ function UserSettings() {
             <div className="field-value">{timezoneToStore}</div>
           </div>
         </div>
-        <div className="list">
+        <div className="list accounts">
           <h4>Accounts</h4>
-          {accounts.map((account) => (
-            <div
-              key={account.slug}
-              className={classnames('item', {
-                'to-be-added': account.toBeAdded,
-                'to-be-removed': account.toBeRemoved
-              })}
-            >
-              <span>{account.value}</span>
-              {!account.builtIn && account.toBeRemoved ? (
-                <Button
-                  size="sm"
-                  variant="outline-secondary"
-                  title="Put back"
-                  onClick={() => {
-                    dispatch(cancelRemoveAccount(account.value));
-                  }}
-                >
-                  <XCircleIcon />
-                </Button>
-              ) : null}
-              {!account.builtIn && !account.toBeRemoved ? (
-                <Button
-                  size="sm"
-                  variant="outline-danger"
-                  title="Remove"
-                  onClick={() => {
-                    dispatch(removeAccount(account.value));
-                  }}
-                >
-                  <TrashIcon />
-                </Button>
-              ) : null}
-            </div>
-          ))}
+          <div className="items">
+            {accounts.map((account) => (
+              <div
+                key={account.slug}
+                className={classnames('item', {
+                  'to-be-added': account.toBeAdded,
+                  'to-be-removed': account.toBeRemoved
+                })}
+              >
+                <span>{account.value}</span>
+                {!account.builtIn && account.toBeRemoved ? (
+                  <Button
+                    size="sm"
+                    variant="outline-secondary"
+                    title="Put back"
+                    onClick={() => {
+                      dispatch(cancelRemoveAccount(account.value));
+                    }}
+                  >
+                    <XCircleIcon />
+                  </Button>
+                ) : null}
+                {!account.builtIn && !account.toBeRemoved ? (
+                  <Button
+                    size="sm"
+                    variant="outline-danger"
+                    title="Remove"
+                    onClick={() => {
+                      dispatch(removeAccount(account.value));
+                    }}
+                  >
+                    <TrashIcon />
+                  </Button>
+                ) : null}
+              </div>
+            ))}
 
-          <div className="item">
-            <Field
-              type="text"
-              placeholder="New account"
-              value={newAccount}
-              handleChange={(e) => setNewAccount(e.target.value)}
-            />
-            <Button
-              onClick={() => {
-                dispatch(addAccount(newAccount));
-                setNewAccount('');
-              }}
-            >
-              Add
-            </Button>
+            <div className="item">
+              <Field
+                type="text"
+                placeholder="New account"
+                value={newAccount}
+                handleChange={(e) => setNewAccount(e.target.value)}
+              />
+              <Button
+                onClick={() => {
+                  dispatch(addAccount(newAccount));
+                  setNewAccount('');
+                }}
+              >
+                Add
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="list">
+        <div className="list categories">
           <h4>Expense Categories</h4>
-          {expenseCategories.map((cat) => (
-            <div
-              key={cat.slug}
-              className={classnames('item', {
-                'to-be-added': cat.toBeAdded,
-                'to-be-removed': cat.toBeRemoved
-              })}
-            >
-              <span>{cat.value}</span>
-              {cat.toBeRemoved ? (
-                <Button
-                  size="sm"
-                  variant="outline-secondary"
-                  title="Put back"
-                  onClick={() => {
-                    dispatch(cancelRemoveCategory(cat.value));
-                  }}
-                >
-                  <XCircleIcon />
-                </Button>
-              ) : (
-                <Button
-                  size="sm"
-                  variant="outline-danger"
-                  title="Remove"
-                  onClick={() => {
-                    dispatch(removeCategory(cat.value));
-                  }}
-                >
-                  <TrashIcon />
-                </Button>
-              )}
+          <div className="items">
+            {expenseCategories.map((cat) => (
+              <div
+                key={cat.slug}
+                className={classnames('item', {
+                  'to-be-added': cat.toBeAdded,
+                  'to-be-removed': cat.toBeRemoved
+                })}
+              >
+                <span>{cat.value}</span>
+                {cat.toBeRemoved ? (
+                  <Button
+                    size="sm"
+                    variant="outline-secondary"
+                    title="Put back"
+                    onClick={() => {
+                      dispatch(cancelRemoveCategory(cat.value));
+                    }}
+                  >
+                    <XCircleIcon />
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    variant="outline-danger"
+                    title="Remove"
+                    onClick={() => {
+                      dispatch(removeCategory(cat.value));
+                    }}
+                  >
+                    <TrashIcon />
+                  </Button>
+                )}
+              </div>
+            ))}
+            <div className="item">
+              <Field
+                type="text"
+                placeholder="New expense category"
+                value={newCategory}
+                handleChange={(e) => setNewCategory(e.target.value)}
+              />
+              <Button
+                onClick={() => {
+                  dispatch(addCategory(newCategory));
+                  setNewCategory('');
+                }}
+              >
+                Add
+              </Button>
             </div>
-          ))}
-          <div className="item">
-            <Field
-              type="text"
-              placeholder="New expense category"
-              value={newCategory}
-              handleChange={(e) => setNewCategory(e.target.value)}
-            />
-            <Button
-              onClick={() => {
-                dispatch(addCategory(newCategory));
-                setNewCategory('');
-              }}
-            >
-              Add
-            </Button>
           </div>
         </div>
       </DialogContent>

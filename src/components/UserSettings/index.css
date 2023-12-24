@@ -5,14 +5,25 @@
   .MuiDialogContent-root {
     display: grid;
     gap: 1rem;
+    grid-template-areas:
+      'profile'
+      'accounts'
+      'categories'
+      'recurring';
     @media (min-width: 42.5em) {
-      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        'profile accounts'
+        'categories categories'
+        'recurring recurring';
     }
     @media (min-width: 68.75em) {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-areas:
+        'profile accounts recurring'
+        'categories categories recurring';
     }
   }
   .profile {
+    grid-area: profile;
     .profile-fields {
       display: grid;
       grid-template-columns: 40% 1fr;
@@ -21,6 +32,19 @@
   }
   .list {
     flex-basis: 18rem;
+  }
+  .list.accounts {
+    grid-area: accounts;
+  }
+  .list.categories {
+    grid-area: categories;
+    .items {
+      display: grid;
+      @media (min-width: 42.5em) {
+        grid-template-columns: 1fr 1fr;
+        column-gap: 1rem;
+      }
+    }
   }
   .item {
     display: flex;
