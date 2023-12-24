@@ -51,7 +51,25 @@ function Form() {
     debitAccount: state.meta.accounts,
     creditAccount: state.meta.accounts,
     searchAccount: state.meta.accounts,
-    syntheticType: SYNTHETIC_TYPES
+    syntheticType: SYNTHETIC_TYPES.concat({
+      slug: 'recurring',
+      value: 'Recurring'
+    }),
+    recurrencePeriod: [
+      {
+        slug: 'week',
+        value: 'Week'
+      },
+      {
+        slug: 'month',
+        value: 'Month'
+      },
+      {
+        slug: 'year',
+        value: 'Year'
+      }
+    ],
+    recurrenceDay: state.form.recurrenceDays
   }));
   const merchants_count = useSelector((state) => state.meta.merchants_count);
 
