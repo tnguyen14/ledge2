@@ -24,6 +24,7 @@ import {
 import { setUserSettingsOpen } from '../../slices/app.js';
 import { patchMeta } from '../../util/api.js';
 import Field from '../Form/Field.js';
+import Recurring from './Recurring.js';
 
 function UserSettings() {
   const [newAccount, setNewAccount] = useState('');
@@ -194,6 +195,7 @@ function UserSettings() {
             </div>
           </div>
         </div>
+        <Recurring />
       </DialogContent>
       <DialogActions>
         <Button
