@@ -47,6 +47,7 @@ function Form() {
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
   );
+  const recurring = useSelector((state) => state.meta.recurring);
   const fieldOptions = useSelector((state) => ({
     category: state.meta.expenseCategories,
     debitAccount: state.meta.accounts,

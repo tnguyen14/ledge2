@@ -37,7 +37,8 @@ const initialState = {
     };
     return stats;
   }, {}),
-  timezoneToStore: ''
+  timezoneToStore: '',
+  recurring: []
 };
 
 const getMerchantNamesFromMerchantCounts = createSelector(
