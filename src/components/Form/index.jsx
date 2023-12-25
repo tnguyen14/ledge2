@@ -6,10 +6,11 @@ import Field from './Field.js';
 import Span from './Span.js';
 import {
   submitTransaction,
+  submitTransactionFailure,
   inputChange,
   resetForm
 } from '../../slices/form.js';
-import { updateMerchantCounts } from '../../slices/meta.js';
+import { updateMerchantCounts, updateRecurring } from '../../slices/meta.js';
 import { setSearchParams } from '../../slices/app.js';
 import {
   updateTransactionSuccess,
@@ -98,7 +99,14 @@ function Form() {
         );
       } else {
         dispatch(submitTransaction());
-        const decoratedTransaction = decorateTransaction(values);
+        let decoratedTransaction;
+        try {
+          decoratedTransaction = decorateTransaction(values);
+        } catch (e) {
+          console.error(e);
+          dispatch(submitTransactionFailure());
+          return;
+        }
         if (action == 'update') {
           const id = values.id;
           const oldMerchant = prevMerchantRef.current;
@@ -113,7 +121,7 @@ function Form() {
                 id
               })
             );
-            if (values.merchant != oldMerchant) {
+            if (decoratedTransaction.merchant != oldMerchant) {
               const transactionsWithOldMerchantName =
                 await getTransactionsWithMerchantName(oldMerchant);
               const updatedMerchantsCount = addMerchantToCounts(
@@ -122,7 +130,7 @@ function Form() {
                   oldMerchant,
                   transactionsWithOldMerchantName.length
                 ),
-                values.merchant
+                decoratedTransaction.merchant
               );
               dispatch(updateMerchantCounts(updatedMerchantsCount));
             }
@@ -130,29 +138,48 @@ function Form() {
             console.error(e);
             dispatch(updateTransactionFailure());
           }
-        } else {
-          try {
-            const id = await getUniqueTransactionId(
-              new Date(decoratedTransaction.date).valueOf()
-            );
-            await postTransaction({
-              ...decoratedTransaction,
-              id
-            });
+        } else if (action == 'add') {
+          if (values.syntheticType == 'recurring') {
             dispatch(
-              addTransactionSuccess({
+              updateRecurring([
+                ...recurring,
+                {
+                  id: new Date().valueOf(),
+                  amount: decoratedTransaction.amount,
+                  merchant: decoratedTransaction.merchant,
+                  category: decoratedTransaction.category,
+                  debitAccount: decoratedTransaction.debitAccount,
+                  creditAccount: decoratedTransaction.creditAccount,
+                  recurrenceFrequency: values.recurrenceFrequency,
+                  recurrencePeriod: values.recurrencePeriod,
+                  recurrenceDay: values.recurrenceDay
+                }
+              ])
+            );
+          } else {
+            try {
+              const id = await getUniqueTransactionId(
+                new Date(decoratedTransaction.date).valueOf()
+              );
+              await postTransaction({
                 ...decoratedTransaction,
                 id
-              })
-            );
-            const updatedMerchantsCount = addMerchantToCounts(
-              merchants_count,
-              values.merchant
-            );
-            dispatch(updateMerchantCounts(updatedMerchantsCount));
-          } catch (e) {
-            console.error(e);
-            dispatch(addTransactionFailure());
+              });
+              dispatch(
+                addTransactionSuccess({
+                  ...decoratedTransaction,
+                  id
+                })
+              );
+              const updatedMerchantsCount = addMerchantToCounts(
+                merchants_count,
+                decoratedTransaction.merchant
+              );
+              dispatch(updateMerchantCounts(updatedMerchantsCount));
+            } catch (e) {
+              console.error(e);
+              dispatch(addTransactionFailure());
+            }
           }
         }
       }

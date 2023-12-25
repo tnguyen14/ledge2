@@ -11,6 +11,7 @@ import {
   updateTransactionSuccess,
   updateTransactionFailure
 } from './transactions.js';
+import { updateRecurring } from './meta.js';
 
 const amountField = {
   type: 'number',
@@ -196,7 +197,7 @@ function getRecurrenceDays(period, date) {
       'Friday',
       'Saturday',
       'Sunday'
-    ].map((day) => ({ value: day, slug: day.toLowerCase() }));
+    ].map((day) => ({ value: day, slug: day }));
   }
   if (period == 'month') {
     const daysInMonth = getDaysInMonth(referenceDate);
@@ -297,7 +298,7 @@ function createInitialValues(isSearch) {
     creditAccount: '',
     recurrenceFrequency: 1,
     recurrencePeriod: 'week',
-    recurrenceDay: format(now, 'EEEE').toLowerCase()
+    recurrenceDay: format(now, 'EEEE')
   };
 }
 const initialValues = createInitialValues(false);
@@ -321,6 +322,9 @@ const form = createSlice({
   reducers: {
     submitTransaction: (state) => {
       state.pending = true;
+    },
+    submitTransactionFailure: (state) => {
+      state.pending = false;
     },
     inputChange: (state, action) => {
       state.values[action.payload.name] = action.payload.value;
@@ -368,6 +372,13 @@ const form = createSlice({
           ...state.values,
           ...getAccountsValues(state.values.syntheticType)
         };
+        // this could be handled by getAccountsValues,
+        // but handling it manually here as it's not a strict mapping
+        // these accounts are just most likely values
+        if (action.payload.value == 'recurring') {
+          state.values.creditAccount = 'cash';
+          state.values.debitAccount = 'expense';
+        }
       }
       if (action.payload.name == 'recurrencePeriod') {
         state.recurrenceDays = getRecurrenceDays(
@@ -418,9 +429,11 @@ const form = createSlice({
       })
       .addMatcher(
         (action) =>
-          [addTransactionSuccess.type, updateTransactionSuccess.type].includes(
-            action.type
-          ),
+          [
+            addTransactionSuccess.type,
+            updateTransactionSuccess.type,
+            updateRecurring.fulfilled.type
+          ].includes(action.type),
         (state) => {
           state.pending = false;
           state.values = {
@@ -442,5 +455,10 @@ const form = createSlice({
   }
 });
 
-export const { submitTransaction, inputChange, resetForm } = form.actions;
+export const {
+  submitTransaction,
+  submitTransactionFailure,
+  inputChange,
+  resetForm
+} = form.actions;
 export default form.reducer;

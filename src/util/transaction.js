@@ -65,7 +65,7 @@ export function decorateTransaction(params) {
     date,
     amount,
     memo,
-    merchant,
+    merchant: merchant.trim(),
     type,
     category,
     budgetStart,

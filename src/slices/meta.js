@@ -73,6 +73,16 @@ export const updateMerchantCounts = createAsyncThunk(
   }
 );
 
+export const updateRecurring = createAsyncThunk(
+  'meta/updateRecurring',
+  async (recurring) => {
+    await patchMeta({
+      recurring
+    });
+    return recurring;
+  }
+);
+
 const meta = createSlice({
   name: 'meta',
   initialState,
@@ -91,6 +101,7 @@ const meta = createSlice({
         (year) => (state.stats[year] = action.payload.stats[year])
       );
       state.timezoneToStore = action.payload.timezoneToStore;
+      state.recurring = action.payload.recurring;
     },
     updateMerchantCountsSuccess: (state, action) => {
       state.merchants_count = action.payload;
@@ -188,6 +199,9 @@ const meta = createSlice({
     builder.addCase(updateMerchantCounts.fulfilled, (state, action) => {
       state.merchants_count = action.payload;
       state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
+    });
+    builder.addCase(updateRecurring.fulfilled, (state, action) => {
+      state.recurring = action.payload;
     });
   }
 });
