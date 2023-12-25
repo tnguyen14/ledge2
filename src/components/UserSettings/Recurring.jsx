@@ -22,6 +22,23 @@ function displayMonthDay(day) {
     return `${day}th`;
   }
 }
+
+function displayPlural(str, num) {
+  if (num == 1) {
+    return str;
+  } else {
+    return `${str}s`;
+  }
+}
+
+function displayFrequency(str, num) {
+  if (num == 1) {
+    return `every ${str}`;
+  } else {
+    return `every ${num} ${displayPlural(str, num)}`;
+  }
+}
+
 /*
  * [merchant] [amount] ([category]) : every [frequency] [period] on [day]
  */
@@ -38,12 +55,8 @@ function Recurring() {
       {recurring.map((txn) => (
         <div key={txn.id}>
           {txn.merchant} {usd(txn.amount)} (
-          {getValueFromOptions(categories, txn.category)}): every{' '}
-          {txn.recurrenceFrequency == 1 ? '' : `${txn.recurrenceFrequency} `}
-          {txn.recurrenceFrequency == 1
-            ? txn.recurrencePeriod
-            : `${txn.recurrenceyPeriod}s`}{' '}
-          on{' '}
+          {getValueFromOptions(categories, txn.category)}):{' '}
+          {displayFrequency(txn.recurrencePeriod, txn.recurrenceFrequency)} on{' '}
           {txn.recurrencePeriod == 'month'
             ? `the ${displayMonthDay(txn.recurrenceDay)}`
             : txn.recurrenceDay}
