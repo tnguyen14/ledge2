@@ -1,4 +1,4 @@
-import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
+import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 
 import {
@@ -10,7 +10,8 @@ import {
 import {
   updateUserSettings,
   updateUserSettingsSuccess,
-  updateUserSettingsFailure
+  updateUserSettingsFailure,
+  removeRecurringTransaction
 } from './meta.js';
 
 const initialState = {
@@ -94,11 +95,6 @@ const app = createSlice({
       .addCase(removingTransaction, (state) => {
         state.waitingTransactionRemoval = true;
       })
-      .addCase(removeTransactionSuccess, (state) => {
-        state.transactionRemovalIntended = false;
-        state.waitingTransactionRemoval = false;
-        state.transactionToBeRemoved = undefined;
-      })
       .addCase(updateUserSettings, (state) => {
         state.savingUserSettings = true;
       })
@@ -108,7 +104,15 @@ const app = createSlice({
       .addCase(updateUserSettingsFailure, (state, action) => {
         state.savingUserSettings = false;
         state.userSettingsError = action.payload;
-      });
+      })
+      .addMatcher(
+        isAnyOf(removeTransactionSuccess, removeRecurringTransaction.fulfilled),
+        (state) => {
+          state.transactionRemovalIntended = false;
+          state.waitingTransactionRemoval = false;
+          state.transactionToBeRemoved = undefined;
+        }
+      );
   }
 });
 

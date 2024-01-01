@@ -1,9 +1,16 @@
 import React from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
-import { PencilIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import {
+  PencilIcon,
+  TrashIcon
+} from 'https://esm.sh/@primer/octicons-react@15';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
-import { editTransaction, setUserSettingsOpen } from '../../slices/app.js';
+import {
+  editTransaction,
+  intendToRemoveTransaction,
+  setUserSettingsOpen
+} from '../../slices/app.js';
 import { getValueFromOptions } from '../../util/slug.js';
 
 function displayMonthDay(day) {
@@ -81,6 +88,22 @@ function Recurring() {
             }}
           >
             <PencilIcon />
+          </Button>
+          <Button
+            size="sm"
+            variant="outline-danger"
+            title="Remove"
+            onClick={() => {
+              dispatch(
+                intendToRemoveTransaction({
+                  ...txn,
+                  syntheticType: 'recurring'
+                })
+              );
+              dispatch(setUserSettingsOpen(false));
+            }}
+          >
+            <TrashIcon />
           </Button>
         </div>
       ))}

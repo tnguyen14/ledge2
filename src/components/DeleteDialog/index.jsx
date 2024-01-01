@@ -13,7 +13,10 @@ import {
   removeTransactionSuccess,
   removeTransactionFailure
 } from '../../slices/transactions.js';
-import { updateMerchantCounts } from '../../slices/meta.js';
+import {
+  updateMerchantCounts,
+  removeRecurringTransaction
+} from '../../slices/meta.js';
 import {
   deleteTransaction,
   getTransactionsWithMerchantName
@@ -26,28 +29,37 @@ function DeleteDialog() {
     waitingTransactionRemoval,
     transactionToBeRemoved
   } = useSelector((state) => state.app);
-  const merchants_count = useSelector((state) => state.meta.merchants_count);
+  const { merchants_count } = useSelector((state) => state.meta);
   const dispatch = useDispatch();
 
   const removeTransaction = useCallback(async () => {
     dispatch(removingTransaction());
     try {
-      await deleteTransaction(transactionToBeRemoved.id);
-      dispatch(removeTransactionSuccess(transactionToBeRemoved.id));
-      const transactionsWithMerchantName =
-        await getTransactionsWithMerchantName(transactionToBeRemoved.merchant);
-      const updatedMerchantsCount = removeMerchantFromCounts(
-        merchants_count,
-        transactionToBeRemoved.merchant,
-        transactionsWithMerchantName.length
-      );
-      dispatch(updateMerchantCounts(updatedMerchantsCount));
+      if (transactionToBeRemoved.syntheticType == 'recurring') {
+        dispatch(removeRecurringTransaction(transactionToBeRemoved.id));
+      } else {
+        await deleteTransaction(transactionToBeRemoved.id);
+        dispatch(removeTransactionSuccess(transactionToBeRemoved.id));
+        const transactionsWithMerchantName =
+          await getTransactionsWithMerchantName(
+            transactionToBeRemoved.merchant
+          );
+        const updatedMerchantsCount = removeMerchantFromCounts(
+          merchants_count,
+          transactionToBeRemoved.merchant,
+          transactionsWithMerchantName.length
+        );
+        dispatch(updateMerchantCounts(updatedMerchantsCount));
+      }
     } catch (e) {
       console.error(e);
       dispatch(removeTransactionFailure());
     }
   }, [dispatch, merchants_count, transactionToBeRemoved]);
 
+  if (!transactionToBeRemoved) {
+    return null;
+  }
   return (
     <Dialog
       open={transactionRemovalIntended}
@@ -56,7 +68,13 @@ function DeleteDialog() {
       <DialogTitle>Delete Transaction</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <h4>Are you sure you want to delete this transaction?</h4>
+          <h4>
+            Are you sure you want to delete this{' '}
+            {transactionToBeRemoved.syntheticType == 'recurring'
+              ? 'recurring '
+              : ''}
+            transaction?
+          </h4>
           <p>
             <CompactTransaction transaction={transactionToBeRemoved} />
           </p>

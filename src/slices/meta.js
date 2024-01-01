@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from 'https://esm.sh/@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  isAnyOf
+} from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { createSelector } from 'https://esm.sh/reselect@4';
 import slugify from 'https://esm.sh/@tridnguyen/slugify@2';
@@ -81,6 +85,24 @@ export const updateRecurring = createAsyncThunk(
       recurring
     });
     return recurring;
+  }
+);
+
+export const removeRecurringTransaction = createAsyncThunk(
+  'meta/removeRecurringTransaction',
+  async (transactionId, { getState }) => {
+    const { recurring } = getState().meta;
+    const transactionIndex = recurring.findIndex(
+      (transaction) => transaction.id === transactionId
+    );
+    const updatedRecurring = [
+      ...recurring.slice(0, transactionIndex),
+      ...recurring.slice(transactionIndex + 1)
+    ];
+    await patchMeta({
+      recurring: updatedRecurring
+    });
+    return updatedRecurring;
   }
 );
 
@@ -197,13 +219,20 @@ const meta = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(updateMerchantCounts.fulfilled, (state, action) => {
-      state.merchants_count = action.payload;
-      state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
-    });
-    builder.addCase(updateRecurring.fulfilled, (state, action) => {
-      state.recurring = action.payload;
-    });
+    builder
+      .addCase(updateMerchantCounts.fulfilled, (state, action) => {
+        state.merchants_count = action.payload;
+        state.merchants = getMerchantNamesFromMerchantCounts(action.payload);
+      })
+      .addMatcher(
+        isAnyOf(
+          updateRecurring.fulfilled,
+          removeRecurringTransaction.fulfilled
+        ),
+        (state, action) => {
+          state.recurring = action.payload;
+        }
+      );
   }
 });
 

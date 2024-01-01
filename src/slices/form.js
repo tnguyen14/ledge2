@@ -1,4 +1,4 @@
-import { createSlice } from 'https://esm.sh/@reduxjs/toolkit';
+import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { format, getDaysInMonth } from 'https://esm.sh/date-fns@2';
 import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
@@ -431,12 +431,11 @@ const form = createSlice({
         );
       })
       .addMatcher(
-        (action) =>
-          [
-            addTransactionSuccess.type,
-            updateTransactionSuccess.type,
-            updateRecurring.fulfilled.type
-          ].includes(action.type),
+        isAnyOf(
+          addTransactionSuccess.type,
+          updateTransactionSuccess.type,
+          updateRecurring.fulfilled.type
+        ),
         (state) => {
           state.pending = false;
           state.values = {
@@ -448,10 +447,7 @@ const form = createSlice({
         }
       )
       .addMatcher(
-        (action) =>
-          [addTransactionFailure.type, updateTransactionFailure.type].includes(
-            action.type
-          ),
+        isAnyOf(addTransactionFailure.type, updateTransactionFailure.type),
         (state) => {
           state.pending = false;
         }
