@@ -10,7 +10,11 @@ import {
   inputChange,
   resetForm
 } from '../../slices/form.js';
-import { updateMerchantCounts, updateRecurring } from '../../slices/meta.js';
+import {
+  updateMerchantCounts,
+  addRecurringTransaction,
+  updateRecurringTransaction
+} from '../../slices/meta.js';
 import { setSearchParams } from '../../slices/app.js';
 import {
   updateTransactionSuccess,
@@ -111,23 +115,20 @@ function Form() {
         if (action == 'update') {
           try {
             if (values.syntheticType == 'recurring') {
-              const transactionIndex = recurring.findIndex(
-                (txn) => txn.id == values.id
+              dispatch(
+                updateRecurringTransaction({
+                  id: values.id,
+                  amount: decoratedTransaction.amount,
+                  date: decoratedTransaction.date,
+                  merchant: decoratedTransaction.merchant,
+                  category: decoratedTransaction.category,
+                  debitAccount: decoratedTransaction.debitAccount,
+                  creditAccount: decoratedTransaction.creditAccount,
+                  recurrenceFrequency: values.recurrenceFrequency,
+                  recurrencePeriod: values.recurrencePeriod,
+                  recurrenceDay: values.recurrenceDay
+                })
               );
-              const updatedRecurring = [...recurring];
-              updatedRecurring[transactionIndex] = {
-                ...recurring[transactionIndex],
-                amount: decoratedTransaction.amount,
-                date: decoratedTransaction.date,
-                merchant: decoratedTransaction.merchant,
-                category: decoratedTransaction.category,
-                debitAccount: decoratedTransaction.debitAccount,
-                creditAccount: decoratedTransaction.creditAccount,
-                recurrenceFrequency: values.recurrenceFrequency,
-                recurrencePeriod: values.recurrencePeriod,
-                recurrenceDay: values.recurrenceDay
-              };
-              dispatch(updateRecurring(updatedRecurring));
             } else {
               const id = values.id;
               const oldMerchant = prevMerchantRef.current;
@@ -163,21 +164,18 @@ function Form() {
           try {
             if (values.syntheticType == 'recurring') {
               dispatch(
-                updateRecurring([
-                  ...recurring,
-                  {
-                    id: new Date().valueOf(),
-                    amount: decoratedTransaction.amount,
-                    date: decoratedTransaction.date,
-                    merchant: decoratedTransaction.merchant,
-                    category: decoratedTransaction.category,
-                    debitAccount: decoratedTransaction.debitAccount,
-                    creditAccount: decoratedTransaction.creditAccount,
-                    recurrenceFrequency: values.recurrenceFrequency,
-                    recurrencePeriod: values.recurrencePeriod,
-                    recurrenceDay: values.recurrenceDay
-                  }
-                ])
+                addRecurringTransaction({
+                  id: new Date().valueOf(),
+                  amount: decoratedTransaction.amount,
+                  date: decoratedTransaction.date,
+                  merchant: decoratedTransaction.merchant,
+                  category: decoratedTransaction.category,
+                  debitAccount: decoratedTransaction.debitAccount,
+                  creditAccount: decoratedTransaction.creditAccount,
+                  recurrenceFrequency: values.recurrenceFrequency,
+                  recurrencePeriod: values.recurrencePeriod,
+                  recurrenceDay: values.recurrenceDay
+                })
               );
             } else {
               const id = await getUniqueTransactionId(

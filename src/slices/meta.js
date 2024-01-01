@@ -78,13 +78,34 @@ export const updateMerchantCounts = createAsyncThunk(
   }
 );
 
-export const updateRecurring = createAsyncThunk(
-  'meta/updateRecurring',
-  async (recurring) => {
+export const addRecurringTransaction = createAsyncThunk(
+  'meta/addRecurringTransaction',
+  async (transaction, { getState }) => {
+    const { recurring } = getState().meta;
+    const updatedRecurring = [...recurring, transaction];
     await patchMeta({
-      recurring
+      recurring: updatedRecurring
     });
-    return recurring;
+    return updatedRecurring;
+  }
+);
+
+export const updateRecurringTransaction = createAsyncThunk(
+  'meta/updateRecurringTransaction',
+  async (transaction, { getState }) => {
+    const { recurring } = getState().meta;
+    const transactionIndex = recurring.findIndex(
+      (t) => t.id === transaction.id
+    );
+    const updatedRecurring = [...recurring];
+    updatedRecurring[transactionIndex] = {
+      ...recurring[transactionIndex],
+      ...transaction
+    };
+    await patchMeta({
+      recurring: updatedRecurring
+    });
+    return updatedRecurring;
   }
 );
 
@@ -226,7 +247,8 @@ const meta = createSlice({
       })
       .addMatcher(
         isAnyOf(
-          updateRecurring.fulfilled,
+          addRecurringTransaction.fulfilled,
+          updateRecurringTransaction.fulfilled,
           removeRecurringTransaction.fulfilled
         ),
         (state, action) => {

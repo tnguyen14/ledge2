@@ -11,7 +11,7 @@ import {
   updateTransactionSuccess,
   updateTransactionFailure
 } from './transactions.js';
-import { updateRecurring } from './meta.js';
+import { addRecurringTransaction, updateRecurringTransaction } from './meta.js';
 
 const amountField = {
   type: 'number',
@@ -432,9 +432,10 @@ const form = createSlice({
       })
       .addMatcher(
         isAnyOf(
-          addTransactionSuccess.type,
-          updateTransactionSuccess.type,
-          updateRecurring.fulfilled.type
+          addTransactionSuccess,
+          updateTransactionSuccess,
+          addRecurringTransaction.fulfilled,
+          updateRecurringTransaction.fulfilled
         ),
         (state) => {
           state.pending = false;
