@@ -438,7 +438,8 @@ const form = createSlice({
           state.pending = false;
           state.values = {
             ...createInitialValues(state.action == 'search'),
-            ...getAccountsValues(state.values.syntheticType)
+            ...getAccountsValues(state.values.syntheticType),
+            syntheticType: state.values.syntheticType
           };
           state.action = 'add';
         }
