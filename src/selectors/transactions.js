@@ -78,7 +78,7 @@ export const getCurrentYearWeeklyAverage = createSelector(
     return {
       value: calculateWeeklyAverage({
         transactions: years[now.year],
-        numWeeks
+        numWeeks: numWeeks || 1
       }),
       numWeeks,
       year: now.year
