@@ -1,6 +1,9 @@
 import React from 'https://esm.sh/react@18';
-import { useSelector } from 'https://esm.sh/react-redux@7';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import Button from 'https://esm.sh/react-bootstrap@2/Button';
+import { PencilIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
+import { editTransaction, setUserSettingsOpen } from '../../slices/app.js';
 import { getValueFromOptions } from '../../util/slug.js';
 
 function displayMonthDay(day) {
@@ -48,18 +51,37 @@ function displayFrequency(str, num) {
  */
 function Recurring() {
   const { recurring } = useSelector((state) => state.meta);
+  const dispatch = useDispatch();
   const categories = useSelector((state) => state.meta.expenseCategories);
   return (
     <div className="recurring">
       <h4>Recurring Transactions</h4>
       {recurring.map((txn) => (
-        <div key={txn.id}>
-          {txn.merchant} {usd(txn.amount)} (
-          {getValueFromOptions(categories, txn.category)}):{' '}
-          {displayFrequency(txn.recurrencePeriod, txn.recurrenceFrequency)} on{' '}
-          {txn.recurrencePeriod == 'month'
-            ? `the ${displayMonthDay(txn.recurrenceDay)}`
-            : txn.recurrenceDay}
+        <div className="item" key={txn.id}>
+          <span>
+            {txn.merchant} {usd(txn.amount)} (
+            {getValueFromOptions(categories, txn.category)}):{' '}
+            {displayFrequency(txn.recurrencePeriod, txn.recurrenceFrequency)} on{' '}
+            {txn.recurrencePeriod == 'month'
+              ? `the ${displayMonthDay(txn.recurrenceDay)}`
+              : txn.recurrenceDay}
+          </span>
+          <Button
+            size="sm"
+            variant="outline-info"
+            title="Edit"
+            onClick={() => {
+              dispatch(
+                editTransaction({
+                  ...txn,
+                  syntheticType: 'recurring'
+                })
+              );
+              dispatch(setUserSettingsOpen(false));
+            }}
+          >
+            <PencilIcon />
+          </Button>
         </div>
       ))}
     </div>

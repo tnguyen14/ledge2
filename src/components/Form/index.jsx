@@ -109,56 +109,77 @@ function Form() {
           return;
         }
         if (action == 'update') {
-          const id = values.id;
-          const oldMerchant = prevMerchantRef.current;
           try {
-            await patchTransaction({
-              ...decoratedTransaction,
-              id
-            });
-            dispatch(
-              updateTransactionSuccess({
+            if (values.syntheticType == 'recurring') {
+              const transactionIndex = recurring.findIndex(
+                (txn) => txn.id == values.id
+              );
+              const updatedRecurring = [...recurring];
+              updatedRecurring[transactionIndex] = {
+                ...recurring[transactionIndex],
+                amount: decoratedTransaction.amount,
+                date: decoratedTransaction.date,
+                merchant: decoratedTransaction.merchant,
+                category: decoratedTransaction.category,
+                debitAccount: decoratedTransaction.debitAccount,
+                creditAccount: decoratedTransaction.creditAccount,
+                recurrenceFrequency: values.recurrenceFrequency,
+                recurrencePeriod: values.recurrencePeriod,
+                recurrenceDay: values.recurrenceDay
+              };
+              dispatch(updateRecurring(updatedRecurring));
+            } else {
+              const id = values.id;
+              const oldMerchant = prevMerchantRef.current;
+              await patchTransaction({
                 ...decoratedTransaction,
                 id
-              })
-            );
-            if (decoratedTransaction.merchant != oldMerchant) {
-              const transactionsWithOldMerchantName =
-                await getTransactionsWithMerchantName(oldMerchant);
-              const updatedMerchantsCount = addMerchantToCounts(
-                removeMerchantFromCounts(
-                  merchants_count,
-                  oldMerchant,
-                  transactionsWithOldMerchantName.length
-                ),
-                decoratedTransaction.merchant
+              });
+              dispatch(
+                updateTransactionSuccess({
+                  ...decoratedTransaction,
+                  id
+                })
               );
-              dispatch(updateMerchantCounts(updatedMerchantsCount));
+              if (decoratedTransaction.merchant != oldMerchant) {
+                const transactionsWithOldMerchantName =
+                  await getTransactionsWithMerchantName(oldMerchant);
+                const updatedMerchantsCount = addMerchantToCounts(
+                  removeMerchantFromCounts(
+                    merchants_count,
+                    oldMerchant,
+                    transactionsWithOldMerchantName.length
+                  ),
+                  decoratedTransaction.merchant
+                );
+                dispatch(updateMerchantCounts(updatedMerchantsCount));
+              }
             }
           } catch (e) {
             console.error(e);
             dispatch(updateTransactionFailure());
           }
         } else if (action == 'add') {
-          if (values.syntheticType == 'recurring') {
-            dispatch(
-              updateRecurring([
-                ...recurring,
-                {
-                  id: new Date().valueOf(),
-                  amount: decoratedTransaction.amount,
-                  merchant: decoratedTransaction.merchant,
-                  category: decoratedTransaction.category,
-                  debitAccount: decoratedTransaction.debitAccount,
-                  creditAccount: decoratedTransaction.creditAccount,
-                  recurrenceFrequency: values.recurrenceFrequency,
-                  recurrencePeriod: values.recurrencePeriod,
-                  recurrenceDay: values.recurrenceDay
-                }
-              ])
-            );
-          } else {
-            try {
+          try {
+            if (values.syntheticType == 'recurring') {
+              dispatch(
+                updateRecurring([
+                  ...recurring,
+                  {
+                    id: new Date().valueOf(),
+                    amount: decoratedTransaction.amount,
+                    date: decoratedTransaction.date,
+                    merchant: decoratedTransaction.merchant,
+                    category: decoratedTransaction.category,
+                    debitAccount: decoratedTransaction.debitAccount,
+                    creditAccount: decoratedTransaction.creditAccount,
+                    recurrenceFrequency: values.recurrenceFrequency,
+                    recurrencePeriod: values.recurrencePeriod,
+                    recurrenceDay: values.recurrenceDay
+                  }
+                ])
+              );
+            } else {
               const id = await getUniqueTransactionId(
                 new Date(decoratedTransaction.date).valueOf()
               );
@@ -177,10 +198,10 @@ function Form() {
                 decoratedTransaction.merchant
               );
               dispatch(updateMerchantCounts(updatedMerchantsCount));
-            } catch (e) {
-              console.error(e);
-              dispatch(addTransactionFailure());
             }
+          } catch (e) {
+            console.error(e);
+            dispatch(addTransactionFailure());
           }
         }
       }

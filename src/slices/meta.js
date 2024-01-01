@@ -102,7 +102,7 @@ const meta = createSlice({
         (year) => (state.stats[year] = action.payload.stats[year])
       );
       state.timezoneToStore = action.payload.timezoneToStore;
-      state.recurring = action.payload.recurring;
+      state.recurring = action.payload.recurring || initialState.recurring;
     },
     updateMerchantCountsSuccess: (state, action) => {
       state.merchants_count = action.payload;

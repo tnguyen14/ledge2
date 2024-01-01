@@ -398,20 +398,23 @@ const form = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(editTransaction, (state, action) => {
+        console.log(action);
         state.action = 'update';
         state.values = {
           ...action.payload,
           amount: fromCents(action.payload.amount),
-          date: format(new Date(action.payload.date), DATE_FIELD_FORMAT),
-          time: format(new Date(action.payload.date), TIME_FIELD_FORMAT),
-          budgetStart: format(
-            new Date(action.payload.budgetStart),
-            DATE_FIELD_FORMAT
-          ),
-          budgetEnd: format(
-            new Date(action.payload.budgetEnd),
-            DATE_FIELD_FORMAT
-          ),
+          date: action.payload.date
+            ? format(new Date(action.payload.date), DATE_FIELD_FORMAT)
+            : undefined,
+          time: action.payload.date
+            ? format(new Date(action.payload.date), TIME_FIELD_FORMAT)
+            : undefined,
+          budgetStart: action.payload.budgetStart
+            ? format(new Date(action.payload.budgetStart), DATE_FIELD_FORMAT)
+            : undefined,
+          budgetEnd: action.payload.budgetEnd
+            ? format(new Date(action.payload.budgetEnd), DATE_FIELD_FORMAT)
+            : undefined,
           calculate: ''
         };
         state.fields = getFormFields(state.values.syntheticType);
