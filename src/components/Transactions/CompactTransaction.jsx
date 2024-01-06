@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18';
-import { useSelector } from 'https://esm.sh/react-redux@7';
+import { useSelector } from 'https://esm.sh/react-redux@9';
 import { ClockIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import { format } from 'https://esm.sh/date-fns@2';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';

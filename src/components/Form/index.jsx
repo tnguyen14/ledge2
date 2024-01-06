@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'https://esm.sh/react@18';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Field from './Field.js';

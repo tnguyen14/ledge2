@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit@1';
+import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit@2';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { format, getDaysInMonth } from 'https://esm.sh/date-fns@2';
 import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
@@ -322,6 +322,7 @@ const form = createSlice({
   reducers: {
     submitTransaction: (state) => {
       state.pending = true;
+      return state;
     },
     submitTransactionFailure: (state) => {
       state.pending = false;

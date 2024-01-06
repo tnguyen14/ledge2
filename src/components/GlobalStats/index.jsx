@@ -1,5 +1,5 @@
 import React, { useState } from 'https://esm.sh/react@18';
-import { useDispatch } from 'https://esm.sh/react-redux@7';
+import { useDispatch } from 'https://esm.sh/react-redux@9';
 import Tabs from 'https://esm.sh/@mui/material@5/Tabs';
 import Tab from 'https://esm.sh/@mui/material@5/Tab';
 import Box from 'https://esm.sh/@mui/material@5/Box';

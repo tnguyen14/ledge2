@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18';
-import { useSelector } from 'https://esm.sh/react-redux@7';
+import { useSelector } from 'https://esm.sh/react-redux@9';
 import Popover from 'https://esm.sh/@mui/material@5/Popover';
 import {
   usePopupState,

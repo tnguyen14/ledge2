@@ -1,5 +1,5 @@
 import React from 'https:///esm.sh/react@18';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@7';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import {
   ChevronLeftIcon,
