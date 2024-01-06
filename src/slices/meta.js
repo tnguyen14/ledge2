@@ -2,7 +2,7 @@ import {
   createAsyncThunk,
   createSlice,
   isAnyOf
-} from 'https://esm.sh/@reduxjs/toolkit';
+} from 'https://esm.sh/@reduxjs/toolkit@1';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { createSelector } from 'https://esm.sh/reselect@4';
 import slugify from 'https://esm.sh/@tridnguyen/slugify@2';

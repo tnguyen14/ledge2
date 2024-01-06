@@ -1,4 +1,4 @@
-import { configureStore } from 'https://esm.sh/@reduxjs/toolkit';
+import { configureStore } from 'https://esm.sh/@reduxjs/toolkit@1';
 import { combineReducers } from 'https://esm.sh/redux@3';
 import form from './slices/form.js';
 import meta from './slices/meta.js';

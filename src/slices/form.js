@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit';
+import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit@1';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { format, getDaysInMonth } from 'https://esm.sh/date-fns@2';
 import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
@@ -398,7 +398,6 @@ const form = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(editTransaction, (state, action) => {
-        console.log(action);
         state.action = 'update';
         state.values = {
           ...action.payload,
@@ -448,7 +447,7 @@ const form = createSlice({
         }
       )
       .addMatcher(
-        isAnyOf(addTransactionFailure.type, updateTransactionFailure.type),
+        isAnyOf(addTransactionFailure, updateTransactionFailure),
         (state) => {
           state.pending = false;
         }

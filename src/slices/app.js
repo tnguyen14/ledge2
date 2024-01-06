@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit';
+import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit@1';
 import { DateTime } from 'https://esm.sh/luxon@3';
 
 import {
