@@ -192,8 +192,7 @@ const RECURRENCE_TIME = '09:00';
  * @param {Date} date
  * @returns {string[]}
  */
-function getRecurrenceDays(period, date) {
-  const referenceDate = new Date(`${date} ${RECURRENCE_TIME}`);
+function getRecurrenceDayValues(period, date) {
   if (period == 'week') {
     return [
       'Monday',
@@ -206,18 +205,30 @@ function getRecurrenceDays(period, date) {
     ].map((day) => ({ value: day, slug: day }));
   }
   if (period == 'month') {
-    const daysInMonth = getDaysInMonth(referenceDate);
+    const daysInMonth = getDaysInMonth(date);
     return Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => ({
       slug: day,
       value: day
     }));
   }
   if (period == 'year') {
-    const daysInMonth = getDaysInMonth(referenceDate);
+    const daysInMonth = getDaysInMonth(date);
     return Array.from({ length: daysInMonth }, (_, i) => i + 1).map((day) => ({
-      slug: `${format(referenceDate, 'MMM')} ${day}`,
-      value: `${format(referenceDate, 'MMM')} ${day}`
+      slug: `${format(date, 'MMM')} ${day}`,
+      value: `${format(date, 'MMM')} ${day}`
     }));
+  }
+}
+
+function getRecurrenceDay(period, date) {
+  if (period == 'week') {
+    return format(date, 'EEEE');
+  }
+  if (period == 'month') {
+    return format(date, 'd');
+  }
+  if (period == 'year') {
+    return format(date, 'MMM d');
   }
 }
 
@@ -319,9 +330,9 @@ const initialState = {
     ...getAccountsValues(initialValues.syntheticType)
   },
   fields: getFormFields(initialValues.syntheticType),
-  recurrenceDays: getRecurrenceDays(
+  recurrenceDays: getRecurrenceDayValues(
     initialValues.recurrencePeriod,
-    initialValues.date
+    new Date(`${initialValues.date} ${initialValues.time}`)
   )
 };
 
@@ -346,9 +357,16 @@ const form = createSlice({
             .toJSDate(),
           DATE_FIELD_FORMAT
         );
-        state.recurrenceDays = getRecurrenceDays(
+        const newDate = new Date(
+          `${action.payload.value} ${state.values.time}`
+        );
+        state.recurrenceDays = getRecurrenceDayValues(
           state.values.recurrencePeriod,
-          action.payload.value
+          newDate
+        );
+        state.values.recurrenceDay = getRecurrenceDay(
+          state.values.recurrencePeriod,
+          newDate
         );
       }
       if (action.payload.name == 'budgetStart') {
@@ -391,9 +409,14 @@ const form = createSlice({
         }
       }
       if (action.payload.name == 'recurrencePeriod') {
-        state.recurrenceDays = getRecurrenceDays(
+        const newDate = new Date(`${state.values.date} ${state.values.time}`);
+        state.recurrenceDays = getRecurrenceDayValues(
           action.payload.value,
-          state.values.date
+          newDate
+        );
+        state.values.recurrenceDay = getRecurrenceDay(
+          action.payload.value,
+          newDate
         );
       }
     },
