@@ -186,7 +186,6 @@ function getAccountsValues(syntheticType) {
   };
 }
 
-const RECURRENCE_TIME = '09:00';
 /**
  * @param {string} period
  * @param {Date} date

@@ -11,6 +11,7 @@ import {
   intendToRemoveTransaction,
   setUserSettingsOpen
 } from '../../slices/app.js';
+import { getRecurringTransactions } from '../../selectors/meta.js';
 import { getValueFromOptions } from '../../util/slug.js';
 
 function displayMonthDay(day) {
@@ -49,6 +50,28 @@ function displayFrequency(str, num) {
   }
 }
 
+function RecurringTransaction({
+  merchant,
+  amount,
+  category,
+  recurrencePeriod,
+  recurrenceFrequency,
+  recurrenceDay,
+  recurrenceEndDate
+}) {
+  const categories = useSelector((state) => state.meta.expenseCategories);
+  return (
+    <span>
+      {merchant} {usd(amount)} ({getValueFromOptions(categories, category)}):{' '}
+      {displayFrequency(recurrencePeriod, recurrenceFrequency)} on{' '}
+      {recurrencePeriod == 'month'
+        ? `the ${displayMonthDay(recurrenceDay)}`
+        : recurrenceDay}
+      {recurrenceEndDate != '' ? ` until ${recurrenceEndDate}` : ''}
+    </span>
+  );
+}
+
 /*
  * [merchant] [amount] ([category]) : every [frequency] [period] on [day]
  */
@@ -58,21 +81,15 @@ function displayFrequency(str, num) {
  */
 function Recurring() {
   const { recurring } = useSelector((state) => state.meta);
+  const { active, expired } = getRecurringTransactions({ recurring });
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.meta.expenseCategories);
   return (
     <div className="recurring">
       <h4>Recurring Transactions</h4>
-      {recurring.map((txn) => (
+      {active.map((txn) => (
         <div className="item" key={txn.id}>
-          <span>
-            {txn.merchant} {usd(txn.amount)} (
-            {getValueFromOptions(categories, txn.category)}):{' '}
-            {displayFrequency(txn.recurrencePeriod, txn.recurrenceFrequency)} on{' '}
-            {txn.recurrencePeriod == 'month'
-              ? `the ${displayMonthDay(txn.recurrenceDay)}`
-              : txn.recurrenceDay}
-          </span>
+          <RecurringTransaction {...txn} />
           <Button
             size="sm"
             variant="outline-info"
@@ -89,6 +106,28 @@ function Recurring() {
           >
             <PencilIcon />
           </Button>
+          <Button
+            size="sm"
+            variant="outline-danger"
+            title="Remove"
+            onClick={() => {
+              dispatch(
+                intendToRemoveTransaction({
+                  ...txn,
+                  syntheticType: 'recurring'
+                })
+              );
+              dispatch(setUserSettingsOpen(false));
+            }}
+          >
+            <TrashIcon />
+          </Button>
+        </div>
+      ))}
+      <h4>Expired Recurring Transactions</h4>
+      {expired.map((txn) => (
+        <div className="item" key={txn.id}>
+          <RecurringTransaction {...txn} />
           <Button
             size="sm"
             variant="outline-danger"
