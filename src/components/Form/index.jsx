@@ -51,7 +51,6 @@ function Form() {
   const { fields, action, values, pending } = useSelector(
     (state) => state.form
   );
-  const recurring = useSelector((state) => state.meta.recurring);
   const fieldOptions = useSelector((state) => ({
     category: state.meta.expenseCategories,
     debitAccount: state.meta.accounts,
@@ -126,7 +125,8 @@ function Form() {
                   creditAccount: decoratedTransaction.creditAccount,
                   recurrenceFrequency: values.recurrenceFrequency,
                   recurrencePeriod: values.recurrencePeriod,
-                  recurrenceDay: values.recurrenceDay
+                  recurrenceDay: values.recurrenceDay,
+                  recurrenceEndDate: values.recurrenceEndDate
                 })
               );
             } else {
@@ -174,7 +174,8 @@ function Form() {
                   creditAccount: decoratedTransaction.creditAccount,
                   recurrenceFrequency: values.recurrenceFrequency,
                   recurrencePeriod: values.recurrencePeriod,
-                  recurrenceDay: values.recurrenceDay
+                  recurrenceDay: values.recurrenceDay,
+                  recurrenceEndDate: values.recurrenceEndDate
                 })
               );
             } else {

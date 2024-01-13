@@ -13,6 +13,7 @@ function Week(props) {
   const dispatch = useDispatch();
   const { weekId } = props;
   const transactions = useSelector((state) => state.transactions);
+  const recurring = useSelector((state) => state.meta.recurring);
   const {
     transactions: weekTransactions,
     start,

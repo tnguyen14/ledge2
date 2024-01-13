@@ -156,6 +156,12 @@ const recurrenceDay = {
   label: 'Day'
 };
 
+const recurrenceEndDateField = {
+  type: 'date',
+  label: 'Until',
+  name: 'recurrenceEndDate'
+};
+
 const idField = {
   type: 'hidden',
   name: 'id'
@@ -255,9 +261,11 @@ function getFormFields(syntheticType, isSearch) {
         merchantField,
         categoryField,
         dateField,
-        recurrenceDay,
+        timeField,
         recurrenceFrequencyField,
         recurrencePeriodField,
+        recurrenceDay,
+        recurrenceEndDateField,
         syntheticTypeField,
         idField
       ];
@@ -298,7 +306,8 @@ function createInitialValues(isSearch) {
     creditAccount: '',
     recurrenceFrequency: 1,
     recurrencePeriod: 'week',
-    recurrenceDay: format(now, 'EEEE')
+    recurrenceDay: format(now, 'EEEE'),
+    recurrenceEndDate: ''
   };
 }
 const initialValues = createInitialValues(false);
