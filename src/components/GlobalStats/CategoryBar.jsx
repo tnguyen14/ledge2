@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18';
-import Popover from 'https://esm.sh/@mui/material@5/Popover';
+import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
 import {
   usePopupState,
   bindPopover,

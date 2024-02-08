@@ -1,8 +1,8 @@
 import React, { useState } from 'https://esm.sh/react@18';
 import { useDispatch } from 'https://esm.sh/react-redux@9';
-import Tabs from 'https://esm.sh/@mui/material@5/Tabs';
-import Tab from 'https://esm.sh/@mui/material@5/Tab';
-import Box from 'https://esm.sh/@mui/material@5/Box';
+import Tabs from 'https://esm.sh/@mui/material@5.15.7/Tabs';
+import Tab from 'https://esm.sh/@mui/material@5.15.7/Tab';
+import Box from 'https://esm.sh/@mui/material@5.15.7/Box';
 import WeeklyAverages from './WeeklyAverages.js';
 import CategoriesChart from './CategoriesChart.js';
 import CashflowChart from './CashflowChart.js';

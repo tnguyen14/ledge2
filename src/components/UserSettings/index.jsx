@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'https://esm.sh/react@18';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
-import Dialog from 'https://esm.sh/@mui/material@5/Dialog';
-import DialogTitle from 'https://esm.sh/@mui/material@5/DialogTitle';
-import DialogContent from 'https://esm.sh/@mui/material@5/DialogContent';
-import DialogActions from 'https://esm.sh/@mui/material@5/DialogActions';
+import Dialog from 'https://esm.sh/@mui/material@5.15.7/Dialog';
+import DialogTitle from 'https://esm.sh/@mui/material@5.15.7/DialogTitle';
+import DialogContent from 'https://esm.sh/@mui/material@5.15.7/DialogContent';
+import DialogActions from 'https://esm.sh/@mui/material@5.15.7/DialogActions';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import classnames from 'https://esm.sh/classnames@2';
 import {
