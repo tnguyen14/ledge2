@@ -1,4 +1,4 @@
-import React from 'https:///esm.sh/react@18';
+import React from 'https:///esm.sh/react@18.2.0';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 import {

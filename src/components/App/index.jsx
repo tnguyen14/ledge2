@@ -3,7 +3,7 @@ import React, {
   useState,
   useContext,
   useCallback
-} from 'https://esm.sh/react@18';
+} from 'https://esm.sh/react@18.2.0';
 import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';

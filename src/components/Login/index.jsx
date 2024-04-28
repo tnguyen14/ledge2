@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';
 

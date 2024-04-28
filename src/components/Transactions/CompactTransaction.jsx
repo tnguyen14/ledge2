@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 import { useSelector } from 'https://esm.sh/react-redux@9';
 import { ClockIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import { format } from 'https://esm.sh/date-fns@2';

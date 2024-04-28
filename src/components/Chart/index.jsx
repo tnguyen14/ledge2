@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 
 function Chart(props) {
   const { chartTop, chartBody, xLabels, maxAmount, intervalAmount } = props;

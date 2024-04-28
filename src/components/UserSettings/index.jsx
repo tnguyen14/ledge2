@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'https://esm.sh/react@18';
+import React, { useState, useCallback } from 'https://esm.sh/react@18.2.0';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
 import Dialog from 'https://esm.sh/@mui/material@5.15.7/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5.15.7/DialogTitle';

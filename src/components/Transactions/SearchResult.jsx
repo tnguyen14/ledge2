@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 import { useSelector } from 'https://esm.sh/react-redux@9';
 import { getSearchResult } from '../../selectors/transactions.js';
 import { DISPLAY_DATE_WITH_DAY_FORMAT } from '../../util/constants.js';

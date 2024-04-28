@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 import classnames from 'https://esm.sh/classnames@2';
 import { InfoIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Button from 'https://esm.sh/react-bootstrap@2/Button';

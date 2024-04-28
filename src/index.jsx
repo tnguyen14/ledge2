@@ -1,5 +1,5 @@
-import React from 'https://esm.sh/react@18';
-import { render } from 'https://esm.sh/react-dom@18';
+import React from 'https://esm.sh/react@18.2.0';
+import { render } from 'https://esm.sh/react-dom@18.2.0';
 import { Provider } from 'https://esm.sh/react-redux@9';
 import { Auth0Provider } from 'https://esm.sh/@auth0/auth0-react@2';
 import store from './store.js';

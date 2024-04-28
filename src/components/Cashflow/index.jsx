@@ -1,4 +1,8 @@
-import React, { useMemo, useState, useEffect } from 'https://esm.sh/react@18';
+import React, {
+  useMemo,
+  useState,
+  useEffect
+} from 'https://esm.sh/react@18.2.0';
 import { useSelector } from 'https://esm.sh/react-redux@9';
 import Table from 'https://esm.sh/react-bootstrap@2/Table';
 import {

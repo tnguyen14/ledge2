@@ -1,4 +1,4 @@
-import React from 'https://esm.sh/react@18';
+import React from 'https://esm.sh/react@18.2.0';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { NoteIcon } from 'https://esm.sh/@primer/octicons-react@15';
 import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
