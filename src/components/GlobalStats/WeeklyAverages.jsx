@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
 import produce from 'https://esm.sh/immer@9';
 import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
 import {

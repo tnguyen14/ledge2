@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
 import { format } from 'https://esm.sh/date-fns@2';
 import { utcToZonedTime } from 'https://esm.sh/date-fns-tz@1/esm';
 import Badge from 'https://esm.sh/react-bootstrap@2/Badge';

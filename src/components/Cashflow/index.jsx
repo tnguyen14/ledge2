@@ -3,7 +3,7 @@ import React, {
   useState,
   useEffect
 } from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9';
+import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
 import Table from 'https://esm.sh/react-bootstrap@2/Table';
 import {
   useReactTable,

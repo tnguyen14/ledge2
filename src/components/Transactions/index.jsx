@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9';
+import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
 import Spinner from 'https://esm.sh/react-bootstrap@2/Spinner';
 import Week from './Week.js';
 import SearchResult from './SearchResult.js';

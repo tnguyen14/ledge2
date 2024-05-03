@@ -1,5 +1,5 @@
 import React from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9';
+import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
 import { getSearchResult } from '../../selectors/transactions.js';
 import { DISPLAY_DATE_WITH_DAY_FORMAT } from '../../util/constants.js';
 import Transaction from './Transaction.js';
