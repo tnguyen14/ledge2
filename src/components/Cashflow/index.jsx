@@ -9,7 +9,7 @@ import {
   useReactTable,
   flexRender,
   getCoreRowModel
-} from 'https://esm.sh/@tanstack/react-table@8';
+} from 'https://esm.sh/@tanstack/react-table@8.16.0';
 import classnames from 'https://esm.sh/classnames@2';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {
