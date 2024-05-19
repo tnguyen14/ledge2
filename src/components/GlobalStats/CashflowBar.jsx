@@ -5,7 +5,7 @@ import {
   usePopupState,
   bindPopover,
   bindTrigger
-} from 'https://esm.sh/material-ui-popup-state@5/hooks';
+} from 'https://esm.sh/material-ui-popup-state@5.1.0/hooks';
 import classnames from 'https://esm.sh/classnames@2';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
