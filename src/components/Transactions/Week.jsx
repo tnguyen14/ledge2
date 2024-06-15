@@ -9,15 +9,24 @@ import {
   getWeekById,
   getSortedTransactions
 } from '../../selectors/transactions.js';
-import { getWeekStart, getWeekStartFromWeekId } from '../../selectors/week.js';
+import {
+  getWeekStart,
+  getWeekStartFromWeekId,
+  getDate,
+  getWeeksDifference
+} from '../../selectors/week.js';
 import Transaction from './Transaction.js';
 import WeekStats from './WeekStats.js';
+import { getRecurringTransactions } from '../../selectors/meta.js';
+import { RecurringTransaction } from '../UserSettings/Recurring.js';
 
 function Week(props) {
   const dispatch = useDispatch();
   const { weekId } = props;
   const transactions = useSelector((state) => state.transactions);
   const recurring = useSelector((state) => state.meta.recurring);
+  const [effectiveRecurring, setEffectiveRecurring] = useState([]);
+  const { active: activeRecurring } = getRecurringTransactions({ recurring });
   const {
     transactions: weekTransactions,
     start,
@@ -27,6 +36,27 @@ function Week(props) {
     weekId
   });
 
+  useEffect(() => {
+    setEffectiveRecurring(
+      activeRecurring.reduce((applicable, recurringItem) => {
+        if (recurringItem.recurrencePeriod == 'week') {
+          const numWeeksSinceSet = getWeeksDifference({
+            dateStart: start,
+            dateEnd: recurringItem.date
+          });
+          console.log(`${start}, ${weekId}, ${numWeeksSinceSet}`);
+          // recurring item's date is after the current week
+          if (numWeeksSinceSet < 0) {
+            return applicable;
+          }
+          if (numWeeksSinceSet % recurringItem.recurrenceFrequency == 0) {
+            return [...applicable, recurringItem];
+          }
+          return applicable;
+        }
+      }, [])
+    );
+  }, [activeRecurring, start]);
   const displayTransactions = getSortedTransactions({
     transactions: weekTransactions
   }).filter((tx) => !tx.carriedOver);
@@ -61,6 +91,13 @@ function Week(props) {
       <h3 className="week-title">
         {start.toFormat('LLL d')} - {end.toFormat('LLL d, yyyy')}
       </h3>
+      <p>
+        {effectiveRecurring.map((txn) => (
+          <div>
+            <RecurringTransaction {...txn} />
+          </div>
+        ))}
+      </p>
       {/*
         add a extra wrapping div over the table
         so the table height does't expand to fill the height of the grid item

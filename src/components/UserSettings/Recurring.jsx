@@ -50,7 +50,7 @@ function displayFrequency(str, num) {
   }
 }
 
-function RecurringTransaction({
+export function RecurringTransaction({
   merchant,
   amount,
   category,
@@ -62,7 +62,7 @@ function RecurringTransaction({
   const categories = useSelector((state) => state.meta.expenseCategories);
   return (
     <span>
-      {merchant} {usd(amount)} ({getValueFromOptions(categories, category)}):{' '}
+      {merchant} {usd(amount)} [{getValueFromOptions(categories, category)}]:{' '}
       {displayFrequency(recurrencePeriod, recurrenceFrequency)} on{' '}
       {recurrencePeriod == 'month'
         ? `the ${displayMonthDay(recurrenceDay)}`
