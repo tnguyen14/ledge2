@@ -1,6 +1,10 @@
 import { createSelector } from 'https://esm.sh/reselect@4';
 import { DateTime } from 'https://esm.sh/luxon@3';
-import { differenceInCalendarWeeks } from 'https://esm.sh/date-fns@2';
+import {
+  differenceInCalendarWeeks,
+  differenceInMonths,
+  differenceInYears
+} from 'https://esm.sh/date-fns@2';
 import { TIMEZONE } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;
@@ -101,5 +105,21 @@ export const getWeeksDifference = createSelector(
   getDateEnd,
   (dateStart, dateEnd) => {
     return differenceInCalendarWeeks(dateStart, dateEnd, { weekStartsOn: 1 });
+  }
+);
+
+export const getMonthsDifference = createSelector(
+  getDateStart,
+  getDateEnd,
+  (dateStart, dateEnd) => {
+    return differenceInMonths(dateStart, dateEnd);
+  }
+);
+
+export const getYearsDifference = createSelector(
+  getDateStart,
+  getDateEnd,
+  (dateStart, dateEnd) => {
+    return differenceInYears(dateStart, dateEnd);
   }
 );

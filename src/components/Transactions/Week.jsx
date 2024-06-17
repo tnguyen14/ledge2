@@ -4,6 +4,8 @@ import React, {
   useState
 } from 'https://esm.sh/react@18.2.0';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
+import { getDate, getDayOfYear, getYear } from 'https://esm.sh/date-fns@2';
+import { DateTime } from 'https://esm.sh/luxon@3';
 import { loadTransactions } from '../../slices/transactions.js';
 import {
   getWeekById,
@@ -12,9 +14,11 @@ import {
 import {
   getWeekStart,
   getWeekStartFromWeekId,
-  getDate,
-  getWeeksDifference
+  getWeeksDifference,
+  getMonthsDifference,
+  getYearsDifference
 } from '../../selectors/week.js';
+import { TIMEZONE } from '../../util/constants.js';
 import Transaction from './Transaction.js';
 import WeekStats from './WeekStats.js';
 import { getRecurringTransactions } from '../../selectors/meta.js';
@@ -37,6 +41,9 @@ function Week(props) {
   });
 
   useEffect(() => {
+    if (!start || !end) {
+      return;
+    }
     setEffectiveRecurring(
       activeRecurring.reduce((applicable, recurringItem) => {
         if (recurringItem.recurrencePeriod == 'week') {
@@ -44,7 +51,6 @@ function Week(props) {
             dateStart: start,
             dateEnd: recurringItem.date
           });
-          console.log(`${start}, ${weekId}, ${numWeeksSinceSet}`);
           // recurring item's date is after the current week
           if (numWeeksSinceSet < 0) {
             return applicable;
@@ -54,9 +60,52 @@ function Week(props) {
           }
           return applicable;
         }
+        if (recurringItem.recurrencePeriod == 'month') {
+          if (
+            getDate(start.toJSDate()) <= Number(recurringItem.recurrenceDay) &&
+            getDate(end.toJSDate()) >= Number(recurringItem.recurrenceDay)
+          ) {
+            const numMonthsSinceSet = getMonthsDifference({
+              dateStart: start,
+              dateEnd: recurringItem.date
+            });
+            if (numMonthsSinceSet < 0) {
+              return applicable;
+            }
+            if (numMonthsSinceSet % recurringItem.recurrenceFrequency == 0) {
+              return [...applicable, recurringItem];
+            }
+          }
+          return applicable;
+        }
+        if (recurringItem.recurrencePeriod == 'year') {
+          const recurringDateInThisYear = DateTime.fromFormat(
+            `${recurringItem.recurrenceDay}, ${getYear(new Date())}`,
+            'MMM d, yyyy',
+            { zone: TIMEZONE }
+          );
+          if (
+            getDayOfYear(start.toJSDate()) <=
+              getDayOfYear(recurringDateInThisYear.toJSDate()) &&
+            getDayOfYear(end.toJSDate()) >=
+              getDayOfYear(recurringDateInThisYear.toJSDate())
+          ) {
+            const numYearsSinceSet = getYearsDifference({
+              dateStart: recurringDateInThisYear,
+              dateEnd: recurringItem.date
+            });
+            if (numYearsSinceSet < 0) {
+              return applicable;
+            }
+            if (numYearsSinceSet % recurringItem.recurrenceFrequency == 0) {
+              return [...applicable, recurringItem];
+            }
+          }
+          return applicable;
+        }
       }, [])
     );
-  }, [activeRecurring, start]);
+  }, [activeRecurring, start, end]);
   const displayTransactions = getSortedTransactions({
     transactions: weekTransactions
   }).filter((tx) => !tx.carriedOver);
