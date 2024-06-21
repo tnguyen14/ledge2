@@ -1,6 +1,6 @@
 import React from 'https:///esm.sh/react@18.2.0';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import Button from 'https://esm.sh/react-bootstrap@2/Button';
+import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 import {
   ChevronLeftIcon,
   ChevronRightIcon

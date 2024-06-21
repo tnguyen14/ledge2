@@ -10,7 +10,7 @@ import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { format } from 'https://esm.sh/date-fns@2';
 import { Octokit } from 'https://esm.sh/octokit@2.0.14';
-import Button from 'https://esm.sh/react-bootstrap@2/Button';
+import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 
 import Notification from '../Notification/index.js';
 import Header from '../Header/index.js';
