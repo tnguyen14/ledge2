@@ -27,8 +27,11 @@
     }
   }
 }
-.week-stats {
+.week-secondary {
   grid-area: secondary;
+  margin-bottom: 1rem;
+}
+.week-stats {
   margin-bottom: 1rem;
   h6 {
     margin: 1rem 0 0.75rem;

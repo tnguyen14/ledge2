@@ -140,13 +140,6 @@ function Week(props) {
       <h3 className="week-title">
         {start.toFormat('LLL d')} - {end.toFormat('LLL d, yyyy')}
       </h3>
-      <p>
-        {effectiveRecurring.map((txn) => (
-          <div>
-            <RecurringTransaction {...txn} />
-          </div>
-        ))}
-      </p>
       {/*
         add a extra wrapping div over the table
         so the table height does't expand to fill the height of the grid item
@@ -162,7 +155,17 @@ function Week(props) {
           </tbody>
         </table>
       </div>
-      <WeekStats weekId={weekId} label="Regular Expenses" />
+      <div className="week-secondary">
+        <WeekStats weekId={weekId} label="Regular Expenses" />
+        <div>
+          <h4>Applicable Recurring</h4>
+          {effectiveRecurring.map((txn) => (
+            <div>
+              <RecurringTransaction {...txn} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
