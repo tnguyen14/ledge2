@@ -26,8 +26,8 @@ import {
 } from '../../slices/meta.js';
 import { setUserSettingsOpen } from '../../slices/app.js';
 import { patchMeta } from '../../util/api.js';
-import Field from '../Form/Field.js';
-import Recurring from './Recurring.js';
+import Field from '../Form/Field.jsx';
+import Recurring from './Recurring.jsx';
 
 function UserSettings() {
   const [newAccount, setNewAccount] = useState('');

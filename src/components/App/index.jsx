@@ -12,14 +12,14 @@ import { format } from 'https://esm.sh/date-fns@2';
 import { Octokit } from 'https://esm.sh/octokit@2.0.14';
 import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 
-import Notification from '../Notification/index.js';
-import Header from '../Header/index.js';
-import Login from '../Login/index.js';
-import Cashflow from '../Cashflow/index.js';
-import Form from '../Form/index.js';
-import GlobalStats from '../GlobalStats/index.js';
-import Transactions from '../Transactions/index.js';
-import UserSettings from '../UserSettings/index.js';
+import Notification from '../Notification/index.jsx';
+import Header from '../Header/index.jsx';
+import Login from '../Login/index.jsx';
+import Cashflow from '../Cashflow/index.jsx';
+import Form from '../Form/index.jsx';
+import GlobalStats from '../GlobalStats/index.jsx';
+import Transactions from '../Transactions/index.jsx';
+import UserSettings from '../UserSettings/index.jsx';
 import {
   refreshApp,
   setAppError,

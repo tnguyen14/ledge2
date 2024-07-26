@@ -6,7 +6,7 @@ import DialogContent from 'https://esm.sh/@mui/material@5.15.7/DialogContent';
 import DialogContentText from 'https://esm.sh/@mui/material@5.15.7/DialogContentText';
 import DialogActions from 'https://esm.sh/@mui/material@5.15.7/DialogActions';
 import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
-import CompactTransaction from '../Transactions/CompactTransaction.js';
+import CompactTransaction from '../Transactions/CompactTransaction.jsx';
 import { cancelRemoveTransaction } from '../../slices/app.js';
 import {
   removingTransaction,

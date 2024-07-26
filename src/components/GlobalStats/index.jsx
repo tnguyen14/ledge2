@@ -3,10 +3,10 @@ import { useDispatch } from 'https://esm.sh/react-redux@9.1.1';
 import Tabs from 'https://esm.sh/@mui/material@5.15.7/Tabs';
 import Tab from 'https://esm.sh/@mui/material@5.15.7/Tab';
 import Box from 'https://esm.sh/@mui/material@5.15.7/Box';
-import WeeklyAverages from './WeeklyAverages.js';
-import CategoriesChart from './CategoriesChart.js';
-import CashflowChart from './CashflowChart.js';
-import Budget from './Budget.js';
+import WeeklyAverages from './WeeklyAverages.jsx';
+import CategoriesChart from './CategoriesChart.jsx';
+import CashflowChart from './CashflowChart.jsx';
+import Budget from './Budget.jsx';
 import { showCashflow, setSearchMode } from '../../slices/app.js';
 
 function TabPanel(props) {

@@ -19,10 +19,10 @@ import {
   getYearsDifference
 } from '../../selectors/week.js';
 import { TIMEZONE } from '../../util/constants.js';
-import Transaction from './Transaction.js';
-import WeekStats from './WeekStats.js';
+import Transaction from './Transaction.jsx';
+import WeekStats from './WeekStats.jsx';
 import { getRecurringTransactions } from '../../selectors/meta.js';
-import { RecurringTransaction } from '../UserSettings/Recurring.js';
+import { RecurringTransaction } from '../UserSettings/Recurring.jsx';
 
 function Week(props) {
   const dispatch = useDispatch();
