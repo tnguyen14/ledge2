@@ -17,9 +17,7 @@
     "static": "mkdir -p dist && cp -R static/* dist",
     "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
-    "js": "babel src --out-dir dist",
     "vite": "vite --port 4003",
-    "js:watch": "LISTS_URL=http://localhost:13050 npm run js -- --watch",
     "test": "mocha ./src/**/*.test.js"
   },
   "browser": {
@@ -35,12 +33,8 @@
   },
   "homepage": "https://github.com/tnguyen14/ledge",
   "devDependencies": {
-    "@babel/cli": "^7.14.3",
-    "@babel/core": "^7.19.3",
-    "@babel/preset-react": "^7.18.6",
     "@tridnguyen/auth": "^7.0.1",
     "@vitejs/plugin-react": "^4.3.1",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
     "eslint": "^8.12.0",
