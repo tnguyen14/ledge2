@@ -18,7 +18,7 @@
     "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel src --out-dir dist",
-    "vite": "cd src && vite --port 4003",
+    "vite": "vite --port 4003",
     "js:watch": "LISTS_URL=http://localhost:13050 npm run js -- --watch",
     "test": "mocha ./src/**/*.test.js"
   },
@@ -69,5 +69,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "dependencies": {
+    "react": "^18.2.0"
   }
 }
