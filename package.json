@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npm run clean && npm run static && npm run dev",
-    "dev": "npm run js:watch & npm run css:watch & http-server -p 4003 dist",
+    "dev": "npm run vite & npm run css:watch",
     "deploy": "npm run build && gh-pages -d dist",
     "build": "npm run clean && npm run static && npm run css && npm run js",
     "clean": "rm -rf dist",
@@ -18,6 +18,7 @@
     "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
     "js": "babel src --out-dir dist",
+    "vite": "cd src && vite --port 4003",
     "js:watch": "LISTS_URL=http://localhost:13050 npm run js -- --watch",
     "test": "mocha ./src/**/*.test.js"
   },
@@ -38,6 +39,7 @@
     "@babel/core": "^7.19.3",
     "@babel/preset-react": "^7.18.6",
     "@tridnguyen/auth": "^7.0.1",
+    "@vitejs/plugin-react": "^4.3.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "commander": "^11.1.0",
     "dotenv": "^16.3.1",
@@ -53,7 +55,8 @@
     "postcss-nested": "^5.0.5",
     "prettier": "^2.0.4",
     "qs": "^6.11.0",
-    "simple-fetch": "^2.2.3"
+    "simple-fetch": "^2.2.3",
+    "vite": "^5.3.5"
   },
   "lint-staged": {
     "*.{js,jsx,json,css,scss,html,md}": "prettier --write"
