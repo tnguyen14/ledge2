@@ -9,12 +9,11 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "npm run clean && npm run static && npm run dev",
+    "start": "npm run dev",
     "dev": "npm run vite & npm run css:watch",
     "deploy": "npm run build && gh-pages -d dist",
-    "build": "npm run clean && npm run static && npm run css && npm run js",
-    "clean": "rm -rf dist",
-    "static": "mkdir -p dist && cp -R static/* dist",
+    "build": "vite build --emptyOutDir",
+    "preview": "vite preview --port 4003",
     "css": "postcss src/**/*.css --base src --dir dist",
     "css:watch": "npm run css -- --watch --poll --verbose",
     "vite": "vite --port 4003",
@@ -40,7 +39,6 @@
     "eslint": "^8.12.0",
     "eslint-plugin-react": "^7.29.4",
     "gh-pages": "^3.2.0",
-    "http-server": "^14.1.0",
     "husky": "^4.2.3",
     "lint-staged": "^10.1.1",
     "mocha": "^9.0.0",
