@@ -61,10 +61,17 @@ function Week(props) {
           return applicable;
         }
         if (recurringItem.recurrencePeriod == 'month') {
-          if (
-            getDate(start.toJSDate()) <= Number(recurringItem.recurrenceDay) &&
-            getDate(end.toJSDate()) >= Number(recurringItem.recurrenceDay)
-          ) {
+          const weekStartDate = getDate(start.toJSDate());
+          const weekEndDate = getDate(end.toJSDate());
+          const recurringDate = Number(recurringItem.recurrenceDay);
+          let isRecurringWithinWeek =
+            weekStartDate <= recurringDate && recurringDate <= weekEndDate;
+          // start at the end of a month, so start date is higher than end date
+          if (weekStartDate > weekEndDate) {
+            isRecurringWithinWeek =
+              weekStartDate <= recurringDate || recurringDate <= weekEndDate;
+          }
+          if (isRecurringWithinWeek) {
             const numMonthsSinceSet = getMonthsDifference({
               dateStart: start,
               dateEnd: recurringItem.date
