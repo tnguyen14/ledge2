@@ -15,6 +15,7 @@
         'profile accounts'
         'categories categories'
         'recurring recurring';
+      grid-template-rows: auto 1fr;
     }
     @media (min-width: 68.75em) {
       grid-template-areas:
@@ -38,13 +39,6 @@
   }
   .list.categories {
     grid-area: categories;
-    .items {
-      display: grid;
-      @media (min-width: 42.5em) {
-        grid-template-columns: 1fr 1fr;
-        column-gap: 1rem;
-      }
-    }
   }
   .recurring {
     grid-area: recurring;
@@ -59,6 +53,10 @@
     &:hover {
       background-color: var(--color-grey-lighten-4);
     }
+  }
+  .item-actions {
+    display: flex;
+    column-gap: 0.2em;
   }
   .to-be-added {
     color: var(--color-green);

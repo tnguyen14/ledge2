@@ -237,6 +237,12 @@ const meta = createSlice({
         }
         return cat;
       });
+    },
+    moveCategoryToIndex: (state, action) => {
+      const newCategories = [...state.expenseCategories];
+      const categoryToBeMoved = newCategories.splice(action.payload.from, 1)[0];
+      newCategories.splice(action.payload.to, 0, categoryToBeMoved);
+      state.expenseCategories = newCategories;
     }
   },
   extraReducers: (builder) => {
@@ -270,6 +276,7 @@ export const {
   cancelRemoveAccount,
   addCategory,
   removeCategory,
-  cancelRemoveCategory
+  cancelRemoveCategory,
+  moveCategoryToIndex
 } = meta.actions;
 export default meta.reducer;

@@ -8,7 +8,9 @@ import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 import classnames from 'https://esm.sh/classnames@2';
 import {
   TrashIcon,
-  XCircleIcon
+  XCircleIcon,
+  ChevronUpIcon,
+  ChevronDownIcon
 } from 'https://esm.sh/@primer/octicons-react@15';
 import {
   addAccount,
@@ -17,6 +19,7 @@ import {
   addCategory,
   removeCategory,
   cancelRemoveCategory,
+  moveCategoryToIndex,
   updateUserSettings,
   updateUserSettingsSuccess,
   updateUserSettingsFailure
@@ -143,7 +146,7 @@ function UserSettings() {
         <div className="list categories">
           <h4>Expense Categories</h4>
           <div className="items">
-            {expenseCategories.map((cat) => (
+            {expenseCategories.map((cat, catIndex) => (
               <div
                 key={cat.slug}
                 className={classnames('item', {
@@ -152,29 +155,63 @@ function UserSettings() {
                 })}
               >
                 <span>{cat.value}</span>
-                {cat.toBeRemoved ? (
+                <div className="item-actions">
                   <Button
                     size="sm"
                     variant="outline-secondary"
-                    title="Put back"
+                    disabled={catIndex == 0}
+                    title="Move Up"
                     onClick={() => {
-                      dispatch(cancelRemoveCategory(cat.value));
+                      dispatch(
+                        moveCategoryToIndex({
+                          from: catIndex,
+                          to: catIndex - 1
+                        })
+                      );
                     }}
                   >
-                    <XCircleIcon />
+                    <ChevronUpIcon />
                   </Button>
-                ) : (
                   <Button
                     size="sm"
-                    variant="outline-danger"
-                    title="Remove"
+                    variant="outline-secondary"
+                    disabled={catIndex == expenseCategories.length - 1}
+                    title="Move Up"
                     onClick={() => {
-                      dispatch(removeCategory(cat.value));
+                      dispatch(
+                        moveCategoryToIndex({
+                          from: catIndex,
+                          to: catIndex + 1
+                        })
+                      );
                     }}
                   >
-                    <TrashIcon />
+                    <ChevronDownIcon />
                   </Button>
-                )}
+                  {cat.toBeRemoved ? (
+                    <Button
+                      size="sm"
+                      variant="outline-secondary"
+                      title="Put back"
+                      onClick={() => {
+                        dispatch(cancelRemoveCategory(cat.value));
+                      }}
+                    >
+                      <XCircleIcon />
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      title="Remove"
+                      onClick={() => {
+                        dispatch(removeCategory(cat.value));
+                      }}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  )}
+                </div>
               </div>
             ))}
             <div className="item">
