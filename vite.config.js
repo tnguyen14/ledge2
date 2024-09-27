@@ -13,5 +13,6 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: '0.0.0.0'
   },
-  base: mode === 'production' ? '/ledge/' : '/'
+  base: mode === 'production' ? '/ledge/' : '/',
+  host: true
 }));

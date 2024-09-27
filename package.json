@@ -9,14 +9,11 @@
     "url": "git@github.com:tnguyen14/ledge.git"
   },
   "scripts": {
-    "start": "npm run dev",
-    "dev": "npm run vite & npm run css:watch",
-    "deploy": "npm run build && gh-pages -d dist",
+    "vite": "vite --port 4003",
+    "start": "npm run vite",
     "build": "vite build --emptyOutDir",
     "preview": "vite preview --port 4003",
-    "css": "postcss src/**/*.css --base src --dir dist",
-    "css:watch": "npm run css -- --watch --poll --verbose",
-    "vite": "vite --port 4003",
+    "deploy": "npm run build && gh-pages -d dist",
     "test": "mocha ./src/**/*.test.js"
   },
   "browser": {
