@@ -46,6 +46,9 @@
       }
     }
   }
+  .recurring {
+    grid-area: recurring;
+  }
   .item {
     display: flex;
     justify-content: space-between;
