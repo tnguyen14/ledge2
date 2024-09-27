@@ -11,7 +11,7 @@ on:
 jobs:
   unit-test-ny:
     name: Unit Test NY TZ
-    if: !contains(github.event.head_commit.message, '[skip-ci]')
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +31,7 @@ jobs:
 
   unit-test:
     name: Unit Test
-    if: !contains(github.event.head_commit.message, '[skip-ci]')
+    if: "!contains(github.event.head_commit.message, '[skip-ci]')"
     runs-on: ubuntu-latest
 
     steps:
