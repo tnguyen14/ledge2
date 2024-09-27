@@ -113,6 +113,9 @@ a:not([href]) {
   [data-cat='misc'] & {
     background-color: var(--color-lime);
   }
+  [data-cat='digital'] * {
+    background-color: var(--color-light-green-accent-4);
+  }
   [data-cat='donation'] & {
     background-color: var(--color-brown-lighten-3);
   }
