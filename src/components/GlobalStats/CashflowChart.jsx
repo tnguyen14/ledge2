@@ -14,8 +14,8 @@ import {
 } from '../../selectors/week.js';
 import { getMonthsCashflow } from '../../selectors/stats.js';
 import { getMonths } from '../../selectors/transactions.js';
-import Chart from '../Chart/index.js';
-import CashflowBar from './CashflowBar.js';
+import Chart from '../Chart/index.jsx';
+import CashflowBar from './CashflowBar.jsx';
 
 function CashflowChart() {
   const dispatch = useDispatch();

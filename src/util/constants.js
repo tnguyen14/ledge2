@@ -1,8 +1,8 @@
 /* global process */
 export const TIMEZONE = 'America/New_York';
-export const LISTS_URL = process.env.LISTS_URL;
-export const LEDGE_URL = `${process.env.LISTS_URL}/ledge`;
-export const USERMETA_URL = `${process.env.LISTS_URL}/meta/users`;
+export const LISTS_URL = import.meta.env.VITE_LISTS_URL;
+export const LEDGE_URL = `${import.meta.env.VITE_LISTS_URL}/ledge`;
+export const USERMETA_URL = `${import.meta.env.VITE_LISTS_URL}/meta/users`;
 export const AUTH0_DOMAIN = 'tridnguyen.auth0.com';
 export const API_AUDIENCE = 'https://lists.cloud.tridnguyen.com';
 export const LISTS_SCOPE = 'read:list write:list';

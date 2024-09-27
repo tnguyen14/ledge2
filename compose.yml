@@ -18,4 +18,7 @@ services:
     ports:
       - "4003:4003"
 
+    # Use the command override to preview production
+    # command: ["npm", "run", "preview"]
+
 

@@ -5,7 +5,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon
 } from 'https://esm.sh/@primer/octicons-react@11';
-import CategoryBar from './CategoryBar.js';
+import CategoryBar from './CategoryBar.jsx';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import {
   getWeekStart,
@@ -14,7 +14,7 @@ import {
 } from '../../selectors/week.js';
 import { getWeekById } from '../../selectors/transactions.js';
 import { setDisplayFrom } from '../../slices/app.js';
-import Chart from '../Chart/index.js';
+import Chart from '../Chart/index.jsx';
 
 const numWeeksToShow = 12;
 

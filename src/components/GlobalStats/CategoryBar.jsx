@@ -70,13 +70,13 @@ function CategoryBar(props) {
                   }
                   const { label, amount } = categoriesTotals[slug];
                   return (
-                    <>
+                    <React.Fragment key={slug}>
                       <span data-cat={slug}>
                         <span className="legend">&nbsp;</span>
                         {label}
                       </span>
                       <span>{usd(amount)}</span>
-                    </>
+                    </React.Fragment>
                   );
                 })
                 .reverse()}

@@ -6,8 +6,8 @@ import React, {
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
 import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
-import Field from './Field.js';
-import Span from './Span.js';
+import Field from './Field.jsx';
+import Span from './Span.jsx';
 import {
   submitTransaction,
   submitTransactionFailure,

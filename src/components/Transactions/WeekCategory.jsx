@@ -1,6 +1,6 @@
 import React from 'https://esm.sh/react@18.2.0';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
-import CompactTransaction from './CompactTransaction.js';
+import CompactTransaction from './CompactTransaction.jsx';
 
 function WeekCategory(props) {
   const { slug, label, amount, weekId, transactions = [] } = props;
