@@ -8,6 +8,4 @@ RUN npm ci
 
 COPY . ./
 
-RUN npm run static
-
 CMD ["npm", "run", "dev"]
