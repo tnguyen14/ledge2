@@ -420,11 +420,19 @@ const form = createSlice({
       }
     },
     resetForm: (state) => {
+      const resetValues = createInitialValues(state.action == 'search');
+      if (state.action == 'update') {
+        state.action = 'add';
+      }
       state.values = {
-        ...createInitialValues(state.action == 'search'),
+        ...resetValues,
         ...getAccountsValues(state.values.syntheticType),
         syntheticType: state.values.syntheticType
       };
+      state.recurrenceDays = getRecurrenceDayValues(
+        resetValues.recurrencePeriod,
+        new Date(`${resetValues.date} ${resetValues.time}`)
+      );
     }
   },
   extraReducers: (builder) => {
