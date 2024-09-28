@@ -430,15 +430,16 @@ const form = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(editTransaction, (state, action) => {
+        const transactionDate = new Date(action.payload.date);
         state.action = 'update';
         state.values = {
           ...action.payload,
           amount: fromCents(action.payload.amount),
           date: action.payload.date
-            ? format(new Date(action.payload.date), DATE_FIELD_FORMAT)
+            ? format(transactionDate, DATE_FIELD_FORMAT)
             : undefined,
           time: action.payload.date
-            ? format(new Date(action.payload.date), TIME_FIELD_FORMAT)
+            ? format(transactionDate, TIME_FIELD_FORMAT)
             : undefined,
           budgetStart: action.payload.budgetStart
             ? format(new Date(action.payload.budgetStart), DATE_FIELD_FORMAT)
@@ -448,6 +449,10 @@ const form = createSlice({
             : undefined,
           calculate: ''
         };
+        state.recurrenceDays = getRecurrenceDayValues(
+          action.payload.recurrencePeriod,
+          transactionDate
+        );
         state.fields = getFormFields(state.values.syntheticType);
       })
       .addCase(setSearchMode, (state, action) => {
