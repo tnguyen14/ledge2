@@ -36,3 +36,4 @@ buck-out/
 /ios/Pods/
 
 *.xcworkspace
+.vercel

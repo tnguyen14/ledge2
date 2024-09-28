@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/ledge/:path*",
+      "destination": "/:path*"
+    }
+  ]
+}
