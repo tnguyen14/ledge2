@@ -19,7 +19,7 @@ import {
   addRecurringTransaction,
   updateRecurringTransaction
 } from '../../slices/meta.js';
-import { setSearchParams } from '../../slices/app.js';
+import { setSearchParams, setSearchMode } from '../../slices/app.js';
 import {
   updateTransactionSuccess,
   updateTransactionFailure,
@@ -48,6 +48,7 @@ function calculateString(str) {
 function Form() {
   const dispatch = useDispatch();
   const appReady = useSelector((state) => state.app.appReady);
+  const appIsSearch = useSelector((state) => state.app.isSearch);
   const datalists = useSelector((state) => ({
     'merchants-list': state.meta.merchants,
     'budget-span': ['1', '4', '12', '26']
@@ -159,6 +160,11 @@ function Form() {
                 );
                 dispatch(updateMerchantCounts(updatedMerchantsCount));
               }
+              // If updating an transaction while in search mode
+              // the app.isSearch is still set to true, but the form
+              // would reset to "add". Dispatching app setSearchMode to
+              // switch the form back to search
+              dispatch(setSearchMode(appIsSearch));
             }
           } catch (e) {
             console.error(e);
