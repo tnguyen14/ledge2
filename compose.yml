@@ -1,6 +1,6 @@
 services:
   lists:
-    image: ghcr.io/tnguyen14/lists:master
+    image: ghcr.io/tnguyen14/lists:main
     ports:
       - "13050:3000"
     volumes:
