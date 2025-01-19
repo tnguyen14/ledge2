@@ -1,5 +1,5 @@
-import React, { useCallback } from 'https://esm.sh/react@18.2.0';
-import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.1.1';
+import React, { useCallback } from 'https://esm.sh/react@18.3.1';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.2.0';
 import Dialog from 'https://esm.sh/@mui/material@5.15.7/Dialog';
 import DialogTitle from 'https://esm.sh/@mui/material@5.15.7/DialogTitle';
 import DialogContent from 'https://esm.sh/@mui/material@5.15.7/DialogContent';

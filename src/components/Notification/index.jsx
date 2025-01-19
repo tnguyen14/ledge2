@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
+import React, { useState, useEffect } from 'https://esm.sh/react@18.3.1';
+import { useSelector } from 'https://esm.sh/react-redux@9.2.0';
 import Snackbar from 'https://esm.sh/@mui/material@5.15.7/Snackbar';
 
 function Notification() {

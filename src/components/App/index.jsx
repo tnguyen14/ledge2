@@ -3,8 +3,8 @@ import React, {
   useState,
   useContext,
   useCallback
-} from 'https://esm.sh/react@18.2.0';
-import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.1.1';
+} from 'https://esm.sh/react@18.3.1';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.2.0';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
 import { DateTime } from 'https://esm.sh/luxon@3';

@@ -2,8 +2,8 @@ import React, {
   useEffect,
   useCallback,
   useState
-} from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
+} from 'https://esm.sh/react@18.3.1';
+import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.2.0';
 import getDate from 'https://esm.sh/date-fns@4/getDate';
 import getDayOfYear from 'https://esm.sh/date-fns@4/getDayOfYear';
 import getYear from 'https://esm.sh/date-fns@4/getYear';

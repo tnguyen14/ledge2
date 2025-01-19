@@ -2,7 +2,7 @@ import React, {
   useContext,
   useEffect,
   useState
-} from 'https://esm.sh/react@18.2.0';
+} from 'https://esm.sh/react@18.3.1';
 import Spinner from 'https://esm.sh/react-bootstrap@2.10.2/Spinner';
 import Pagination from 'https://esm.sh/react-bootstrap@2.10.2/Pagination';
 import toml from 'https://esm.sh/@ltd/j-toml@1';
