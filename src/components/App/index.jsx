@@ -4,7 +4,7 @@ import React, {
   useContext,
   useCallback
 } from 'https://esm.sh/react@18.3.1';
-import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.2.0';
+import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.1.1';
 import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
 import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
 import { DateTime } from 'https://esm.sh/luxon@3';
@@ -12,9 +12,9 @@ import format from 'https://esm.sh/date-fns@4/format';
 import { Octokit } from 'https://esm.sh/octokit@2.0.14';
 import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
 
-import Notification from '../Notification/index.jsx';
 import Header from '../Header/index.jsx';
 import Login from '../Login/index.jsx';
+import Notification from '../Notification/index.jsx';
 import Cashflow from '../Cashflow/index.jsx';
 import Form from '../Form/index.jsx';
 import GlobalStats from '../GlobalStats/index.jsx';

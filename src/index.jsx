@@ -1,6 +1,6 @@
 import React from 'https://esm.sh/react@18.3.1';
 import { render } from 'https://esm.sh/react-dom@18.3.1';
-import { Provider } from 'https://esm.sh/react-redux@9.2.0';
+import { Provider } from 'https://esm.sh/react-redux@9.1.1';
 import { Auth0Provider } from 'https://esm.sh/@auth0/auth0-react@2';
 import store from './store.js';
 import App from './components/App/index.jsx';
