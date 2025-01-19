@@ -1,5 +1,5 @@
 import { createSelector } from 'https://esm.sh/reselect@4';
-import getYear from 'https://esm.sh/date-fns@4/getYear';
+import getYear from 'date-fns/getYear';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { sum } from '../util/calculate.js';
 import { TIMEZONE } from '../util/constants.js';

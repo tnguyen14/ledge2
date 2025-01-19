@@ -1,4 +1,4 @@
-import { createContext } from 'https://esm.sh/react@18.3.1';
+import { createContext } from 'react';
 
 export default createContext({
   versions: [],

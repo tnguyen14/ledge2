@@ -1,7 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk
-} from 'https://esm.sh/@reduxjs/toolkit@2';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getTransactions } from '../util/api.js';
 
 export const loadTransactions = createAsyncThunk(

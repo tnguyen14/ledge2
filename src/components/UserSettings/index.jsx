@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'https://esm.sh/react@18.3.1';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.2.0';
-import Dialog from 'https://esm.sh/@mui/material@5.15.7/Dialog';
-import DialogTitle from 'https://esm.sh/@mui/material@5.15.7/DialogTitle';
-import DialogContent from 'https://esm.sh/@mui/material@5.15.7/DialogContent';
-import DialogActions from 'https://esm.sh/@mui/material@5.15.7/DialogActions';
-import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
+import React, { useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from 'react-bootstrap/Button';
 import classnames from 'https://esm.sh/classnames@2';
 import {
   TrashIcon,

@@ -1,6 +1,6 @@
-import React from 'https://esm.sh/react@18.3.1';
-import { useSelector } from 'https://esm.sh/react-redux@9.2.0';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,

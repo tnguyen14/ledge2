@@ -1,10 +1,6 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect
-} from 'https://esm.sh/react@18.3.1';
-import { useSelector } from 'https://esm.sh/react-redux@9.2.0';
-import Table from 'https://esm.sh/react-bootstrap@2.10.2/Table';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Table from 'react-bootstrap/Table';
 import {
   useReactTable,
   flexRender,

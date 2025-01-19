@@ -1,7 +1,7 @@
-import React from 'https://esm.sh/react@18.3.1';
-import { useSelector } from 'https://esm.sh/react-redux@9.2.0';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { ClockIcon } from 'https://esm.sh/@primer/octicons-react@15';
-import format from 'https://esm.sh/date-fns@4/format';
+import format from 'date-fns/format';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';
 import { DISPLAY_DATE_FORMAT } from '../../util/constants.js';

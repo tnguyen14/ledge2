@@ -1,7 +1,7 @@
-import React, { useMemo, useCallback } from 'https://esm.sh/react@18.3.1';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.2.0';
+import React, { useMemo, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import produce from 'https://esm.sh/immer@9';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,

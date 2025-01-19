@@ -1,16 +1,11 @@
-import React, {
-  useEffect,
-  useState,
-  useContext,
-  useCallback
-} from 'https://esm.sh/react@18.3.1';
-import { useDispatch, useSelector } from 'https://esm.sh/react-redux@9.1.1';
-import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
-import { usePageVisibility } from 'https://esm.sh/react-page-visibility@7';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { usePageVisibility } from 'react-page-visibility';
 import { DateTime } from 'https://esm.sh/luxon@3';
-import format from 'https://esm.sh/date-fns@4/format';
-import { Octokit } from 'https://esm.sh/octokit@2.0.14';
-import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
+import format from 'date-fns/format';
+import { Octokit } from 'octokit';
+import Button from 'react-bootstrap/Button';
 
 import Header from '../Header/index.jsx';
 import Login from '../Login/index.jsx';

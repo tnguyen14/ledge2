@@ -1,12 +1,8 @@
-import React, {
-  useEffect,
-  useCallback,
-  useState
-} from 'https://esm.sh/react@18.3.1';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.2.0';
-import getDate from 'https://esm.sh/date-fns@4/getDate';
-import getDayOfYear from 'https://esm.sh/date-fns@4/getDayOfYear';
-import getYear from 'https://esm.sh/date-fns@4/getYear';
+import React, { useEffect, useCallback, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import getDate from 'date-fns/getDate';
+import getDayOfYear from 'date-fns/getDayOfYear';
+import getYear from 'date-fns/getYear';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { loadTransactions } from '../../slices/transactions.js';
 import {

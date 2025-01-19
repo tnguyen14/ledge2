@@ -1,5 +1,5 @@
-import React from 'https://esm.sh/react@18.3.1';
-import { useSelector } from 'https://esm.sh/react-redux@9.2.0';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import WeekCategory from './WeekCategory.jsx';
 import { getCategoriesTotals } from '../../selectors/stats.js';

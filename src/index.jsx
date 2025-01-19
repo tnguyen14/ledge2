@@ -1,7 +1,7 @@
-import React from 'https://esm.sh/react@18.3.1';
-import { render } from 'https://esm.sh/react-dom@18.3.1';
-import { Provider } from 'https://esm.sh/react-redux@9.1.1';
-import { Auth0Provider } from 'https://esm.sh/@auth0/auth0-react@2';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { Auth0Provider } from '@auth0/auth0-react';
 import store from './store.js';
 import App from './components/App/index.jsx';
 import {
@@ -11,7 +11,8 @@ import {
   PROFILE_SCOPE
 } from './util/constants.js';
 
-render(
+const root = createRoot(document.querySelector('.main'));
+root.render(
   <Auth0Provider
     domain={AUTH0_DOMAIN}
     clientId="z3IK464A6PogdpKe0LY0vTaKr6izei2a"
@@ -27,6 +28,5 @@ render(
     <Provider store={store}>
       <App />
     </Provider>
-  </Auth0Provider>,
-  document.querySelector('.main')
+  </Auth0Provider>
 );

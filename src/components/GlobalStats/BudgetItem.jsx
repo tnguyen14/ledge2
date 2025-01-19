@@ -1,7 +1,7 @@
-import React from 'https://esm.sh/react@18.3.1';
+import React from 'react';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { NoteIcon } from 'https://esm.sh/@primer/octicons-react@15';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,

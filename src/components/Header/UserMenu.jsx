@@ -1,7 +1,7 @@
-import React, { useState } from 'https://esm.sh/react@18.3.1';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.2.0';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import classnames from 'https://esm.sh/classnames@2';
-import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
+import { useAuth0 } from '@auth0/auth0-react';
 import { setUserSettingsOpen } from '../../slices/app.js';
 
 function UserMenu() {

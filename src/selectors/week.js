@@ -1,8 +1,8 @@
 import { createSelector } from 'https://esm.sh/reselect@4';
 import { DateTime } from 'https://esm.sh/luxon@3';
-import differenceInCalendarWeeks from 'https://esm.sh/date-fns@4/differenceInCalendarWeeks';
-import differenceInMonths from 'https://esm.sh/date-fns@4/differenceInMonths';
-import differenceInYears from 'https://esm.sh/date-fns@4/differenceInYears';
+import differenceInCalendarWeeks from 'date-fns/differenceInCalendarWeeks';
+import differenceInMonths from 'date-fns/differenceInMonths';
+import differenceInYears from 'date-fns/differenceInYears';
 
 import { TIMEZONE } from '../util/constants.js';
 
