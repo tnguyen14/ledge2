@@ -7,7 +7,7 @@ import Spinner from 'https://esm.sh/react-bootstrap@2.10.2/Spinner';
 import Pagination from 'https://esm.sh/react-bootstrap@2.10.2/Pagination';
 import toml from 'https://esm.sh/@ltd/j-toml@1';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
-import { format } from 'https://esm.sh/date-fns@2';
+import format from 'https://esm.sh/date-fns@4/format';
 import BudgetItem from './BudgetItem.jsx';
 import OctokitContext from '../../contexts/octokit.js';
 import BudgetContext from '../../contexts/budget.js';

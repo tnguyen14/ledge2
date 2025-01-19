@@ -4,7 +4,9 @@ import React, {
   useState
 } from 'https://esm.sh/react@18.2.0';
 import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import { getDate, getDayOfYear, getYear } from 'https://esm.sh/date-fns@2';
+import getDate from 'https://esm.sh/date-fns@4/getDate';
+import getDayOfYear from 'https://esm.sh/date-fns@4/getDayOfYear';
+import getYear from 'https://esm.sh/date-fns@4/getYear';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { loadTransactions } from '../../slices/transactions.js';
 import {
