@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import { ZapIcon } from '@primer/octicons-react';
 import Field from './Field.jsx';
 import Span from './Span.jsx';
 import {

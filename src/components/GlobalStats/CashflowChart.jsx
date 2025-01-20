@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import format from 'date-fns/format';
 import Button from 'react-bootstrap/Button';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon
-} from 'https://esm.sh/@primer/octicons-react@11';
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import { setDisplayFrom } from '../../slices/app.js';
 import {
   getPastMonthsIds,

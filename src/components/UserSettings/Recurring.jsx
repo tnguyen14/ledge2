@@ -1,10 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import {
-  PencilIcon,
-  TrashIcon
-} from 'https://esm.sh/@primer/octicons-react@15';
+import { PencilIcon, TrashIcon } from '@primer/octicons-react';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {
   editTransaction,

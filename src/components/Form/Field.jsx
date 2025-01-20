@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'https://esm.sh/classnames@2';
-import { InfoIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import { InfoIcon } from '@primer/octicons-react';
 import Button from 'react-bootstrap/Button';
 import Tooltip from '@mui/material/Tooltip';
 

@@ -11,7 +11,7 @@ import {
   XCircleIcon,
   ChevronUpIcon,
   ChevronDownIcon
-} from 'https://esm.sh/@primer/octicons-react@15';
+} from '@primer/octicons-react';
 import {
   addAccount,
   removeAccount,

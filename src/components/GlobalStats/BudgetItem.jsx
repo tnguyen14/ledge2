@@ -1,6 +1,6 @@
 import React from 'react';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
-import { NoteIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import { NoteIcon } from '@primer/octicons-react';
 import Popover from '@mui/material/Popover';
 import {
   usePopupState,

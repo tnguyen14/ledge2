@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { ClockIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import { ClockIcon } from '@primer/octicons-react';
 import format from 'date-fns/format';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import { getValueFromOptions } from '../../util/slug.js';

@@ -1,10 +1,7 @@
 import React from 'https:///esm.sh/react@18.3.1';
 import { useSelector, useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon
-} from 'https://esm.sh/@primer/octicons-react@11';
+import { ChevronLeftIcon, ChevronRightIcon } from '@primer/octicons-react';
 import CategoryBar from './CategoryBar.jsx';
 import { getCategoriesTotals } from '../../selectors/stats.js';
 import {
