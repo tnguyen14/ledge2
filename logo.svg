@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 192 192" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+    <g transform="matrix(0.99831,-3.86008e-19,-4.13954e-19,0.93249,32.0001,31.9823)">
+        <rect x="0.068" y="-0.262" width="128.217" height="137.267" style="fill:rgb(239,239,239);fill-opacity:0;"/>
+    </g>
+    <g transform="matrix(2.09621,-2.51602e-17,-2.51605e-17,2.19891,-51.1118,-75.1895)">
+        <ellipse cx="70.18" cy="77.852" rx="45.797" ry="43.658" style="fill:rgb(0,155,113);"/>
+    </g>
+    <g transform="matrix(0.837891,-0.545838,0.545838,0.837891,83.1085,190.003)">
+        <text x="0px" y="0px" style="font-family:'Raleway-Bold';font-size:210px;fill:rgb(239,239,239);">L</text>
+    </g>
+    <g transform="matrix(0.6105,-0.39798,0.39798,0.6105,109.819,165.138)">
+        <g>
+            <text x="0px" y="0px" style="font-family:'Raleway';font-size:32.932px;fill:rgb(0,155,113);">l<tspan x="10.341px 31.319px 53.482px 75.415px " y="0px 0px 0px 0px ">edge</tspan></text>
+        </g>
+    </g>
+</svg>
