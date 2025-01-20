@@ -6,9 +6,7 @@ import {
   usePopupState,
   bindPopover,
   bindTrigger
-} from 'https://esm.sh/material-ui-popup-state@5.1.0/hooks';
-
-// const { usePopupState, bindPopover, bindTrigger } = PopupState;
+} from 'material-ui-popup-state/hooks';
 
 function BudgetSubCategoryItem({ category, details }) {
   const memoPopupState = usePopupState({

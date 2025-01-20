@@ -165,7 +165,7 @@ function Week(props) {
         <div>
           <h4>Applicable Recurring</h4>
           {effectiveRecurring.map((txn) => (
-            <div>
+            <div key={txn.id}>
               <RecurringTransaction {...txn} />
             </div>
           ))}
