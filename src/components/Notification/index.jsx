@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
-import Snackbar from 'https://esm.sh/@mui/material@5.15.7/Snackbar';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Snackbar from '@mui/material/Snackbar';
 
 function Notification() {
   const { content, autohide } = useSelector((state) => state.app.notification);

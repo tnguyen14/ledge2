@@ -1,14 +1,12 @@
-import React from 'https://esm.sh/react@18.2.0';
+import React from 'react';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
-import { NoteIcon } from 'https://esm.sh/@primer/octicons-react@15';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+import { NoteIcon } from '@primer/octicons-react';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,
   bindTrigger
-} from 'https://esm.sh/material-ui-popup-state@5.1.0/hooks';
-
-// const { usePopupState, bindPopover, bindTrigger } = PopupState;
+} from 'material-ui-popup-state/hooks';
 
 function BudgetSubCategoryItem({ category, details }) {
   const memoPopupState = usePopupState({

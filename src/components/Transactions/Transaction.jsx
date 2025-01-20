@@ -1,20 +1,20 @@
-import React from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import { format } from 'https://esm.sh/date-fns@2';
-import { utcToZonedTime } from 'https://esm.sh/date-fns-tz@1/esm';
-import Badge from 'https://esm.sh/react-bootstrap@2.10.2/Badge';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import format from 'date-fns/format';
+import { toZonedTime } from 'date-fns-tz/toZonedTime';
+import Badge from 'react-bootstrap/Badge';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {
   KebabHorizontalIcon,
   ClockIcon,
   NoteIcon
-} from 'https://esm.sh/@primer/octicons-react@15';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+} from '@primer/octicons-react';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,
   bindTrigger
-} from 'https://esm.sh/material-ui-popup-state@5.1.0/hooks';
+} from 'material-ui-popup-state/hooks';
 import {
   TIMEZONE,
   DISPLAY_DATE_TIME_FORMAT,
@@ -77,10 +77,7 @@ function Transaction({ transaction, dateFormat }) {
   });
 
   // show day as in origin timezone, while date in local timezone
-  const displayDay = format(
-    utcToZonedTime(date, TIMEZONE),
-    dateFormat || 'EEE'
-  );
+  const displayDay = format(toZonedTime(date, TIMEZONE), dateFormat || 'EEE');
   const displayDate = format(new Date(date), DISPLAY_DATE_TIME_FORMAT);
   if (!transaction) {
     return null;
@@ -134,7 +131,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(creditAccountPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -149,7 +146,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(debitAccountPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -164,7 +161,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(datePopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -177,7 +174,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(amountPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -202,7 +199,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(spanPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -218,7 +215,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(notesPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',
@@ -231,7 +228,7 @@ function Transaction({ transaction, dateFormat }) {
         {...bindPopover(actionsPopupState)}
         anchorOrigin={{
           vertical: 'top',
-          horizonal: 'center'
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'bottom',

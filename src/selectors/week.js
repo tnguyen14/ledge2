@@ -1,10 +1,9 @@
 import { createSelector } from 'https://esm.sh/reselect@4';
 import { DateTime } from 'https://esm.sh/luxon@3';
-import {
-  differenceInCalendarWeeks,
-  differenceInMonths,
-  differenceInYears
-} from 'https://esm.sh/date-fns@2';
+import differenceInCalendarWeeks from 'date-fns/differenceInCalendarWeeks';
+import differenceInMonths from 'date-fns/differenceInMonths';
+import differenceInYears from 'date-fns/differenceInYears';
+
 import { TIMEZONE } from '../util/constants.js';
 
 export const getOffset = (state) => state.offset || 0;

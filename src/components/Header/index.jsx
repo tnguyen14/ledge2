@@ -1,6 +1,6 @@
-import React from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import { useAuth0 } from 'https://esm.sh/@auth0/auth0-react@2';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 import { setDisplayFrom } from '../../slices/app.js';
 import UserMenu from './UserMenu.jsx';
 import Field from '../Form/Field.jsx';

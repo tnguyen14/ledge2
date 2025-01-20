@@ -1,6 +1,7 @@
-import { createSlice, isAnyOf } from 'https://esm.sh/@reduxjs/toolkit@2';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { DateTime } from 'https://esm.sh/luxon@3';
-import { format, getDaysInMonth } from 'https://esm.sh/date-fns@2';
+import format from 'date-fns/format';
+import getDaysInMonth from 'date-fns/getDaysInMonth';
 import { fromCents } from 'https://esm.sh/@tridnguyen/money@1';
 import { DATE_FIELD_FORMAT, TIME_FIELD_FORMAT } from '../util/constants.js';
 import { getWeeksDifference } from '../selectors/week.js';

@@ -1,10 +1,10 @@
-import React from 'https://esm.sh/react@18.2.0';
-import Popover from 'https://esm.sh/@mui/material@5.15.7/Popover';
+import React from 'react';
+import Popover from '@mui/material/Popover';
 import {
   usePopupState,
   bindPopover,
   bindTrigger
-} from 'https://esm.sh/material-ui-popup-state@5.1.0/hooks';
+} from 'material-ui-popup-state/hooks';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import classnames from 'https://esm.sh/classnames@2';
 

@@ -1,10 +1,8 @@
-import React, {
-  useEffect,
-  useCallback,
-  useState
-} from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import { getDate, getDayOfYear, getYear } from 'https://esm.sh/date-fns@2';
+import React, { useEffect, useCallback, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import getDate from 'date-fns/getDate';
+import getDayOfYear from 'date-fns/getDayOfYear';
+import getYear from 'date-fns/getYear';
 import { DateTime } from 'https://esm.sh/luxon@3';
 import { loadTransactions } from '../../slices/transactions.js';
 import {
@@ -167,7 +165,7 @@ function Week(props) {
         <div>
           <h4>Applicable Recurring</h4>
           {effectiveRecurring.map((txn) => (
-            <div>
+            <div key={txn.id}>
               <RecurringTransaction {...txn} />
             </div>
           ))}

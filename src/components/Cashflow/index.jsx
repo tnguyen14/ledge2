@@ -1,15 +1,11 @@
-import React, {
-  useMemo,
-  useState,
-  useEffect
-} from 'https://esm.sh/react@18.2.0';
-import { useSelector } from 'https://esm.sh/react-redux@9.1.1';
-import Table from 'https://esm.sh/react-bootstrap@2.10.2/Table';
+import React, { useMemo, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import Table from 'react-bootstrap/Table';
 import {
   useReactTable,
   flexRender,
   getCoreRowModel
-} from 'https://esm.sh/@tanstack/react-table@8.16.0';
+} from '@tanstack/react-table';
 import classnames from 'https://esm.sh/classnames@2';
 import { usd } from 'https://esm.sh/@tridnguyen/money@1';
 import {

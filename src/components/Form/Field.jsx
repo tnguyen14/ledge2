@@ -1,8 +1,8 @@
-import React from 'https://esm.sh/react@18.2.0';
+import React from 'react';
 import classnames from 'https://esm.sh/classnames@2';
-import { InfoIcon } from 'https://esm.sh/@primer/octicons-react@15';
-import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
-import Tooltip from 'https://esm.sh/@mui/material@5.15.7/Tooltip';
+import { InfoIcon } from '@primer/octicons-react';
+import Button from 'react-bootstrap/Button';
+import Tooltip from '@mui/material/Tooltip';
 
 const inputTypes = ['text', 'date', 'time', 'number', 'hidden', 'range'];
 function Field(props) {

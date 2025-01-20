@@ -1,11 +1,7 @@
-import React, {
-  useEffect,
-  useRef,
-  useCallback
-} from 'https://esm.sh/react@18.2.0';
-import { useSelector, useDispatch } from 'https://esm.sh/react-redux@9.1.1';
-import Button from 'https://esm.sh/react-bootstrap@2.10.2/Button';
-import { ZapIcon } from 'https://esm.sh/@primer/octicons-react@15';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Button from 'react-bootstrap/Button';
+import { ZapIcon } from '@primer/octicons-react';
 import Field from './Field.jsx';
 import Span from './Span.jsx';
 import {
@@ -242,7 +238,7 @@ function Form() {
           if (fieldOptions[field.name]) {
             field.options = fieldOptions[field.name];
           }
-          let afterButton;
+          let afterButton = '';
           if (field.name == 'calculate') {
             afterButton = <ZapIcon />;
           }
